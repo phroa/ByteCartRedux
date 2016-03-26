@@ -4,27 +4,27 @@ package com.github.catageek.ByteCart.Signs;
 /**
  * A 4-station subnet bound
  */
-final class BC9004 extends AbstractBC9000 implements Subnet,HasNetmask, Triggable {
+final class BC9004 extends AbstractBC9000 implements Subnet, HasNetmask, Triggable {
 
-	BC9004(org.bukkit.block.Block block,
-			org.bukkit.entity.Vehicle vehicle) {
-		super(block, vehicle);
-		this.netmask = 6;
-	}
+    BC9004(org.bukkit.block.Block block,
+            org.bukkit.entity.Vehicle vehicle) {
+        super(block, vehicle);
+        this.netmask = 6;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#getName()
-	 */
-	@Override
-	public final String getName() {
-		return "BC9004";
-	}
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#getName()
+     */
+    @Override
+    public final String getName() {
+        return "BC9004";
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
-	 */
-	@Override
-	public final String getFriendlyName() {
-		return "4-station subnet";
-	}
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     */
+    @Override
+    public final String getFriendlyName() {
+        return "4-station subnet";
+    }
 }

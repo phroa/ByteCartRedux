@@ -1,21 +1,20 @@
 package com.github.catageek.ByteCart.Updaters;
 
+import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.Routing.Metric;
+import com.github.catageek.ByteCart.Routing.RoutingTableWritable;
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
+import com.github.catageek.ByteCart.Wanderer.RouteValue;
+import com.github.catageek.ByteCart.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.Wanderer.WandererContent;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-
-import com.github.catageek.ByteCart.ByteCart;
-import com.github.catageek.ByteCart.Routing.Metric;
-import com.github.catageek.ByteCart.Routing.RoutingTableWritable;
-import com.github.catageek.ByteCart.Wanderer.WandererContent;
-import com.github.catageek.ByteCart.Util.DirectionRegistry;
-import com.github.catageek.ByteCart.Wanderer.RouteValue;
-import com.github.catageek.ByteCart.Wanderer.Wanderer;
 
 /**
  * A class to store data in books used by updater
@@ -23,85 +22,89 @@ import com.github.catageek.ByteCart.Wanderer.Wanderer;
 public class UpdaterContent extends WandererContent implements Serializable {
 
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 848098890652934583L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 848098890652934583L;
 
-	private boolean fullreset = false;
-	private boolean isnew = false;
-	private long lastrouterseen;
-	public UpdaterContent(Inventory inv, Wanderer.Level level, int region, Player player
-			, boolean isfullreset) {
-		this(inv, level, region, player, isfullreset, false);
-	}
-	
-	public UpdaterContent(Inventory inv, Wanderer.Level level, int region, Player player
-			, boolean isfullreset, boolean isnew) {
-		super(inv, level, region, player);
-		this.fullreset = isfullreset;
-		this.isnew = isnew;
-		this.setExpirationTime(ByteCart.myPlugin.getConfig().getInt("updater.timeout", 60) * 60000 + getCreationtime());
-	}
+    private boolean fullreset = false;
+    private boolean isnew = false;
+    private long lastrouterseen;
 
-	/**
-	 * Get a set of the entries of the IGP packet
-	 * 
-	 * @return the set
-	 */
-	public Set<Entry<Integer,Metric>> getEntrySet() {
-		return tablemap.entrySet();
-	}
+    public UpdaterContent(Inventory inv, Wanderer.Level level, int region, Player player
+            , boolean isfullreset) {
+        this(inv, level, region, player, isfullreset, false);
+    }
 
-	/**
-	 * Build the IGP exchange packet
-	 * 
-	 * @param table the routing table
-	 * @param direction the direction to exclude
-	 */
-	void putRoutes(RoutingTableWritable table, DirectionRegistry direction) {
-		tablemap.clear();
-		Iterator<RouteValue> it = table.getOrderedRouteNumbers();
-		while (it.hasNext()) {
-			int i = it.next().value();
-			if( table.getDirection(i) != null && table.getDirection(i).getAmount() != direction.getAmount()) {
-				tablemap.put(i, new Metric(table.getMinMetric(i)));
-				if(ByteCart.debug)
-					ByteCart.log.info("ByteCart : Route exchange : give ring " + i + " with metric " + table.getMinMetric(i) + " to " + table.getDirection(i).getBlockFace());
-			}
+    public UpdaterContent(Inventory inv, Wanderer.Level level, int region, Player player
+            , boolean isfullreset, boolean isnew) {
+        super(inv, level, region, player);
+        this.fullreset = isfullreset;
+        this.isnew = isnew;
+        this.setExpirationTime(ByteCart.myPlugin.getConfig().getInt("updater.timeout", 60) * 60000 + getCreationtime());
+    }
 
-		}
-	}
+    /**
+     * Get a set of the entries of the IGP packet
+     *
+     * @return the set
+     */
+    public Set<Entry<Integer, Metric>> getEntrySet() {
+        return tablemap.entrySet();
+    }
 
-	/**
-	 * Set the timestamp field to now
-	 */
-	void seenTimestamp() {
-		this.lastrouterseen = Calendar.getInstance().getTimeInMillis();
-	}
+    /**
+     * Build the IGP exchange packet
+     *
+     * @param table the routing table
+     * @param direction the direction to exclude
+     */
+    void putRoutes(RoutingTableWritable table, DirectionRegistry direction) {
+        tablemap.clear();
+        Iterator<RouteValue> it = table.getOrderedRouteNumbers();
+        while (it.hasNext()) {
+            int i = it.next().value();
+            if (table.getDirection(i) != null && table.getDirection(i).getAmount() != direction.getAmount()) {
+                tablemap.put(i, new Metric(table.getMinMetric(i)));
+                if (ByteCart.debug) {
+                    ByteCart.log.info("ByteCart : Route exchange : give ring " + i + " with metric " + table.getMinMetric(i) + " to " + table
+                            .getDirection(i).getBlockFace());
+                }
+            }
 
-	/**
-	 * Get the time difference between now and the last time we called seenTimestamp()
-	 * 
-	 * @return the time difference, or -1 if seenTimestamp() was never called
-	 */
-	public int getInterfaceDelay() {
-		if (lastrouterseen != 0)
-			return (int) ((Calendar.getInstance().getTimeInMillis() - lastrouterseen) / 1000);
-		return -1;
-	}
+        }
+    }
 
-	/**
-	 * @return the fullreset
-	 */
-	boolean isFullreset() {
-		return fullreset;
-	}
+    /**
+     * Set the timestamp field to now
+     */
+    void seenTimestamp() {
+        this.lastrouterseen = Calendar.getInstance().getTimeInMillis();
+    }
 
-	/**
-	 * @return the isnew
-	 */
-	boolean isNew() {
-		return isnew;
-	}
+    /**
+     * Get the time difference between now and the last time we called seenTimestamp()
+     *
+     * @return the time difference, or -1 if seenTimestamp() was never called
+     */
+    public int getInterfaceDelay() {
+        if (lastrouterseen != 0) {
+            return (int) ((Calendar.getInstance().getTimeInMillis() - lastrouterseen) / 1000);
+        }
+        return -1;
+    }
+
+    /**
+     * @return the fullreset
+     */
+    boolean isFullreset() {
+        return fullreset;
+    }
+
+    /**
+     * @return the isnew
+     */
+    boolean isNew() {
+        return isnew;
+    }
 }

@@ -1,57 +1,57 @@
 package com.github.catageek.ByteCart.Wanderer;
 
-import java.io.Serializable;
-import java.util.Stack;
-
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import com.github.catageek.ByteCart.Util.DirectionRegistry;
+import java.io.Serializable;
+import java.util.Stack;
 
 
 public interface InventoryContent extends Serializable {
-	/**
-	 * @return the inventory
-	 */
-	public Inventory getInventory();
-	
-	/**
-	 * Get the level of the wanderer
-	 * 
-	 * @return the level
-	 */
-	public Wanderer.Level getLevel();
 
-	/**
-	 * Get the region of the wanderer
-	 * 
-	 * @return the region
-	 */
-	public int getRegion();
-	
-	/**
-	 * @return the player that creates the wanderer
-	 */
-	public Player getPlayer();
+    /**
+     * @return the inventory
+     */
+    public Inventory getInventory();
 
-	public Counter getCounter();
+    /**
+     * Get the level of the wanderer
+     *
+     * @return the level
+     */
+    public Wanderer.Level getLevel();
 
-	public Stack<Integer> getStart();
+    /**
+     * Get the region of the wanderer
+     *
+     * @return the region
+     */
+    public int getRegion();
 
-	public Stack<Integer> getEnd();
+    /**
+     * @return the player that creates the wanderer
+     */
+    public Player getPlayer();
 
-	public boolean hasRouteTo(int ring);
+    public Counter getCounter();
 
-	public int getMinDistanceRing(
-			RoutingTable routingTable,
-			DirectionRegistry from);
+    public Stack<Integer> getStart();
 
-	public int getCurrent();
+    public Stack<Integer> getEnd();
 
-	public void setCurrent(int i);
+    public boolean hasRouteTo(int ring);
 
-	public int getMetric(int ring);
+    public int getMinDistanceRing(
+            RoutingTable routingTable,
+            DirectionRegistry from);
 
-	public void setRoute(int ring, int i);
+    public int getCurrent();
+
+    public void setCurrent(int i);
+
+    public int getMetric(int ring);
+
+    public void setRoute(int ring, int i);
 
 }

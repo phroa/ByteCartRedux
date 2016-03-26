@@ -1,42 +1,47 @@
 package com.github.catageek.ByteCart.Updaters;
 
-import java.io.IOException;
-
-import org.bukkit.inventory.Inventory;
-
-import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
 import com.github.catageek.ByteCart.Signs.BCSign;
 import com.github.catageek.ByteCart.Wanderer.Wanderer;
 import com.github.catageek.ByteCart.Wanderer.Wanderer.Level;
+import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
 import com.github.catageek.ByteCart.Wanderer.WandererFactory;
+import org.bukkit.inventory.Inventory;
+
+import java.io.IOException;
 
 public final class UpdaterFactory implements WandererFactory {
 
-	public Wanderer getWanderer(BCSign bc, Inventory inv) throws ClassNotFoundException, IOException {
-		UpdaterContent rte;
-		if (WandererContentFactory.isWanderer(inv, Level.REGION, "Updater")
-				&& (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null)
-			return new UpdaterRegion(bc, rte);
+    public Wanderer getWanderer(BCSign bc, Inventory inv) throws ClassNotFoundException, IOException {
+        UpdaterContent rte;
+        if (WandererContentFactory.isWanderer(inv, Level.REGION, "Updater")
+                && (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null) {
+            return new UpdaterRegion(bc, rte);
+        }
 
-		if (WandererContentFactory.isWanderer(inv, Level.RESET_REGION, "Updater")
-				&& (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null)
-			return new UpdaterResetRegion(bc, rte);
-		
-		if (WandererContentFactory.isWanderer(inv, Level.BACKBONE, "Updater")
-				&& (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null)
-			return new UpdaterBackBone(bc, rte);
-		
-		if (WandererContentFactory.isWanderer(inv, Level.RESET_BACKBONE, "Updater")
-				&& (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null)
-			return new UpdaterResetBackbone(bc, rte);
-		
-		if (WandererContentFactory.isWanderer(inv, Level.RESET_LOCAL, "Updater")
-				&& (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null)
-			return new UpdaterResetLocal(bc, rte);
-		
-		if (WandererContentFactory.isWanderer(inv, Level.LOCAL, "Updater")
-				&& (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null)
-			return new UpdaterLocal(bc, rte);
-		return null;
-	}
+        if (WandererContentFactory.isWanderer(inv, Level.RESET_REGION, "Updater")
+                && (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null) {
+            return new UpdaterResetRegion(bc, rte);
+        }
+
+        if (WandererContentFactory.isWanderer(inv, Level.BACKBONE, "Updater")
+                && (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null) {
+            return new UpdaterBackBone(bc, rte);
+        }
+
+        if (WandererContentFactory.isWanderer(inv, Level.RESET_BACKBONE, "Updater")
+                && (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null) {
+            return new UpdaterResetBackbone(bc, rte);
+        }
+
+        if (WandererContentFactory.isWanderer(inv, Level.RESET_LOCAL, "Updater")
+                && (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null) {
+            return new UpdaterResetLocal(bc, rte);
+        }
+
+        if (WandererContentFactory.isWanderer(inv, Level.LOCAL, "Updater")
+                && (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null) {
+            return new UpdaterLocal(bc, rte);
+        }
+        return null;
+    }
 }

@@ -1,186 +1,189 @@
 package com.github.catageek.ByteCart.Signs;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
+import com.github.catageek.ByteCart.ByteCart;
 import com.github.catageek.ByteCart.CollisionManagement.CollisionAvoiderBuilder;
+import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
 import com.github.catageek.ByteCart.CollisionManagement.SimpleCollisionAvoider;
 import com.github.catageek.ByteCart.CollisionManagement.SimpleCollisionAvoiderBuilder;
 import com.github.catageek.ByteCart.HAL.PinRegistry;
-import com.github.catageek.ByteCart.IO.OutputPin;
-import com.github.catageek.ByteCart.IO.OutputPinFactory;
-import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCart.AddressLayer.Address;
-import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
 import com.github.catageek.ByteCart.HAL.RegistryBoth;
 import com.github.catageek.ByteCart.HAL.RegistryInput;
+import com.github.catageek.ByteCart.IO.OutputPin;
+import com.github.catageek.ByteCart.IO.OutputPinFactory;
 import com.github.catageek.ByteCart.Util.MathUtil;
 import com.github.catageek.ByteCart.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
 
 /**
  * An abstract class for T-intersection signs
  */
 abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements BCSign {
 
-	protected CollisionAvoiderBuilder builder;
-	private AddressRouted destination;
+    protected CollisionAvoiderBuilder builder;
+    private AddressRouted destination;
 
 
-	AbstractSimpleCrossroad(org.bukkit.block.Block block,
-			org.bukkit.entity.Vehicle vehicle) {
-		super(block, vehicle);
-		builder = new SimpleCollisionAvoiderBuilder((Triggable) this, block.getRelative(this.getCardinal(), 3).getLocation());
-	}
+    AbstractSimpleCrossroad(org.bukkit.block.Block block,
+            org.bukkit.entity.Vehicle vehicle) {
+        super(block, vehicle);
+        builder = new SimpleCollisionAvoiderBuilder((Triggable) this, block.getRelative(this.getCardinal(), 3).getLocation());
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
-	 */
-	@Override
-	abstract public String getName();
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     */
+    @Override
+    abstract public String getName();
 
-	/**
-	 * Register the inputs and outputs
-	 *
-	 */
-	protected void addIO() {
-		// Output[0] = 2 bits registry representing levers on the left and on the right of the sign
-		OutputPin[] lever2 = new OutputPin[2];
+    /**
+     * Register the inputs and outputs
+     *
+     */
+    protected void addIO() {
+        // Output[0] = 2 bits registry representing levers on the left and on the right of the sign
+        OutputPin[] lever2 = new OutputPin[2];
 
-		// Left
-		lever2[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.anticlockwise(this.getCardinal())));
-		// Right
-		lever2[1] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.clockwise(this.getCardinal())));
+        // Left
+        lever2[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.anticlockwise(this.getCardinal())));
+        // Right
+        lever2[1] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.clockwise(this.getCardinal())));
 
-		PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
+        PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
 
-		this.addOutputRegistry(command1);
-	}
-	
-	protected final void addIOInv() {
-		// Input[0] = destination region taken from Inventory, slot #0
+        this.addOutputRegistry(command1);
+    }
 
-
-		Address IPaddress = getDestinationAddress();
-
-		if (IPaddress == null)
-			return;
-
-		RegistryInput slot2 = IPaddress.getRegion();
+    protected final void addIOInv() {
+        // Input[0] = destination region taken from Inventory, slot #0
 
 
-		this.addInputRegistry(slot2);
+        Address IPaddress = getDestinationAddress();
 
-		// Input[1] = destination track taken from cart, slot #1
+        if (IPaddress == null) {
+            return;
+        }
 
-		RegistryInput slot1 = IPaddress.getTrack();
-
-
-		this.addInputRegistry(slot1);
-
-		// Input[2] = destination station taken from cart, slot #2
-
-		RegistryBoth slot0 = IPaddress.getStation();
-
-		this.addInputRegistry(slot0);
-	}
+        RegistryInput slot2 = IPaddress.getRegion();
 
 
-	protected void manageWanderer(SimpleCollisionAvoider intersection) {
-		// routing
-		intersection.WishToGo(route(), false);
-	}
+        this.addInputRegistry(slot2);
 
-	protected Side route() {
-		return Side.LEVER_OFF;
-	}
-	
-	public void trigger() {
-		try {
+        // Input[1] = destination track taken from cart, slot #1
 
-			this.addIO();
+        RegistryInput slot1 = IPaddress.getTrack();
 
-			SimpleCollisionAvoider intersection = ByteCart.myPlugin.getCollisionAvoiderManager().<SimpleCollisionAvoider>getCollisionAvoider(builder);
 
-			if (! WandererContentFactory.isWanderer(getInventory())) {
+        this.addInputRegistry(slot1);
 
-				boolean isTrain = AbstractTriggeredSign.isTrain(getDestinationAddress());
+        // Input[2] = destination station taken from cart, slot #2
 
-				// if this is a cart in a train
-				if (this.wasTrain(this.getLocation())) {
-					ByteCart.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation());
-					intersection.Book(isTrain);
-					return;
-				}
+        RegistryBoth slot0 = IPaddress.getStation();
 
-				// if this is the first car of a train
-				// we keep it during 2 s
-				if (isTrain) {
-					this.setWasTrain(this.getLocation(), true);
-				}
+        this.addInputRegistry(slot0);
+    }
 
-				intersection.WishToGo(this.route(), isTrain);
-				return;
-			}
 
-			manageWanderer(intersection);
+    protected void manageWanderer(SimpleCollisionAvoider intersection) {
+        // routing
+        intersection.WishToGo(route(), false);
+    }
 
-		}
-		catch (ClassCastException e) {
-			if(ByteCart.debug)
-				ByteCart.log.info("ByteCart : " + e.toString());
+    protected Side route() {
+        return Side.LEVER_OFF;
+    }
 
-			// Not the good blocks to build the signs
-			return;
-		}
-		catch (NullPointerException e) {
-			if(ByteCart.debug)
-				ByteCart.log.info("ByteCart : "+ e.toString());
-			e.printStackTrace();
+    public void trigger() {
+        try {
 
-			// there was no inventory in the cart
-			return;
-		}
+            this.addIO();
 
-	}
+            SimpleCollisionAvoider intersection = ByteCart.myPlugin.getCollisionAvoiderManager().<SimpleCollisionAvoider>getCollisionAvoider(builder);
 
-	protected final AddressRouted getDestinationAddress() {
-		if (destination != null)
-			return destination;
-		return destination = AddressFactory.getAddress(this.getInventory());
-	}
+            if (!WandererContentFactory.isWanderer(getInventory())) {
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BCSign#getLevel()
-	 */
-	@Override
-	public Wanderer.Level getLevel() {
-		return Wanderer.Level.LOCAL;
-	}
+                boolean isTrain = AbstractTriggeredSign.isTrain(getDestinationAddress());
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BCSign#getSignAddress()
-	 */
-	@Override
-	public final Address getSignAddress() {
-		return AddressFactory.getAddress(getBlock(), 3);
-	}
+                // if this is a cart in a train
+                if (this.wasTrain(this.getLocation())) {
+                    ByteCart.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation());
+                    intersection.Book(isTrain);
+                    return;
+                }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BCSign#getCenter()
-	 */
-	@Override
-	public final org.bukkit.block.Block getCenter() {
-		return this.getBlock();
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BCSign#getDestinationIP()
-	 */
-	@Override
-	public final String getDestinationIP() {
-		Address ip;
-		if ((ip = getDestinationAddress()) != null)
-			return ip.toString();
-		return "";
-	}
+                // if this is the first car of a train
+                // we keep it during 2 s
+                if (isTrain) {
+                    this.setWasTrain(this.getLocation(), true);
+                }
+
+                intersection.WishToGo(this.route(), isTrain);
+                return;
+            }
+
+            manageWanderer(intersection);
+
+        } catch (ClassCastException e) {
+            if (ByteCart.debug) {
+                ByteCart.log.info("ByteCart : " + e.toString());
+            }
+
+            // Not the good blocks to build the signs
+            return;
+        } catch (NullPointerException e) {
+            if (ByteCart.debug) {
+                ByteCart.log.info("ByteCart : " + e.toString());
+            }
+            e.printStackTrace();
+
+            // there was no inventory in the cart
+            return;
+        }
+
+    }
+
+    protected final AddressRouted getDestinationAddress() {
+        if (destination != null) {
+            return destination;
+        }
+        return destination = AddressFactory.getAddress(this.getInventory());
+    }
+
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BCSign#getLevel()
+     */
+    @Override
+    public Wanderer.Level getLevel() {
+        return Wanderer.Level.LOCAL;
+    }
+
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BCSign#getSignAddress()
+     */
+    @Override
+    public final Address getSignAddress() {
+        return AddressFactory.getAddress(getBlock(), 3);
+    }
+
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BCSign#getCenter()
+     */
+    @Override
+    public final org.bukkit.block.Block getCenter() {
+        return this.getBlock();
+    }
+
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BCSign#getDestinationIP()
+     */
+    @Override
+    public final String getDestinationIP() {
+        Address ip;
+        if ((ip = getDestinationAddress()) != null) {
+            return ip.toString();
+        }
+        return "";
+    }
 }

@@ -47,6 +47,11 @@ http://www.dailymotion.com/video/xyf5s6_bytecart-plugin-presentation_videogames,
 
 Place `ByteCartRedux.jar` in your server's `mods` folder.
 
+## Contributing
+
+- Ensure your code builds, or mark the pull request as a work in progress.
+- Use the [Sponge code style](https://github.com/SpongePowered/SpongeAPI/tree/master/extra) for Java, IntelliJ defaults for Kotlin
+
 ## Credits
 
 Developed by [Catageek](https://github.com/catageek) <catageek@free.fr>

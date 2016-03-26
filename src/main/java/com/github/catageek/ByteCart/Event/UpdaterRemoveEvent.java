@@ -5,33 +5,31 @@ import org.bukkit.event.HandlerList;
 
 public final class UpdaterRemoveEvent extends Event {
 
-	private static final HandlerList handlers = new HandlerList();
+    private static final HandlerList handlers = new HandlerList();
+    private final int vehicleId;
 
-	public HandlerList getHandlers() {
-        return handlers;
-	}
+    /**
+     * Default constructor
+     *
+     * @param VehicleId the vehicle id
+     * @param location the location
+     */
+    public UpdaterRemoveEvent(int VehicleId) {
+        this.vehicleId = VehicleId;
+    }
 
-	public static HandlerList getHandlerList() {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-	private final int vehicleId;
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	
-	/**
-	 * Default constructor
-	 * 
-	 * @param VehicleId the vehicle id
-	 * @param location the location
-	 */
-	public UpdaterRemoveEvent(int VehicleId) {
-		this.vehicleId = VehicleId;
-	}
-
-	/**
-	 * @return the vehicleId
-	 */
-	public int getVehicleId() {
-		return vehicleId;
-	}
+    /**
+     * @return the vehicleId
+     */
+    public int getVehicleId() {
+        return vehicleId;
+    }
 }

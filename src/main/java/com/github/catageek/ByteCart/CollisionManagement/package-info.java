@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 /**
  * This package provides classes for collision management

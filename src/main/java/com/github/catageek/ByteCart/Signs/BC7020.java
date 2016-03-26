@@ -11,73 +11,73 @@ import com.github.catageek.ByteCart.Util.MathUtil;
  */
 class BC7020 extends AbstractTriggeredSign implements Triggable {
 
-	BC7020(org.bukkit.block.Block block,
-			org.bukkit.entity.Vehicle vehicle) {
-		super(block, vehicle);
-	}
+    BC7020(org.bukkit.block.Block block,
+            org.bukkit.entity.Vehicle vehicle) {
+        super(block, vehicle);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
-	 */
-	@Override
-	public void trigger() {
-		addIO();
-		
-		// if this is a cart in a train
-		if (this.wasTrain(this.getLocation())) {
-			ByteCart.myPlugin.getIsTrainManager().getMap().reset(getLocation());
-			actionWagon();
-			return;
-		}
-		
-		if (this.isTrain()) {
-			this.setWasTrain(this.getLocation(), true);
-			this.getOutput(0).setAmount(3);	// activate levers
-		}
-		else
-			this.getOutput(0).setAmount(0);	// deactivate levers
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     */
+    @Override
+    public void trigger() {
+        addIO();
 
-	}
+        // if this is a cart in a train
+        if (this.wasTrain(this.getLocation())) {
+            ByteCart.myPlugin.getIsTrainManager().getMap().reset(getLocation());
+            actionWagon();
+            return;
+        }
 
-	/**
-	 * A method called on each wagon of the train
-	 *
-	 */
-	protected void actionWagon() {
-	}
+        if (this.isTrain()) {
+            this.setWasTrain(this.getLocation(), true);
+            this.getOutput(0).setAmount(3);    // activate levers
+        } else {
+            this.getOutput(0).setAmount(0);    // deactivate levers
+        }
 
-	/**
-	 * Register the output levers
-	 *
-	 */
-	protected void addIO() {
-		// Output[0] = 2 bits registry representing levers on the left and on the right of the sign
-		OutputPin[] lever2 = new OutputPin[2];
+    }
 
-		// Left
-		lever2[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.anticlockwise(this.getCardinal())));
-		// Right
-		lever2[1] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.clockwise(this.getCardinal())));
+    /**
+     * A method called on each wagon of the train
+     *
+     */
+    protected void actionWagon() {
+    }
 
-		PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
+    /**
+     * Register the output levers
+     *
+     */
+    protected void addIO() {
+        // Output[0] = 2 bits registry representing levers on the left and on the right of the sign
+        OutputPin[] lever2 = new OutputPin[2];
 
-		this.addOutputRegistry(command1);
-	}
+        // Left
+        lever2[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.anticlockwise(this.getCardinal())));
+        // Right
+        lever2[1] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.clockwise(this.getCardinal())));
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
-	 */
-	@Override
-	public String getName() {
-		return "BC7020";
-	}
+        PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
-	 */
-	@Override
-	public String getFriendlyName() {
-		return "Is a Train ?";
-	}
+        this.addOutputRegistry(command1);
+    }
+
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     */
+    @Override
+    public String getName() {
+        return "BC7020";
+    }
+
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     */
+    @Override
+    public String getFriendlyName() {
+        return "Is a Train ?";
+    }
 
 }

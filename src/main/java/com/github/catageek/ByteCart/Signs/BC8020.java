@@ -1,18 +1,16 @@
 package com.github.catageek.ByteCart.Signs;
 
-import java.io.IOException;
-
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-
+import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
 import com.github.catageek.ByteCart.Routing.RoutingTableWritable;
 import com.github.catageek.ByteCart.Updaters.DefaultRouterWanderer;
-import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.Wanderer.Wanderer;
 import com.github.catageek.ByteCart.Wanderer.Wanderer.Scope;
+import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 
+import java.io.IOException;
 
 
 /**
@@ -21,66 +19,67 @@ import com.github.catageek.ByteCart.Wanderer.Wanderer.Scope;
 final class BC8020 extends BC8010 implements BCRouter, Triggable, HasRoutingTable {
 
 
-	BC8020(Block block, org.bukkit.entity.Vehicle vehicle) throws ClassNotFoundException, IOException {
-		super(block, vehicle);
-		this.IsTrackNumberProvider = true;
-	}
+    BC8020(Block block, org.bukkit.entity.Vehicle vehicle) throws ClassNotFoundException, IOException {
+        super(block, vehicle);
+        this.IsTrackNumberProvider = true;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BC8010#selectUpdater()
-	 */
-	@Override
-	protected boolean selectWanderer() {
-		return (! WandererContentFactory.isWanderer(this.getInventory()))
-				|| WandererContentFactory.isWanderer(this.getInventory(), Scope.LOCAL);
-	}
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BC8010#selectUpdater()
+     */
+    @Override
+    protected boolean selectWanderer() {
+        return (!WandererContentFactory.isWanderer(this.getInventory()))
+                || WandererContentFactory.isWanderer(this.getInventory(), Scope.LOCAL);
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BC8010#SelectRoute(com.github.catageek.ByteCart.AddressLayer.AddressRouted, com.github.catageek.ByteCart.AddressLayer.Address, com.github.catageek.ByteCart.Routing.RoutingTableWritable)
-	 */
-	@Override
-	protected BlockFace SelectRoute(AddressRouted IPaddress, Address sign, RoutingTableWritable RoutingTable) {
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BC8010#SelectRoute(com.github.catageek.ByteCart.AddressLayer.AddressRouted, com.github.catageek
+     * .ByteCart.AddressLayer.Address, com.github.catageek.ByteCart.Routing.RoutingTableWritable)
+     */
+    @Override
+    protected BlockFace SelectRoute(AddressRouted IPaddress, Address sign, RoutingTableWritable RoutingTable) {
 
-		try {
-			if (IPaddress.getTTL() != 0) {
-				// lookup destination region
-				return RoutingTable.getDirection(IPaddress.getRegion().getAmount()).getBlockFace();
-			}
-		} catch (NullPointerException e) {
-		}
+        try {
+            if (IPaddress.getTTL() != 0) {
+                // lookup destination region
+                return RoutingTable.getDirection(IPaddress.getRegion().getAmount()).getBlockFace();
+            }
+        } catch (NullPointerException e) {
+        }
 
-		// if TTL reached end of life and is not returnable, then we lookup region 0
-		try {
-			return RoutingTable.getDirection(0).getBlockFace();
-		} catch (NullPointerException e) {
-		}
+        // if TTL reached end of life and is not returnable, then we lookup region 0
+        try {
+            return RoutingTable.getDirection(0).getBlockFace();
+        } catch (NullPointerException e) {
+        }
 
-		// If everything has failed, then we randomize output direction
-		return DefaultRouterWanderer.getRandomBlockFace(RoutingTable, getCardinal().getOppositeFace());
+        // If everything has failed, then we randomize output direction
+        return DefaultRouterWanderer.getRandomBlockFace(RoutingTable, getCardinal().getOppositeFace());
 
-	}
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BC8010#getLevel()
-	 */
-	@Override
-	public Wanderer.Level getLevel() {
-		return Wanderer.Level.BACKBONE;
-	}
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BC8010#getLevel()
+     */
+    @Override
+    public Wanderer.Level getLevel() {
+        return Wanderer.Level.BACKBONE;
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BC8010#getName()
-	 */
-	@Override
-	public String getName() {
-		return "BC8020";
-	}
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BC8010#getName()
+     */
+    @Override
+    public String getName() {
+        return "BC8020";
+    }
 
-	/* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.BC8010#getFriendlyName()
-	 */
-	@Override
-	public String getFriendlyName() {
-		return "L2 Router";
-	}
+    /* (non-Javadoc)
+     * @see com.github.catageek.ByteCart.Signs.BC8010#getFriendlyName()
+     */
+    @Override
+    public String getFriendlyName() {
+        return "L2 Router";
+    }
 }

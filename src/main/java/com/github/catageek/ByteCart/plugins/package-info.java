@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 /**
  * A package that provides addons to ByteCart

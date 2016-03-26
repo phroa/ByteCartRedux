@@ -8,32 +8,32 @@ import org.bukkit.event.vehicle.VehicleMoveEvent;
  * Event trigger when an updater moves from 1 block
  */
 public final class UpdaterMoveEvent extends Event {
-	
+
     private static final HandlerList handlers = new HandlerList();
-	private final VehicleMoveEvent event;
+    private final VehicleMoveEvent event;
 
-	public UpdaterMoveEvent(VehicleMoveEvent event) {
-		this.event = event;
-	}
+    public UpdaterMoveEvent(VehicleMoveEvent event) {
+        this.event = event;
+    }
 
-	/**
-	 * @return the event
-	 */
-	public VehicleMoveEvent getEvent() {
-		return event;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.bukkit.event.Event#getHandlers()
-	 */
-	public HandlerList getHandlers() {
+    /**
+     * Needed for Bukkit Event API usage
+     */
+    public static HandlerList getHandlerList() {
         return handlers;
-	}
+    }
 
-	/**
-	 * Needed for Bukkit Event API usage
-	 */
-	public static HandlerList getHandlerList() {
+    /**
+     * @return the event
+     */
+    public VehicleMoveEvent getEvent() {
+        return event;
+    }
+
+    /* (non-Javadoc)
+     * @see org.bukkit.event.Event#getHandlers()
+     */
+    public HandlerList getHandlers() {
         return handlers;
     }
 

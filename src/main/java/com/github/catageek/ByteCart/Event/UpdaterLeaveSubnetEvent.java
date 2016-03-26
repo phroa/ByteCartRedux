@@ -1,76 +1,76 @@
 package com.github.catageek.ByteCart.Event;
 
-import org.bukkit.event.HandlerList;
-
 import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.Wanderer.Wanderer;
+import org.bukkit.event.HandlerList;
 
 /**
  * Event triggered when a local updater leaves a subnet
  */
 public class UpdaterLeaveSubnetEvent extends UpdaterEvent {
-	private final Address address, newaddress;
-	private final int length, newlength;
 
-	/**
-	 * Default constructor
-	 * 
-	 * @param updater updater involved
-	 * @param address address of the subnet we are leaving
-	 * @param length number of stations this subnet can contain
-	 * @param newlength number of stations of the subnet we are re-entering
-	 * @param newaddress address of the subnet we are re-entering
-	 */
-	public UpdaterLeaveSubnetEvent(Wanderer updater, Address address, int length, Address newaddress, int newlength) {
-		super(updater);
-		this.address = address;
-		this.length = length;
-		this.newaddress = newaddress;
-		this.newlength = newlength;
-	}
+    private static final HandlerList handlers = new HandlerList();
+    private final Address address, newaddress;
+    private final int length, newlength;
 
-	private static final HandlerList handlers = new HandlerList();
+    /**
+     * Default constructor
+     *
+     * @param updater updater involved
+     * @param address address of the subnet we are leaving
+     * @param length number of stations this subnet can contain
+     * @param newlength number of stations of the subnet we are re-entering
+     * @param newaddress address of the subnet we are re-entering
+     */
+    public UpdaterLeaveSubnetEvent(Wanderer updater, Address address, int length, Address newaddress, int newlength) {
+        super(updater);
+        this.address = address;
+        this.length = length;
+        this.newaddress = newaddress;
+        this.newlength = newlength;
+    }
 
-	public HandlerList getHandlers() {
-        return handlers;
-	}
-
-	public static HandlerList getHandlerList() {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
-	/**
-	 * @return the length of the old subnet
-	 */
-	public int getLength() {
-		return length;
-	}
 
-	/**
-	 * @return the address of the old subnet
-	 */
-	public String getAddress() {
-		return address.toString();
-	}
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 
-	/**
-	 * @return the address of the new subnet
-	 */
-	@Deprecated
-	public Address getNewaddress() {
-		return newaddress;
-	}
+    /**
+     * @return the length of the old subnet
+     */
+    public int getLength() {
+        return length;
+    }
 
-	/**
-	 * @return the address of the new subnet
-	 */
-	public String getNewAddress() {
-		return newaddress.toString();
-	}
+    /**
+     * @return the address of the old subnet
+     */
+    public String getAddress() {
+        return address.toString();
+    }
 
-	/**
-	 * @return the length of the new subnet
-	 */
-	public int getNewlength() {
-		return newlength;
-	}
+    /**
+     * @return the address of the new subnet
+     */
+    @Deprecated
+    public Address getNewaddress() {
+        return newaddress;
+    }
+
+    /**
+     * @return the address of the new subnet
+     */
+    public String getNewAddress() {
+        return newaddress.toString();
+    }
+
+    /**
+     * @return the length of the new subnet
+     */
+    public int getNewlength() {
+        return newlength;
+    }
 }

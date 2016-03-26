@@ -1,5 +1,8 @@
 package code.husky.mysql;
 
+import code.husky.Database;
+import org.bukkit.plugin.Plugin;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,17 +10,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 
-import org.bukkit.plugin.Plugin;
-
-import code.husky.Database;
-
 /**
  * Connects to and uses a MySQL database
- * 
+ *
  * @author -_Husky_-
  * @author tips48
  */
 public class MySQL extends Database {
+
     private final String user;
     private final String database;
     private final String password;
@@ -28,7 +28,7 @@ public class MySQL extends Database {
 
     /**
      * Creates a new MySQL instance
-     * 
+     *
      * @param plugin
      *            Plugin instance
      * @param hostname
@@ -56,7 +56,8 @@ public class MySQL extends Database {
     public Connection openConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + this.hostname + ":" + this.port + "/" + this.database, this.user, this.password);
+            connection =
+                    DriverManager.getConnection("jdbc:mysql://" + this.hostname + ":" + this.port + "/" + this.database, this.user, this.password);
         } catch (SQLException e) {
             plugin.getLogger().log(Level.SEVERE, "Could not connect to MySQL server! because: " + e.getMessage());
         } catch (ClassNotFoundException e) {

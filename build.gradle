@@ -29,5 +29,5 @@ dependencies {
 
 task fatJar(type: Jar, dependsOn: [':compileJava', ':compileKotlin']) {
     from files(sourceSets.main.output.classesDir)
-    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+    from configurations.runtime.asFileTree.files.collect {zipTree(it)}
 }

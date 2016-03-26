@@ -6,19 +6,20 @@ import org.bukkit.block.Block;
  * Abstract class containing common methods for all components
  */
 public abstract class AbstractComponent implements Component {
-	private final Block block;
-	
-	/**
-	 * @param block the block containing the component
-	 */
-	protected AbstractComponent(Block block) {
-		this.block = block;
-	}
 
-	/**
-	 * @return the block
-	 */
-	public Block getBlock() {
-		return block;
-	}
+    private final Block block;
+
+    /**
+     * @param block the block containing the component
+     */
+    protected AbstractComponent(Block block) {
+        this.block = block;
+    }
+
+    /**
+     * @return the block
+     */
+    public Block getBlock() {
+        return block;
+    }
 }

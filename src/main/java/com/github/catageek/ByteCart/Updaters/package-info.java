@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 /**
  * Implementation of the configuration updaters
