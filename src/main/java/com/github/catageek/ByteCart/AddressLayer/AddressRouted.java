@@ -1,7 +1,5 @@
 package com.github.catageek.ByteCart.AddressLayer;
 
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-
 
 /**
  * Represents an address currently routed

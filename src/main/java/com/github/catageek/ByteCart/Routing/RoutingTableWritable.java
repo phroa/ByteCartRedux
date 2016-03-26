@@ -3,8 +3,8 @@ package com.github.catageek.ByteCart.Routing;
 import java.io.IOException;
 
 import com.github.catageek.ByteCart.Updaters.UpdaterContent;
-import com.github.catageek.ByteCartAPI.Util.DirectionRegistry;
-import com.github.catageek.ByteCartAPI.Wanderer.RoutingTable;
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
+import com.github.catageek.ByteCart.Wanderer.RoutingTable;
 
 
 /**

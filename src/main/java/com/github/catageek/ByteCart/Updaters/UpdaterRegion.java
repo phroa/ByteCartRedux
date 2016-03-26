@@ -8,10 +8,10 @@ import org.bukkit.block.BlockFace;
 import com.github.catageek.ByteCart.ByteCart;
 import com.github.catageek.ByteCart.Util.LogUtil;
 import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.Event.UpdaterSetRingEvent;
-import com.github.catageek.ByteCartAPI.Signs.BCSign;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.AddressLayer.Address;
+import com.github.catageek.ByteCart.Event.UpdaterSetRingEvent;
+import com.github.catageek.ByteCart.Signs.BCSign;
+import com.github.catageek.ByteCart.Wanderer.Wanderer;
 
 class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
 

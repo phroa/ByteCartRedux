@@ -24,7 +24,7 @@ import com.github.catageek.ByteCart.Updaters.UpdaterContentFactory;
 import com.github.catageek.ByteCart.Updaters.UpdaterFactory;
 import com.github.catageek.ByteCart.Util.LogUtil;
 import com.github.catageek.ByteCart.plugins.BCDynmapPlugin;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.Wanderer.Wanderer;
 
 /**
  * The command executor

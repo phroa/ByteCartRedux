@@ -1,8 +1,5 @@
 package com.github.catageek.ByteCart.AddressLayer;
 
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-
-
 
 /**
  * Abstract class implementing basic operations on address

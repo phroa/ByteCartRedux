@@ -11,7 +11,7 @@ import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
 import com.github.catageek.ByteCart.AddressLayer.TicketFactory;
 import com.github.catageek.ByteCart.HAL.AbstractIC;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
+import com.github.catageek.ByteCart.AddressLayer.Address;
 
 /**
  * Base class for all signs that are triggered by vehicles that pass over it.

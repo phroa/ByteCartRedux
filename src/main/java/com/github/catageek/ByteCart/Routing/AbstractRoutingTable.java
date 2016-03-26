@@ -8,8 +8,8 @@ import org.bukkit.block.BlockFace;
 
 import com.github.catageek.ByteCart.ByteCart;
 import com.github.catageek.ByteCart.Updaters.UpdaterContent;
-import com.github.catageek.ByteCartAPI.Util.DirectionRegistry;
-import com.github.catageek.ByteCartAPI.Wanderer.RouteValue;
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
+import com.github.catageek.ByteCart.Wanderer.RouteValue;
 
 /**
  * An abstract class for routing tables 

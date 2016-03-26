@@ -3,9 +3,9 @@ package com.github.catageek.ByteCart.Updaters;
 import org.bukkit.block.BlockFace;
 
 import com.github.catageek.ByteCart.ByteCart;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.Signs.BCSign;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.AddressLayer.Address;
+import com.github.catageek.ByteCart.Signs.BCSign;
+import com.github.catageek.ByteCart.Wanderer.Wanderer;
 
 class UpdaterBackBone extends AbstractRegionUpdater implements Wanderer {
 

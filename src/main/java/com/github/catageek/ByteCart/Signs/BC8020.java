@@ -9,10 +9,9 @@ import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
 import com.github.catageek.ByteCart.Routing.RoutingTableWritable;
 import com.github.catageek.ByteCart.Updaters.DefaultRouterWanderer;
 import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.Signs.BCRouter;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer.Scope;
+import com.github.catageek.ByteCart.AddressLayer.Address;
+import com.github.catageek.ByteCart.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.Wanderer.Wanderer.Scope;
 
 
 

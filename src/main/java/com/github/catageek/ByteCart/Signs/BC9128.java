@@ -1,8 +1,5 @@
 package com.github.catageek.ByteCart.Signs;
 
-import com.github.catageek.ByteCartAPI.Signs.HasNetmask;
-import com.github.catageek.ByteCartAPI.Signs.Subnet;
-
 /**
  * A 128-station subnet bound
  */

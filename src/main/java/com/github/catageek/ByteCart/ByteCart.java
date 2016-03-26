@@ -17,9 +17,7 @@ import com.github.catageek.ByteCart.Updaters.UpdaterFactory;
 import com.github.catageek.ByteCart.Wanderer.BCWandererManager;
 import com.github.catageek.ByteCart.plugins.BCDynmapPlugin;
 import com.github.catageek.ByteCart.plugins.BCHostnameResolutionPlugin;
-import com.github.catageek.ByteCartAPI.ByteCartAPI;
-import com.github.catageek.ByteCartAPI.ByteCartPlugin;
-import com.github.catageek.ByteCartAPI.AddressLayer.Resolver;
+import com.github.catageek.ByteCart.AddressLayer.Resolver;
 
 /**
  * Main class

@@ -10,7 +10,7 @@ import org.bukkit.material.Button;
 import org.bukkit.material.MaterialData;
 
 import com.github.catageek.ByteCart.ByteCart;
-import com.github.catageek.ByteCartAPI.Util.MathUtil;
+import com.github.catageek.ByteCart.Util.MathUtil;
 
 /**
  * A button

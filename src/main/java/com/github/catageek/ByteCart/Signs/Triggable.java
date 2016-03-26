@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.bukkit.Location;
 
-import com.github.catageek.ByteCartAPI.HAL.IC;
+import com.github.catageek.ByteCart.HAL.IC;
 
 /**
  * An IC that can be triggered by a cart should implement this

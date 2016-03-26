@@ -13,11 +13,7 @@ import org.bukkit.inventory.Inventory;
 import com.github.catageek.ByteCart.ByteCart;
 import com.github.catageek.ByteCart.Routing.BCCounter;
 import com.github.catageek.ByteCart.Routing.Metric;
-import com.github.catageek.ByteCartAPI.Util.DirectionRegistry;
-import com.github.catageek.ByteCartAPI.Wanderer.InventoryContent;
-import com.github.catageek.ByteCartAPI.Wanderer.RouteValue;
-import com.github.catageek.ByteCartAPI.Wanderer.RoutingTable;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
 
 public class WandererContent  implements InventoryContent {
 

@@ -10,9 +10,9 @@ import com.github.catageek.ByteCart.ByteCart;
 import com.github.catageek.ByteCart.Routing.BCCounter;
 import com.github.catageek.ByteCart.Routing.Metric;
 import com.github.catageek.ByteCart.Signs.BC8010;
-import com.github.catageek.ByteCartAPI.Signs.BCSign;
-import com.github.catageek.ByteCartAPI.Util.DirectionRegistry;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer.Level;
+import com.github.catageek.ByteCart.Signs.BCSign;
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
+import com.github.catageek.ByteCart.Wanderer.Wanderer.Level;
 
 abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
 

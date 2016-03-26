@@ -4,8 +4,7 @@ import org.bukkit.block.Block;
 
 import com.github.catageek.ByteCart.IO.AbstractComponent;
 import com.github.catageek.ByteCart.IO.ComponentSign;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.HAL.RegistryBoth;
+import com.github.catageek.ByteCart.HAL.RegistryBoth;
 
 
 /**

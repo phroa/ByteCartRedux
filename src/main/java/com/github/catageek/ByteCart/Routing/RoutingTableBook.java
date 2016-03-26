@@ -18,8 +18,8 @@ import com.github.catageek.ByteCart.ByteCart;
 import com.github.catageek.ByteCart.FileStorage.BookFile;
 import com.github.catageek.ByteCart.Storage.ExternalizableTreeMap;
 import com.github.catageek.ByteCart.Storage.PartitionedHashSet;
-import com.github.catageek.ByteCartAPI.Util.DirectionRegistry;
-import com.github.catageek.ByteCartAPI.Wanderer.RouteValue;
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
+import com.github.catageek.ByteCart.Wanderer.RouteValue;
 
 /**
  * A routing table in a book

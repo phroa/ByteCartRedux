@@ -6,9 +6,6 @@ import java.util.ListIterator;
 
 import com.github.catageek.ByteCart.IO.InputPin;
 import com.github.catageek.ByteCart.IO.OutputPin;
-import com.github.catageek.ByteCartAPI.HAL.Registry;
-import com.github.catageek.ByteCartAPI.HAL.RegistryInput;
-import com.github.catageek.ByteCartAPI.HAL.RegistryOutput;
 
 /**
  * A registry implementation

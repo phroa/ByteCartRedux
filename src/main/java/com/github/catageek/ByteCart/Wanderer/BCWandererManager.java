@@ -6,10 +6,6 @@ import java.util.Map;
 
 import org.bukkit.inventory.Inventory;
 
-import com.github.catageek.ByteCartAPI.Wanderer.WandererManager;
-import com.github.catageek.ByteCartAPI.Wanderer.InventoryContent;
-import com.github.catageek.ByteCartAPI.Wanderer.WandererFactory;
-
 public class BCWandererManager implements WandererManager {
 
 	private static final Map<String, WandererFactory> map = new HashMap<String, WandererFactory>();

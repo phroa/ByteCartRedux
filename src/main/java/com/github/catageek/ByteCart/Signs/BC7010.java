@@ -11,7 +11,7 @@ import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
 import com.github.catageek.ByteCart.AddressLayer.TicketFactory;
 import com.github.catageek.ByteCart.IO.ComponentSign;
 import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
+import com.github.catageek.ByteCart.AddressLayer.Address;
 
 
 /**

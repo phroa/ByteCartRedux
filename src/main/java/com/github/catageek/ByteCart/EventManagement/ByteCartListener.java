@@ -33,9 +33,9 @@ import com.github.catageek.ByteCart.Signs.Powerable;
 import com.github.catageek.ByteCart.Signs.PoweredSignFactory;
 import com.github.catageek.ByteCart.Signs.Triggable;
 import com.github.catageek.ByteCart.Signs.TriggeredSignFactory;
-import com.github.catageek.ByteCartAPI.Event.SignCreateEvent;
-import com.github.catageek.ByteCartAPI.Event.SignRemoveEvent;
-import com.github.catageek.ByteCartAPI.HAL.IC;
+import com.github.catageek.ByteCart.Event.SignCreateEvent;
+import com.github.catageek.ByteCart.Event.SignRemoveEvent;
+import com.github.catageek.ByteCart.HAL.IC;
 
 
 

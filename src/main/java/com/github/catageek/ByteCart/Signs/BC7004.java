@@ -19,8 +19,8 @@ import com.github.catageek.ByteCart.HAL.AbstractIC;
 import com.github.catageek.ByteCart.HAL.PinRegistry;
 import com.github.catageek.ByteCart.IO.InputFactory;
 import com.github.catageek.ByteCart.IO.InputPin;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.Util.MathUtil;
+import com.github.catageek.ByteCart.AddressLayer.Address;
+import com.github.catageek.ByteCart.Util.MathUtil;
 
 /**
  * A cart spawner

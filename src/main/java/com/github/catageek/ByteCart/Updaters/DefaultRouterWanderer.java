@@ -3,8 +3,8 @@ package com.github.catageek.ByteCart.Updaters;
 
 import org.bukkit.block.BlockFace;
 
-import com.github.catageek.ByteCartAPI.CollisionManagement.IntersectionSide.Side;
-import com.github.catageek.ByteCartAPI.Signs.BCSign;
+import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
+import com.github.catageek.ByteCart.Signs.BCSign;
 
 /**
  * 

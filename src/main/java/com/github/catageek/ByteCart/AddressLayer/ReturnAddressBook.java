@@ -1,8 +1,7 @@
 package com.github.catageek.ByteCart.AddressLayer;
 
 import com.github.catageek.ByteCart.AddressLayer.AddressBook.Parameter;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.HAL.RegistryBoth;
+import com.github.catageek.ByteCart.HAL.RegistryBoth;
 
 /**
  * A class implementing a return address in a book

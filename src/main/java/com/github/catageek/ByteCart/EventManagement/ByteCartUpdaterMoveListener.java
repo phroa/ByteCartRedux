@@ -17,8 +17,8 @@ import org.bukkit.inventory.InventoryHolder;
 
 import com.github.catageek.ByteCart.Updaters.UpdaterContentFactory;
 import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCartAPI.Event.UpdaterMoveEvent;
-import com.github.catageek.ByteCartAPI.Event.UpdaterRemoveEvent;
+import com.github.catageek.ByteCart.Event.UpdaterMoveEvent;
+import com.github.catageek.ByteCart.Event.UpdaterRemoveEvent;
 
 /**
  * Launch an event when an updater moves

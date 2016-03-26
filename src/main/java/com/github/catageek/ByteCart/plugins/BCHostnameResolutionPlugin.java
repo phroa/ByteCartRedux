@@ -23,14 +23,14 @@ import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
 
 import com.github.catageek.ByteCart.ByteCart;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.AddressLayer.Resolver;
-import com.github.catageek.ByteCartAPI.Event.SignCreateEvent;
-import com.github.catageek.ByteCartAPI.Event.SignRemoveEvent;
-import com.github.catageek.ByteCartAPI.Event.UpdaterClearStationEvent;
-import com.github.catageek.ByteCartAPI.Event.UpdaterPassStationEvent;
-import com.github.catageek.ByteCartAPI.Event.UpdaterSetStationEvent;
-import com.github.catageek.ByteCartAPI.Signs.Station;
+import com.github.catageek.ByteCart.AddressLayer.Address;
+import com.github.catageek.ByteCart.AddressLayer.Resolver;
+import com.github.catageek.ByteCart.Event.SignCreateEvent;
+import com.github.catageek.ByteCart.Event.SignRemoveEvent;
+import com.github.catageek.ByteCart.Event.UpdaterClearStationEvent;
+import com.github.catageek.ByteCart.Event.UpdaterPassStationEvent;
+import com.github.catageek.ByteCart.Event.UpdaterSetStationEvent;
+import com.github.catageek.ByteCart.Signs.Station;
 
 public final class BCHostnameResolutionPlugin implements Resolver,Listener,CommandExecutor {
 	private String database = ByteCart.myPlugin.getConfig().getString("database","BCHostnames");

@@ -11,8 +11,8 @@ import org.bukkit.inventory.Inventory;
 import com.github.catageek.ByteCart.FileStorage.BookFile;
 import com.github.catageek.ByteCart.Util.LogUtil;
 import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer.Level;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer.Scope;
+import com.github.catageek.ByteCart.Wanderer.Wanderer.Level;
+import com.github.catageek.ByteCart.Wanderer.Wanderer.Scope;
 
 public abstract class UpdaterContentFactory {
 

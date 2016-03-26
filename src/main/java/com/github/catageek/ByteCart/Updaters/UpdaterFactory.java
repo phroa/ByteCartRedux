@@ -5,10 +5,10 @@ import java.io.IOException;
 import org.bukkit.inventory.Inventory;
 
 import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCartAPI.Signs.BCSign;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer.Level;
-import com.github.catageek.ByteCartAPI.Wanderer.WandererFactory;
+import com.github.catageek.ByteCart.Signs.BCSign;
+import com.github.catageek.ByteCart.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.Wanderer.Wanderer.Level;
+import com.github.catageek.ByteCart.Wanderer.WandererFactory;
 
 public final class UpdaterFactory implements WandererFactory {
 

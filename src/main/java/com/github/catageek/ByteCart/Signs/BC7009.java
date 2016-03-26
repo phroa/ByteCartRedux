@@ -8,9 +8,9 @@ import com.github.catageek.ByteCart.HAL.PinRegistry;
 import com.github.catageek.ByteCart.IO.ComponentSign;
 import com.github.catageek.ByteCart.IO.OutputPin;
 import com.github.catageek.ByteCart.IO.OutputPinFactory;
-import com.github.catageek.ByteCartAPI.HAL.RegistryOutput;
-import com.github.catageek.ByteCartAPI.Util.DirectionRegistry;
-import com.github.catageek.ByteCartAPI.Util.MathUtil;
+import com.github.catageek.ByteCart.HAL.RegistryOutput;
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
+import com.github.catageek.ByteCart.Util.MathUtil;
 
 final class BC7009 extends AbstractTriggeredSign implements Triggable {
 

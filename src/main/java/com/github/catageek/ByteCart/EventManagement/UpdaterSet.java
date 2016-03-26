@@ -7,7 +7,7 @@ import org.bukkit.event.Event;
 
 import com.github.catageek.ByteCart.ByteCart;
 import com.github.catageek.ByteCart.Storage.ExpirableSet;
-import com.github.catageek.ByteCartAPI.Event.UpdaterRemoveEvent;
+import com.github.catageek.ByteCart.Event.UpdaterRemoveEvent;
 
 /**
  * A set for integers with a timeout of 1h

@@ -7,15 +7,15 @@ import org.bukkit.block.BlockFace;
 
 import com.github.catageek.ByteCart.ByteCart;
 import com.github.catageek.ByteCart.Signs.BC9001;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.CollisionManagement.IntersectionSide;
-import com.github.catageek.ByteCartAPI.CollisionManagement.IntersectionSide.Side;
-import com.github.catageek.ByteCartAPI.Event.UpdaterClearStationEvent;
-import com.github.catageek.ByteCartAPI.Event.UpdaterClearSubnetEvent;
-import com.github.catageek.ByteCartAPI.Event.UpdaterSignInvalidateEvent;
-import com.github.catageek.ByteCartAPI.Signs.BCSign;
-import com.github.catageek.ByteCartAPI.Util.DirectionRegistry;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.AddressLayer.Address;
+import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide;
+import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
+import com.github.catageek.ByteCart.Event.UpdaterClearStationEvent;
+import com.github.catageek.ByteCart.Event.UpdaterClearSubnetEvent;
+import com.github.catageek.ByteCart.Event.UpdaterSignInvalidateEvent;
+import com.github.catageek.ByteCart.Signs.BCSign;
+import com.github.catageek.ByteCart.Util.DirectionRegistry;
+import com.github.catageek.ByteCart.Wanderer.Wanderer;
 
 final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
 

@@ -2,8 +2,8 @@ package com.github.catageek.ByteCart.Updaters;
 
 import org.bukkit.block.BlockFace;
 
-import com.github.catageek.ByteCartAPI.Signs.BCSign;
-import com.github.catageek.ByteCartAPI.Wanderer.Wanderer;
+import com.github.catageek.ByteCart.Signs.BCSign;
+import com.github.catageek.ByteCart.Wanderer.Wanderer;
 
 class UpdaterResetBackbone extends UpdaterBackBone implements Wanderer {
 

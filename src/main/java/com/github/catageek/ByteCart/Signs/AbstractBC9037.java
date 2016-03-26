@@ -2,10 +2,10 @@ package com.github.catageek.ByteCart.Signs;
 
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
-import com.github.catageek.ByteCartAPI.AddressLayer.Address;
-import com.github.catageek.ByteCartAPI.CollisionManagement.IntersectionSide;
-import com.github.catageek.ByteCartAPI.HAL.RegistryBoth;
-import com.github.catageek.ByteCartAPI.HAL.RegistryInput;
+import com.github.catageek.ByteCart.AddressLayer.Address;
+import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide;
+import com.github.catageek.ByteCart.HAL.RegistryBoth;
+import com.github.catageek.ByteCart.HAL.RegistryInput;
 
 
 
