@@ -42,13 +42,13 @@ public final class BookFile implements BCFile {
     static final int PAGESIZE = 1 << PAGELOG;
     static final int MAXPAGE = 20;
     static final int MAXSIZE = MAXPAGE * PAGESIZE;
-    private static final String prefix = ByteCartRedux.rootNode.getNode("author").getString();
+    private static final String PREFIX = ByteCartRedux.rootNode.getNode("author").getString();
     private final String author;
     private final Inventory container;
-    private final boolean binarymode;
+    private final boolean binaryMode;
     private final SlotIndex slot;
     private ItemStack stack;
-    private ItemStackMetaOutputStream outputstream;
+    private ItemStackMetaOutputStream outputStream;
     private boolean isClosed = false;
 
 
@@ -65,10 +65,10 @@ public final class BookFile implements BCFile {
      * @param inventory the inventory
      * @param index the slot index
      * @param binary true to set binary mode
-     * @param name the suffix of the author name, or null
+     * @param suffix the suffix of the author name, or null
      */
-    public BookFile(Inventory inventory, int index, boolean binary, String name) {
-        this.binarymode = binary;
+    public BookFile(Inventory inventory, int index, boolean binary, String suffix) {
+        this.binaryMode = binary;
         this.container = inventory;
         this.slot = new SlotIndex(index);
         this.stack = inventory.query(slot).peek().orElse(null);
@@ -77,11 +77,11 @@ public final class BookFile implements BCFile {
             inventory.query(slot).set(stack = ItemStack.of(ItemTypes.WRITTEN_BOOK, 1));
         }
 
-        if (!this.stack.get(Keys.BOOK_AUTHOR).isPresent() || !this.stack.get(Keys.BOOK_AUTHOR).get().toPlain().startsWith(prefix)) {
-            if (name != null && name.length() != 0) {
-                this.author = prefix + "." + name;
+        if (!this.stack.get(Keys.BOOK_AUTHOR).isPresent() || !this.stack.get(Keys.BOOK_AUTHOR).get().toPlain().startsWith(PREFIX)) {
+            if (suffix != null && suffix.length() != 0) {
+                this.author = PREFIX + "." + suffix;
             } else {
-                this.author = prefix;
+                this.author = PREFIX;
             }
             this.stack.offer(Keys.BOOK_AUTHOR, Text.of(author));
         } else {
@@ -98,7 +98,7 @@ public final class BookFile implements BCFile {
      */
     public static boolean isBookFile(Inventory inventory, int index) {
         return inventory.query(new SlotIndex(index)).peek().filter(stack ->
-                stack.supports(Keys.BOOK_AUTHOR) && stack.get(Keys.BOOK_AUTHOR).get().toPlain().startsWith(prefix))
+                stack.supports(Keys.BOOK_AUTHOR) && stack.get(Keys.BOOK_AUTHOR).get().toPlain().startsWith(PREFIX))
                 .isPresent();
     }
 
@@ -109,8 +109,8 @@ public final class BookFile implements BCFile {
 
     @Override
     public void clear() {
-        if (outputstream != null) {
-            this.outputstream.getBook().offer(Keys.BOOK_PAGES, new ArrayList<Text>());
+        if (outputStream != null) {
+            this.outputStream.getBook().offer(Keys.BOOK_PAGES, new ArrayList<Text>());
         } else {
             stack.offer(Keys.BOOK_PAGES, new ArrayList<Text>());
         }
@@ -118,8 +118,8 @@ public final class BookFile implements BCFile {
 
     @Override
     public boolean isEmpty() {
-        if (outputstream != null) {
-            return !outputstream.getBook().supports(Keys.BOOK_PAGES) || outputstream.getBook().get(Keys.BOOK_PAGES).get().get(0).isEmpty();
+        if (outputStream != null) {
+            return !outputStream.getBook().supports(Keys.BOOK_PAGES) || outputStream.getBook().get(Keys.BOOK_PAGES).get().get(0).isEmpty();
         } else {
             return !stack.supports(Keys.BOOK_PAGES) || stack.get(Keys.BOOK_PAGES).get().get(0).isEmpty();
         }
@@ -131,13 +131,13 @@ public final class BookFile implements BCFile {
             throw new IOException("Book File has already been closed");
         }
 
-        if (outputstream != null) {
-            return outputstream;
+        if (outputStream != null) {
+            return outputStream;
         }
 
         @SuppressWarnings("resource")
-        BookOutputStream bookoutputstream = binarymode ? new Base64BookOutputStream(stack) : new BookOutputStream(stack);
-        return outputstream = new ItemStackMetaOutputStream(stack, bookoutputstream);
+        BookOutputStream bookoutputstream = binaryMode ? new Base64BookOutputStream(stack) : new BookOutputStream(stack);
+        return outputStream = new ItemStackMetaOutputStream(stack, bookoutputstream);
     }
 
     @Override
@@ -146,15 +146,15 @@ public final class BookFile implements BCFile {
             throw new IOException("Book File has already been closed");
         }
 
-        if (outputstream != null && outputstream.getBuffer().length != 0) {
-            return new BookInputStream(outputstream);
+        if (outputStream != null && outputStream.getBuffer().length != 0) {
+            return new BookInputStream(outputStream);
         }
-        return new BookInputStream(stack, binarymode);
+        return new BookInputStream(stack, binaryMode);
     }
 
     @Override
     public void close() throws IOException {
-        if (outputstream != null) {
+        if (outputStream != null) {
             if (isClosed) {
                 throw new IOException("Book File has already been closed");
             }
@@ -168,12 +168,12 @@ public final class BookFile implements BCFile {
 
     @Override
     public void flush() throws IOException {
-        if (outputstream != null) {
+        if (outputStream != null) {
             if (isClosed) {
                 throw new IOException("Book File has already been closed");
             }
-            outputstream.flush();
-            stack.copyFrom(outputstream.getBook());
+            outputStream.flush();
+            stack.copyFrom(outputStream.getBook());
         } else {
             this.getContainer().query(slot).set(stack);
         }
@@ -189,8 +189,8 @@ public final class BookFile implements BCFile {
         if (isClosed) {
             throw new IOException("Book File has already been closed");
         }
-        if (outputstream != null) {
-            return outputstream.getBook().get(Keys.DISPLAY_NAME).get().toPlain();
+        if (outputStream != null) {
+            return outputStream.getBook().get(Keys.DISPLAY_NAME).get().toPlain();
         } else {
             return stack.get(Keys.DISPLAY_NAME).get().toPlain();
         }
@@ -201,9 +201,9 @@ public final class BookFile implements BCFile {
         if (isClosed) {
             throw new IOException("Book File has already been closed");
         }
-        if (outputstream != null) {
-            outputstream.getBook().offer(Keys.DISPLAY_NAME, Text.of(s));
-            stack = outputstream.getBook();
+        if (outputStream != null) {
+            outputStream.getBook().offer(Keys.DISPLAY_NAME, Text.of(s));
+            stack = outputStream.getBook();
         } else {
             stack.offer(Keys.DISPLAY_NAME, Text.of(s));
         }
