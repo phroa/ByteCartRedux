@@ -49,21 +49,6 @@ public interface IC {
     String getFriendlyName();
 
     /**
-     * Return the tax assigned to this IC when used
-     *
-     * @return the tax
-     */
-    int getTriggertax();
-
-
-    /**
-     * Return the tax assigned to this IC when built
-     *
-     * @return the tax
-     */
-    int getBuildtax();
-
-    /**
      * Get the block implementing this IC, usually the sign
      *
      * @return the block

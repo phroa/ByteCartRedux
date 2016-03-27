@@ -132,29 +132,8 @@ public class ByteCartListener implements Listener {
             Triggerable myIC;
             try {
                 myIC = TriggeredSignFactory.getTriggeredIC(event.getTo().getBlock().getRelative(BlockFace.DOWN, 2), vehicle);
-
-                Player player;
-                int tax;
-
                 if (myIC != null) {
-
-                    if (ByteCartRedux.debug) {
-                        ByteCartRedux.log.info("ByteCartRedux: " + myIC.getName() + ".trigger()");
-                    }
-
                     myIC.trigger();
-
-                    if ((!vehicle.isEmpty())
-                            && vehicle.getPassenger() instanceof Player) {
-
-                        player = (Player) vehicle.getPassenger();
-                        tax = myIC.getTriggertax();
-
-                        if (tax != 0) {
-                            player.sendMessage(ChatColor.DARK_GRAY + "[Bytecart] " + "Echangeur (tarif: " + myIC.getTriggertax() + " eur0x)");
-                        }
-                    }
-
                 }
             } catch (ClassNotFoundException e1) {
                 // TODO Auto-generated catch block
@@ -179,10 +158,6 @@ public class ByteCartListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onVehicleCreate(VehicleCreateEvent event) {
-
-        Player player;
-        int tax;
-
         if (event.getVehicle() instanceof Minecart) // we care only of minecart
         {
 
@@ -193,22 +168,8 @@ public class ByteCartListener implements Listener {
             Triggerable myIC;
             try {
                 myIC = TriggeredSignFactory.getTriggeredIC(vehicle.getLocation().getBlock().getRelative(BlockFace.DOWN, 2), vehicle);
-
                 if (myIC != null) {
                     myIC.trigger();
-                    if ((!vehicle.isEmpty())
-                            && vehicle.getPassenger() instanceof Player) {
-
-                        player = (Player) vehicle.getPassenger();
-                        tax = myIC.getTriggertax();
-
-                        if (tax != 0) {
-                            player.sendMessage(
-                                    ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + "1 aiguillage traversé (tarif: " + myIC.getTriggertax()
-                                            + " eur0x");
-                        }
-                    }
-
                 }
             } catch (ClassNotFoundException e1) {
                 // TODO Auto-generated catch block
@@ -220,10 +181,7 @@ public class ByteCartListener implements Listener {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-
         }
-
-
     }
 
     /**
@@ -261,10 +219,6 @@ public class ByteCartListener implements Listener {
                     event.setLine(1, "");
                 } else {
                     player.sendMessage(ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + myIC.getFriendlyName() + " block created.");
-                    int tax = myIC.getBuildtax();
-                    if (tax > 0) {
-                        player.sendMessage(ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + "Tarif : " + myIC.getBuildtax() + " eur0x.");
-                    }
                     if (event.getLine(2).compareTo("") == 0) {
                         event.setLine(2, myIC.getFriendlyName());
                     }

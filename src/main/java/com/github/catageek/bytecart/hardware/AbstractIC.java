@@ -43,7 +43,6 @@ abstract public class AbstractIC implements IC {
     private static final Map<Location<World>, Boolean> IC_CACHE = new WeakHashMap<>();
     private static Location<World> location;
     private final BlockSnapshot block;
-    protected int Triggertax = 0;
     private RegistryInput[] input = new RegistryInput[9];
     private int inputArgs = 0;
     private RegistryOutput[] output = new RegistryOutput[6];
@@ -141,16 +140,6 @@ abstract public class AbstractIC implements IC {
     @Override
     public final String getBuildPermission() {
         return "bytecart." + getName();
-    }
-
-    @Override
-    public final int getTriggertax() {
-        return ByteCartRedux.rootNode.getNode("usetax", this.getName()).getInt();
-    }
-
-    @Override
-    public final int getBuildtax() {
-        return ByteCartRedux.rootNode.getNode("buildtax", this.getName()).getInt();
     }
 
     @Override
