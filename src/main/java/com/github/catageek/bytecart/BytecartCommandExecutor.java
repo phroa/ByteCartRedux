@@ -30,7 +30,6 @@ import com.github.catageek.bytecart.updater.UpdaterContentFactory;
 import com.github.catageek.bytecart.updater.UpdaterFactory;
 import com.github.catageek.bytecart.util.LogUtil;
 import com.github.catageek.bytecart.updater.Wanderer;
-import com.github.catageek.bytecart.plugins.BCDynmapPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -307,11 +306,6 @@ public class BytecartCommandExecutor implements CommandExecutor {
                         , full_reset, isnew)
                         , true);
             }
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("bcdmapsync")) {
-            BCDynmapPlugin.removeObsoleteMarkers();
             return true;
         }
 
