@@ -19,7 +19,7 @@
 package code.husky.sqlite;
 
 import code.husky.Database;
-import org.bukkit.plugin.Plugin;
+import com.github.catageek.ByteCart.ByteCartPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +47,7 @@ public class SQLite extends Database {
      * @param dbLocation
      *            Location of the Database (Must end in .db)
      */
-    public SQLite(Plugin plugin, String dbLocation) {
+    public SQLite(ByteCartPlugin plugin, String dbLocation) {
         super(plugin);
         this.dbLocation = dbLocation;
         this.connection = null;
@@ -60,16 +60,16 @@ public class SQLite extends Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                plugin.getLogger().log(Level.SEVERE, "Unable to create database!");
+                plugin.getLog().log(Level.SEVERE, "Unable to create database!");
             }
         }
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toPath().toString() + "/" + dbLocation);
         } catch (SQLException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not connect to SQLite server! because: " + e.getMessage());
+            plugin.getLog().log(Level.SEVERE, "Could not connect to SQLite server! because: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            plugin.getLogger().log(Level.SEVERE, "JDBC Driver not found!");
+            plugin.getLog().log(Level.SEVERE, "JDBC Driver not found!");
         }
         return connection;
     }
@@ -95,7 +95,7 @@ public class SQLite extends Database {
             try {
                 connection.close();
             } catch (SQLException e) {
-                plugin.getLogger().log(Level.SEVERE, "Error closing the SQLite Connection!");
+                plugin.getLog().log(Level.SEVERE, "Error closing the SQLite Connection!");
                 e.printStackTrace();
             }
         }

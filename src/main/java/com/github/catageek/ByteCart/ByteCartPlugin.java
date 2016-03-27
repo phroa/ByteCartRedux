@@ -21,6 +21,7 @@ package com.github.catageek.ByteCart;
 import com.github.catageek.ByteCart.AddressLayer.Resolver;
 import com.github.catageek.ByteCart.Wanderer.WandererManager;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 
@@ -49,4 +50,9 @@ public interface ByteCartPlugin {
      * @return the wanderer factory
      */
     public WandererManager getWandererManager();
+
+    /**
+     * @return the folder to save databases in
+     */
+    public File getDataFolder();
 }

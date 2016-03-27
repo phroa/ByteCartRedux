@@ -18,7 +18,7 @@
  */
 package code.husky;
 
-import org.bukkit.plugin.Plugin;
+import com.github.catageek.ByteCart.ByteCartPlugin;
 
 import java.sql.Connection;
 
@@ -33,7 +33,7 @@ public abstract class Database {
     /**
      * Plugin instance, use for plugin.getDataFolder() and plugin.getLogger()
      */
-    protected Plugin plugin;
+    protected ByteCartPlugin plugin;
 
     /**
      * Creates a new Database
@@ -41,7 +41,7 @@ public abstract class Database {
      * @param plugin
      *            Plugin instance
      */
-    protected Database(Plugin plugin) {
+    protected Database(ByteCartPlugin plugin) {
         this.plugin = plugin;
     }
 

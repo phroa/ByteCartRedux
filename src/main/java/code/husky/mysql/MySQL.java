@@ -19,7 +19,7 @@
 package code.husky.mysql;
 
 import code.husky.Database;
-import org.bukkit.plugin.Plugin;
+import com.github.catageek.ByteCart.ByteCartPlugin;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -60,7 +60,7 @@ public class MySQL extends Database {
      * @param password
      *            Password
      */
-    public MySQL(Plugin plugin, String hostname, String port, String database, String username, String password) {
+    public MySQL(ByteCartPlugin plugin, String hostname, String port, String database, String username, String password) {
         super(plugin);
         this.hostname = hostname;
         this.port = port;
@@ -77,9 +77,9 @@ public class MySQL extends Database {
             connection =
                     DriverManager.getConnection("jdbc:mysql://" + this.hostname + ":" + this.port + "/" + this.database, this.user, this.password);
         } catch (SQLException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not connect to MySQL server! because: " + e.getMessage());
+            plugin.getLog().log(Level.SEVERE, "Could not connect to MySQL server! because: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            plugin.getLogger().log(Level.SEVERE, "JDBC Driver not found!");
+            plugin.getLog().log(Level.SEVERE, "JDBC Driver not found!");
         }
         return connection;
     }
@@ -100,7 +100,7 @@ public class MySQL extends Database {
             try {
                 connection.close();
             } catch (SQLException e) {
-                plugin.getLogger().log(Level.SEVERE, "Error closing the MySQL Connection!");
+                plugin.getLog().log(Level.SEVERE, "Error closing the MySQL Connection!");
                 e.printStackTrace();
             }
         }
