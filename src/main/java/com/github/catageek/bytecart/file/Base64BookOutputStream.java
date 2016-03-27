@@ -19,14 +19,14 @@
 package com.github.catageek.bytecart.file;
 
 import com.github.catageek.bytecart.util.Base64;
-import org.bukkit.inventory.meta.BookMeta;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 /**
  * Base64 encoder/decoder for BookOutPutStream
  */
 final class Base64BookOutputStream extends BookOutputStream {
 
-    public Base64BookOutputStream(BookMeta book) {
+    public Base64BookOutputStream(ItemStack book) {
         super(book);
     }
 

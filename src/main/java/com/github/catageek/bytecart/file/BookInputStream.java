@@ -19,8 +19,9 @@
 package com.github.catageek.bytecart.file;
 
 import com.github.catageek.bytecart.util.Base64;
-import org.bukkit.ChatColor;
-import org.bukkit.inventory.meta.BookMeta;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.io.ByteArrayInputStream;
 
@@ -33,7 +34,7 @@ class BookInputStream extends ByteArrayInputStream {
      * @param book the book
      * @param binary set binary mode
      */
-    BookInputStream(BookMeta book, boolean binary) {
+    BookInputStream(ItemStack book, boolean binary) {
         super(readPages(book, binary));
     }
 
@@ -51,13 +52,11 @@ class BookInputStream extends ByteArrayInputStream {
      * @param binary binary mode
      * @return the array of bytes
      */
-    private static byte[] readPages(BookMeta book, boolean binary) {
-        int len = book.getPageCount() << BookFile.PAGELOG;
-        StringBuilder sb = new StringBuilder(len);
+    private static byte[] readPages(ItemStack book, boolean binary) {
+        int len = book.get(Keys.BOOK_PAGES).get().size() << BookFile.PAGELOG;
 
-        for (int i = 1; i <= book.getPageCount(); ++i) {
-            sb.append(ChatColor.stripColor(book.getPage(i)));
-        }
+        StringBuilder sb = new StringBuilder(len);
+        book.get(Keys.BOOK_PAGES).get().stream().map(Text::toPlain).forEach(sb::append);
 
         sb.trimToSize();
         if (binary) {

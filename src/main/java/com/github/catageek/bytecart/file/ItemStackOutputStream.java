@@ -18,7 +18,7 @@
  */
 package com.github.catageek.bytecart.file;
 
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.io.OutputStream;
 
@@ -27,14 +27,14 @@ import java.io.OutputStream;
  */
 abstract class ItemStackOutputStream extends OutputStream {
 
-    private final ItemStack ItemStack;
+    private final ItemStack itemStack;
 
-    ItemStackOutputStream(org.bukkit.inventory.ItemStack itemStack) {
+    ItemStackOutputStream(ItemStack itemStack) {
         super();
-        ItemStack = itemStack;
+        this.itemStack = itemStack;
     }
 
     final ItemStack getItemStack() {
-        return ItemStack;
+        return itemStack;
     }
 }

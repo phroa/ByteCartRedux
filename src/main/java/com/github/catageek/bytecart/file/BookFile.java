@@ -19,17 +19,17 @@
 package com.github.catageek.bytecart.file;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.property.SlotIndex;
+import org.spongepowered.api.text.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -46,8 +46,7 @@ public final class BookFile implements BCFile {
     private final String author;
     private final Inventory container;
     private final boolean binarymode;
-    private final int slot;
-    private BookMeta book;
+    private final SlotIndex slot;
     private ItemStack stack;
     private ItemStackMetaOutputStream outputstream;
     private boolean isClosed = false;
@@ -71,31 +70,22 @@ public final class BookFile implements BCFile {
     public BookFile(Inventory inventory, int index, boolean binary, String name) {
         this.binarymode = binary;
         this.container = inventory;
-        this.slot = index;
-        this.stack = inventory.getItem(index);
-        if (stack == null || !stack.getType().equals(Material.WRITTEN_BOOK)) {
-            inventory.setItem(index, (stack = new ItemStack(Material.WRITTEN_BOOK)));
-        }
-        this.book = (BookMeta) (stack.hasItemMeta() ? stack.getItemMeta() : Bukkit.getServer().getItemFactory().getItemMeta(Material.WRITTEN_BOOK));
+        this.slot = new SlotIndex(index);
+        this.stack = inventory.query(slot).peek().orElse(null);
 
-        // fix corrupted books in MC 1.8
-        try {
-            List<String> test = this.book.getPages();
-        } catch (NullPointerException e) {
-            inventory.setItem(index, (stack = new ItemStack(Material.WRITTEN_BOOK)));
-            this.book =
-                    (BookMeta) (stack.hasItemMeta() ? stack.getItemMeta() : Bukkit.getServer().getItemFactory().getItemMeta(Material.WRITTEN_BOOK));
+        if (stack == null || !stack.getItem().equals(ItemTypes.WRITTEN_BOOK)) {
+            inventory.query(slot).set(stack = ItemStack.of(ItemTypes.WRITTEN_BOOK, 1));
         }
 
-        if (!this.book.hasAuthor() || !this.book.getAuthor().startsWith(prefix)) {
+        if (!this.stack.get(Keys.BOOK_AUTHOR).isPresent() || !this.stack.get(Keys.BOOK_AUTHOR).get().toPlain().startsWith(prefix)) {
             if (name != null && name.length() != 0) {
                 this.author = prefix + "." + name;
             } else {
                 this.author = prefix;
             }
-            this.book.setAuthor(author);
+            this.stack.offer(Keys.BOOK_AUTHOR, Text.of(author));
         } else {
-            this.author = this.book.getAuthor();
+            this.author = this.stack.get(Keys.BOOK_AUTHOR).get().toPlain();
         }
     }
 
@@ -107,11 +97,9 @@ public final class BookFile implements BCFile {
      * @return true if the slot contains a file and the author field begins with author configuration parameter
      */
     public static boolean isBookFile(Inventory inventory, int index) {
-        ItemStack stack = inventory.getItem(index);
-        if (stack != null && stack.getType().equals(Material.WRITTEN_BOOK) && stack.hasItemMeta()) {
-            return ((BookMeta) stack.getItemMeta()).getAuthor().startsWith(prefix);
-        }
-        return false;
+        return inventory.query(new SlotIndex(index)).peek().filter(stack ->
+                stack.supports(Keys.BOOK_AUTHOR) && stack.get(Keys.BOOK_AUTHOR).get().toPlain().startsWith(prefix))
+                .isPresent();
     }
 
     @Override
@@ -122,18 +110,18 @@ public final class BookFile implements BCFile {
     @Override
     public void clear() {
         if (outputstream != null) {
-            this.outputstream.getBook().setPages(new ArrayList<String>());
+            this.outputstream.getBook().offer(Keys.BOOK_PAGES, new ArrayList<Text>());
         } else {
-            book.setPages(new ArrayList<String>());
+            stack.offer(Keys.BOOK_PAGES, new ArrayList<Text>());
         }
     }
 
     @Override
     public boolean isEmpty() {
         if (outputstream != null) {
-            return !outputstream.getBook().hasPages() || outputstream.getBook().getPage(1).length() == 0;
+            return !outputstream.getBook().supports(Keys.BOOK_PAGES) || outputstream.getBook().get(Keys.BOOK_PAGES).get().get(0).isEmpty();
         } else {
-            return !book.hasPages() || book.getPage(1).length() == 0;
+            return !stack.supports(Keys.BOOK_PAGES) || stack.get(Keys.BOOK_PAGES).get().get(0).isEmpty();
         }
     }
 
@@ -148,7 +136,7 @@ public final class BookFile implements BCFile {
         }
 
         @SuppressWarnings("resource")
-        BookOutputStream bookoutputstream = binarymode ? new Base64BookOutputStream(book) : new BookOutputStream(book);
+        BookOutputStream bookoutputstream = binarymode ? new Base64BookOutputStream(stack) : new BookOutputStream(stack);
         return outputstream = new ItemStackMetaOutputStream(stack, bookoutputstream);
     }
 
@@ -161,7 +149,7 @@ public final class BookFile implements BCFile {
         if (outputstream != null && outputstream.getBuffer().length != 0) {
             return new BookInputStream(outputstream);
         }
-        return new BookInputStream(book, binarymode);
+        return new BookInputStream(stack, binarymode);
     }
 
     @Override
@@ -185,10 +173,9 @@ public final class BookFile implements BCFile {
                 throw new IOException("Book File has already been closed");
             }
             outputstream.flush();
-            book = outputstream.getBook();
+            stack.copyFrom(outputstream.getBook());
         } else {
-            stack.setItemMeta(book);
-            this.getContainer().setItem(slot, stack);
+            this.getContainer().query(slot).set(stack);
         }
     }
 
@@ -203,9 +190,9 @@ public final class BookFile implements BCFile {
             throw new IOException("Book File has already been closed");
         }
         if (outputstream != null) {
-            return outputstream.getBook().getTitle();
+            return outputstream.getBook().get(Keys.DISPLAY_NAME).get().toPlain();
         } else {
-            return book.getTitle();
+            return stack.get(Keys.DISPLAY_NAME).get().toPlain();
         }
     }
 
@@ -215,10 +202,10 @@ public final class BookFile implements BCFile {
             throw new IOException("Book File has already been closed");
         }
         if (outputstream != null) {
-            outputstream.getBook().setTitle(s);
-            book = outputstream.getBook();
+            outputstream.getBook().offer(Keys.DISPLAY_NAME, Text.of(s));
+            stack = outputstream.getBook();
         } else {
-            book.setTitle(s);
+            stack.offer(Keys.DISPLAY_NAME, Text.of(s));
         }
     }
 }

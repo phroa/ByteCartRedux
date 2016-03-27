@@ -19,10 +19,13 @@
 package com.github.catageek.bytecart.file;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.inventory.meta.BookMeta;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 /**
@@ -30,12 +33,12 @@ import java.io.IOException;
  */
 class BookOutputStream extends ByteArrayOutputStream {
 
-    private final BookMeta book;
+    private final ItemStack book;
 
     private boolean isClosed = false;
 
-    BookOutputStream(BookMeta book) {
-        super(book.getPageCount() * BookFile.PAGESIZE);
+    BookOutputStream(ItemStack book) {
+        super(book.get(Keys.BOOK_PAGES).get().size() * BookFile.PAGESIZE);
         this.book = book;
     }
 
@@ -81,18 +84,18 @@ class BookOutputStream extends ByteArrayOutputStream {
         // number of pages to write less 1
         int count = len / BookFile.PAGESIZE;
 
-        String[] strings = new String[count + 1];
+        Text[] strings = new Text[count + 1];
 
         // loop for full pages
         for (i = 0; i < count; i++) {
-            strings[i] = sb.substring(i << BookFile.PAGELOG, j << BookFile.PAGELOG);
+            strings[i] = Text.of(sb.substring(i << BookFile.PAGELOG, j << BookFile.PAGELOG));
             j++;
         }
 
         // last page
-        strings[count] = sb.substring(i << BookFile.PAGELOG);
+        strings[count] = Text.of(sb.substring(i << BookFile.PAGELOG));
 
-        this.book.setPages(strings);
+        this.book.offer(Keys.BOOK_PAGES, Arrays.asList(strings));
 
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux : Flushing " + len + " bytes of data to meta");
@@ -121,8 +124,8 @@ class BookOutputStream extends ByteArrayOutputStream {
      *
      * @return the book
      */
-    final BookMeta getBook() {
-        return book;
+    final ItemStack getBook() {
+        return this.book;
     }
 }
 

@@ -18,7 +18,7 @@
  */
 package com.github.catageek.bytecart.file;
 
-import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.item.inventory.Inventory;
 
 import java.io.Closeable;
 import java.io.Flushable;

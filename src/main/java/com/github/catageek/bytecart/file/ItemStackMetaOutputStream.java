@@ -19,8 +19,7 @@
 package com.github.catageek.bytecart.file;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.io.IOException;
 
@@ -29,7 +28,7 @@ import java.io.IOException;
  */
 final class ItemStackMetaOutputStream extends ItemStackOutputStream {
 
-    private final BookOutputStream OutputStream;
+    private final BookOutputStream outputStream;
     private boolean isClosed = false;
 
 
@@ -39,7 +38,7 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
      */
     ItemStackMetaOutputStream(ItemStack stack, BookOutputStream outputstream) {
         super(stack);
-        OutputStream = outputstream;
+        this.outputStream = outputstream;
     }
 
     @Override
@@ -47,7 +46,7 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         if (isClosed) {
             throw new IOException("ItemStack has been already closed");
         }
-        OutputStream.write(cbuf, off, len);
+        outputStream.write(cbuf, off, len);
     }
 
     @Override
@@ -55,8 +54,8 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         if (isClosed) {
             throw new IOException("ItemStack has been already closed");
         }
-        OutputStream.flush();
-        getItemStack().setItemMeta(OutputStream.getBook());
+        outputStream.flush();
+        getItemStack().copyFrom(outputStream.getBook());
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux : Flushing meta to itemstack");
         }
@@ -70,7 +69,7 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux : Closing itemstack");
         }
-        OutputStream.close();
+        outputStream.close();
         isClosed = true;
     }
 
@@ -79,7 +78,7 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         if (isClosed) {
             throw new IOException("ItemStack has been already closed");
         }
-        OutputStream.write(b);
+        outputStream.write(b);
     }
 
     /**
@@ -88,7 +87,7 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
      * @return the buffer
      */
     final byte[] getBuffer() {
-        return OutputStream.getBuffer();
+        return outputStream.getBuffer();
     }
 
     /**
@@ -96,7 +95,7 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
      *
      * @return the book
      */
-    final BookMeta getBook() {
-        return OutputStream.getBook();
+    final ItemStack getBook() {
+        return outputStream.getBook();
     }
 }
