@@ -158,9 +158,9 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
      */
     protected boolean isAddressMatching() {
         try {
-            return this.getInput(2).getAmount() == this.getInput(5).getAmount()
-                    && this.getInput(1).getAmount() == this.getInput(4).getAmount()
-                    && this.getInput(0).getAmount() == this.getInput(3).getAmount();
+            return this.getInput(2).getValue() == this.getInput(5).getValue()
+                    && this.getInput(1).getValue() == this.getInput(4).getValue()
+                    && this.getInput(0).getValue() == this.getInput(3).getValue();
         } catch (NullPointerException e) {
             // there is no address on sign
         }

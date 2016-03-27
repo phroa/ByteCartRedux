@@ -30,29 +30,29 @@ import java.util.ListIterator;
  *
  * @param <T> InputPin or OutputPin type
  */
-public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
+public class PinRegistry<T> implements RegistryBoth {
 
-    final protected List<T> PinArray;
+    private final List<T> pins;
 
     /**
      * @param pins an array of pins
      */
     public PinRegistry(T[] pins) {
-        this.PinArray = Arrays.asList(pins);
+        this.pins = Arrays.asList(pins);
     }
 
     @Override
     public int length() {
-        return PinArray.size();
+        return pins.size();
     }
 
     @Override
-    public int getAmount() {
+    public int getValue() {
 
         int amount = 0;
         int i = 1;
 
-        for (ListIterator<T> it = this.PinArray.listIterator(this.length()); it.hasPrevious(); i = i << 1) {
+        for (ListIterator<T> it = this.pins.listIterator(this.length()); it.hasPrevious(); i = i << 1) {
             if (it.previous() != null) {
 
                 it.next();
@@ -72,7 +72,7 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
         int i = amount;
 
 
-        for (ListIterator<T> it = this.PinArray.listIterator(this.length()); it.hasPrevious(); i = i >> 1) {
+        for (ListIterator<T> it = this.pins.listIterator(this.length()); it.hasPrevious(); i = i >> 1) {
             if (it.previous() != null) {
 
                 it.next();
@@ -92,12 +92,12 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
 
     @Override
     public void setBit(int index, boolean value) {
-        ((OutputPin) this.PinArray.get(index)).write(value);
+        ((OutputPin) this.pins.get(index)).write(value);
     }
 
     @Override
     public boolean getBit(int index) {
-        return ((InputPin) this.PinArray.get(index)).read();
+        return ((InputPin) this.pins.get(index)).read();
     }
 
 

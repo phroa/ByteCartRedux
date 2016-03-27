@@ -33,9 +33,9 @@ final class BC7012 extends BC7013 implements Triggerable {
 
     @Override
     protected String format(RegistryInput wire, AddressRouted InvAddress) {
-        return "" + wire.getAmount() + "."
-                + InvAddress.getTrack().getAmount() + "."
-                + InvAddress.getStation().getAmount();
+        return "" + wire.getValue() + "."
+                + InvAddress.getTrack().getValue() + "."
+                + InvAddress.getStation().getValue();
     }
 
     @Override

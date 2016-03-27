@@ -25,9 +25,9 @@ package com.github.catageek.bytecart.hardware;
  */
 public class SubRegistry<T extends Registry> implements RegistryBoth {
 
-    private final Registry Registry;
-    private final int Length;
-    private final int First;
+    private final T registry;
+    private final int length;
+    private final int first;
 
     /**
      * @param reg the original registry
@@ -35,37 +35,36 @@ public class SubRegistry<T extends Registry> implements RegistryBoth {
      * @param first the index of the first bit of the restricted view
      */
     public SubRegistry(T reg, int length, int first) {
-        this.Registry = reg;
-        this.Length = length;
-        this.First = first;
-
+        this.registry = reg;
+        this.length = length;
+        this.first = first;
     }
 
     @Override
     public int length() {
-        return this.Length;
+        return this.length;
     }
 
     @Override
-    public int getAmount() {
-        return (this.Registry.getAmount() >> (this.Registry.length() - (this.First + this.length())) & (1 << this.length()) - 1);
+    public int getValue() {
+        return (this.registry.getValue() >> (this.registry.length() - (this.first + this.length())) & (1 << this.length()) - 1);
     }
 
     @Override
     public void setAmount(int amount) {
-        ((RegistryOutput) this.Registry).setAmount(
-                this.Registry.getAmount() - this.getAmount() + ((amount % (1 << this.length())) << (this.Registry.length() - (this.First + this
+        ((RegistryOutput) this.registry).setAmount(
+                this.registry.getValue() - this.getValue() + ((amount % (1 << this.length())) << (this.registry.length() - (this.first + this
                         .length()))));
     }
 
     @Override
     public void setBit(int index, boolean value) {
-        ((RegistryOutput) this.Registry).setBit(index + this.First, value);
+        ((RegistryOutput) this.registry).setBit(index + this.first, value);
     }
 
     @Override
     public boolean getBit(int index) {
-        return ((RegistryInput) this.Registry).getBit(index + this.First);
+        return ((RegistryInput) this.registry).getBit(index + this.first);
     }
 
 }

@@ -19,13 +19,16 @@
 package com.github.catageek.bytecart.hardware;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import com.github.catageek.bytecart.io.ComponentSign;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -37,66 +40,63 @@ import java.util.WeakHashMap;
  */
 abstract public class AbstractIC implements IC {
 
-    private static final Map<String, Boolean> icCache = new WeakHashMap<String, Boolean>();
-    private static org.bukkit.Location emptyLocation = new org.bukkit.Location(null, 0, 0, 0);
-    final private Block Block;
-    final private org.bukkit.Location Location;
+    private static final Map<Location<World>, Boolean> IC_CACHE = new WeakHashMap<>();
+    private static Location<World> location;
+    private final BlockSnapshot block;
     protected int Triggertax = 0;
     private RegistryInput[] input = new RegistryInput[9];
-    private int input_args = 0;
+    private int inputArgs = 0;
     private RegistryOutput[] output = new RegistryOutput[6];
-    private int output_args = 0;
+    private int outputArgs = 0;
 
-    public AbstractIC(Block block) {
-        this.Block = block;
-        if (block != null) {
-            this.Location = block.getLocation();
-        } else {
-            this.Location = new org.bukkit.Location(null, 0, 0, 0);
-        }
+    public AbstractIC(BlockSnapshot block) {
+        this.block = block;
+        location = block.getLocation().orElse(new Location<>(Sponge.getServer().getWorlds().toArray(new World[0])[0], 0, 0, 0));
     }
 
-    static public final void removeFromCache(Block block) {
-        icCache.remove(block.getLocation(emptyLocation).toString());
+    public static void removeFromCache(BlockSnapshot block) {
+        IC_CACHE.remove(location = block.getLocation().get());
     }
 
     // This function checks if we have a ByteCartRedux sign at this location
-    static public final boolean checkEligibility(Block b) {
+    public static boolean checkEligibility(BlockSnapshot b) {
 
-        if (b.getType() != Material.SIGN_POST && b.getType() != Material.WALL_SIGN) {
+        if (!b.supports(Keys.SIGN_LINES)) {
             return false;
         }
 
-        Boolean ret;
-        String s;
-        if ((ret = icCache.get(s = b.getLocation(emptyLocation).toString())) != null) {
-            return ret;
+        if (IC_CACHE.containsKey(location = b.getLocation().get())) {
+            return true;
         }
 
-        String line_content = ((Sign) b.getState()).getLine(1);
+        boolean ret;
+
+        String secondLine = b.get(Keys.SIGN_LINES).get().get(1).toPlain();
 
         if (ByteCartRedux.rootNode.getNode("FixBroken18").getBoolean(false)) {
-            if (ret = AbstractIC.checkLooseEligibility(line_content)) {
-                (new ComponentSign(b)).setLine(1, "[" + line_content + "]");
+            if (ret = AbstractIC.checkLooseEligibility(secondLine)) {
+                List<Text> list = b.get(Keys.SIGN_LINES).get();
+                list.set(1, Text.of("[", secondLine, "]"));
+                b.with(Keys.SIGN_LINES, list);
             } else {
-                ret = AbstractIC.checkEligibility(line_content);
+                ret = AbstractIC.checkEligibility(secondLine);
             }
         } else {
-            ret = AbstractIC.checkEligibility(line_content);
+            ret = AbstractIC.checkEligibility(secondLine);
         }
-        icCache.put(s, ret);
+        IC_CACHE.put(location, ret);
         return ret;
     }
 
-    static public final boolean checkEligibility(String s) {
+    public static boolean checkEligibility(String s) {
 
-        return s.matches("^\\[BC[0-9]{4,4}\\]$");
+        return s.matches("^\\[BC[0-9]{4}\\]$");
 
     }
 
-    static public final boolean checkLooseEligibility(String s) {
+    public static boolean checkLooseEligibility(String s) {
 
-        return s.matches("^BC[0-9]{4,4}$");
+        return s.matches("^BC[0-9]{4}$");
 
     }
 
@@ -105,17 +105,17 @@ abstract public class AbstractIC implements IC {
 
     @Override
     public String getFriendlyName() {
-        return ((Sign) this.getBlock().getState()).getLine(2);
+        return block.get(Keys.SIGN_LINES).get().get(2).toPlain();
     }
 
     @Override
     public final void addInputRegistry(RegistryInput reg) {
-        this.input[this.input_args++] = reg;
+        this.input[this.inputArgs++] = reg;
     }
 
     @Override
     public final void addOutputRegistry(RegistryOutput reg) {
-        this.output[this.output_args++] = reg;
+        this.output[this.outputArgs++] = reg;
     }
 
     @Override
@@ -129,23 +129,13 @@ abstract public class AbstractIC implements IC {
     }
 
     @Override
-    public final BlockFace getCardinal() {
-        try {
-            BlockFace f = ((org.bukkit.material.Sign) this.getBlock().getState().getData()).getFacing().getOppositeFace();
-            f = MathUtil.straightUp(f);
-            if (f == BlockFace.UP) {
-                ByteCartRedux.log.severe("ByteCartRedux: Tilted sign found at " + this.getLocation() + ". Please straight it up in the axis of the track");
-            }
-            return f;
-        } catch (ClassCastException e) {
-            // this is not a sign
-            return null;
-        }
+    public final Direction getCardinal() {
+        return MathUtil.straightUp(block.get(Keys.DIRECTION).get().getOpposite());
     }
 
     @Override
-    public final Block getBlock() {
-        return Block;
+    public final BlockSnapshot getBlock() {
+        return block;
     }
 
     @Override
@@ -164,7 +154,7 @@ abstract public class AbstractIC implements IC {
     }
 
     @Override
-    public org.bukkit.Location getLocation() {
-        return Location;
+    public Location getLocation() {
+        return block.getLocation().get();
     }
 }

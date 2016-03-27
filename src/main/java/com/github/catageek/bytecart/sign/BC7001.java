@@ -84,7 +84,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
             this.addInputRegistry(new PinRegistry<InputPin>(wire));
 
             // if the wire is on
-            if (this.getInput(0).getAmount() > 0) {
+            if (this.getInput(0).getValue() > 0) {
                 if (this.wasTrain(this.getLocation())) {
                     ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(this.getLocation());
                 }

@@ -60,6 +60,6 @@ public class Delay implements Externalizable {
      * @return the value
      */
     int getValue() {
-        return value.getAmount();
+        return value.getValue();
     }
 }

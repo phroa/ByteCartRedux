@@ -96,7 +96,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
         this.AddOutputIO();
 
         // if detector is on, the signal is red (= on)
-        if (this.getInput(0).getAmount() != 0) {
+        if (this.getInput(0).getValue() != 0) {
 
             // setting red signal
             this.getOutput(0).setAmount(1);

@@ -73,7 +73,7 @@ class UpdaterBackBone extends AbstractRegionUpdater implements Wanderer {
     public final int getTrackNumber() {
         Address address;
         if ((address = getSignAddress()).isValid()) {
-            return address.getRegion().getAmount();
+            return address.getRegion().getValue();
         }
         return -1;
     }

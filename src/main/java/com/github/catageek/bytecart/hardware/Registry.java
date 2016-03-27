@@ -27,7 +27,7 @@ public interface Registry {
      *
      * @return The value stored in this registry.
      */
-    int getAmount();
+    int getValue();
 
     /**
      *

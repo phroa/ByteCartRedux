@@ -44,7 +44,7 @@ final class Hopcount implements Externalizable {
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeByte(this.value.getAmount());
+        out.writeByte(this.value.getValue());
     }
 
     @Override
@@ -53,6 +53,6 @@ final class Hopcount implements Externalizable {
     }
 
     final int getValue() {
-        return value.getAmount();
+        return value.getValue();
     }
 }

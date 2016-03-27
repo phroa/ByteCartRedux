@@ -209,7 +209,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
     public final int getTrackNumber() {
         Address address;
         if ((address = getSignAddress()).isValid()) {
-            return address.getTrack().getAmount();
+            return address.getTrack().getValue();
         }
         return -1;
     }

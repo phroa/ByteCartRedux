@@ -212,8 +212,8 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
 
         DirectionRegistry face;
         // same region : lookup destination track
-        if (IPaddress != null && IPaddress.getRegion().getAmount() == sign.getRegion().getAmount() && IPaddress.getTTL() != 0) {
-            int destination = this.destination.getTrack().getAmount();
+        if (IPaddress != null && IPaddress.getRegion().getValue() == sign.getRegion().getValue() && IPaddress.getTTL() != 0) {
+            int destination = this.destination.getTrack().getValue();
             DirectionRegistry out = RoutingTable.getDirection(destination);
             if (out != null) {
                 // trigger event
@@ -299,7 +299,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
 
     @Override
     public final int getOriginTrack() {
-        return Sign.getTrack().getAmount();
+        return Sign.getTrack().getValue();
     }
 
     @Override

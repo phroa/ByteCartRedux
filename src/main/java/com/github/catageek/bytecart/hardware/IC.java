@@ -18,9 +18,9 @@
  */
 package com.github.catageek.bytecart.hardware;
 
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
 
 /**
  * Represents an IC, i.e an component with input and output
@@ -68,7 +68,7 @@ public interface IC {
      *
      * @return the block
      */
-    Block getBlock();
+    BlockSnapshot getBlock();
 
     /**
      * Get the location of the IC, usually the location of the sign
@@ -82,7 +82,7 @@ public interface IC {
      *
      * @return the same direction as the player is facing when looking at the sign
      */
-    BlockFace getCardinal();
+    Direction getCardinal();
 
     /**
      * Register an input for this IC

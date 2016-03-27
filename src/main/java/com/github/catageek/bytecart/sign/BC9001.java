@@ -167,14 +167,14 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
         SignPreStationEvent event;
         SignPostStationEvent event1;
         // test if every destination field matches sign field
-        if (this.isAddressMatching() && this.getInput(6).getAmount() == 0) {
+        if (this.isAddressMatching() && this.getInput(6).getValue() == 0) {
             event = new SignPreStationEvent(this, Side.LEVER_ON); // power levers if matching
         } else {
             event = new SignPreStationEvent(this, Side.LEVER_OFF); // unpower levers if not matching
         }
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-        if (event.getSide().equals(Side.LEVER_ON) && this.getInput(6).getAmount() == 0) {
+        if (event.getSide().equals(Side.LEVER_ON) && this.getInput(6).getValue() == 0) {
             this.getOutput(0).setAmount(3); // power levers if matching
             event1 = new SignPostStationEvent(this, Side.LEVER_ON);
         } else {

@@ -55,7 +55,7 @@ final class BC8020 extends BC8010 implements BCRouter, Triggerable, HasRoutingTa
         try {
             if (IPaddress.getTTL() != 0) {
                 // lookup destination region
-                return RoutingTable.getDirection(IPaddress.getRegion().getAmount()).getBlockFace();
+                return RoutingTable.getDirection(IPaddress.getRegion().getValue()).getBlockFace();
             }
         } catch (NullPointerException e) {
         }

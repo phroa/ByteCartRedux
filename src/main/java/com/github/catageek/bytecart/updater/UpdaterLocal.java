@@ -108,7 +108,7 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
 
         int stationfield = -1;
         if (getSignAddress().isValid()) {
-            stationfield = this.getSignAddress().getStation().getAmount();
+            stationfield = this.getSignAddress().getStation().getValue();
         }
 
         if (length != 1) {
@@ -199,9 +199,9 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
     }
 
     private final boolean needUpdate() {
-        return getSignAddress().getRegion().getAmount() != this.getCounter().getCount(counterSlot.REGION.slot)
-                || getSignAddress().getTrack().getAmount() != this.getCounter().getCount(counterSlot.RING.slot)
-                || !isInSubnet(getSignAddress().getStation().getAmount(), this.getNetmask());
+        return getSignAddress().getRegion().getValue() != this.getCounter().getCount(counterSlot.REGION.slot)
+                || getSignAddress().getTrack().getValue() != this.getCounter().getCount(counterSlot.RING.slot)
+                || !isInSubnet(getSignAddress().getStation().getValue(), this.getNetmask());
     }
 
 
@@ -218,7 +218,7 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
     public int getTrackNumber() {
         Address address;
         if ((address = this.getSignAddress()).isValid()) {
-            return address.getTrack().getAmount();
+            return address.getTrack().getValue();
         }
         return -1;
     }

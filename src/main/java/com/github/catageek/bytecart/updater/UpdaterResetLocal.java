@@ -47,7 +47,7 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
         }
         this.getEnd().clear();
         // save the region number
-        this.getContent().setCurrent(this.getSignAddress().getRegion().getAmount());
+        this.getContent().setCurrent(this.getSignAddress().getRegion().getValue());
         save();
     }
 
@@ -117,7 +117,7 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
     public BlockFace giveRouterDirection() {
         // check if we are in the good region
         if (this.getSignAddress().isValid()
-                && this.getSignAddress().getRegion().getAmount() != getWandererRegion()) {
+                && this.getSignAddress().getRegion().getValue() != getWandererRegion()) {
             // case this is not the right region
             DirectionRegistry dir = RoutingTable.getDirection(getWandererRegion());
             if (dir != null) {

@@ -49,12 +49,12 @@ class BC7014 extends BC7010 implements Triggerable {
 
         RegistryInput wire = this.getInput(0);
 
-        if (wire == null || wire.getAmount() == 0) {
+        if (wire == null || wire.getValue() == 0) {
             return null;
         }
 
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: " + this.getName() + " wire : " + wire.getAmount());
+            ByteCartRedux.log.info("ByteCartRedux: " + this.getName() + " wire : " + wire.getValue());
         }
 
         return AddressFactory.getAddress(format(wire, InvAddress));
@@ -68,9 +68,9 @@ class BC7014 extends BC7010 implements Triggerable {
      * @return a string containing the address
      */
     protected String format(RegistryInput wire, AddressRouted InvAddress) {
-        return "" + InvAddress.getRegion().getAmount() + "."
-                + InvAddress.getTrack().getAmount() + "."
-                + wire.getAmount();
+        return "" + InvAddress.getRegion().getValue() + "."
+                + InvAddress.getTrack().getValue() + "."
+                + wire.getValue();
     }
 
     /**

@@ -120,7 +120,7 @@ public final class DirectionRegistry implements Partitionable {
 
     @Override
     public final int getAmount() {
-        return this.registry.getAmount();
+        return this.registry.getValue();
     }
 
     /**

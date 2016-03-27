@@ -27,6 +27,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.util.Vector;
+import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -72,26 +73,26 @@ public final class MathUtil {
 
     }
 
-    public static final BlockFace straightUp(BlockFace b) {
+    public static final Direction straightUp(Direction b) {
         switch (b) {
             case NORTH:
-            case NORTH_NORTH_WEST:
-            case NORTH_NORTH_EAST:
-                return BlockFace.NORTH;
+            case NORTH_NORTHWEST:
+            case NORTH_NORTHEAST:
+                return Direction.NORTH;
             case EAST:
-            case EAST_NORTH_EAST:
-            case EAST_SOUTH_EAST:
-                return BlockFace.EAST;
+            case EAST_NORTHEAST:
+            case EAST_SOUTHEAST:
+                return Direction.EAST;
             case SOUTH:
-            case SOUTH_SOUTH_WEST:
-            case SOUTH_SOUTH_EAST:
-                return BlockFace.SOUTH;
+            case SOUTH_SOUTHWEST:
+            case SOUTH_SOUTHEAST:
+                return Direction.SOUTH;
             case WEST:
-            case WEST_NORTH_WEST:
-            case WEST_SOUTH_WEST:
-                return BlockFace.WEST;
+            case WEST_NORTHWEST:
+            case WEST_SOUTHWEST:
+                return Direction.WEST;
             default:
-                return BlockFace.UP;
+                return Direction.UP;
         }
     }
 

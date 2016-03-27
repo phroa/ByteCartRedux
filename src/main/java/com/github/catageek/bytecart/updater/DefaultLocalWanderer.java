@@ -89,7 +89,7 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
     public BlockFace giveRouterDirection() {
         // check if we are in the good region
         if (this.getSignAddress().isValid()
-                && this.getSignAddress().getRegion().getAmount() != getWandererRegion()) {
+                && this.getSignAddress().getRegion().getValue() != getWandererRegion()) {
             // case this is not the right region
             DirectionRegistry dir = RoutingTable.getDirection(getWandererRegion());
             if (dir != null) {
@@ -100,7 +100,7 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
 
         // there is a cookie (so it is cookie A) or it's a reset cart
         if (this.getStart().empty() ^ this.getEnd().empty()) {
-            int signring = this.getSignAddress().getTrack().getAmount();
+            int signring = this.getSignAddress().getTrack().getValue();
             int preferredroute = this.getStart().peek();
 
             // if we are not arrived yet or in ring 0, we continue
@@ -145,13 +145,13 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
     @Override
     public void doAction(BlockFace to) {
 
-        int signring = this.getSignAddress().getTrack().getAmount();
+        int signring = this.getSignAddress().getTrack().getValue();
         // the route where we went the lesser
         int preferredroute = this.getContent().getMinDistanceRing(RoutingTable, this.getFrom());
 
 
         // if we are not in the good region or on ring 0, skip update
-        if (this.getSignAddress().getRegion().getAmount() != getContent().getRegion()
+        if (this.getSignAddress().getRegion().getValue() != getContent().getRegion()
                 || signring == 0) {
             return;
         }
@@ -185,8 +185,8 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
         this.getEnd().clear();
 
         // updating region and counter data from sign
-        this.getCounter().setCount(counterSlot.REGION.slot, this.getSignAddress().getRegion().getAmount());
-        this.getCounter().setCount(counterSlot.RING.slot, this.getSignAddress().getTrack().getAmount());
+        this.getCounter().setCount(counterSlot.REGION.slot, this.getSignAddress().getRegion().getValue());
+        this.getCounter().setCount(counterSlot.RING.slot, this.getSignAddress().getTrack().getValue());
 
         // mark station 0 as taken
         this.getCounter().incrementCount(0, 32);
@@ -216,7 +216,7 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
 
         int stationfield = -1;
         if (getSignAddress().isValid()) {
-            stationfield = this.getSignAddress().getStation().getAmount();
+            stationfield = this.getSignAddress().getStation().getValue();
         }
 
         if (length != 1) {

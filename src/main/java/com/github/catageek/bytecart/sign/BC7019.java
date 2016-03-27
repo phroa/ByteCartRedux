@@ -51,18 +51,18 @@ final class BC7019 extends BC7010 implements Triggerable {
 
     @Override
     protected Address getAddressToWrite() {
-        int startRegion = getInput(3).getAmount();
-        int endRegion = getInput(0).getAmount();
+        int startRegion = getInput(3).getValue();
+        int endRegion = getInput(0).getValue();
 
         int newRegion = startRegion + (new Random()).nextInt(endRegion - startRegion + 1);
 
-        int startTrack = getInput(4).getAmount();
-        int endTrack = getInput(1).getAmount();
+        int startTrack = getInput(4).getValue();
+        int endTrack = getInput(1).getValue();
 
         int newTrack = startTrack + (new Random()).nextInt(endTrack - startTrack + 1);
 
-        int startStation = getInput(5).getAmount();
-        int endStation = getInput(2).getAmount();
+        int startStation = getInput(5).getValue();
+        int endStation = getInput(2).getValue();
 
         int newStation = startStation + (new Random()).nextInt(endStation - startStation + 1);
 

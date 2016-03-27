@@ -43,10 +43,10 @@ abstract class AbstractAddress implements Address {
      * @return true if the address was copied
      */
     private boolean setAddress(Address a) {
-        this.setStation(a.getStation().getAmount());
+        this.setStation(a.getStation().getValue());
         this.setIsTrain(a.isTrain());
-        this.setTrack(a.getTrack().getAmount());
-        this.setRegion(a.getRegion().getAmount());
+        this.setTrack(a.getTrack().getValue());
+        this.setRegion(a.getRegion().getValue());
         return this.UpdateAddress();
 
     }
@@ -69,7 +69,7 @@ abstract class AbstractAddress implements Address {
 
     @Override
     public String toString() {
-        return "" + this.getRegion().getAmount() + "." + this.getTrack().getAmount() + "." + (this.getStation().getAmount());
+        return "" + this.getRegion().getValue() + "." + this.getTrack().getValue() + "." + (this.getStation().getValue());
     }
 
     /**

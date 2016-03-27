@@ -47,7 +47,7 @@ public class ComponentWire extends AbstractComponent implements InputPin, Regist
     }
 
     @Override
-    public int getAmount() {
+    public int getValue() {
         return ((RedstoneWire) this.getBlock().getState().getData()).getData();
     }
 

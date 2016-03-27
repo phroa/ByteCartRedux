@@ -84,17 +84,17 @@ abstract class AbstractBC9037 extends AbstractSimpleCrossroad implements Trigger
      */
     private boolean isAddressMatching() {
         try {
-            int startRegion = getInput(6).getAmount();
-            int region = getInput(0).getAmount();
-            int endRegion = getInput(3).getAmount();
+            int startRegion = getInput(6).getValue();
+            int region = getInput(0).getValue();
+            int endRegion = getInput(3).getValue();
 
-            int startTrack = getInput(7).getAmount();
-            int track = getInput(1).getAmount();
-            int endTrack = getInput(4).getAmount();
+            int startTrack = getInput(7).getValue();
+            int track = getInput(1).getValue();
+            int endTrack = getInput(4).getValue();
 
-            int startStation = getInput(8).getAmount();
-            int station = getInput(2).getAmount();
-            int endStation = getInput(5).getAmount();
+            int startStation = getInput(8).getValue();
+            int station = getInput(2).getValue();
+            int endStation = getInput(5).getValue();
 
             boolean value = in(startRegion, region, endRegion) &&
                     in(startTrack, track, endTrack) &&

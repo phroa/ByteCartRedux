@@ -48,7 +48,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
         Active = Lever1;
         reversed = ic.isLeverReversed();
         loc1 = ic.getLocation();
-        state = (Lever1.getAmount() == 0 ? IntersectionSide.Side.LEVER_OFF : IntersectionSide.Side.LEVER_ON);
+        state = (Lever1.getValue() == 0 ? IntersectionSide.Side.LEVER_OFF : IntersectionSide.Side.LEVER_ON);
     }
 
     /**
@@ -72,7 +72,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
             ByteCartRedux.log.info("ByteCartRedux : recentlyUsed is " + this.getRecentlyUsed() + " and hasTrain is " + this.getHasTrain());
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : Lever1 is " + Lever1.getAmount());
+            ByteCartRedux.log.info("ByteCartRedux : Lever1 is " + Lever1.getValue());
         }
 
         if (trueside != state
@@ -124,7 +124,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
         reversed ^= t.isLeverReversed();
         Lever2.setAmount(getSecondLeverSide(state).Value());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: Add and setting lever2 to " + Lever2.getAmount());
+            ByteCartRedux.log.info("ByteCartRedux: Add and setting lever2 to " + Lever2.getValue());
         }
     }
 
@@ -136,12 +136,12 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
     private void Set(IntersectionSide.Side s) {
         this.Lever1.setAmount(s.Value());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: Setting lever1 to " + Lever1.getAmount());
+            ByteCartRedux.log.info("ByteCartRedux: Setting lever1 to " + Lever1.getValue());
         }
         if (this.Lever2 != null) {
             this.Lever2.setAmount(getSecondLeverSide(state).Value());
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux: Setting lever2 to " + Lever2.getAmount());
+                ByteCartRedux.log.info("ByteCartRedux: Setting lever2 to " + Lever2.getValue());
             }
         }
         state = s;

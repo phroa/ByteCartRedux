@@ -64,7 +64,7 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
     }
 
     @Override
-    public int getAmount() {
+    public int getValue() {
         return (read() ? 15 : 0);
     }
 

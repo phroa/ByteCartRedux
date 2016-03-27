@@ -75,7 +75,7 @@ final class BC7004 extends AbstractIC implements Powerable {
         this.addInputRegistry(new PinRegistry<InputPin>(wire));
 
         // if wire is on, we spawn a cart
-        if (this.getInput(0).getAmount() != 0) {
+        if (this.getInput(0).getValue() != 0) {
             org.bukkit.block.Block rail = block.getRelative(BlockFace.UP, 2);
             org.bukkit.Location loc = rail.getLocation();
             // check that it is a track, and no cart is there

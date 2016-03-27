@@ -27,53 +27,52 @@ package com.github.catageek.bytecart.hardware;
  */
 public class SuperRegistry<T extends Registry> implements RegistryBoth {
 
-    // Registry1 est le registre de poids fort
+    // first est le registre de poids fort
 
-    private final Registry Registry1, Registry2;
+    private final T first;
+    private final T second;
 
     /**
      * @param reg1 The left part, i.e MSB side
      * @param reg2 The right part, i.e LSB side
      */
     public SuperRegistry(T reg1, T reg2) {
-        this.Registry1 = reg1;
-        this.Registry2 = reg2;
+        this.first = reg1;
+        this.second = reg2;
     }
 
     @Override
     public void setBit(int index, boolean value) {
-        if (index < this.Registry1.length()) {
-            ((RegistryOutput) this.Registry1).setBit(index, value);
+        if (index < this.first.length()) {
+            ((RegistryOutput) this.first).setBit(index, value);
         } else {
-            ((RegistryOutput) this.Registry2).setBit(index - this.Registry1.length(), value);
+            ((RegistryOutput) this.second).setBit(index - this.first.length(), value);
         }
 
     }
 
     @Override
     public boolean getBit(int index) {
-
-        if (index < this.Registry1.length()) {
-            return ((RegistryInput) this.Registry1).getBit(index);
+        if (index < this.first.length()) {
+            return ((RegistryInput) this.first).getBit(index);
         }
-        return ((RegistryInput) this.Registry2).getBit(index - this.Registry1.length());
+        return ((RegistryInput) this.second).getBit(index - this.first.length());
     }
 
     @Override
     public int length() {
-        return this.Registry1.length() + this.Registry2.length();
+        return this.first.length() + this.second.length();
     }
 
     @Override
-    public int getAmount() {
-        return (this.Registry1.getAmount() << this.Registry2.length()) + this.Registry2.getAmount();
+    public int getValue() {
+        return (this.first.getValue() << this.second.length()) + this.second.getValue();
     }
 
     @Override
     public void setAmount(int amount) {
-        ((RegistryOutput) this.Registry1).setAmount(amount >> (this.Registry2.length()) % (1 << this.Registry1.length()));
-        ((RegistryOutput) this.Registry2).setAmount(amount & ((1 << this.Registry2.length()) - 1));
-
+        ((RegistryOutput) this.first).setAmount(amount >> (this.second.length()) % (1 << this.first.length()));
+        ((RegistryOutput) this.second).setAmount(amount & ((1 << this.second.length()) - 1));
     }
 
 }
