@@ -135,12 +135,12 @@ abstract class AbstractAddress implements Address {
 
         private final int Length, Offset;
 
-        private Offsets() {
+        Offsets() {
             Length = 6;
             Offset = 0;
         }
 
-        private Offsets(int length, int offset) {
+        Offsets(int length, int offset) {
             Length = length;
             Offset = offset;
         }

@@ -32,28 +32,28 @@ public interface IC {
      *
      * @return the permission
      */
-    public String getBuildPermission();
+    String getBuildPermission();
 
     /**
      * Return the official name of this IC.
      *
      * @return the name
      */
-    public String getName();
+    String getName();
 
     /**
      * Return the friendly name of this IC
      *
      * @return the friendly name
      */
-    public String getFriendlyName();
+    String getFriendlyName();
 
     /**
      * Return the tax assigned to this IC when used
      *
      * @return the tax
      */
-    public int getTriggertax();
+    int getTriggertax();
 
 
     /**
@@ -61,42 +61,42 @@ public interface IC {
      *
      * @return the tax
      */
-    public int getBuildtax();
+    int getBuildtax();
 
     /**
      * Get the block implementing this IC, usually the sign
      *
      * @return the block
      */
-    public Block getBlock();
+    Block getBlock();
 
     /**
      * Get the location of the IC, usually the location of the sign
      *
      * @return the location
      */
-    public Location getLocation();
+    Location getLocation();
 
     /**
      * Get the orientation of the sign
      *
      * @return the same direction as the player is facing when looking at the sign
      */
-    public BlockFace getCardinal();
+    BlockFace getCardinal();
 
     /**
      * Register an input for this IC
      *
      * @param reg the input to register
      */
-    public void addInputRegistry(RegistryInput reg);
+    void addInputRegistry(RegistryInput reg);
 
     /**
      * Register an output for this IC
      *
      * @param reg the output to register
      */
-    public void addOutputRegistry(RegistryOutput reg);
+    void addOutputRegistry(RegistryOutput reg);
 
     /**
      * Get an input of this IC
@@ -104,7 +104,7 @@ public interface IC {
      * @param index the index of the input to get
      * @return the input
      */
-    public RegistryInput getInput(int index);
+    RegistryInput getInput(int index);
 
     /**
      * Get an output of this IC
@@ -112,6 +112,6 @@ public interface IC {
      * @param index the index of the output to get
      * @return the output
      */
-    public RegistryOutput getOutput(int index);
+    RegistryOutput getOutput(int index);
 }
 

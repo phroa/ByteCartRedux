@@ -76,7 +76,7 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
         // and the subnet is contained in the current borders
         // and we are in the region
         if (this.getNetmask() < 8
-                && (!(this.getStart().empty() ^ this.getEnd().empty()))
+                && (this.getStart().empty() == this.getEnd().empty())
                 && !this.isExactSubnet(this.getFirstStationNumber(), this.getNetmask())
                 && this.getWandererRegion() == this.getCounter().getCount(counterSlot.REGION.slot)) {
             return Side.LEVER_ON;
@@ -321,7 +321,7 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
 
         public final int slot;
 
-        private counterSlot(int i) {
+        counterSlot(int i) {
             this.slot = i;
         }
     }

@@ -30,7 +30,7 @@ public interface WandererManager {
      * @param wanderer the wanderer class implementing the wanderer
      * @param name the name that will reference this type of wanderer
      */
-    public boolean register(WandererFactory wanderer, String name);
+    boolean register(WandererFactory wanderer, String name);
 
     /**
      * Unregister a wanderer factory. All wanderers in the network
@@ -38,7 +38,7 @@ public interface WandererManager {
      *
      * @param name the name of the type of wanderer
      */
-    public void unregister(String name);
+    void unregister(String name);
 
     /**
      * Create a wanderer
@@ -47,7 +47,7 @@ public interface WandererManager {
      * @param name the name of the type of wanderer previously registered
      * @param type a suffix to add to book title
      */
-    public boolean create(InventoryContent ivc, String name, String type);
+    boolean create(InventoryContent ivc, String name, String type);
 
     /**
      * Get a wanderer factory
@@ -58,7 +58,7 @@ public interface WandererManager {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public WandererFactory getFactory(Inventory inv) throws ClassNotFoundException, IOException;
+    WandererFactory getFactory(Inventory inv) throws ClassNotFoundException, IOException;
 
-    public void saveContent(InventoryContent rte) throws ClassNotFoundException, IOException;
+    void saveContent(InventoryContent rte) throws ClassNotFoundException, IOException;
 }

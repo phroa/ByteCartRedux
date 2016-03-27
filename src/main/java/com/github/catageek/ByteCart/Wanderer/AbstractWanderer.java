@@ -116,14 +116,8 @@ public abstract class AbstractWanderer {
      */
     protected final boolean isAtBorder() {
 
-        if (this.getWandererRegion() == 0 ^ this.getSignLevel().scope.equals(Scope.BACKBONE)) {
-            // if we are at the border of the region
-            // going back
+        return this.getWandererRegion() == 0 ^ this.getSignLevel().scope.equals(Scope.BACKBONE);
 
-            return true;
-        }
-
-        return false;
     }
 
     /**

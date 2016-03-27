@@ -28,6 +28,6 @@ public interface OutputPin {
      *
      * @param bit true to write 1, false to write 0
      */
-    public void write(boolean bit);
+    void write(boolean bit);
 
 }

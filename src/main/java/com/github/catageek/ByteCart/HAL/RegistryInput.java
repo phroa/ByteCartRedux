@@ -29,5 +29,5 @@ public interface RegistryInput extends Registry {
      * @param index the position, 0 for most significant bit
      * @return true if the bit is set to 1, false otherwise
      */
-    public boolean getBit(int index);
+    boolean getBit(int index);
 }

@@ -34,14 +34,14 @@ public interface Triggable extends IC {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public void trigger() throws ClassNotFoundException, IOException;
+    void trigger() throws ClassNotFoundException, IOException;
 
     /**
      * Tell if the cart that triggers this IC has the train bit set, i.e is the head of a train
      *
      * @return true if the train bit is set
      */
-    public boolean isTrain();
+    boolean isTrain();
 
     /**
      * Tell if the IC was previously triggered by a cart with the train bit set
@@ -53,11 +53,11 @@ public interface Triggable extends IC {
      * @param loc the location of the IC
      * @return true if a train is currently using the IC
      */
-    public boolean wasTrain(Location loc);
+    boolean wasTrain(Location loc);
 
     /**
      * Tell if the lever is negated
      * @return true if it is negated
      */
-    public boolean isLeverReversed();
+    boolean isLeverReversed();
 }

@@ -34,16 +34,16 @@ public interface Router extends CollisionAvoider {
      * @param isTrain true if it is a train
      * @return the direction actually taken
      */
-    public <T extends Router> BlockFace WishToGo(BlockFace from, BlockFace to, boolean isTrain);
+    <T extends Router> BlockFace WishToGo(BlockFace from, BlockFace to, boolean isTrain);
 
     /**
      * Book the router, i.e mark it as currently in use
      *
      * @param b true if this is a train
      */
-    public void Book(boolean b);
+    void Book(boolean b);
 
-    public int getSecondpos();
+    int getSecondpos();
 
     /**
      * Set the value of the position of the 8 exterior levers, starting from the origin axis.
@@ -52,7 +52,7 @@ public interface Router extends CollisionAvoider {
      *
      * @param secondpos the value to set
      */
-    public void setSecondpos(int secondpos);
+    void setSecondpos(int secondpos);
 
     /**
      * Get the mask of the current usage of the router, starting from the origin axis.
@@ -61,7 +61,7 @@ public interface Router extends CollisionAvoider {
      *
      * @return the mask
      */
-    public int getPosmask();
+    int getPosmask();
 
     /**
      * Set the mask of the current usage of the router, starting from the origin axis.
@@ -70,7 +70,7 @@ public interface Router extends CollisionAvoider {
      *
      * @param posmask the mask to set
      */
-    public void setPosmask(int posmask);
+    void setPosmask(int posmask);
 
     /**
      * Get the direction from where the cart is coming.
@@ -80,7 +80,7 @@ public interface Router extends CollisionAvoider {
      *
      * @return the direction
      */
-    public BlockFace getFrom();
+    BlockFace getFrom();
 
     /**
      * Activate levers according to registry
@@ -88,7 +88,7 @@ public interface Router extends CollisionAvoider {
      *
      * @param from the origin direction
      */
-    public void route(BlockFace from);
+    void route(BlockFace from);
 
     /**
      * Get the lever registry
@@ -96,7 +96,7 @@ public interface Router extends CollisionAvoider {
      * @param i 0 for main levers, 1 for secondary levers
      * @return the value of the registry
      */
-    public RegistryOutput getOutput(int i);
+    RegistryOutput getOutput(int i);
 
     /**
      * Get the direction where the cart eventually go
@@ -104,5 +104,5 @@ public interface Router extends CollisionAvoider {
      *
      * @return the direction
      */
-    public BlockFace getTo();
+    BlockFace getTo();
 }

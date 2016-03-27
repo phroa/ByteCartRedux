@@ -34,33 +34,33 @@ public interface BCSign extends IC {
      *
      * @return the level
      */
-    public Level getLevel();
+    Level getLevel();
 
     /**
      * Get the vehicle that uses this IC
      *
      * @return the vehicle
      */
-    public Vehicle getVehicle();
+    Vehicle getVehicle();
 
     /**
      * Get the address stored in the IC
      *
      * @return the address
      */
-    public Address getSignAddress();
+    Address getSignAddress();
 
     /**
      * Get the address stored in the ticket
      *
      * @return the address
      */
-    public String getDestinationIP();
+    String getDestinationIP();
 
     /**
      * Get the center of the IC.
      *
      * @return the center
      */
-    public Block getCenter();
+    Block getCenter();
 }

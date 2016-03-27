@@ -115,7 +115,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
 
             this.addIO();
 
-            SimpleCollisionAvoider intersection = ByteCartRedux.myPlugin.getCollisionAvoiderManager().<SimpleCollisionAvoider>getCollisionAvoider(builder);
+            SimpleCollisionAvoider intersection = ByteCartRedux.myPlugin.getCollisionAvoiderManager().getCollisionAvoider(builder);
 
             if (!WandererContentFactory.isWanderer(getInventory())) {
 

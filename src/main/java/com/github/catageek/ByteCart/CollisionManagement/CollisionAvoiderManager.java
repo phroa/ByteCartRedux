@@ -58,7 +58,7 @@ public final class CollisionAvoiderManager {
             this.getManager().reset(loc);
         } else {
             // Get a new instance
-            cm = builder.<T>getCollisionAvoider();
+            cm = builder.getCollisionAvoider();
             // store the instance in the map
             this.getManager().put(loc, cm);
         }

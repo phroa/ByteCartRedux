@@ -31,45 +31,45 @@ public interface InventoryContent extends Serializable {
     /**
      * @return the inventory
      */
-    public Inventory getInventory();
+    Inventory getInventory();
 
     /**
      * Get the level of the wanderer
      *
      * @return the level
      */
-    public Wanderer.Level getLevel();
+    Wanderer.Level getLevel();
 
     /**
      * Get the region of the wanderer
      *
      * @return the region
      */
-    public int getRegion();
+    int getRegion();
 
     /**
      * @return the player that creates the wanderer
      */
-    public Player getPlayer();
+    Player getPlayer();
 
-    public Counter getCounter();
+    Counter getCounter();
 
-    public Stack<Integer> getStart();
+    Stack<Integer> getStart();
 
-    public Stack<Integer> getEnd();
+    Stack<Integer> getEnd();
 
-    public boolean hasRouteTo(int ring);
+    boolean hasRouteTo(int ring);
 
-    public int getMinDistanceRing(
+    int getMinDistanceRing(
             RoutingTable routingTable,
             DirectionRegistry from);
 
-    public int getCurrent();
+    int getCurrent();
 
-    public void setCurrent(int i);
+    void setCurrent(int i);
 
-    public int getMetric(int ring);
+    int getMetric(int ring);
 
-    public void setRoute(int ring, int i);
+    void setRoute(int ring, int i);
 
 }

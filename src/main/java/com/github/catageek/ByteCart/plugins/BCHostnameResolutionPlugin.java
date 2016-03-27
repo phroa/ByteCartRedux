@@ -432,10 +432,7 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
         }
         Pattern p = Pattern.compile("[^a-z0-9/*+$!:.@_\\-#&\\s]", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(input);
-        if (m.find()) {
-            return false;
-        }
-        return true;
+        return !m.find();
     }
 
     private String getName(String[] input, int s, int e) {

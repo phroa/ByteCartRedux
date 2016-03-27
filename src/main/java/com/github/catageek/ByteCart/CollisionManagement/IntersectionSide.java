@@ -24,7 +24,7 @@ public interface IntersectionSide {
     /**
      * Position of the T cross-roads.
      */
-    public enum Side {
+    enum Side {
         LEVER_ON(3),
         LEVER_OFF(0);
 

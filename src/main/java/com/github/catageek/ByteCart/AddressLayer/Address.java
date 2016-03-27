@@ -32,7 +32,7 @@ public interface Address {
      *
      * @return the region number
      */
-    public RegistryBoth getRegion();
+    RegistryBoth getRegion();
 
     /**
      * Get the ring number
@@ -40,7 +40,7 @@ public interface Address {
      *
      * @return the ring number
      */
-    public RegistryBoth getTrack();
+    RegistryBoth getTrack();
 
     /**
      * Get the station number
@@ -48,7 +48,7 @@ public interface Address {
      *
      * @return the station number
      */
-    public RegistryBoth getStation();
+    RegistryBoth getStation();
 
     /**
      * Get the train flag
@@ -56,7 +56,7 @@ public interface Address {
      *
      * @return true if the flag is set
      */
-    public boolean isTrain();
+    boolean isTrain();
 
     /**
      * Get the state of the return address
@@ -64,7 +64,7 @@ public interface Address {
      *
      * @return true if this is a return address
      */
-    public boolean isReturnable();
+    boolean isReturnable();
 
     /**
      * Set an address with a name
@@ -75,7 +75,7 @@ public interface Address {
      * @param name the name to associate to this address
      * @return true if the address was set
      */
-    public boolean setAddress(String s, String name);
+    boolean setAddress(String s, String name);
 
     /**
      * Set an unresolved address
@@ -85,7 +85,7 @@ public interface Address {
      * @param s the address to set in the format aa.bb.cc
      * @return true if the address was set
      */
-    public boolean setAddress(String s);
+    boolean setAddress(String s);
 
     /**
      * Set the train flag
@@ -95,14 +95,14 @@ public interface Address {
      * @param istrain must be true to set the flag
      * @return true if the flag was set
      */
-    public boolean setTrain(boolean istrain);
+    boolean setTrain(boolean istrain);
 
     /**
      * Flush the address to its support
      *
      *
      */
-    public void finalizeAddress();
+    void finalizeAddress();
 
     /**
      * Tell if an address can be considered as valid or should be discarded
@@ -112,14 +112,14 @@ public interface Address {
      *
      * @return true if the address is valid
      */
-    public boolean isValid();
+    boolean isValid();
 
     /**
      * remove the address
      *
      * <p>{@link Address#finalizeAddress()} should be called later to actually remove the address from the support</p>
      */
-    public void remove();
+    void remove();
 
     /**
      * Return a printable string for this address
@@ -127,5 +127,5 @@ public interface Address {
      *
      * @return the address as string
      */
-    public String toString();
+    String toString();
 }

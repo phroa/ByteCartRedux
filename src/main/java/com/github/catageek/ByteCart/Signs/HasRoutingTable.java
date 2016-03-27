@@ -30,5 +30,5 @@ public interface HasRoutingTable {
      *
      * @return the routing table
      */
-    public RoutingTableWritable getRoutingTable();
+    RoutingTableWritable getRoutingTable();
 }

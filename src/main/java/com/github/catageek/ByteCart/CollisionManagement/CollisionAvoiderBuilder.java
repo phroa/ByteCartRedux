@@ -31,7 +31,7 @@ public interface CollisionAvoiderBuilder {
      *
      * @return an instance of collision manager
      */
-    public <T extends CollisionAvoider> T getCollisionAvoider();
+    <T extends CollisionAvoider> T getCollisionAvoider();
 
     /**
      * Get the location to where the collision managers built will be attached
@@ -39,7 +39,7 @@ public interface CollisionAvoiderBuilder {
      *
      * @return the location
      */
-    public Location getLocation();
+    Location getLocation();
 
     /**
      * Get the IC attached to the collision managers built
@@ -47,6 +47,6 @@ public interface CollisionAvoiderBuilder {
      *
      * @return the IC
      */
-    public Triggable getIc();
+    Triggable getIc();
 
 }

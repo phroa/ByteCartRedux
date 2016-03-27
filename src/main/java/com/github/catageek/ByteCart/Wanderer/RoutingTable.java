@@ -32,7 +32,7 @@ public interface RoutingTable {
      * @param entry the track number
      * @return the direction
      */
-    public DirectionRegistry getDirection(int entry);
+    DirectionRegistry getDirection(int entry);
 
     /**
      * Get the metric associated with this entry and this direction
@@ -41,7 +41,7 @@ public interface RoutingTable {
      * @param direction the direction
      * @return the metric
      */
-    public int getMetric(int entry, DirectionRegistry direction);
+    int getMetric(int entry, DirectionRegistry direction);
 
     /**
      * Get the minimum metric for a specific entry
@@ -49,7 +49,7 @@ public interface RoutingTable {
      * @param entry the track number
      * @return the minimum metric recorded, or -1
      */
-    public int getMinMetric(int entry);
+    int getMinMetric(int entry);
 
     /**
      * Tells if there is no record for an entry
@@ -57,7 +57,7 @@ public interface RoutingTable {
      * @param entry the track number
      * @return true if there is no record
      */
-    public boolean isEmpty(int entry);
+    boolean isEmpty(int entry);
 
     /**
      * Tells if a track is directly connected to a router at a specific direction
@@ -66,7 +66,7 @@ public interface RoutingTable {
      * @param direction the direction
      * @return true if the track is directly connected at this direction
      */
-    public boolean isDirectlyConnected(int ring, DirectionRegistry direction);
+    boolean isDirectlyConnected(int ring, DirectionRegistry direction);
 
     /**
      * Get the track number at the specific direction
@@ -74,21 +74,21 @@ public interface RoutingTable {
      * @param direction the direction
      * @return the track number
      */
-    public int getDirectlyConnected(DirectionRegistry direction);
+    int getDirectlyConnected(DirectionRegistry direction);
 
     /**
      * Get a direction that has not been configured, or null if all directions are configured
      *
      * @return the direction
      */
-    public BlockFace getFirstUnknown();
+    BlockFace getFirstUnknown();
 
     /**
      * Get the number of entries in the routing table
      *
      * @return the size
      */
-    public int size();
+    int size();
 
     /**
      * Get a list of tracks that have records with a metric 0 and at the specific direction
@@ -96,7 +96,7 @@ public interface RoutingTable {
      * @param from the direction
      * @return a list of track numbers
      */
-    public Set<Integer> getDirectlyConnectedList(DirectionRegistry from);
+    Set<Integer> getDirectlyConnectedList(DirectionRegistry from);
 
     /**
      * Return an iterator of Route in incrementing order
@@ -104,6 +104,6 @@ public interface RoutingTable {
      *
      * @return the set
      */
-    public <T extends RouteValue> Iterator<T> getOrderedRouteNumbers();
+    <T extends RouteValue> Iterator<T> getOrderedRouteNumbers();
 
 }

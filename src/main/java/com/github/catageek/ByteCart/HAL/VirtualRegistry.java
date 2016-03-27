@@ -50,10 +50,7 @@ public class VirtualRegistry implements RegistryBoth, Serializable {
 
     @Override
     public boolean getBit(int index) {
-        if (((this.Virtual >> (length() - index - 1)) & 1) == 0) {
-            return false;
-        }
-        return true;
+        return ((this.Virtual >> (length() - index - 1)) & 1) != 0;
     }
 
     @Override

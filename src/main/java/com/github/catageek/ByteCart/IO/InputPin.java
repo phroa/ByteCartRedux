@@ -28,5 +28,5 @@ public interface InputPin {
      *
      * @return true if 1, false otherwise
      */
-    public boolean read();
+    boolean read();
 }

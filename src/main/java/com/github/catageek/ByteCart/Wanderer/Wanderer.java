@@ -63,68 +63,68 @@ public interface Wanderer {
      *
      * @return the track
      */
-    public int getTrackNumber();
+    int getTrackNumber();
 
     /**
      * Get the direction from where the cart is coming
      *
      * @return the direction, or null if not relevant
      */
-    public DirectionRegistry getFrom();
+    DirectionRegistry getFrom();
 
     /**
      * Get the type of updater
      *
      * @return the type
      */
-    public Level getLevel();
+    Level getLevel();
 
     /**
      * Get the Vehicle that this updater is
      *
      * @return the Vehicle
      */
-    public Vehicle getVehicle();
+    Vehicle getVehicle();
 
     /**
      * Get the region where this updater is attached to
      *
      * @return the region
      */
-    public int getWandererRegion();
+    int getWandererRegion();
 
     /**
      * Get the center of the IC that triggered this updater class
      *
      * @return the center block
      */
-    public Block getCenter();
+    Block getCenter();
 
     /**
      * Get the name of the sign
      *
      * @return the name
      */
-    public String getFriendlyName();
+    String getFriendlyName();
 
     /**
      * Get the IC that triggered this updater
      *
      * @return the IC
      */
-    public IC getBcSign();
+    IC getBcSign();
 
     /**
      * The scope of the updater
      */
-    public enum Scope {
+    enum Scope {
         BACKBONE("backbone"),
         REGION("region"),
         LOCAL("local");
 
         public final String name;
 
-        private Scope(String name) {
+        Scope(String name) {
             this.name = name;
         }
 
@@ -133,7 +133,7 @@ public interface Wanderer {
     /**
      * All types of updaters
      */
-    public enum Level {
+    enum Level {
         BACKBONE("backbone", 0, Scope.BACKBONE, "rip"),
         REGION("region", 1, Scope.REGION, "rip"),
         LOCAL("local", 2, Scope.LOCAL, "conf"),
@@ -149,7 +149,7 @@ public interface Wanderer {
         public final Scope scope;
         public final String type;
 
-        private Level(String name, int level, Scope scope, String type) {
+        Level(String name, int level, Scope scope, String type) {
             this.number = level;
             this.name = name;
             this.scope = scope;

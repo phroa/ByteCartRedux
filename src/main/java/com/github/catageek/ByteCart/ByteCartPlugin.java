@@ -30,29 +30,29 @@ public interface ByteCartPlugin {
     /**
      * @return the resolver registered
      */
-    public Resolver getResolver();
+    Resolver getResolver();
 
     /**
      * Set the resolver that will be used
      *
      * @param resolver the resolver provided
      */
-    public void setResolver(Resolver resolver);
+    void setResolver(Resolver resolver);
 
     /**
      * Get the logger
      *
      * @return the logger
      */
-    public Logger getLog();
+    Logger getLog();
 
     /**
      * @return the wanderer factory
      */
-    public WandererManager getWandererManager();
+    WandererManager getWandererManager();
 
     /**
      * @return the folder to save databases in
      */
-    public File getDataFolder();
+    File getDataFolder();
 }

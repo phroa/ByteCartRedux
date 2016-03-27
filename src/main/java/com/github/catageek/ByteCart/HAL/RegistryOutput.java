@@ -29,12 +29,12 @@ public interface RegistryOutput extends Registry {
      * @param index the position, starting from most significant bit
      * @param value
      */
-    public void setBit(int index, boolean value);
+    void setBit(int index, boolean value);
 
     /**
      * Set the value of this registry to the given amount.
      *
      * @param amount
      */
-    public void setAmount(int amount);
+    void setAmount(int amount);
 }

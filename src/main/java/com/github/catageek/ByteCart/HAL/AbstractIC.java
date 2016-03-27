@@ -90,21 +90,13 @@ abstract public class AbstractIC implements IC {
 
     static public final boolean checkEligibility(String s) {
 
-        if (!(s.matches("^\\[BC[0-9]{4,4}\\]$"))) {
-            return false;
-        }
-
-        return true;
+        return s.matches("^\\[BC[0-9]{4,4}\\]$");
 
     }
 
     static public final boolean checkLooseEligibility(String s) {
 
-        if (!(s.matches("^BC[0-9]{4,4}$"))) {
-            return false;
-        }
-
-        return true;
+        return s.matches("^BC[0-9]{4,4}$");
 
     }
 

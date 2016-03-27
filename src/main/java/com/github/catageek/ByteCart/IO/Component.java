@@ -30,6 +30,6 @@ public interface Component {
      *
      * @return the block
      */
-    public Block getBlock();
+    Block getBlock();
 
 }

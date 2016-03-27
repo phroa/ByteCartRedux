@@ -28,5 +28,5 @@ public interface HasNetmask {
      *
      * @return the net mask
      */
-    public int getNetmask();
+    int getNetmask();
 }

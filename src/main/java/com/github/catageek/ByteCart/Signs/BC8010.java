@@ -93,7 +93,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
         try {
 
             BlockFace direction, to;
-            Router router = ByteCartRedux.myPlugin.getCollisionAvoiderManager().<Router>getCollisionAvoider(builder);
+            Router router = ByteCartRedux.myPlugin.getCollisionAvoiderManager().getCollisionAvoider(builder);
             boolean isTrain = AbstractTriggeredSign.isTrain(destination);
 
             // Here begins the triggered action

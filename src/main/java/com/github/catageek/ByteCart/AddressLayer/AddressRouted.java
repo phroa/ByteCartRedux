@@ -30,7 +30,7 @@ public interface AddressRouted extends Address {
      *
      * @return the TTL
      */
-    public int getTTL();
+    int getTTL();
 
     /**
      * Set the TTL
@@ -39,7 +39,7 @@ public interface AddressRouted extends Address {
      *
      * @param i the value to set
      */
-    public void updateTTL(int i);
+    void updateTTL(int i);
 
     /**
      * Initialize TTL to its default value
@@ -47,5 +47,5 @@ public interface AddressRouted extends Address {
      * {@link Address#finalizeAddress()} should be called later to actually initialize the TTL
      *
      */
-    public void initializeTTL();
+    void initializeTTL();
 }

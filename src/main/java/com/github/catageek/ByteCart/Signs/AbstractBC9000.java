@@ -54,7 +54,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
 
             this.addIO();
 
-            SimpleCollisionAvoider intersection = ByteCartRedux.myPlugin.getCollisionAvoiderManager().<SimpleCollisionAvoider>getCollisionAvoider(builder);
+            SimpleCollisionAvoider intersection = ByteCartRedux.myPlugin.getCollisionAvoiderManager().getCollisionAvoider(builder);
 
             if (!WandererContentFactory.isWanderer(getInventory())) {
 

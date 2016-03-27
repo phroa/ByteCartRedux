@@ -26,5 +26,5 @@ public interface Station extends HasNetmask, BCSign {
     /*
      * Return the name of the station
      */
-    public String getStationName();
+    String getStationName();
 }

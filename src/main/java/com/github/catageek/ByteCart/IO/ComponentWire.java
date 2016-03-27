@@ -37,10 +37,7 @@ public class ComponentWire extends AbstractComponent implements InputPin, Regist
 
     @Override
     public boolean read() {
-        if (((RedstoneWire) this.getBlock().getState().getData()).isPowered()) {
-            return true;
-        }
-        return false;
+        return ((RedstoneWire) this.getBlock().getState().getData()).isPowered();
     }
 
     @Override
