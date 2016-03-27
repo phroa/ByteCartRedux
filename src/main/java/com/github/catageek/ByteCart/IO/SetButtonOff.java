@@ -42,9 +42,6 @@ public class SetButtonOff implements Runnable {
         this.ActivatedButtonMap = ActivatedButtonMap;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
 

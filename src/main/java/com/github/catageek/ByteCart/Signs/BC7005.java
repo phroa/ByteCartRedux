@@ -37,9 +37,6 @@ final class BC7005 extends AbstractTriggeredSign implements Triggable {
         super(block, vehicle);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
-     */
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
         if (this.getVehicle() != null) {
@@ -47,17 +44,11 @@ final class BC7005 extends AbstractTriggeredSign implements Triggable {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     public String getName() {
         return "BC7005";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "Eject";

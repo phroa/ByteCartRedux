@@ -90,7 +90,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggable {
                 }
             }
 
-			/* There is no inventory, so we create one */
+            /* There is no inventory, so we create one */
 
             // we have a default route ? so we write it in inventory
             if (ByteCartRedux.myPlugin.getConfig().contains("EmptyCartsDefaultRoute")) {
@@ -124,30 +124,18 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggable {
         this.Inventory = inv;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#isTrain()
-     */
     @Override
     public final boolean isTrain() {
         return AbstractTriggeredSign.isTrain(AddressFactory.getAddress(this.getInventory()));
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#wasTrain(org.bukkit.Location)
-     */
     @Override
     public final boolean wasTrain(Location loc) {
         boolean ret;
         if (ByteCartRedux.myPlugin.getIsTrainManager().getMap().contains(loc)) {
             ret = ByteCartRedux.myPlugin.getIsTrainManager().getMap().get(loc);
-            /*			if(ByteCartRedux.debug  && ret)
-				ByteCartRedux.log.info("ByteCartRedux: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " is wagon !");
-			 */
             return ret;
         }
-		/*		if(ByteCartRedux.debug)
-			ByteCartRedux.log.info("ByteCartRedux: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " is not wagon !");
-		 */
         return false;
     }
 

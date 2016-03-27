@@ -47,17 +47,11 @@ final class RouteNumber extends RoutingTableContent<RouteNumber>
         super(route, rlength);
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
-     */
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeShort(this.value());
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
-     */
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         this.setValue(in.readShort() & ((1 << rlength) - 1));

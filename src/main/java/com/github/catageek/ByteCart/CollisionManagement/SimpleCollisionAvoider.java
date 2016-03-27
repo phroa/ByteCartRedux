@@ -109,9 +109,6 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
     }
 
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.CollisionAvoider#Add(com.github.catageek.ByteCartRedux.Signs.Triggable)
-     */
     @Override
     public void Add(Triggable t) {
         if (t.getLocation().equals(loc1)) {
@@ -150,25 +147,16 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
         state = s;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.CollisionAvoider#getSecondpos()
-     */
     @Override
     public int getSecondpos() {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.AbstractCollisionAvoider#getRecentlyUsedMap()
-     */
     @Override
     protected ExpirableMap<Location, Boolean> getRecentlyUsedMap() {
         return recentlyUsedMap;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.AbstractCollisionAvoider#getHasTrainMap()
-     */
     @Override
     protected ExpirableMap<Location, Boolean> getHasTrainMap() {
         return hasTrainMap;

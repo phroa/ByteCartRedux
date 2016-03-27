@@ -48,9 +48,6 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
         super(block, vehicle);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#trigger()
-     */
     @Override
     public void trigger() {
         try {
@@ -103,10 +100,6 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#manageUpdater(com.github.catageek.ByteCartRedux.CollisionManagement
-     * .SimpleCollisionAvoider)
-     */
     @Override
     protected void manageWanderer(SimpleCollisionAvoider intersection) {
         // it's an updater, so let it choosing direction
@@ -128,9 +121,6 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#route()
-     */
     @Override
     protected Side route() {
         SignPreSubnetEvent event;
@@ -193,9 +183,6 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
      * 0: left lever
      * 1: right lever
      */
-    /* (non-Javadoc)
-	 * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#addIO()
-	 */
     @Override
     protected void addIO() {
         Address sign = this.getSignAddress();
@@ -263,9 +250,6 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.HasNetmask#getNetmask()
-     */
     @Override
     public final int getNetmask() {
         return netmask;

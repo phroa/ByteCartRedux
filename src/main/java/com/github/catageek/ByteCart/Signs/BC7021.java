@@ -28,25 +28,16 @@ final class BC7021 extends BC7020 implements Triggable {
         super(block, vehicle);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7020#actionWagon()
-     */
     @Override
     protected void actionWagon() {
         this.getOutput(0).setAmount(0);    // deactivate levers
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7020#getName()
-     */
     @Override
     public final String getName() {
         return "BC7021";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7020#getFriendlyName()
-     */
     @Override
     public final String getFriendlyName() {
         return "Train head";

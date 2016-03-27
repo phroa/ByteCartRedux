@@ -34,25 +34,16 @@ final class BC9037 extends AbstractBC9037 {
         super(block, vehicle);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractBC9037#negated()
-     */
     @Override
     protected boolean negated() {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#getName()
-     */
     @Override
     public final String getName() {
         return "BC9037";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public final String getFriendlyName() {
         return "Range matcher";

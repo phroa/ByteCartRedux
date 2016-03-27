@@ -30,17 +30,11 @@ final class BC9002 extends AbstractBC9000 implements Subnet, HasNetmask, Triggab
         this.netmask = 7;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#getName()
-     */
     @Override
     public final String getName() {
         return "BC9002";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public final String getFriendlyName() {
         return "2-station subnet";

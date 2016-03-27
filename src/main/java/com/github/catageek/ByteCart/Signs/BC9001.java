@@ -51,9 +51,6 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
         this.netmask = 8;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractBC9000#trigger()
-     */
     @Override
     public void trigger() {
         try {
@@ -83,7 +80,6 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
                 // if this is a cart in a train
                 if (this.wasTrain(this.getLocation())) {
                     ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getLocation());
-                    //				this.getOutput(0).setAmount(3);	// push buttons
                     return;
                 }
 
@@ -142,9 +138,6 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Powerable#power()
-     */
     @Override
     public void power() {
         this.powerBC7003();
@@ -168,9 +161,6 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
     }
 
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractBC9000#route()
-     */
     @Override
     protected Side route() {
         SignPreStationEvent event;
@@ -194,9 +184,6 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#getName()
-     */
     @Override
     public final String getName() {
         return "BC9001";

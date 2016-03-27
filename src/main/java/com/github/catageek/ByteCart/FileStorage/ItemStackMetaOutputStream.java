@@ -42,9 +42,6 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         OutputStream = outputstream;
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#write(byte[], int, int)
-     */
     @Override
     public void write(byte[] cbuf, int off, int len) throws IOException {
         if (isClosed) {
@@ -53,9 +50,6 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         OutputStream.write(cbuf, off, len);
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#flush()
-     */
     @Override
     public void flush() throws IOException {
         if (isClosed) {
@@ -68,9 +62,6 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#close()
-     */
     @Override
     public void close() throws IOException {
         if (isClosed) {
@@ -83,9 +74,6 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         isClosed = true;
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#write(int)
-     */
     @Override
     public void write(int b) throws IOException {
         if (isClosed) {

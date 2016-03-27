@@ -36,16 +36,8 @@ public class VirtualRegistry implements RegistryBoth, Serializable {
      */
     public VirtualRegistry(int length) {
         this.Length = length;
-
-		/*
-        if(ByteCartRedux.debug)
-			ByteCartRedux.log.info("ByteCartRedux : creating VirtualRegistry of " + this.length() + " bit(s).");
-*/
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setBit(int, boolean)
-     */
     @Override
     public void setBit(int index, boolean value) {
 
@@ -56,9 +48,6 @@ public class VirtualRegistry implements RegistryBoth, Serializable {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryInput#getBit(int)
-     */
     @Override
     public boolean getBit(int index) {
         if (((this.Virtual >> (length() - index - 1)) & 1) == 0) {
@@ -67,25 +56,16 @@ public class VirtualRegistry implements RegistryBoth, Serializable {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#length()
-     */
     @Override
     public int length() {
         return this.Length;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#getAmount()
-     */
     @Override
     public int getAmount() {
         return Virtual;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setAmount(int)
-     */
     @Override
     public void setAmount(int amount) {
         this.Virtual = amount % (1 << this.length());

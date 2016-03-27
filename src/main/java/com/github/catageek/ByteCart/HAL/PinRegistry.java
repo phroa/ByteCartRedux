@@ -39,22 +39,13 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
      */
     public PinRegistry(T[] pins) {
         this.PinArray = Arrays.asList(pins);
-/*		if(ByteCartRedux.debug)
-            ByteCartRedux.log.info("ByteCartRedux : creating PinRegistry with" + this.length() + "pin(s)");
-*/
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#length()
-     */
     @Override
     public int length() {
         return PinArray.size();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#getAmount()
-     */
     @Override
     public int getAmount() {
 
@@ -76,9 +67,6 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
         return amount;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setAmount(int)
-     */
     @Override
     public void setAmount(int amount) {
         int i = amount;
@@ -102,17 +90,11 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setBit(int, boolean)
-     */
     @Override
     public void setBit(int index, boolean value) {
         ((OutputPin) this.PinArray.get(index)).write(value);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryInput#getBit(int)
-     */
     @Override
     public boolean getBit(int index) {
         return ((InputPin) this.PinArray.get(index)).read();

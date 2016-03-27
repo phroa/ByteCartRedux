@@ -33,48 +33,27 @@ public class ComponentWire extends AbstractComponent implements InputPin, Regist
      */
     public ComponentWire(Block block) {
         super(block);
-/*		if(ByteCartRedux.debug)
-            ByteCartRedux.log.info("ByteCartRedux : adding Redstone wire at " + block.getLocation().toString());
-*/
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.IO.InputPin#read()
-     */
     @Override
     public boolean read() {
         if (((RedstoneWire) this.getBlock().getState().getData()).isPowered()) {
-/*				if(ByteCartRedux.debug)
-					ByteCartRedux.log.info("Redstone wire on at (" + this.getLocation().toString() + ")");
-*/
             return true;
         }
-/*			if(ByteCartRedux.debug)
-				ByteCartRedux.log.info("Redstone wire off at (" + this.getLocation().toString() + ")");
-*/
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryInput#getBit(int)
-     */
     @Override
     public boolean getBit(int index) {
         RedstoneWire wire = ((RedstoneWire) this.getBlock().getState().getData());
         return (wire.getData() & 1 << (length() - index)) != 0;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#getAmount()
-     */
     @Override
     public int getAmount() {
         return ((RedstoneWire) this.getBlock().getState().getData()).getData();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#length()
-     */
     @Override
     public int length() {
         return 4;

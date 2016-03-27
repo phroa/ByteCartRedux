@@ -58,9 +58,6 @@ public class SignPostSubnetEvent extends BCRoutableSignEvent {
         return handlers;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Event.BCSignEvent#getSign()
-     */
     @Override
     protected BCSign getSign() {
         return subnet;

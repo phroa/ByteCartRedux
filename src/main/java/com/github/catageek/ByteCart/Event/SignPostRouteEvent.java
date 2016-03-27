@@ -56,9 +56,6 @@ public class SignPostRouteEvent extends BCRoutableSignEvent {
         return handlers;
     }
 
-    /* (non-Javadoc)
-     * @see org.bukkit.event.Event#getHandlers()
-     */
     public HandlerList getHandlers() {
         return handlers;
     }
@@ -81,9 +78,6 @@ public class SignPostRouteEvent extends BCRoutableSignEvent {
         return to;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Event.BCSignEvent#getSign()
-     */
     protected final BCSign getSign() {
         return router;
     }

@@ -137,9 +137,6 @@ public final class BookProperties implements Closeable, Flushable {
 
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Flushable#flush()
-     */
     @Override
     public void flush() throws IOException {
         if (isClosed) {
@@ -148,9 +145,6 @@ public final class BookProperties implements Closeable, Flushable {
         save();
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Closeable#close()
-     */
     @Override
     public void close() throws IOException {
         if (isClosed) {

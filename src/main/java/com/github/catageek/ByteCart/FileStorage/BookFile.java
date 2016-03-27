@@ -114,17 +114,11 @@ public final class BookFile implements BCFile {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getCapacity()
-     */
     @Override
     public int getCapacity() {
         return MAXSIZE;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#clear()
-     */
     @Override
     public void clear() {
         if (outputstream != null) {
@@ -134,9 +128,6 @@ public final class BookFile implements BCFile {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#isEmpty()
-     */
     @Override
     public boolean isEmpty() {
         if (outputstream != null) {
@@ -146,9 +137,6 @@ public final class BookFile implements BCFile {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getOutputStream()
-     */
     @Override
     public OutputStream getOutputStream() throws IOException {
         if (isClosed) {
@@ -164,9 +152,6 @@ public final class BookFile implements BCFile {
         return outputstream = new ItemStackMetaOutputStream(stack, bookoutputstream);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getInputStream()
-     */
     @Override
     public InputStream getInputStream() throws IOException {
         if (isClosed) {
@@ -179,9 +164,6 @@ public final class BookFile implements BCFile {
         return new BookInputStream(book, binarymode);
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Closeable#close()
-     */
     @Override
     public void close() throws IOException {
         if (outputstream != null) {
@@ -196,9 +178,6 @@ public final class BookFile implements BCFile {
 
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Flushable#flush()
-     */
     @Override
     public void flush() throws IOException {
         if (outputstream != null) {
@@ -213,17 +192,11 @@ public final class BookFile implements BCFile {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getContainer()
-     */
     @Override
     public Inventory getContainer() {
         return container;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getDescription()
-     */
     @Override
     public String getDescription() throws IOException {
         if (isClosed) {
@@ -236,9 +209,6 @@ public final class BookFile implements BCFile {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#setDescription(java.lang.String)
-     */
     @Override
     public void setDescription(String s) throws IOException {
         if (isClosed) {

@@ -48,9 +48,6 @@ public final class LeftRouter extends AbstractRouter implements
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.AbstractRouter#getTo()
-     */
     @Override
     public BlockFace getTo() {
         return MathUtil.clockwise(this.getFrom());

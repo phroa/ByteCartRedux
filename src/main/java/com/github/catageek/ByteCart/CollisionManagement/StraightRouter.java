@@ -39,9 +39,6 @@ public class StraightRouter extends AbstractRouter implements Router {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.AbstractRouter#route(org.bukkit.block.BlockFace)
-     */
     @Override
     public void route(BlockFace from) {
         // activate main levers
@@ -49,9 +46,6 @@ public class StraightRouter extends AbstractRouter implements Router {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.AbstractRouter#getTo()
-     */
     @Override
     public final BlockFace getTo() {
         return this.getFrom().getOppositeFace();

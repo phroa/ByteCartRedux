@@ -67,25 +67,16 @@ abstract class RoutingTableContent<T extends RoutingTableContent<T>> implements 
         return data.getAmount();
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
     @Override
     public int compareTo(T o) {
         return new CompareToBuilder().append(value(), o.value()).toComparison();
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return value();
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {

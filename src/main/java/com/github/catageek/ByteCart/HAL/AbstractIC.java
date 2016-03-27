@@ -108,55 +108,34 @@ abstract public class AbstractIC implements IC {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getName()
-     */
     @Override
     abstract public String getName();
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return ((Sign) this.getBlock().getState()).getLine(2);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#addInputRegistry(com.github.catageek.ByteCartRedux.HAL.RegistryInput)
-     */
     @Override
     public final void addInputRegistry(RegistryInput reg) {
         this.input[this.input_args++] = reg;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#addOutputRegistry(com.github.catageek.ByteCartRedux.HAL.RegistryOutput)
-     */
     @Override
     public final void addOutputRegistry(RegistryOutput reg) {
         this.output[this.output_args++] = reg;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getInput(int)
-     */
     @Override
     public final RegistryInput getInput(int index) {
         return input[index];
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getOutput(int)
-     */
     @Override
     public final RegistryOutput getOutput(int index) {
         return output[index];
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getCardinal()
-     */
     @Override
     public final BlockFace getCardinal() {
         try {
@@ -172,41 +151,26 @@ abstract public class AbstractIC implements IC {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getBlock()
-     */
     @Override
     public final Block getBlock() {
         return Block;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getBuildPermission()
-     */
     @Override
     public final String getBuildPermission() {
         return "bytecart." + getName();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getTriggertax()
-     */
     @Override
     public final int getTriggertax() {
         return ByteCartRedux.myPlugin.getConfig().getInt("usetax." + this.getName());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getBuildtax()
-     */
     @Override
     public final int getBuildtax() {
         return ByteCartRedux.myPlugin.getConfig().getInt("buildtax." + this.getName());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.IC#getLocation()
-     */
     @Override
     public org.bukkit.Location getLocation() {
         return Location;

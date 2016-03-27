@@ -38,9 +38,6 @@ class BC7018 extends AbstractTriggeredSign implements Triggable, Clickable {
         this.setInventory(player.getInventory());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Clickable#click()
-     */
     @Override
     public void click() {
         try {
@@ -54,25 +51,16 @@ class BC7018 extends AbstractTriggeredSign implements Triggable, Clickable {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
-     */
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
         TicketFactory.removeTickets(this.getInventory());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     public String getName() {
         return "BC7018";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "Remove Ticket";

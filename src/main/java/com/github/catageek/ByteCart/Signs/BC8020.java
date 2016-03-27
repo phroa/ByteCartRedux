@@ -42,18 +42,12 @@ final class BC8020 extends BC8010 implements BCRouter, Triggable, HasRoutingTabl
         this.IsTrackNumberProvider = true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#selectUpdater()
-     */
     @Override
     protected boolean selectWanderer() {
         return (!WandererContentFactory.isWanderer(this.getInventory()))
                 || WandererContentFactory.isWanderer(this.getInventory(), Scope.LOCAL);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#SelectRoute(com.github.catageek.ByteCartRedux.AddressLayer.AddressRouted, com.github.catageek
-     * .ByteCartRedux.AddressLayer.Address, com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable)
      */
     @Override
     protected BlockFace SelectRoute(AddressRouted IPaddress, Address sign, RoutingTableWritable RoutingTable) {
@@ -77,25 +71,16 @@ final class BC8020 extends BC8010 implements BCRouter, Triggable, HasRoutingTabl
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#getLevel()
-     */
     @Override
     public Wanderer.Level getLevel() {
         return Wanderer.Level.BACKBONE;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#getName()
-     */
     @Override
     public String getName() {
         return "BC8020";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "L2 Router";

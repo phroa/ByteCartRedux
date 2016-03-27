@@ -39,21 +39,11 @@ class BookOutputStream extends ByteArrayOutputStream {
         this.book = book;
     }
 
-    /* (non-Javadoc)
-     * @see java.io.ByteArrayOutputStream#write(byte[], int, int)
-     */
     @Override
     public void write(byte[] bytes, int off, int len) {
-        //		this.reset();
-        //		if(ByteCartRedux.debug)
-        //			ByteCartRedux.log.info("ByteCartRedux : empty data cache buffer");
-
         super.write(bytes, off, len);
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#write(byte[])
-     */
     @Override
     public void write(byte[] bytes) throws IOException {
         if (isClosed) {
@@ -71,9 +61,6 @@ class BookOutputStream extends ByteArrayOutputStream {
         return this.toByteArray();
     }
 
-    /* (non-Javadoc)
-     * @see java.io.OutputStream#flush()
-     */
     @Override
     public void flush() throws IOException {
 
@@ -121,9 +108,6 @@ class BookOutputStream extends ByteArrayOutputStream {
         return this.toString();
     }
 
-    /* (non-Javadoc)
-     * @see java.io.ByteArrayOutputStream#close()
-     */
     @Override
     public void close() throws IOException {
         if (isClosed) {

@@ -42,9 +42,6 @@ public final class SignRemoveEvent extends BCEvent {
         return handlers;
     }
 
-    /* (non-Javadoc)
-     * @see org.bukkit.event.Event#getHandlers()
-     */
     public HandlerList getHandlers() {
         return handlers;
     }

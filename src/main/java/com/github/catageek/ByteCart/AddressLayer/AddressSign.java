@@ -46,107 +46,67 @@ final class AddressSign extends AbstractComponent implements Address {
 
         this.Address = new AddressString((new ComponentSign(block)).getLine(ligne), false);
 
-/*
-			if(ByteCartRedux.debug)
-				ByteCartRedux.log.info("ByteCartRedux: creating AddressSign line #" + ligne + " at " + block.getLocation().toString());
-	*/
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getRegion()
-     */
     @Override
     public final RegistryBoth getRegion() {
         return Address.getRegion();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getTrack()
-     */
     @Override
     public final RegistryBoth getTrack() {
         return Address.getTrack();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getStation()
-     */
     @Override
     public final RegistryBoth getStation() {
         return Address.getStation();
     }
 
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String)
-     */
     @Override
     public final boolean setAddress(String s) {
         this.Address.setAddress(s);
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String, java.lang.String)
-     */
     @Override
     public boolean setAddress(String s, String name) {
         (new ComponentSign(this.getBlock())).setLine(2, name);
         return setAddress(s);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isTrain()
-     */
     @Override
     public boolean isTrain() {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setTrain(boolean)
-     */
     @Override
     public boolean setTrain(boolean istrain) {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#finalizeAddress()
-     */
     @Override
     public final void finalizeAddress() {
         (new ComponentSign(this.getBlock())).setLine(3, this.Address.toString());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isValid()
-     */
     @Override
     public boolean isValid() {
         return this.Address.isValid;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#remove()
-     */
     @Override
     public void remove() {
         this.Address.remove();
         (new ComponentSign(this.getBlock())).setLine(3, "");
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     final public String toString() {
         return Address.toString();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isReturnable()
-     */
     @Override
     public boolean isReturnable() {
         return false;

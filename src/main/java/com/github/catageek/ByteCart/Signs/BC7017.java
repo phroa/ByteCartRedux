@@ -41,25 +41,16 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggable {
         this.setInventory(player.getInventory());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     public String getName() {
         return "BC7017";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "Return back";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
-     */
     @Override
     public void trigger() {
         Address returnAddress = ReturnAddressFactory.getAddress(this.getInventory());

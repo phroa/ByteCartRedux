@@ -39,5 +39,4 @@ public interface CollisionAvoider {
      * @param t
      */
     public void Add(Triggable t);
-    //	public void WishToGo(IntersectionSide s, boolean isTrain);
 }

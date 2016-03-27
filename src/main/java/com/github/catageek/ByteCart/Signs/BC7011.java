@@ -31,17 +31,11 @@ public class BC7011 extends BC7010 implements Triggable {
         this.StorageCartAllowed = true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getName()
-     */
     @Override
     public String getName() {
         return "BC7011";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "Storage Goto";

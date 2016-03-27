@@ -52,9 +52,6 @@ public class BC7010 extends AbstractTriggeredSign implements Triggable, Clickabl
         this.setInventory(player.getInventory());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
-     */
     @Override
     public final void trigger() {
 
@@ -204,26 +201,17 @@ public class BC7010 extends AbstractTriggeredSign implements Triggable, Clickabl
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Clickable#click()
-     */
     @Override
     public final void click() {
         this.trigger();
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     public String getName() {
         return "BC7010";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "Goto";

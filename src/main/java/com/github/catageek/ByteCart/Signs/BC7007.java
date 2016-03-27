@@ -40,9 +40,6 @@ final class BC7007 extends AbstractTriggeredSign implements Triggable {
         super(block, vehicle);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
-     */
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
         org.bukkit.entity.Vehicle vehicle = this.getVehicle();
@@ -54,17 +51,11 @@ final class BC7007 extends AbstractTriggeredSign implements Triggable {
         MathUtil.setSpeed(cart, 0.4D);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     public String getName() {
         return "BC7007";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     public String getFriendlyName() {
         return "Unbooster";
     }

@@ -40,9 +40,6 @@ public class SuperRegistry<T extends Registry> implements RegistryBoth {
         this.Registry2 = reg2;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setBit(int, boolean)
-     */
     @Override
     public void setBit(int index, boolean value) {
         if (index < this.Registry1.length()) {
@@ -53,9 +50,6 @@ public class SuperRegistry<T extends Registry> implements RegistryBoth {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryInput#getBit(int)
-     */
     @Override
     public boolean getBit(int index) {
 
@@ -65,25 +59,16 @@ public class SuperRegistry<T extends Registry> implements RegistryBoth {
         return ((RegistryInput) this.Registry2).getBit(index - this.Registry1.length());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#length()
-     */
     @Override
     public int length() {
         return this.Registry1.length() + this.Registry2.length();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#getAmount()
-     */
     @Override
     public int getAmount() {
         return (this.Registry1.getAmount() << this.Registry2.length()) + this.Registry2.getAmount();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setAmount(int)
-     */
     @Override
     public void setAmount(int amount) {
         ((RegistryOutput) this.Registry1).setAmount(amount >> (this.Registry2.length()) % (1 << this.Registry1.length()));

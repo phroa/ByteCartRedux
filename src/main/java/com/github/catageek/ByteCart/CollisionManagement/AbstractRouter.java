@@ -95,38 +95,17 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
         return (value >> (b)) | ((value & ((1 << b) - 1)) << d);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.CollisionAvoider#Add(com.github.catageek.ByteCartRedux.Signs.Triggable)
-     */
     @Override
     public void Add(Triggable t) {
         return;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#WishToGo(org.bukkit.block.BlockFace, org.bukkit.block.BlockFace, boolean)
-     */
     @Override
     public final BlockFace WishToGo(BlockFace from, BlockFace to, boolean isTrain) {
-        //		IntersectionSide sfrom = getSide(from);
-        //		IntersectionSide sto = getSide(to);
-
-
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux : Router : coming from " + from + " going to " + to);
         }
-/*		if(ByteCartRedux.debug)
-            ByteCartRedux.log.info("ByteCartRedux : Router : going to " + sto);
-*/
         Router ca = this;
-/*
-		if(ByteCartRedux.debug) {
-			ByteCartRedux.log.info("ByteCartRedux : position found  " + ca.getClass().toString());
-			ByteCartRedux.log.info("ByteCartRedux : Recently used ? " + recentlyUsed);
-			ByteCartRedux.log.info("ByteCartRedux : hasTrain ? " + hasTrain );
-			ByteCartRedux.log.info("ByteCartRedux : isTrain ? " + isTrain );
-		}
-*/
         Side s = getSide(from, to);
 
         boolean cond = !this.getRecentlyUsed() && !this.getHasTrain();
@@ -161,12 +140,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
                     }
                     ca = this;
             }
-/*
-			if(ByteCartRedux.debug)
-				ByteCartRedux.log.info("ByteCartRedux : Router : position changed to " + ca.getClass().toString());
-			if(ByteCartRedux.debug)
-				ByteCartRedux.log.info("ByteCartRedux : Router : really going to " + ca.getTo());
-*/            // save router in collision avoider map
+            // save router in collision avoider map
             ByteCartRedux.myPlugin.getCollisionAvoiderManager().setCollisionAvoider(this.getLocation(), ca);
 
             // activate secondary levers
@@ -180,23 +154,14 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
         return ca.getTo();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#route(org.bukkit.block.BlockFace)
-     */
     @Override
     public void route(BlockFace from) {
         return;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#getTo()
-     */
     @Override
     public abstract BlockFace getTo();
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#getFrom()
-     */
     @Override
     public final BlockFace getFrom() {
         return From;
@@ -319,49 +284,31 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#getSecondpos()
-     */
     @Override
     public final int getSecondpos() {
         return secondpos;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#setSecondpos(int)
-     */
     @Override
     public final void setSecondpos(int secondpos) {
         this.secondpos = secondpos;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#getPosmask()
-     */
     @Override
     public final int getPosmask() {
         return posmask;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#setPosmask(int)
-     */
     @Override
     public final void setPosmask(int posmask) {
         this.posmask = posmask;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.AbstractCollisionAvoider#getRecentlyUsedMap()
-     */
     @Override
     protected ExpirableMap<Location, Boolean> getRecentlyUsedMap() {
         return recentlyUsedMap;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.AbstractCollisionAvoider#getHasTrainMap()
-     */
     @Override
     protected ExpirableMap<Location, Boolean> getHasTrainMap() {
         return hasTrainMap;

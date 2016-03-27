@@ -39,30 +39,18 @@ public class SubRegistry<T extends Registry> implements RegistryBoth {
         this.Length = length;
         this.First = first;
 
-/*		if(ByteCartRedux.debug)
-			ByteCartRedux.log.info("ByteCartRedux : creating SubRegistry " + reg.length() + " -> " + length + " bits beginning at index "+ first);
-*/
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#length()
-     */
     @Override
     public int length() {
         return this.Length;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#getAmount()
-     */
     @Override
     public int getAmount() {
         return (this.Registry.getAmount() >> (this.Registry.length() - (this.First + this.length())) & (1 << this.length()) - 1);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setAmount(int)
-     */
     @Override
     public void setAmount(int amount) {
         ((RegistryOutput) this.Registry).setAmount(
@@ -70,17 +58,11 @@ public class SubRegistry<T extends Registry> implements RegistryBoth {
                         .length()))));
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setBit(int, boolean)
-     */
     @Override
     public void setBit(int index, boolean value) {
         ((RegistryOutput) this.Registry).setBit(index + this.First, value);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryInput#getBit(int)
-     */
     @Override
     public boolean getBit(int index) {
         return ((RegistryInput) this.Registry).getBit(index + this.First);

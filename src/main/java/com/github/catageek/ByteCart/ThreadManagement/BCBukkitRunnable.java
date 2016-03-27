@@ -136,9 +136,6 @@ final class BCBukkitRunnable<K> {
             this.params = objects;
         }
 
-        /* (non-Javadoc)
-         * @see java.lang.Runnable#run()
-         */
         @Override
         public void run() {
             Map<K, BukkitTask> map = this.expirable.getThreadMap();

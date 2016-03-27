@@ -65,9 +65,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         this.inventory = inventory;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable#clear(boolean)
-     */
     @Override
     public void clear(boolean fullreset) {
         if (map.isEmpty()) {
@@ -93,9 +90,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         wasModified = true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable#getRouteNumbers()
-     */
     @Override
     public final <T extends RouteValue> Iterator<T> getOrderedRouteNumbers() {
         @SuppressWarnings("unchecked")
@@ -103,9 +97,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         return it;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getMetric(int, com.github.catageek.ByteCartRedux.Util.DirectionRegistry)
-     */
     @Override
     public int getMetric(int entry, DirectionRegistry direction) {
         SortedMap<Metric, PartitionedHashSet<DirectionRegistry>> smap;
@@ -123,9 +114,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         return -1;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getMinMetric(int)
-     */
     @Override
     public int getMinMetric(int entry) {
         SortedMap<Metric, PartitionedHashSet<DirectionRegistry>> smap;
@@ -137,10 +125,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         return -1;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#setEntry(int, com.github.catageek.ByteCartRedux.Util.DirectionRegistry, com.github
-     * .catageek.ByteCartRedux.Routing.Metric)
-     */
     private void setMapEntry(int entry, DirectionRegistry direction, Metric metric) {
 
         RouteNumber route = new RouteNumber(entry);
@@ -163,26 +147,16 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#setEntry(int, com.github.catageek.ByteCartRedux.Util.DirectionRegistry, com.github
-     * .catageek.ByteCartRedux.Routing.Metric)
-     */
     @Override
     public void setEntry(int entry, DirectionRegistry direction, Metric metric) {
         setMapEntry(entry, direction, metric);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#isEmpty(int)
-     */
     @Override
     public boolean isEmpty(int entry) {
         return !map.containsKey(new RouteNumber(entry));
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getDirection(int)
-     */
     @Override
     public DirectionRegistry getDirection(int entry) {
         RouteNumber route = new RouteNumber(entry);
@@ -198,9 +172,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getDirectlyConnectedList(com.github.catageek.ByteCartRedux.Util.DirectionRegistry)
-     */
     @Override
     public Set<Integer> getDirectlyConnectedList(DirectionRegistry direction) {
         SortedMap<Integer, Metric> list = new TreeMap<Integer, Metric>();
@@ -222,9 +193,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         return list.keySet();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getNotDirectlyConnectedList(com.github.catageek.ByteCartRedux.Util.DirectionRegistry)
-     */
     @Override
     protected Set<Integer> getNotDirectlyConnectedList(
             DirectionRegistry direction) {
@@ -258,9 +226,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         return list.keySet();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#removeEntry(int, com.github.catageek.ByteCartRedux.Util.DirectionRegistry)
-     */
     @Override
     public void removeEntry(int entry, DirectionRegistry from) {
         RouteNumber route = new RouteNumber(entry);
@@ -281,9 +246,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable#serialize()
-     */
     @Override
     public void serialize() throws IOException {
         if (!wasModified) {
@@ -301,9 +263,6 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public void readExternal(ObjectInput in) throws IOException,
@@ -311,17 +270,11 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         this.map = (ExternalizableTreeMap<RouteNumber, RouteProperty>) in.readObject();
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
-     */
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(map);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable#size()
-     */
     @Override
     public int size() {
         return map.size();

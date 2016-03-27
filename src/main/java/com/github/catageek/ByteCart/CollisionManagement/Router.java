@@ -43,9 +43,6 @@ public interface Router extends CollisionAvoider {
      */
     public void Book(boolean b);
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.CollisionManagement.CollisionAvoider#getSecondpos()
-     */
     public int getSecondpos();
 
     /**

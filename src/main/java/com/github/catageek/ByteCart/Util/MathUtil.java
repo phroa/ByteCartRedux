@@ -103,10 +103,6 @@ public final class MathUtil {
 
     public static final void loadChunkAround(World world, int x, int z, int radius) {
         int j, i = x - radius, k = x + radius, l = z + radius;
-
-
-        //		long start = System.nanoTime();
-
         for (; i <= k; ++i) {
             for (j = z - radius; j <= l; ++j) {
                 world.loadChunk(i, j, false);

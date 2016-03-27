@@ -53,9 +53,6 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
         super(block, vehicle);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
-     */
     @Override
     public void trigger() {
 
@@ -91,16 +88,11 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
                 if (this.wasTrain(this.getLocation())) {
                     ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(this.getLocation());
                 }
-                /*				if(ByteCartRedux.debug)
-					ByteCartRedux.log.info("ByteCartRedux: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " : isTrain() = " +
-					this.isTrain());
-				 */
                 if (this.isTrain()) {
                     this.setWasTrain(this.getLocation(), true);
                 }
 
                 // the lever is on too
-                //this.getOutput(0).setAmount(1);
                 final BC7001 myBC7001 = this;
 
                 ByteCartRedux.myPlugin.getServer().getScheduler().scheduleSyncDelayedTask(ByteCartRedux.myPlugin, new Runnable() {
@@ -109,9 +101,6 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
                                 // we set busy
                                 myBC7001.getOutput(0).setAmount(1);
 
-						/*						if(ByteCartRedux.debug)
-							ByteCartRedux.log.info("ByteCartRedux: BC7001 : running delayed thread (set switch ON)");
-						 */
                             }
                         }
                         , 6);
@@ -142,10 +131,6 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
                     ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(this.getLocation());
                 }
 
-				/*
-				if(ByteCartRedux.debug)
-					ByteCartRedux.log.info("ByteCartRedux: BC7001 : cart on stop at " + this.Vehicle.getLocation().toString());
-				 */
             }
             // if this is the first car of a train
             // we keep it during 2 s
@@ -159,9 +144,6 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Powerable#power()
-     */
     @Override
     public void power() throws ClassNotFoundException, IOException {
         // power update
@@ -188,17 +170,11 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     public final String getName() {
         return "BC7001";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public final String getFriendlyName() {
         return "Stop/Start";

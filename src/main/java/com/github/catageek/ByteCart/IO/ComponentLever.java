@@ -37,9 +37,6 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
         super(block);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.IO.OutputPin#write(boolean)
-     */
     @Override
     public void write(boolean bit) {
         BlockState block = this.getBlock().getState();
@@ -52,9 +49,6 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.IO.InputPin#read()
-     */
     @Override
     public boolean read() {
         MaterialData md = this.getBlock().getState().getData();
@@ -64,25 +58,16 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.RegistryInput#getBit(int)
-     */
     @Override
     public boolean getBit(int index) {
         return read();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#getAmount()
-     */
     @Override
     public int getAmount() {
         return (read() ? 15 : 0);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.Registry#length()
-     */
     @Override
     public int length() {
         return 4;

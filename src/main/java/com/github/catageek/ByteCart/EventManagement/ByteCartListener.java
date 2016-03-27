@@ -304,42 +304,6 @@ public class ByteCartListener implements Listener {
             removeSignIfNeeded(it.next(), entity);
         }
     }
-    /*
-	@EventHandler(ignoreCancelled = true)
-	public void onBlockRedstone(BlockRedstoneEvent event) {
-		Block block = event.getBlock().getRelative(BlockFace.DOWN);
-		List<Block> blocks = new ArrayList<Block>(4);
-		blocks.add(block.getRelative(BlockFace.NORTH));
-		blocks.add(block.getRelative(BlockFace.EAST));
-		blocks.add(block.getRelative(BlockFace.SOUTH));
-		blocks.add(block.getRelative(BlockFace.WEST));
-
-		for (Block b : blocks) {
-			if (! AbstractIC.checkEligibility(b))
-				continue;
-
-			Powerable myIC = this.MyPoweredICFactory.getIC(b);
-
-
-			if (myIC != null) {
-				try {
-					if(ByteCartRedux.debug)
-						ByteCartRedux.log.info("ByteCartRedux: power()");
-
-					myIC.power();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			return;
-		}
-
-	}
-*/
 
     /**
      * Check if a block is powered above a sign.

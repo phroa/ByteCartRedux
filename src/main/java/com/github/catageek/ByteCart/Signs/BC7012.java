@@ -31,10 +31,6 @@ final class BC7012 extends BC7013 implements Triggable {
         super(block, vehicle);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7013#format(com.github.catageek.ByteCartRedux.HAL.RegistryInput, com.github.catageek.ByteCartRedux
-     * .AddressLayer.AddressRouted)
-     */
     @Override
     protected String format(RegistryInput wire, AddressRouted InvAddress) {
         return "" + wire.getAmount() + "."
@@ -42,25 +38,16 @@ final class BC7012 extends BC7013 implements Triggable {
                 + InvAddress.getStation().getAmount();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7013#getName()
-     */
     @Override
     public final String getName() {
         return "BC7012";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7013#getFriendlyName()
-     */
     @Override
     public final String getFriendlyName() {
         return "setRegion";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7013#forceTicketReuse()
-     */
     @Override
     protected boolean forceTicketReuse() {
         return true;

@@ -38,9 +38,6 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggable 
         this.netmask = 0;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#manageUpdater(com.github.catageek.ByteCartRedux.CollisionManagement
-     * .SimpleCollisionAvoider)
      */
     @Override
     protected void manageWanderer(SimpleCollisionAvoider intersection) {
@@ -67,17 +64,11 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggable 
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#getName()
-     */
     @Override
     public String getName() {
         return "BC9000";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "Collision avoider";

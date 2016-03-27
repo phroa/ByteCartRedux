@@ -36,17 +36,11 @@ final class BC7015 extends BC7011 implements Triggable {
         super(block, vehicle);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getTargetAddress()
-     */
     @Override
     protected AddressRouted getTargetAddress() {
         return ReturnAddressFactory.getAddress(this.getInventory());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getIsTrain()
-     */
     @Override
     protected final boolean getIsTrain() {
         Address address;
@@ -56,33 +50,21 @@ final class BC7015 extends BC7011 implements Triggable {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7011#getName()
-     */
     @Override
     public String getName() {
         return "BC7015";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7011#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "Set Return";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#forceTicketReuse()
-     */
     @Override
     protected boolean forceTicketReuse() {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#infoPlayer(com.github.catageek.ByteCartRedux.AddressLayer.Address)
-     */
     @Override
     protected void infoPlayer(String address) {
         ((Player) this.getInventory().getHolder()).sendMessage(

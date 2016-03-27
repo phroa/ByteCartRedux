@@ -41,14 +41,8 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
      */
     protected ComponentButton(Block block) {
         super(block);
-/*		if(ByteCartRedux.debug)
-            ByteCartRedux.log.info("ByteCartRedux : adding Button at " + block.getLocation().toString());
-*/
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.IO.OutputPin#write(boolean)
-     */
     @Override
     public void write(boolean bit) {
         final Block block = this.getBlock();
@@ -79,15 +73,6 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
                     blockstate.setData(button);
                     blockstate.update(false, true);
                     MathUtil.forceUpdate(this.getBlock().getRelative(button.getAttachedFace()));
-			
-			
-/*			if(ByteCartRedux.debug)
-				ByteCartRedux.log.info("Button at (" + this.getLocation().toString() + ") : " + bit);
-*/
-
-
-                    // delayed action to unpower the button after 2 s.
-
                     id = ByteCartRedux.myPlugin.getServer().getScheduler()
                             .scheduleSyncDelayedTask(ByteCartRedux.myPlugin, new SetButtonOff(component, ActivatedButtonMap)
                                     , 40);
@@ -100,9 +85,6 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.IO.InputPin#read()
-     */
     @Override
     public boolean read() {
         MaterialData md = this.getBlock().getState().getData();

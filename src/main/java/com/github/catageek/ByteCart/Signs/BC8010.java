@@ -85,9 +85,6 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
-     */
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
 
@@ -261,9 +258,6 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getLevel()
-     */
     @Override
     public Wanderer.Level getLevel() {
         return Wanderer.Level.REGION;
@@ -279,17 +273,11 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
         return From;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getSignAddress()
-     */
     @Override
     public final Address getSignAddress() {
         return Sign;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.HasRoutingTable#getRoutingTable()
-     */
     @Override
     public final RoutingTableWritable getRoutingTable() {
         return RoutingTable;
@@ -304,41 +292,26 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
         return IsTrackNumberProvider;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getDestinationIP()
-     */
     @Override
     public final String getDestinationIP() {
         return destination.toString();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCRouter#getOriginTrack()
-     */
     @Override
     public final int getOriginTrack() {
         return Sign.getTrack().getAmount();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getCenter()
-     */
     @Override
     public final Block getCenter() {
         return center;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     public String getName() {
         return "BC8010";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "L1 Router";

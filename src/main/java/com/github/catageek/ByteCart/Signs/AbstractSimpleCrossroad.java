@@ -50,9 +50,6 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
         builder = new SimpleCollisionAvoiderBuilder((Triggable) this, block.getRelative(this.getCardinal(), 3).getLocation());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     abstract public String getName();
 
@@ -169,33 +166,21 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
         return destination = AddressFactory.getAddress(this.getInventory());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getLevel()
-     */
     @Override
     public Wanderer.Level getLevel() {
         return Wanderer.Level.LOCAL;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getSignAddress()
-     */
     @Override
     public final Address getSignAddress() {
         return AddressFactory.getAddress(getBlock(), 3);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getCenter()
-     */
     @Override
     public final org.bukkit.block.Block getCenter() {
         return this.getBlock();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getDestinationIP()
-     */
     @Override
     public final String getDestinationIP() {
         Address ip;

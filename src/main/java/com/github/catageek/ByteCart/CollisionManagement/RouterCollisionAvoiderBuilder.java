@@ -30,9 +30,6 @@ public class RouterCollisionAvoiderBuilder extends AbstractCollisionAvoiderBuild
         super(ic, loc);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.CollisionAvoiderBuilder#getCollisionAvoider()
-     */
     @Override
     @SuppressWarnings("unchecked")
     public <T extends CollisionAvoider> T getCollisionAvoider() {

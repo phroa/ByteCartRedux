@@ -35,13 +35,6 @@ public final class DirectionRegistry implements Partitionable {
      */
     private VirtualRegistry registry;
 
-	/* 
-     * bit 3 : SOUTH
-	 * bit 2 : WEST
-	 * bit 1 : NORTH
-	 * bit 0 : EASt
-	 */
-
     public DirectionRegistry() {
         this.registry = new VirtualRegistry(4);
     }
@@ -125,9 +118,6 @@ public final class DirectionRegistry implements Partitionable {
         return BlockFace.SELF;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Storage.Partitionable#getAmount()
-     */
     @Override
     public final int getAmount() {
         return this.registry.getAmount();
@@ -153,17 +143,11 @@ public final class DirectionRegistry implements Partitionable {
         return reg;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return getAmount();
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object o) {
         if (o == null) {

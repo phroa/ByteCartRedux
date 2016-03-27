@@ -43,10 +43,6 @@ public class PoweredSignFactory {
         }
 
         int ICnumber = Integer.parseInt(signString.substring(3, 7));
-/*
-        if(ByteCartRedux.debug)
-			ByteCartRedux.log.info("ByteCartRedux: Powered #IC " + ICnumber + " detected");
-*/
 
         try {
 
@@ -73,10 +69,6 @@ public class PoweredSignFactory {
             // there was no inventory in the cart
             return null;
         }
-/*
-		if(ByteCartRedux.debug)
-			ByteCartRedux.log.info("ByteCartRedux: #IC " + ICnumber + " not activated");
-*/
         return null;
 
     }

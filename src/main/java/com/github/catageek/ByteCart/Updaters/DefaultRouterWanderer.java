@@ -37,34 +37,22 @@ public class DefaultRouterWanderer extends AbstractUpdater {
         super(bc, region);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractWanderer#doAction(com.github.catageek.ByteCartRedux.CollisionManagement.SimpleCollisionAvoider
-     * .Side)
      */
     @Override
     public void doAction(Side To) {
         return;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractWanderer#doAction(org.bukkit.block.BlockFace)
-     */
     @Override
     public void doAction(BlockFace To) {
     }
 
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractWanderer#giveSimpleDirection()
-     */
     @Override
     public Side giveSimpleDirection() {
         return Side.LEVER_OFF;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.AbstractWanderer#giveRouterDirection()
-     */
     @Override
     public BlockFace giveRouterDirection() {
         return getRandomBlockFace(this.getRoutingTable(), this.getFrom().getBlockFace());

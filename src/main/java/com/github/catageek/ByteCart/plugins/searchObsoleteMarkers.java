@@ -31,9 +31,6 @@ import java.util.Iterator;
  */
 public final class searchObsoleteMarkers implements Runnable {
 
-    /* (non-Javadoc)
-     * @see java.lang.Runnable#run()
-     */
     @Override
     public void run() {
         Iterator<Marker> it = BCDynmapPlugin.markerset.getMarkers().iterator();

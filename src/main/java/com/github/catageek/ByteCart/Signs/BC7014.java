@@ -38,9 +38,6 @@ class BC7014 extends BC7010 implements Triggable {
         this.StorageCartAllowed = true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getAddressToWrite()
-     */
     @Override
     protected Address getAddressToWrite() {
         addIO();
@@ -87,9 +84,6 @@ class BC7014 extends BC7010 implements Triggable {
         this.addInputRegistry(wire);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getIsTrain()
-     */
     @Override
     protected final boolean getIsTrain() {
         boolean signtrain = super.getIsTrain();
@@ -100,25 +94,16 @@ class BC7014 extends BC7010 implements Triggable {
         return signtrain;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getName()
-     */
     @Override
     public String getName() {
         return "BC7014";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "setStation";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#forceTicketReuse()
-     */
     @Override
     protected boolean forceTicketReuse() {
         return true;

@@ -31,9 +31,6 @@ public class SimpleCollisionAvoiderBuilder extends AbstractCollisionAvoiderBuild
     }
 
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.CollisionAvoiderBuilder#getCollisionAvoider()
-     */
     @Override
     @SuppressWarnings("unchecked")
     public <T extends CollisionAvoider> T getCollisionAvoider() {

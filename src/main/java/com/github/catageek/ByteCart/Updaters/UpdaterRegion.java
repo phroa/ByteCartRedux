@@ -89,8 +89,6 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             // sign seems to have priority
             // if the router knows that it is directly connected
             // we keep it, otherwise we find a new number (if possible)
-            //			if (! this.getRoutingTable().isDirectlyConnected(getTrackNumber(), getFrom()) && this.isTrackNumberProvider())
-            //				return setSign(current);
             if (ByteCartRedux.debug) {
                 ByteCartRedux.log.info("ByteCartRedux : getOrSetCurrent() : current as track on sign " + this.getTrackNumber());
             }

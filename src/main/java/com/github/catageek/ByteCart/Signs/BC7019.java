@@ -39,25 +39,16 @@ final class BC7019 extends BC7010 implements Triggable {
         this.StorageCartAllowed = true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
-     */
     @Override
     public String getName() {
         return "BC7019";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
-     */
     @Override
     public String getFriendlyName() {
         return "Random address";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getAddressToWrite()
-     */
     @Override
     protected Address getAddressToWrite() {
         int startRegion = getInput(3).getAmount();

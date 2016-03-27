@@ -47,49 +47,31 @@ final class AddressBook implements AddressRouted {
         this.parameter = parameter;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getRegion()
-     */
     @Override
     public RegistryBoth getRegion() {
         return getAddress().getRegion();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getTrack()
-     */
     @Override
     public RegistryBoth getTrack() {
         return getAddress().getTrack();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getStation()
-     */
     @Override
     public RegistryBoth getStation() {
         return getAddress().getStation();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isTrain()
-     */
     @Override
     public boolean isTrain() {
         return ticket.getString(Parameter.TRAIN, "false").equalsIgnoreCase("true");
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String)
-     */
     @Override
     public boolean setAddress(String s) {
         return setAddress(s, null);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String, java.lang.String)
-     */
     @Override
     public boolean setAddress(String value, String stationname) {
         boolean ret = this.ticket.setEntry(parameter, value);
@@ -103,9 +85,6 @@ final class AddressBook implements AddressRouted {
         return ret;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setTrain(boolean)
-     */
     @Override
     public boolean setTrain(boolean istrain) {
         if (istrain) {
@@ -115,41 +94,26 @@ final class AddressBook implements AddressRouted {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isValid()
-     */
     @Override
     public boolean isValid() {
         return getAddress().isValid();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AddressRouted#getTTL()
-     */
     @Override
     public int getTTL() {
         return ticket.getInt(Parameter.TTL, ByteCartRedux.myPlugin.getConfig().getInt("TTL.value"));
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AddressRouted#updateTTL(int)
-     */
     @Override
     public void updateTTL(int i) {
         ticket.setEntry(Parameter.TTL, "" + i);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AddressRouted#initializeTTL()
-     */
     @Override
     public void initializeTTL() {
         this.ticket.resetValue(Parameter.TTL, "64");
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return getAddress().toString();
@@ -165,25 +129,16 @@ final class AddressBook implements AddressRouted {
         return new AddressString(ticket.getString(parameter, defaultaddr), true);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#remove()
-     */
     @Override
     public void remove() {
         ticket.remove(parameter);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isReturnable()
-     */
     @Override
     public boolean isReturnable() {
         return ticket.getString(Parameter.RETURN) != null;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#finalizeAddress()
-     */
     @SuppressWarnings("deprecation")
     @Override
     public void finalizeAddress() {

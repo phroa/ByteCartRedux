@@ -218,9 +218,7 @@ final class Ticket {
      */
     private static ItemStack getBookStack(String author, String title) {
         ItemStack stack;
-        /*
-		 * Here we create a ticket in slot, replacing empty book if needed
-		 */
+        /* Here we create a ticket in slot, replacing empty book if needed */
         BookMeta book;
 
         book = (BookMeta) Bukkit.getServer().getItemFactory().getItemMeta(Material.WRITTEN_BOOK);

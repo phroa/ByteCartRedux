@@ -96,10 +96,6 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
             // preparing the routes to send
             Routes.putRoutes(getRoutingTable(), new DirectionRegistry(To));
 
-
-            // storing the route in the map
-            //			ByteCartRedux.myPlugin.getUm().getMapRoutes().put(getVehicle().getEntityId(), getRoutes(), false);
-
             setCurrent(current);
             this.getRoutes().setLastrouterid(this.getCenter().hashCode());
 
@@ -112,9 +108,6 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.DefaultRouterWanderer#doAction(org.bukkit.block.BlockFace)
-     */
     @Override
     public void doAction(BlockFace To) {
 
@@ -144,9 +137,6 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.Routing.DefaultRouterWanderer#giveRouterDirection()
-     */
     @Override
     public final BlockFace giveRouterDirection() {
         return this.selectDirection();

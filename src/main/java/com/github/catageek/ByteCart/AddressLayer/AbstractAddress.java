@@ -51,34 +51,22 @@ abstract class AbstractAddress implements Address {
 
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(com.github.catageek.ByteCartRedux.AddressLayer.Address, java.lang.String)
-     */
     @Override
     public boolean setAddress(String a, String name) {
         return this.setAddress(a);
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String)
-     */
     @Override
     public boolean setAddress(String s) {
         return setAddress(AddressFactory.getUnresolvedAddress(s));
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setTrain(boolean)
-     */
     @Override
     public final boolean setTrain(boolean istrain) {
         this.setIsTrain(istrain);
         return this.UpdateAddress();
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "" + this.getRegion().getAmount() + "." + this.getTrack().getAmount() + "." + (this.getStation().getAmount());
@@ -95,9 +83,6 @@ abstract class AbstractAddress implements Address {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#finalizeAddress()
-     */
     @Override
     public void finalizeAddress() {
     }

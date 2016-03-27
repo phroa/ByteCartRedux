@@ -55,9 +55,6 @@ public final class ExternalizableTreeMap<K extends Externalizable, V extends Ext
         super(arg0);
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
-     */
     @SuppressWarnings("unchecked")
     @Override
     public void readExternal(ObjectInput s) throws IOException,
@@ -73,9 +70,6 @@ public final class ExternalizableTreeMap<K extends Externalizable, V extends Ext
 
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
-     */
     @Override
     public void writeExternal(ObjectOutput s) throws IOException {
         // Write out size (number of Mappings)

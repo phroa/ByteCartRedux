@@ -71,9 +71,6 @@ final class RouteProperty implements Externalizable {
         return set;
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Externalizable#readExternal(java.io.ObjectInput)
-     */
     @Override
     public void readExternal(ObjectInput arg0) throws IOException,
             ClassNotFoundException {
@@ -87,9 +84,6 @@ final class RouteProperty implements Externalizable {
         }
     }
 
-    /* (non-Javadoc)
-     * @see java.io.Externalizable#writeExternal(java.io.ObjectOutput)
-     */
     @Override
     public void writeExternal(ObjectOutput arg0) throws IOException {
         arg0.writeInt(map.size());

@@ -48,9 +48,6 @@ public final class UpdaterMoveEvent extends Event {
         return event;
     }
 
-    /* (non-Javadoc)
-     * @see org.bukkit.event.Event#getHandlers()
-     */
     public HandlerList getHandlers() {
         return handlers;
     }

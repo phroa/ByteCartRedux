@@ -116,9 +116,6 @@ public class AddressString extends AbstractAddress implements Address {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getRegion()
-     */
     @Override
     public VirtualRegistry getRegion() {
         VirtualRegistry ret;
@@ -126,17 +123,11 @@ public class AddressString extends AbstractAddress implements Address {
         return ret;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setRegion(int)
-     */
     @Override
     public void setRegion(int region) {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getTrack()
-     */
     @Override
     public VirtualRegistry getTrack() {
         VirtualRegistry ret;
@@ -144,17 +135,11 @@ public class AddressString extends AbstractAddress implements Address {
         return ret;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setTrack(int)
-     */
     @Override
     public void setTrack(int track) {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getStation()
-     */
     @Override
     public VirtualRegistry getStation() {
         VirtualRegistry ret;
@@ -162,17 +147,11 @@ public class AddressString extends AbstractAddress implements Address {
         return ret;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setStation(int)
-     */
     @Override
     public void setStation(int station) {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isTrain()
-     */
     @Override
     public boolean isTrain() {
         throw new UnsupportedOperationException();
@@ -192,17 +171,11 @@ public class AddressString extends AbstractAddress implements Address {
         return Integer.parseInt(st[index].trim());
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setIsTrain(boolean)
-     */
     @Override
     public void setIsTrain(boolean isTrain) {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#toString()
-     */
     @Override
     public java.lang.String toString() {
         if (this.String != null) {
@@ -211,9 +184,6 @@ public class AddressString extends AbstractAddress implements Address {
         return "";
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setAddress(java.lang.String)
-     */
     @Override
     public boolean setAddress(java.lang.String s) {
         if (isResolvableAddressOrName(s)) {
@@ -226,27 +196,18 @@ public class AddressString extends AbstractAddress implements Address {
         return this.isValid;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#UpdateAddress()
-     */
     @Override
     protected boolean UpdateAddress() {
         finalizeAddress();
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#remove()
-     */
     @Override
     public void remove() {
         this.String = null;
         this.isValid = false;
     }
 
-    /* (non-Javadoc)
-     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isReturnable()
-     */
     @Override
     public boolean isReturnable() {
         return false;

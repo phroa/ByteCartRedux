@@ -167,9 +167,6 @@ public final class BCCounter implements Serializable, Counter {
 
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public final String toString() {
         Iterator<Integer> it = map.keySet().iterator();
