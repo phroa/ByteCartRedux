@@ -18,7 +18,7 @@
  */
 package code.husky;
 
-import com.github.catageek.ByteCart.ByteCartPlugin;
+import com.github.catageek.bytecart.ByteCartPlugin;
 
 import java.sql.Connection;
 

@@ -19,7 +19,7 @@
 package code.husky.mysql;
 
 import code.husky.Database;
-import com.github.catageek.ByteCart.ByteCartPlugin;
+import com.github.catageek.bytecart.ByteCartPlugin;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

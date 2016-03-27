@@ -19,7 +19,7 @@
 package code.husky.sqlite;
 
 import code.husky.Database;
-import com.github.catageek.ByteCart.ByteCartPlugin;
+import com.github.catageek.bytecart.ByteCartPlugin;
 
 import java.io.File;
 import java.io.IOException;
