@@ -44,7 +44,7 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggerabl
         // it's an updater, so let it choosing direction
         super.manageWanderer(intersection);
 
-        if (ByteCartRedux.myPlugin.getConfig().getBoolean("oldBC9000behaviour", true)) {
+        if (ByteCartRedux.rootNode.getNode("oldBC9000behaviour").getBoolean(true)) {
             UpdaterLocal updater;
             try {
                 updater =

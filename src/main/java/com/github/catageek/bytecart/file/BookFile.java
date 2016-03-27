@@ -42,7 +42,7 @@ public final class BookFile implements BCFile {
     static final int PAGESIZE = 1 << PAGELOG;
     static final int MAXPAGE = 20;
     static final int MAXSIZE = MAXPAGE * PAGESIZE;
-    private static final String prefix = ByteCartRedux.myPlugin.getConfig().getString("author");
+    private static final String prefix = ByteCartRedux.rootNode.getNode("author").getString();
     private final String author;
     private final Inventory container;
     private final boolean binarymode;

@@ -113,7 +113,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
                     }
                     this.getVehicle().setVelocity(
                             (new Vector(this.getCardinal().getModX(), this.getCardinal().getModY(), this.getCardinal().getModZ()))
-                                    .multiply(ByteCartRedux.myPlugin.getConfig().getDouble("BC7001.startvelocity")));
+                                    .multiply(ByteCartRedux.rootNode.getNode("BC7001", "startvelocity").getDouble()));
                 }
             }
 

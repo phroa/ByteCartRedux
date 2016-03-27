@@ -35,7 +35,7 @@ public final class UpdaterSet {
 
     // entries stay for 1h
     UpdaterSet() {
-        long duration = ByteCartRedux.myPlugin.getConfig().getInt("updater.timeout", 60) * 1200;
+        long duration = ByteCartRedux.rootNode.getNode("updater", "timeout").getInt(60) * 1200;
         updateSet = new ExpirableSet<Integer>(duration, false, "UpdaterRoutes");
     }
 

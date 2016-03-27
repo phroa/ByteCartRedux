@@ -93,7 +93,7 @@ final class Ticket {
     private final static boolean isTicket(ItemStack stack) {
         if (stack != null && stack.getType().equals(Material.WRITTEN_BOOK) && stack.hasItemMeta()) {
             String bookauthor = ((BookMeta) stack.getItemMeta()).getAuthor();
-            if (bookauthor.equals(ByteCartRedux.myPlugin.getConfig().getString("author"))) {
+            if (bookauthor.equals(ByteCartRedux.rootNode.getNode("author").getString())) {
                 return true;
             }
         }
@@ -111,7 +111,7 @@ final class Ticket {
 
         ItemStack stack;
 
-        if (ByteCartRedux.myPlugin.getConfig().getBoolean("mustProvideBooks")
+        if (ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()
                 && inv.contains(Material.BOOK_AND_QUILL)) {
 
             // priority given to book in hand
@@ -175,8 +175,8 @@ final class Ticket {
 
         if (slot != -1) {
             if (inv.getItem(slot) == null
-                    && ByteCartRedux.myPlugin.getConfig().getBoolean("mustProvideBooks")
-                    && ByteCartRedux.myPlugin.getConfig().getBoolean("usebooks")) {
+                    && ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()
+                    && ByteCartRedux.rootNode.getNode("usebooks").getBoolean()) {
                 return -1;
             }
             return slot;
@@ -196,8 +196,8 @@ final class Ticket {
             return;
         }
 
-        ItemStack stack = getBookStack(ByteCartRedux.myPlugin.getConfig().getString("author"),
-                ByteCartRedux.myPlugin.getConfig().getString("title"));
+        ItemStack stack = getBookStack(ByteCartRedux.rootNode.getNode("author").getString(),
+                ByteCartRedux.rootNode.getNode("title").getString());
 
         // swap with an existing book if needed
         int existingticket = Ticket.getTicketslot(inv);
@@ -315,7 +315,7 @@ final class Ticket {
      * @param s
      */
     void appendTitle(String name, String s) {
-        StringBuilder build = new StringBuilder(ByteCartRedux.myPlugin.getConfig().getString("title"));
+        StringBuilder build = new StringBuilder(ByteCartRedux.rootNode.getNode("title").getString());
         if (name != null) {
             build.append(" ").append(name);
         }

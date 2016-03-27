@@ -93,7 +93,8 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
                 if (this.isAddressMatching() && this.getName().equals("BC9001") && this.getInventory().getHolder() instanceof Player) {
                     ((Player) this.getInventory().getHolder()).sendMessage(
-                            ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.GREEN + ByteCartRedux.myPlugin.getConfig().getString("Info.Destination") + " "
+                            ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.GREEN + ByteCartRedux.rootNode.getNode("Info", "Destination").getString() +
+                                    " "
                                     + this.getFriendlyName() + " (" + sign + ")");
 
                 }

@@ -57,7 +57,7 @@ public class UpdaterContent extends WandererContent implements Serializable {
         super(inv, level, region, player);
         this.fullreset = isfullreset;
         this.isnew = isnew;
-        this.setExpirationTime(ByteCartRedux.myPlugin.getConfig().getInt("updater.timeout", 60) * 60000 + getCreationtime());
+        this.setExpirationTime(ByteCartRedux.rootNode.getNode("updater", "timeout").getInt(60) * 60000 + getCreationtime());
     }
 
     /**

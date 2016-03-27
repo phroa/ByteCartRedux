@@ -101,7 +101,7 @@ final class AddressBook implements AddressRouted {
 
     @Override
     public int getTTL() {
-        return ticket.getInt(Parameter.TTL, ByteCartRedux.myPlugin.getConfig().getInt("TTL.value"));
+        return ticket.getInt(Parameter.TTL, ByteCartRedux.rootNode.getNode("TTL", "value").getInt());
     }
 
     @Override
@@ -125,7 +125,7 @@ final class AddressBook implements AddressRouted {
      * @return the address
      */
     private Address getAddress() {
-        String defaultaddr = ByteCartRedux.myPlugin.getConfig().getString("EmptyCartsDefaultRoute", "0.0.0");
+        String defaultaddr = ByteCartRedux.rootNode.getNode("EmptyCartsDefaultRoute").getString("0.0.0");
         return new AddressString(ticket.getString(parameter, defaultaddr), true);
     }
 

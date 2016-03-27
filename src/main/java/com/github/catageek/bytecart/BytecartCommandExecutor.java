@@ -28,8 +28,8 @@ import com.github.catageek.bytecart.sign.BC7011;
 import com.github.catageek.bytecart.sign.BC7017;
 import com.github.catageek.bytecart.updater.UpdaterContentFactory;
 import com.github.catageek.bytecart.updater.UpdaterFactory;
-import com.github.catageek.bytecart.util.LogUtil;
 import com.github.catageek.bytecart.updater.Wanderer;
+import com.github.catageek.bytecart.util.LogUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -118,12 +118,12 @@ public class BytecartCommandExecutor implements CommandExecutor {
                     public void run() {
                         if ((new BC7011(player.getLocation().getBlock(), ((org.bukkit.entity.Vehicle) inventory.getHolder())))
                                 .setAddress(address, null, this.istrain)) {
-                            LogUtil.sendSuccess(player, ByteCartRedux.myPlugin.getConfig().getString("Info.SetAddress") + " " + host_or_address);
+                            LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " " + host_or_address);
                             LogUtil.sendSuccess(player,
-                                    ByteCartRedux.myPlugin.getConfig().getString("Info.GetTTL") + AddressFactory.<AddressRouted>getAddress(inventory)
+                                    ByteCartRedux.rootNode.getNode("Info", "GetTTL").getString() + AddressFactory.<AddressRouted>getAddress(inventory)
                                             .getTTL());
                         } else {
-                            LogUtil.sendError(player, ByteCartRedux.myPlugin.getConfig().getString("Error.SetAddress"));
+                            LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("Error", "SetAddress").getString());
                         }
 
                     }
@@ -143,7 +143,8 @@ public class BytecartCommandExecutor implements CommandExecutor {
 
 
                 player.sendMessage(
-                        ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.myPlugin.getConfig().getString("Info.RightClickCart"));
+                        ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.rootNode.getNode("Info", "RightClickCart")
+                                .getString());
                 new ByteCartInventoryListener(ByteCartRedux.myPlugin, player, new Execute(player, host_or_address, isTrain), false);
             }
             return true;
@@ -283,7 +284,7 @@ public class BytecartCommandExecutor implements CommandExecutor {
                             ByteCartUpdaterMoveListener.setExist(true);
                         }
                         ByteCartUpdaterMoveListener.addUpdater(id);
-                        LogUtil.sendError(player, ByteCartRedux.myPlugin.getConfig().getString("Info.SetUpdater"));
+                        LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("Info", "SetUpdater").getString());
                     }
 
 
@@ -299,7 +300,7 @@ public class BytecartCommandExecutor implements CommandExecutor {
 
                 }
 
-                LogUtil.sendSuccess(player, ByteCartRedux.myPlugin.getConfig().getString("Info.RightClickCart"));
+                LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "RightClickCart").getString());
 
                 new ByteCartInventoryListener(ByteCartRedux.myPlugin, player
                         , new Execute(player, Wanderer.Level.valueOf(args[0].toUpperCase()), region

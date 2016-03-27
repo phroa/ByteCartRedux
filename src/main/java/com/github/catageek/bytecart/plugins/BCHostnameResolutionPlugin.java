@@ -50,21 +50,19 @@ import java.util.regex.Pattern;
 
 public final class BCHostnameResolutionPlugin implements Resolver, Listener, CommandExecutor {
 
-    Database mysql;
-    Connection con;
-    Statement s;
+    private Database mysql;
+    private Connection con;
+    private Statement s;
     boolean err = false;
-    private String database = ByteCartRedux.myPlugin.getConfig().getString("database", "BCHostnames");
-    private String sql = ByteCartRedux.myPlugin.getConfig().getString("sql", "sqllite");
-    private String host, port, user, password;
+    private String database = ByteCartRedux.rootNode.getNode("database", "name").getString("BCHostnames");
+    private String sql = ByteCartRedux.rootNode.getNode("database", "type").getString("sqlite");
 
     public void onLoad() {
         if (sql.equalsIgnoreCase("mysql")) {
-            FileConfiguration config = ByteCartRedux.myPlugin.getConfig();
-            host = config.getString("hostname");
-            port = config.getString("port");
-            user = config.getString("user");
-            password = config.getString("password");
+            String host = ByteCartRedux.rootNode.getNode("database", "hostname").getString();
+            String port = ByteCartRedux.rootNode.getNode("database", "port").getString("3306");
+            String user = ByteCartRedux.rootNode.getNode("database", "user").getString();
+            String password = ByteCartRedux.rootNode.getNode("database", "password").getString();;
             mysql = new MySQL(ByteCartRedux.myPlugin, host, port, database, user, password);
         } else {
             mysql = new SQLite(ByteCartRedux.myPlugin, database);

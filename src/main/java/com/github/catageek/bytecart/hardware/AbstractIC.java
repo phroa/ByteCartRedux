@@ -75,7 +75,7 @@ abstract public class AbstractIC implements IC {
 
         String line_content = ((Sign) b.getState()).getLine(1);
 
-        if (ByteCartRedux.myPlugin.getConfig().getBoolean("FixBroken18", false)) {
+        if (ByteCartRedux.rootNode.getNode("FixBroken18").getBoolean(false)) {
             if (ret = AbstractIC.checkLooseEligibility(line_content)) {
                 (new ComponentSign(b)).setLine(1, "[" + line_content + "]");
             } else {
@@ -155,12 +155,12 @@ abstract public class AbstractIC implements IC {
 
     @Override
     public final int getTriggertax() {
-        return ByteCartRedux.myPlugin.getConfig().getInt("usetax." + this.getName());
+        return ByteCartRedux.rootNode.getNode("usetax", this.getName()).getInt();
     }
 
     @Override
     public final int getBuildtax() {
-        return ByteCartRedux.myPlugin.getConfig().getInt("buildtax." + this.getName());
+        return ByteCartRedux.rootNode.getNode("buildtax", this.getName()).getInt();
     }
 
     @Override

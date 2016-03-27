@@ -93,8 +93,8 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
             /* There is no inventory, so we create one */
 
             // we have a default route ? so we write it in inventory
-            if (ByteCartRedux.myPlugin.getConfig().contains("EmptyCartsDefaultRoute")) {
-                String DefaultRoute = ByteCartRedux.myPlugin.getConfig().getString("EmptyCartsDefaultRoute");
+            if (!ByteCartRedux.rootNode.getNode("EmptyCartsDefaultRoute").isVirtual()) {
+                String DefaultRoute = ByteCartRedux.rootNode.getNode("EmptyCartsDefaultRoute").getString();
                 TicketFactory.getOrCreateTicket(newInv);
                 //construct address object
                 AddressRouted myAddress = AddressFactory.getAddress(newInv);

@@ -68,7 +68,7 @@ final class BC7015 extends BC7011 implements Triggerable {
     @Override
     protected void infoPlayer(String address) {
         ((Player) this.getInventory().getHolder()).sendMessage(
-                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.myPlugin.getConfig().getString("Info.SetReturnAddress") + " "
+                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.rootNode.getNode("Info", "SetReturnAddress").getString() + " "
                         + ChatColor.RED + address);
     }
 }

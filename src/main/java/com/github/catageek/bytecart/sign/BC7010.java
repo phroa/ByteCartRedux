@@ -18,11 +18,11 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.TicketFactory;
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.io.ComponentSign;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
 import org.bukkit.ChatColor;
@@ -158,7 +158,8 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
 
             if (this.getInventory().getHolder() instanceof Player) {
                 ((Player) this.getInventory().getHolder())
-                        .sendMessage(ChatColor.GREEN + "[Bytecart] " + ChatColor.RED + ByteCartRedux.myPlugin.getConfig().getString("Error.SetAddress"));
+                        .sendMessage(
+                                ChatColor.GREEN + "[Bytecart] " + ChatColor.RED + ByteCartRedux.rootNode.getNode("Error", "SetAddress").getString());
             }
             return false;
         }
@@ -193,11 +194,11 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      */
     protected void infoPlayer(String signAddress) {
         ((Player) this.getInventory().getHolder()).sendMessage(
-                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.myPlugin.getConfig().getString("Info.SetAddress") + " "
+                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " "
                         + ChatColor.RED + signAddress);
-        if (this.getVehicle() == null && !ByteCartRedux.myPlugin.getConfig().getBoolean("usebooks")) {
+        if (this.getVehicle() == null && !ByteCartRedux.rootNode.getNode("usebooks").getBoolean()) {
             ((Player) this.getInventory().getHolder()).sendMessage(
-                    ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.myPlugin.getConfig().getString("Info.SetAddress2"));
+                    ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.rootNode.getNode("Info", "SetAddress2").getString());
         }
     }
 
