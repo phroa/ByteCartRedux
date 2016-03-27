@@ -52,7 +52,7 @@ abstract class AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setAddress(com.github.catageek.ByteCart.AddressLayer.Address, java.lang.String)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(com.github.catageek.ByteCartRedux.AddressLayer.Address, java.lang.String)
      */
     @Override
     public boolean setAddress(String a, String name) {
@@ -60,7 +60,7 @@ abstract class AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setAddress(java.lang.String)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String)
      */
     @Override
     public boolean setAddress(String s) {
@@ -68,7 +68,7 @@ abstract class AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setTrain(boolean)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setTrain(boolean)
      */
     @Override
     public final boolean setTrain(boolean istrain) {
@@ -96,7 +96,7 @@ abstract class AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#finalizeAddress()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#finalizeAddress()
      */
     @Override
     public void finalizeAddress() {

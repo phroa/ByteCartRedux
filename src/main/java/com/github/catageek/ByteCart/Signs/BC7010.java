@@ -22,7 +22,7 @@ import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
 import com.github.catageek.ByteCart.AddressLayer.TicketFactory;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.IO.ComponentSign;
 import com.github.catageek.ByteCart.Wanderer.WandererContentFactory;
 import org.bukkit.ChatColor;
@@ -53,7 +53,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggable, Clickabl
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public final void trigger() {
@@ -64,7 +64,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggable, Clickabl
 
         // if this is a cart in a train
         if (this.wasTrain(this.getLocation())) {
-            ByteCart.myPlugin.getIsTrainManager().getMap().reset(getLocation());
+            ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getLocation());
             return;
         }
 
@@ -161,7 +161,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggable, Clickabl
 
             if (this.getInventory().getHolder() instanceof Player) {
                 ((Player) this.getInventory().getHolder())
-                        .sendMessage(ChatColor.GREEN + "[Bytecart] " + ChatColor.RED + ByteCart.myPlugin.getConfig().getString("Error.SetAddress"));
+                        .sendMessage(ChatColor.GREEN + "[Bytecart] " + ChatColor.RED + ByteCartRedux.myPlugin.getConfig().getString("Error.SetAddress"));
             }
             return false;
         }
@@ -196,16 +196,16 @@ public class BC7010 extends AbstractTriggeredSign implements Triggable, Clickabl
      */
     protected void infoPlayer(String signAddress) {
         ((Player) this.getInventory().getHolder()).sendMessage(
-                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCart.myPlugin.getConfig().getString("Info.SetAddress") + " "
+                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.myPlugin.getConfig().getString("Info.SetAddress") + " "
                         + ChatColor.RED + signAddress);
-        if (this.getVehicle() == null && !ByteCart.myPlugin.getConfig().getBoolean("usebooks")) {
+        if (this.getVehicle() == null && !ByteCartRedux.myPlugin.getConfig().getBoolean("usebooks")) {
             ((Player) this.getInventory().getHolder()).sendMessage(
-                    ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCart.myPlugin.getConfig().getString("Info.SetAddress2"));
+                    ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.myPlugin.getConfig().getString("Info.SetAddress2"));
         }
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Clickable#click()
+     * @see com.github.catageek.ByteCartRedux.Signs.Clickable#click()
      */
     @Override
     public final void click() {
@@ -214,7 +214,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggable, Clickabl
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public String getName() {
@@ -222,7 +222,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggable, Clickabl
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {

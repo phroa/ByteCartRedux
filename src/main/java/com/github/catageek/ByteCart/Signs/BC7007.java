@@ -41,7 +41,7 @@ final class BC7007 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
@@ -55,7 +55,7 @@ final class BC7007 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public String getName() {
@@ -63,7 +63,7 @@ final class BC7007 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     public String getFriendlyName() {
         return "Unbooster";

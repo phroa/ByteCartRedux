@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Signs;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.PinRegistry;
 import com.github.catageek.ByteCart.IO.InputFactory;
 import com.github.catageek.ByteCart.IO.InputPin;
@@ -54,7 +54,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public void trigger() {
@@ -89,10 +89,10 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
             // if the wire is on
             if (this.getInput(0).getAmount() > 0) {
                 if (this.wasTrain(this.getLocation())) {
-                    ByteCart.myPlugin.getIsTrainManager().getMap().reset(this.getLocation());
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(this.getLocation());
                 }
-                /*				if(ByteCart.debug)
-					ByteCart.log.info("ByteCart: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " : isTrain() = " +
+                /*				if(ByteCartRedux.debug)
+					ByteCartRedux.log.info("ByteCartRedux: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " : isTrain() = " +
 					this.isTrain());
 				 */
                 if (this.isTrain()) {
@@ -103,14 +103,14 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
                 //this.getOutput(0).setAmount(1);
                 final BC7001 myBC7001 = this;
 
-                ByteCart.myPlugin.getServer().getScheduler().scheduleSyncDelayedTask(ByteCart.myPlugin, new Runnable() {
+                ByteCartRedux.myPlugin.getServer().getScheduler().scheduleSyncDelayedTask(ByteCartRedux.myPlugin, new Runnable() {
                             public void run() {
 
                                 // we set busy
                                 myBC7001.getOutput(0).setAmount(1);
 
-						/*						if(ByteCart.debug)
-							ByteCart.log.info("ByteCart: BC7001 : running delayed thread (set switch ON)");
+						/*						if(ByteCartRedux.debug)
+							ByteCartRedux.log.info("ByteCartRedux: BC7001 : running delayed thread (set switch ON)");
 						 */
                             }
                         }
@@ -124,7 +124,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
                     }
                     this.getVehicle().setVelocity(
                             (new Vector(this.getCardinal().getModX(), this.getCardinal().getModY(), this.getCardinal().getModZ()))
-                                    .multiply(ByteCart.myPlugin.getConfig().getDouble("BC7001.startvelocity")));
+                                    .multiply(ByteCartRedux.myPlugin.getConfig().getDouble("BC7001.startvelocity")));
                 }
             }
 
@@ -137,14 +137,14 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
                     this.getOutput(0).setAmount(0);
                     this.getVehicle().setVelocity(new Vector(0, 0, 0));
                     ((Minecart) this.getVehicle()).setMaxSpeed(0d);
-                    ByteCart.myPlugin.getIsTrainManager().getMap().remove(getBlock().getRelative(getCardinal().getOppositeFace(), 2).getLocation());
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().remove(getBlock().getRelative(getCardinal().getOppositeFace(), 2).getLocation());
                 } else {
-                    ByteCart.myPlugin.getIsTrainManager().getMap().reset(this.getLocation());
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(this.getLocation());
                 }
 
 				/*
-				if(ByteCart.debug)
-					ByteCart.log.info("ByteCart: BC7001 : cart on stop at " + this.Vehicle.getLocation().toString());
+				if(ByteCartRedux.debug)
+					ByteCartRedux.log.info("ByteCartRedux: BC7001 : cart on stop at " + this.Vehicle.getLocation().toString());
 				 */
             }
             // if this is the first car of a train
@@ -160,7 +160,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Powerable#power()
+     * @see com.github.catageek.ByteCartRedux.Signs.Powerable#power()
      */
     @Override
     public void power() throws ClassNotFoundException, IOException {
@@ -189,7 +189,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public final String getName() {
@@ -197,7 +197,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggable, Powerable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public final String getFriendlyName() {

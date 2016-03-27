@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Updaters;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Routing.Metric;
 import com.github.catageek.ByteCart.Routing.RoutingTableWritable;
 import com.github.catageek.ByteCart.Util.DirectionRegistry;
@@ -59,7 +59,7 @@ public class UpdaterContent extends WandererContent implements Serializable {
         super(inv, level, region, player);
         this.fullreset = isfullreset;
         this.isnew = isnew;
-        this.setExpirationTime(ByteCart.myPlugin.getConfig().getInt("updater.timeout", 60) * 60000 + getCreationtime());
+        this.setExpirationTime(ByteCartRedux.myPlugin.getConfig().getInt("updater.timeout", 60) * 60000 + getCreationtime());
     }
 
     /**
@@ -84,8 +84,8 @@ public class UpdaterContent extends WandererContent implements Serializable {
             int i = it.next().value();
             if (table.getDirection(i) != null && table.getDirection(i).getAmount() != direction.getAmount()) {
                 tablemap.put(i, new Metric(table.getMinMetric(i)));
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart : Route exchange : give ring " + i + " with metric " + table.getMinMetric(i) + " to " + table
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux : Route exchange : give ring " + i + " with metric " + table.getMinMetric(i) + " to " + table
                             .getDirection(i).getBlockFace());
                 }
             }

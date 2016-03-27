@@ -19,7 +19,7 @@
 package com.github.catageek.ByteCart.Updaters;
 
 import com.github.catageek.ByteCart.AddressLayer.Address;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide;
 import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
 import com.github.catageek.ByteCart.Event.UpdaterClearStationEvent;
@@ -62,12 +62,12 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
             Stack<Integer> end = this.getEnd();
             if (to.equals(Side.LEVER_ON) && (end.isEmpty() || mask > end.peek())) {
                 end.push(mask);
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart : pushing mask " + mask + " on stack");
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux : pushing mask " + mask + " on stack");
                 }
             } else if (to.equals(Side.LEVER_OFF) && !end.isEmpty()) {
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart : popping mask " + end.peek() + " from stack");
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux : popping mask " + end.peek() + " from stack");
                 }
 
                 end.pop();
@@ -90,16 +90,16 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
                     Bukkit.getServer().getPluginManager().callEvent(event);
                 }
                 address.remove();
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart: removing address");
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux: removing address");
                 }
             }
         } else {
             UpdaterSignInvalidateEvent event = new UpdaterSignInvalidateEvent(this);
             Bukkit.getServer().getPluginManager().callEvent(event);
             address.remove();
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart: removing invalid address");
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux: removing invalid address");
             }
         }
     }

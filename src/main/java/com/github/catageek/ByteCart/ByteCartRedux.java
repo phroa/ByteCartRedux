@@ -26,23 +26,44 @@ import com.github.catageek.ByteCart.EventManagement.PreloadChunkListener;
 import com.github.catageek.ByteCart.Storage.IsTrainManager;
 import com.github.catageek.ByteCart.Updaters.UpdaterFactory;
 import com.github.catageek.ByteCart.Wanderer.BCWandererManager;
-import com.github.catageek.ByteCart.plugins.BCDynmapPlugin;
 import com.github.catageek.ByteCart.plugins.BCHostnameResolutionPlugin;
-import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.MetricsLite;
+import ninja.leaping.configurate.commented.CommentedConfigurationNode;
+import ninja.leaping.configurate.loader.ConfigurationLoader;
+import org.slf4j.Logger;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.config.ConfigDir;
+import org.spongepowered.api.config.DefaultConfig;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.plugin.Plugin;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
+
+import javax.inject.Inject;
 
 /**
  * Main class
  */
-public final class ByteCart extends JavaPlugin implements ByteCartPlugin {
+@Plugin(id = "ByteCartRedux", name = "ByteCartRedux Redux", version = "3.0.0.0")
+public final class ByteCartRedux implements ByteCartPlugin {
 
-    public static Logger log = Logger.getLogger("Minecraft");
-    public static ByteCart myPlugin;
+    @Inject
+    public static Logger log;
+
+    @Inject
+    @ConfigDir(sharedRoot = false)
+    private File configDir;
+
+    @Inject
+    @DefaultConfig(sharedRoot = false)
+    private ConfigurationLoader<CommentedConfigurationNode> configurationLoader;
+    public static CommentedConfigurationNode rootNode;
+
+    public static ByteCartRedux myPlugin;
     public static boolean debug;
     public int Lockduration;
     private BCHostnameResolutionPlugin hostnamePlugin;
@@ -54,17 +75,20 @@ public final class ByteCart extends JavaPlugin implements ByteCartPlugin {
     private boolean keepitems;
     private Resolver resolver;
 
-    /* (non-Javadoc)
-     * @see org.bukkit.plugin.java.JavaPlugin#onEnable()
-     */
-    @Override
-    public void onEnable() {
-
+    @Listener
+    public void onPreInitialization(GamePreInitializationEvent event) {
         myPlugin = this;
+        try {
+            rootNode = configurationLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Listener
+    public void onInitialization(GameInitializationEvent event) {
 
         ByteCartAPI.setPlugin(this);
-
-        this.saveDefaultConfig();
 
         this.loadConfig();
 
@@ -72,58 +96,38 @@ public final class ByteCart extends JavaPlugin implements ByteCartPlugin {
         this.setWf(new BCWandererManager());
         this.setIt(new IsTrainManager());
 
-        getServer().getPluginManager().registerEvents(new ByteCartListener(), this);
+        Sponge.getEventManager().registerListener(this, new ByteCartListener());
 
         // register updater factory
         if (!this.getWandererManager().isWandererType("Updater")) {
             this.getWandererManager().register(new UpdaterFactory(), "Updater");
         }
 
-        getCommand("mego").setExecutor(new BytecartCommandExecutor());
-        getCommand("sendto").setExecutor(new BytecartCommandExecutor());
-        getCommand("bcreload").setExecutor(new BytecartCommandExecutor());
-        getCommand("bcupdater").setExecutor(new BytecartCommandExecutor());
-        getCommand("bcticket").setExecutor(new BytecartCommandExecutor());
-        getCommand("bcback").setExecutor(new BytecartCommandExecutor());
-        getCommand("bcdmapsync").setExecutor(new BytecartCommandExecutor());
+        Sponge.getCommandManager().register(this, CommandSpec.builder()
+                .executor(new BytecartCommandExecutor())
+                .build(), "mego", "sendto", "bcreload", "bcupdater", "bcticket", "bcback");
 
-        if (Bukkit.getPluginManager().isPluginEnabled("dynmap")) {
-            log.info("[ByteCart] loading dynmap plugin.");
-            getServer().getPluginManager().registerEvents(new BCDynmapPlugin(), this);
-        }
 
-        if (this.getConfig().getBoolean("metrics", true)) {
-            try {
-                MetricsLite metrics = new MetricsLite(this);
-                metrics.start();
-                log.info("[ByteCart] Submitting stats to MCStats.");
-            } catch (IOException e) {
-                // Failed to submit the stats :-(
-            }
-        }
-
-        if (this.getConfig().getBoolean("hostname_resolution", true)) {
+        if (rootNode.getNode("hostname_resolution").getBoolean(true)) {
             hostnamePlugin = new BCHostnameResolutionPlugin();
             hostnamePlugin.onLoad();
             ByteCartAPI.setResolver(hostnamePlugin);
-            getServer().getPluginManager().registerEvents(hostnamePlugin, this);
-            getCommand("host").setExecutor(hostnamePlugin);
+            Sponge.getEventManager().registerListener(this, hostnamePlugin);
+            Sponge.getCommandManager().register(this, CommandSpec.builder()
+                    .executor(hostnamePlugin)
+                    .build(), "host");
         }
 
-        log.info("[ByteCart] plugin has been enabled.");
+        log.info("[ByteCartRedux] plugin has been enabled.");
     }
 
-    /* (non-Javadoc)
-     * @see org.bukkit.plugin.java.JavaPlugin#onDisable()
-     */
-    @Override
-    public void onDisable() {
-        log.info("Your plugin has been disabled.");
-
-        myPlugin = null;
-        ByteCartAPI.setPlugin(null);
-        log = null;
-
+    @Listener
+    public void onStoppingServer(GameStoppingServerEvent event) {
+        try {
+            configurationLoader.save(rootNode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -131,32 +135,32 @@ public final class ByteCart extends JavaPlugin implements ByteCartPlugin {
      *
      */
     protected final void loadConfig() {
-        debug = this.getConfig().getBoolean("debug", false);
-        keepitems = this.getConfig().getBoolean("keepitems", true);
+        debug = rootNode.getNode("debug").getBoolean(false);
+        keepitems = rootNode.getNode("keepitems").getBoolean(true);
 
-        Lockduration = this.getConfig().getInt("Lockduration", 44);
+        Lockduration = rootNode.getNode("Lockduration").getInt(44);
 
         if (debug) {
-            log.info("ByteCart : debug mode is on.");
+            log.info("ByteCartRedux : debug mode is on.");
         }
 
-        if (this.getConfig().getBoolean("loadchunks")) {
+        if (rootNode.getNode("loadchunks").getBoolean()) {
             if (preloadchunklistener == null) {
                 preloadchunklistener = new PreloadChunkListener();
-                getServer().getPluginManager().registerEvents(preloadchunklistener, this);
+                Sponge.getEventManager().registerListener(this, preloadchunklistener);
             }
         } else if (preloadchunklistener != null) {
-            HandlerList.unregisterAll(preloadchunklistener);
+            Sponge.getEventManager().unregisterListeners(preloadchunklistener);
             preloadchunklistener = null;
         }
 
-        if (this.getConfig().getBoolean("constantspeed", false)) {
+        if (rootNode.getNode("constantspeedd").getBoolean(false)) {
             if (constantspeedlistener == null) {
                 constantspeedlistener = new ConstantSpeedListener();
-                getServer().getPluginManager().registerEvents(constantspeedlistener, this);
+                Sponge.getEventManager().registerListener(this, constantspeedlistener);
             }
         } else if (constantspeedlistener != null) {
-            HandlerList.unregisterAll(constantspeedlistener);
+            Sponge.getEventManager().unregisterListeners(constantspeedlistener);
             constantspeedlistener = null;
         }
     }
@@ -222,6 +226,11 @@ public final class ByteCart extends JavaPlugin implements ByteCartPlugin {
      */
     public BCWandererManager getWandererManager() {
         return wf;
+    }
+
+    @Override
+    public File getDataFolder() {
+        return configDir;
     }
 
     /**

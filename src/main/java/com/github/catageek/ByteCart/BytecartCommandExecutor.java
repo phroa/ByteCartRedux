@@ -123,12 +123,12 @@ public class BytecartCommandExecutor implements CommandExecutor {
                     public void run() {
                         if ((new BC7011(player.getLocation().getBlock(), ((org.bukkit.entity.Vehicle) inventory.getHolder())))
                                 .setAddress(address, null, this.istrain)) {
-                            LogUtil.sendSuccess(player, ByteCart.myPlugin.getConfig().getString("Info.SetAddress") + " " + host_or_address);
+                            LogUtil.sendSuccess(player, ByteCartRedux.myPlugin.getConfig().getString("Info.SetAddress") + " " + host_or_address);
                             LogUtil.sendSuccess(player,
-                                    ByteCart.myPlugin.getConfig().getString("Info.GetTTL") + AddressFactory.<AddressRouted>getAddress(inventory)
+                                    ByteCartRedux.myPlugin.getConfig().getString("Info.GetTTL") + AddressFactory.<AddressRouted>getAddress(inventory)
                                             .getTTL());
                         } else {
-                            LogUtil.sendError(player, ByteCart.myPlugin.getConfig().getString("Error.SetAddress"));
+                            LogUtil.sendError(player, ByteCartRedux.myPlugin.getConfig().getString("Error.SetAddress"));
                         }
 
                     }
@@ -148,16 +148,16 @@ public class BytecartCommandExecutor implements CommandExecutor {
 
 
                 player.sendMessage(
-                        ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCart.myPlugin.getConfig().getString("Info.RightClickCart"));
-                new ByteCartInventoryListener(ByteCart.myPlugin, player, new Execute(player, host_or_address, isTrain), false);
+                        ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.myPlugin.getConfig().getString("Info.RightClickCart"));
+                new ByteCartInventoryListener(ByteCartRedux.myPlugin, player, new Execute(player, host_or_address, isTrain), false);
             }
             return true;
         }
 
 
         if (cmd.getName().equalsIgnoreCase("bcreload")) {
-            ByteCart.myPlugin.reloadConfig();
-            ByteCart.myPlugin.loadConfig();
+            ByteCartRedux.myPlugin.reloadConfig();
+            ByteCartRedux.myPlugin.loadConfig();
 
             String s = "Configuration file reloaded.";
 
@@ -196,7 +196,7 @@ public class BytecartCommandExecutor implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("bcupdater")) {
 
             if (args.length == 1 && args[0].equalsIgnoreCase("remove")) {
-                ByteCart.myPlugin.getWandererManager().unregister("Updater");
+                ByteCartRedux.myPlugin.getWandererManager().unregister("Updater");
                 ByteCartUpdaterMoveListener.clearUpdaters();
                 return true;
             }
@@ -221,8 +221,8 @@ public class BytecartCommandExecutor implements CommandExecutor {
                 boolean full_reset = false;
                 boolean isnew = false;
 
-                if (!ByteCart.myPlugin.getWandererManager().isWandererType("Updater")) {
-                    ByteCart.myPlugin.getWandererManager().register(new UpdaterFactory(), "Updater");
+                if (!ByteCartRedux.myPlugin.getWandererManager().isWandererType("Updater")) {
+                    ByteCartRedux.myPlugin.getWandererManager().register(new UpdaterFactory(), "Updater");
                 }
 
                 if (args.length >= 2) {
@@ -284,11 +284,11 @@ public class BytecartCommandExecutor implements CommandExecutor {
                         }
                         if (!ByteCartUpdaterMoveListener.isExist()) {
                             Listener updatermove = new ByteCartUpdaterMoveListener();
-                            ByteCart.myPlugin.getServer().getPluginManager().registerEvents(updatermove, ByteCart.myPlugin);
+                            ByteCartRedux.myPlugin.getServer().getPluginManager().registerEvents(updatermove, ByteCartRedux.myPlugin);
                             ByteCartUpdaterMoveListener.setExist(true);
                         }
                         ByteCartUpdaterMoveListener.addUpdater(id);
-                        LogUtil.sendError(player, ByteCart.myPlugin.getConfig().getString("Info.SetUpdater"));
+                        LogUtil.sendError(player, ByteCartRedux.myPlugin.getConfig().getString("Info.SetUpdater"));
                     }
 
 
@@ -304,9 +304,9 @@ public class BytecartCommandExecutor implements CommandExecutor {
 
                 }
 
-                LogUtil.sendSuccess(player, ByteCart.myPlugin.getConfig().getString("Info.RightClickCart"));
+                LogUtil.sendSuccess(player, ByteCartRedux.myPlugin.getConfig().getString("Info.RightClickCart"));
 
-                new ByteCartInventoryListener(ByteCart.myPlugin, player
+                new ByteCartInventoryListener(ByteCartRedux.myPlugin, player
                         , new Execute(player, Wanderer.Level.valueOf(args[0].toUpperCase()), region
                         , full_reset, isnew)
                         , true);

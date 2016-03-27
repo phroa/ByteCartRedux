@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.CollisionManagement;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.PinRegistry;
 import com.github.catageek.ByteCart.HAL.RegistryOutput;
 import com.github.catageek.ByteCart.IO.OutputPin;
@@ -96,7 +96,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.CollisionAvoider#Add(com.github.catageek.ByteCart.Signs.Triggable)
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.CollisionAvoider#Add(com.github.catageek.ByteCartRedux.Signs.Triggable)
      */
     @Override
     public void Add(Triggable t) {
@@ -104,7 +104,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.Router#WishToGo(org.bukkit.block.BlockFace, org.bukkit.block.BlockFace, boolean)
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#WishToGo(org.bukkit.block.BlockFace, org.bukkit.block.BlockFace, boolean)
      */
     @Override
     public final BlockFace WishToGo(BlockFace from, BlockFace to, boolean isTrain) {
@@ -112,19 +112,19 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
         //		IntersectionSide sto = getSide(to);
 
 
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : Router : coming from " + from + " going to " + to);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : Router : coming from " + from + " going to " + to);
         }
-/*		if(ByteCart.debug)
-            ByteCart.log.info("ByteCart : Router : going to " + sto);
+/*		if(ByteCartRedux.debug)
+            ByteCartRedux.log.info("ByteCartRedux : Router : going to " + sto);
 */
         Router ca = this;
 /*
-		if(ByteCart.debug) {
-			ByteCart.log.info("ByteCart : position found  " + ca.getClass().toString());
-			ByteCart.log.info("ByteCart : Recently used ? " + recentlyUsed);
-			ByteCart.log.info("ByteCart : hasTrain ? " + hasTrain );
-			ByteCart.log.info("ByteCart : isTrain ? " + isTrain );
+		if(ByteCartRedux.debug) {
+			ByteCartRedux.log.info("ByteCartRedux : position found  " + ca.getClass().toString());
+			ByteCartRedux.log.info("ByteCartRedux : Recently used ? " + recentlyUsed);
+			ByteCartRedux.log.info("ByteCartRedux : hasTrain ? " + hasTrain );
+			ByteCartRedux.log.info("ByteCartRedux : isTrain ? " + isTrain );
 		}
 */
         Side s = getSide(from, to);
@@ -162,12 +162,12 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
                     ca = this;
             }
 /*
-			if(ByteCart.debug)
-				ByteCart.log.info("ByteCart : Router : position changed to " + ca.getClass().toString());
-			if(ByteCart.debug)
-				ByteCart.log.info("ByteCart : Router : really going to " + ca.getTo());
+			if(ByteCartRedux.debug)
+				ByteCartRedux.log.info("ByteCartRedux : Router : position changed to " + ca.getClass().toString());
+			if(ByteCartRedux.debug)
+				ByteCartRedux.log.info("ByteCartRedux : Router : really going to " + ca.getTo());
 */            // save router in collision avoider map
-            ByteCart.myPlugin.getCollisionAvoiderManager().setCollisionAvoider(this.getLocation(), ca);
+            ByteCartRedux.myPlugin.getCollisionAvoiderManager().setCollisionAvoider(this.getLocation(), ca);
 
             // activate secondary levers
             ca.getOutput(1).setAmount(ca.getSecondpos());
@@ -181,7 +181,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.Router#route(org.bukkit.block.BlockFace)
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#route(org.bukkit.block.BlockFace)
      */
     @Override
     public void route(BlockFace from) {
@@ -189,13 +189,13 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.Router#getTo()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#getTo()
      */
     @Override
     public abstract BlockFace getTo();
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.Router#getFrom()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#getFrom()
      */
     @Override
     public final BlockFace getFrom() {
@@ -217,30 +217,30 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      */
     private final boolean ValidatePosition(Router ca) {
         Side side = getSide(this.getFrom(), ca.getFrom());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : pos value befor rotation : " + Integer.toBinaryString(getSecondpos()));
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : pos value befor rotation : " + Integer.toBinaryString(getSecondpos()));
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : rotation of bits         : " + side.Value());
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : rotation of bits         : " + side.Value());
         }
         int value = AbstractRouter.leftRotate8(getSecondpos(), side.Value());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : pos value after rotation : " + Integer.toBinaryString(value));
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : pos value after rotation : " + Integer.toBinaryString(value));
         }
         int mask = AbstractRouter.leftRotate8(getPosmask(), side.Value());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : mask after rotation      : " + Integer.toBinaryString(mask));
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : mask after rotation      : " + Integer.toBinaryString(mask));
         }
         ca.setSecondpos(value | ca.getSecondpos());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : value after OR           : " + Integer.toBinaryString(ca.getSecondpos()));
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : value after OR           : " + Integer.toBinaryString(ca.getSecondpos()));
         }
         ca.setPosmask(mask | ca.getPosmask());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : mask after OR            : " + Integer.toBinaryString(ca.getPosmask()));
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : mask after OR            : " + Integer.toBinaryString(ca.getPosmask()));
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : compatible ?             : " + (((value ^ ca.getSecondpos()) & mask) == 0));
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : compatible ?             : " + (((value ^ ca.getSecondpos()) & mask) == 0));
         }
         return ((value ^ ca.getSecondpos()) & mask) == 0;
     }
@@ -313,14 +313,14 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     private void checkIOPresence(OutputPin[] sortie) {
         for (int i = 0; i < sortie.length; i++) {
             if (sortie[i] == null) {
-                ByteCart.log.log(java.util.logging.Level.SEVERE, "ByteCart : Lever missing or wrongly positioned in router " + this.getLocation());
+                ByteCartRedux.log.error("ByteCartRedux : Lever missing or wrongly positioned in router " + this.getLocation());
                 throw new NullPointerException();
             }
         }
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.Router#getSecondpos()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#getSecondpos()
      */
     @Override
     public final int getSecondpos() {
@@ -328,7 +328,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.Router#setSecondpos(int)
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#setSecondpos(int)
      */
     @Override
     public final void setSecondpos(int secondpos) {
@@ -336,7 +336,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.Router#getPosmask()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#getPosmask()
      */
     @Override
     public final int getPosmask() {
@@ -344,7 +344,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.Router#setPosmask(int)
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.Router#setPosmask(int)
      */
     @Override
     public final void setPosmask(int posmask) {
@@ -352,7 +352,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.AbstractCollisionAvoider#getRecentlyUsedMap()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.AbstractCollisionAvoider#getRecentlyUsedMap()
      */
     @Override
     protected ExpirableMap<Location, Boolean> getRecentlyUsedMap() {
@@ -360,7 +360,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.AbstractCollisionAvoider#getHasTrainMap()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.AbstractCollisionAvoider#getHasTrainMap()
      */
     @Override
     protected ExpirableMap<Location, Boolean> getHasTrainMap() {

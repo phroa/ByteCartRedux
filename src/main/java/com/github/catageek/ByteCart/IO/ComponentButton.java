@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.IO;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Util.MathUtil;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -41,13 +41,13 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
      */
     protected ComponentButton(Block block) {
         super(block);
-/*		if(ByteCart.debug)
-            ByteCart.log.info("ByteCart : adding Button at " + block.getLocation().toString());
+/*		if(ByteCartRedux.debug)
+            ByteCartRedux.log.info("ByteCartRedux : adding Button at " + block.getLocation().toString());
 */
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.IO.OutputPin#write(boolean)
+     * @see com.github.catageek.ByteCartRedux.IO.OutputPin#write(boolean)
      */
     @Override
     public void write(boolean bit) {
@@ -63,11 +63,11 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
                 if (ActivatedButtonMap.containsKey(block)) {
 
                     // if button is already on, we cancel the scheduled thread
-                    ByteCart.myPlugin.getServer().getScheduler().cancelTask(ActivatedButtonMap.get(block));
+                    ByteCartRedux.myPlugin.getServer().getScheduler().cancelTask(ActivatedButtonMap.get(block));
 
                     // and we reschedule one
-                    id = ByteCart.myPlugin.getServer().getScheduler()
-                            .scheduleSyncDelayedTask(ByteCart.myPlugin, new SetButtonOff(component, ActivatedButtonMap)
+                    id = ByteCartRedux.myPlugin.getServer().getScheduler()
+                            .scheduleSyncDelayedTask(ByteCartRedux.myPlugin, new SetButtonOff(component, ActivatedButtonMap)
                                     , 40);
 
                     // We update the HashMap
@@ -81,15 +81,15 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
                     MathUtil.forceUpdate(this.getBlock().getRelative(button.getAttachedFace()));
 			
 			
-/*			if(ByteCart.debug)
-				ByteCart.log.info("Button at (" + this.getLocation().toString() + ") : " + bit);
+/*			if(ByteCartRedux.debug)
+				ByteCartRedux.log.info("Button at (" + this.getLocation().toString() + ") : " + bit);
 */
 
 
                     // delayed action to unpower the button after 2 s.
 
-                    id = ByteCart.myPlugin.getServer().getScheduler()
-                            .scheduleSyncDelayedTask(ByteCart.myPlugin, new SetButtonOff(component, ActivatedButtonMap)
+                    id = ByteCartRedux.myPlugin.getServer().getScheduler()
+                            .scheduleSyncDelayedTask(ByteCartRedux.myPlugin, new SetButtonOff(component, ActivatedButtonMap)
                                     , 40);
 
                     // We update the HashMap
@@ -101,7 +101,7 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.IO.InputPin#read()
+     * @see com.github.catageek.ByteCartRedux.IO.InputPin#read()
      */
     @Override
     public boolean read() {

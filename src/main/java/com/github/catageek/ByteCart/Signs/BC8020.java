@@ -43,7 +43,7 @@ final class BC8020 extends BC8010 implements BCRouter, Triggable, HasRoutingTabl
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC8010#selectUpdater()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#selectUpdater()
      */
     @Override
     protected boolean selectWanderer() {
@@ -52,8 +52,8 @@ final class BC8020 extends BC8010 implements BCRouter, Triggable, HasRoutingTabl
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC8010#SelectRoute(com.github.catageek.ByteCart.AddressLayer.AddressRouted, com.github.catageek
-     * .ByteCart.AddressLayer.Address, com.github.catageek.ByteCart.Routing.RoutingTableWritable)
+     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#SelectRoute(com.github.catageek.ByteCartRedux.AddressLayer.AddressRouted, com.github.catageek
+     * .ByteCartRedux.AddressLayer.Address, com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable)
      */
     @Override
     protected BlockFace SelectRoute(AddressRouted IPaddress, Address sign, RoutingTableWritable RoutingTable) {
@@ -78,7 +78,7 @@ final class BC8020 extends BC8010 implements BCRouter, Triggable, HasRoutingTabl
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC8010#getLevel()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#getLevel()
      */
     @Override
     public Wanderer.Level getLevel() {
@@ -86,7 +86,7 @@ final class BC8020 extends BC8010 implements BCRouter, Triggable, HasRoutingTabl
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC8010#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#getName()
      */
     @Override
     public String getName() {
@@ -94,7 +94,7 @@ final class BC8020 extends BC8010 implements BCRouter, Triggable, HasRoutingTabl
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC8010#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC8010#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {

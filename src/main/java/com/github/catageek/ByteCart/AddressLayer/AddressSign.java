@@ -47,13 +47,13 @@ final class AddressSign extends AbstractComponent implements Address {
         this.Address = new AddressString((new ComponentSign(block)).getLine(ligne), false);
 
 /*
-			if(ByteCart.debug)
-				ByteCart.log.info("ByteCart: creating AddressSign line #" + ligne + " at " + block.getLocation().toString());
+			if(ByteCartRedux.debug)
+				ByteCartRedux.log.info("ByteCartRedux: creating AddressSign line #" + ligne + " at " + block.getLocation().toString());
 	*/
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getRegion()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getRegion()
      */
     @Override
     public final RegistryBoth getRegion() {
@@ -61,7 +61,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getTrack()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getTrack()
      */
     @Override
     public final RegistryBoth getTrack() {
@@ -69,7 +69,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getStation()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getStation()
      */
     @Override
     public final RegistryBoth getStation() {
@@ -78,7 +78,7 @@ final class AddressSign extends AbstractComponent implements Address {
 
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setAddress(java.lang.String)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String)
      */
     @Override
     public final boolean setAddress(String s) {
@@ -87,7 +87,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setAddress(java.lang.String, java.lang.String)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String, java.lang.String)
      */
     @Override
     public boolean setAddress(String s, String name) {
@@ -96,7 +96,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#isTrain()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isTrain()
      */
     @Override
     public boolean isTrain() {
@@ -104,7 +104,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setTrain(boolean)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setTrain(boolean)
      */
     @Override
     public boolean setTrain(boolean istrain) {
@@ -112,7 +112,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#finalizeAddress()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#finalizeAddress()
      */
     @Override
     public final void finalizeAddress() {
@@ -120,7 +120,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#isValid()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isValid()
      */
     @Override
     public boolean isValid() {
@@ -128,7 +128,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#remove()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#remove()
      */
     @Override
     public void remove() {
@@ -145,7 +145,7 @@ final class AddressSign extends AbstractComponent implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#isReturnable()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isReturnable()
      */
     @Override
     public boolean isReturnable() {

@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.AddressLayer;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.RegistryBoth;
 import org.bukkit.entity.Player;
 
@@ -48,7 +48,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getRegion()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getRegion()
      */
     @Override
     public RegistryBoth getRegion() {
@@ -56,7 +56,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getTrack()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getTrack()
      */
     @Override
     public RegistryBoth getTrack() {
@@ -64,7 +64,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getStation()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getStation()
      */
     @Override
     public RegistryBoth getStation() {
@@ -72,7 +72,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#isTrain()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isTrain()
      */
     @Override
     public boolean isTrain() {
@@ -80,7 +80,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setAddress(java.lang.String)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String)
      */
     @Override
     public boolean setAddress(String s) {
@@ -88,15 +88,15 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setAddress(java.lang.String, java.lang.String)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setAddress(java.lang.String, java.lang.String)
      */
     @Override
     public boolean setAddress(String value, String stationname) {
         boolean ret = this.ticket.setEntry(parameter, value);
 
         if (parameter.equals(Parameter.DESTINATION)) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : set title");
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : set title");
             }
             ticket.appendTitle(stationname, value);
         }
@@ -104,7 +104,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#setTrain(boolean)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#setTrain(boolean)
      */
     @Override
     public boolean setTrain(boolean istrain) {
@@ -116,7 +116,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#isValid()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isValid()
      */
     @Override
     public boolean isValid() {
@@ -124,15 +124,15 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AddressRouted#getTTL()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AddressRouted#getTTL()
      */
     @Override
     public int getTTL() {
-        return ticket.getInt(Parameter.TTL, ByteCart.myPlugin.getConfig().getInt("TTL.value"));
+        return ticket.getInt(Parameter.TTL, ByteCartRedux.myPlugin.getConfig().getInt("TTL.value"));
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AddressRouted#updateTTL(int)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AddressRouted#updateTTL(int)
      */
     @Override
     public void updateTTL(int i) {
@@ -140,7 +140,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AddressRouted#initializeTTL()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AddressRouted#initializeTTL()
      */
     @Override
     public void initializeTTL() {
@@ -161,12 +161,12 @@ final class AddressBook implements AddressRouted {
      * @return the address
      */
     private Address getAddress() {
-        String defaultaddr = ByteCart.myPlugin.getConfig().getString("EmptyCartsDefaultRoute", "0.0.0");
+        String defaultaddr = ByteCartRedux.myPlugin.getConfig().getString("EmptyCartsDefaultRoute", "0.0.0");
         return new AddressString(ticket.getString(parameter, defaultaddr), true);
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#remove()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#remove()
      */
     @Override
     public void remove() {
@@ -174,7 +174,7 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#isReturnable()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isReturnable()
      */
     @Override
     public boolean isReturnable() {
@@ -182,15 +182,15 @@ final class AddressBook implements AddressRouted {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#finalizeAddress()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#finalizeAddress()
      */
     @SuppressWarnings("deprecation")
     @Override
     public void finalizeAddress() {
         ticket.close();
         if (ticket.getTicketHolder() instanceof Player) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : update player inventory");
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : update player inventory");
             }
             ((Player) ticket.getTicketHolder()).updateInventory();
         }

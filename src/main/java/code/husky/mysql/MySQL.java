@@ -26,7 +26,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
 
 /**
  * Connects to and uses a MySQL database
@@ -77,9 +76,9 @@ public class MySQL extends Database {
             connection =
                     DriverManager.getConnection("jdbc:mysql://" + this.hostname + ":" + this.port + "/" + this.database, this.user, this.password);
         } catch (SQLException e) {
-            plugin.getLog().log(Level.SEVERE, "Could not connect to MySQL server! because: " + e.getMessage());
+            plugin.getLog().error("Could not connect to MySQL server! because: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            plugin.getLog().log(Level.SEVERE, "JDBC Driver not found!");
+            plugin.getLog().error("JDBC Driver not found!");
         }
         return connection;
     }
@@ -100,7 +99,7 @@ public class MySQL extends Database {
             try {
                 connection.close();
             } catch (SQLException e) {
-                plugin.getLog().log(Level.SEVERE, "Error closing the MySQL Connection!");
+                plugin.getLog().error("Error closing the MySQL Connection!");
                 e.printStackTrace();
             }
         }

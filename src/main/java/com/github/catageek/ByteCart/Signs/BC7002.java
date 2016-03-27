@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Signs;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.AbstractIC;
 import com.github.catageek.ByteCart.HAL.PinRegistry;
 import com.github.catageek.ByteCart.IO.OutputPin;
@@ -37,7 +37,7 @@ final class BC7002 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public void trigger() {
@@ -50,16 +50,16 @@ final class BC7002 extends AbstractTriggeredSign implements Triggable {
         this.addOutputRegistry(new PinRegistry<OutputPin>(lever));
 
         this.getOutput(0).setAmount(1);
-        //		if(ByteCart.debug)
-        //			ByteCart.log.info("ByteCart : BC7002 count 1");
+        //		if(ByteCartRedux.debug)
+        //			ByteCartRedux.log.info("ByteCartRedux : BC7002 count 1");
 
-        //		ByteCart.myPlugin.getDelayedThreadManager().renew(getLocation(), 4, new Release(this));
-        (new Release(this)).runTaskLater(ByteCart.myPlugin, 4);
+        //		ByteCartRedux.myPlugin.getDelayedThreadManager().renew(getLocation(), 4, new Release(this));
+        (new Release(this)).runTaskLater(ByteCartRedux.myPlugin, 4);
 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public final String getName() {
@@ -67,7 +67,7 @@ final class BC7002 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public final String getFriendlyName() {

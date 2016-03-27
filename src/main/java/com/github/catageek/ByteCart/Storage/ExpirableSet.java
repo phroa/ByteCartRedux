@@ -35,14 +35,14 @@ public final class ExpirableSet<K> extends Expirable<K> {
     private final Set<K> Set = Collections.synchronizedSet(new HashSet<K>());
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.ThreadManagement.Expirable#Expirable(long, boolean, String)
+     * @see com.github.catageek.ByteCartRedux.ThreadManagement.Expirable#Expirable(long, boolean, String)
      */
     public ExpirableSet(long duration, boolean isSync, String name) {
         super(duration, isSync, name);
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.ThreadManagement.Expirable#expire(java.lang.Object[])
+     * @see com.github.catageek.ByteCartRedux.ThreadManagement.Expirable#expire(java.lang.Object[])
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -57,14 +57,14 @@ public final class ExpirableSet<K> extends Expirable<K> {
      * @return true if the element was added
      */
     public boolean add(K key) {
-        //		if(ByteCart.debug)
-        //			ByteCart.log.info("ByteCart: create ephemeral key (" + key +") in " + this.getName() + " for " + this.getDuration() + " ticks");
+        //		if(ByteCartRedux.debug)
+        //			ByteCartRedux.log.info("ByteCartRedux: create ephemeral key (" + key +") in " + this.getName() + " for " + this.getDuration() + " ticks");
         this.reset(key, key, Set);
         return Set.add(key);
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.ThreadManagement.Expirable#reset(java.lang.Object, java.lang.Object[])
+     * @see com.github.catageek.ByteCartRedux.ThreadManagement.Expirable#reset(java.lang.Object, java.lang.Object[])
      */
     @Override
     public void reset(K key, Object... objects) {
@@ -72,7 +72,7 @@ public final class ExpirableSet<K> extends Expirable<K> {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.ThreadManagement.Expirable#reset(long, java.lang.Object, java.lang.Object[])
+     * @see com.github.catageek.ByteCartRedux.ThreadManagement.Expirable#reset(long, java.lang.Object, java.lang.Object[])
      */
     @Override
     public void reset(long duration, K key, Object... objects) {

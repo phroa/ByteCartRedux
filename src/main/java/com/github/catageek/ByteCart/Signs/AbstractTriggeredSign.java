@@ -22,7 +22,7 @@ import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
 import com.github.catageek.ByteCart.AddressLayer.TicketFactory;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.AbstractIC;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -81,8 +81,8 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggable {
                 if (!this.getVehicle().isEmpty()) {
                     if (((Minecart) this.getVehicle()).getPassenger() instanceof Player) {
 
-                        if (ByteCart.debug) {
-                            ByteCart.log.info("ByteCart: loading player inventory :" + ((Player) this.getVehicle().getPassenger()).getDisplayName());
+                        if (ByteCartRedux.debug) {
+                            ByteCartRedux.log.info("ByteCartRedux: loading player inventory :" + ((Player) this.getVehicle().getPassenger()).getDisplayName());
                         }
 
                         return ((Player) this.getVehicle().getPassenger()).getInventory();
@@ -93,8 +93,8 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggable {
 			/* There is no inventory, so we create one */
 
             // we have a default route ? so we write it in inventory
-            if (ByteCart.myPlugin.getConfig().contains("EmptyCartsDefaultRoute")) {
-                String DefaultRoute = ByteCart.myPlugin.getConfig().getString("EmptyCartsDefaultRoute");
+            if (ByteCartRedux.myPlugin.getConfig().contains("EmptyCartsDefaultRoute")) {
+                String DefaultRoute = ByteCartRedux.myPlugin.getConfig().getString("EmptyCartsDefaultRoute");
                 TicketFactory.getOrCreateTicket(newInv);
                 //construct address object
                 AddressRouted myAddress = AddressFactory.getAddress(newInv);
@@ -125,7 +125,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#isTrain()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#isTrain()
      */
     @Override
     public final boolean isTrain() {
@@ -133,20 +133,20 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#wasTrain(org.bukkit.Location)
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#wasTrain(org.bukkit.Location)
      */
     @Override
     public final boolean wasTrain(Location loc) {
         boolean ret;
-        if (ByteCart.myPlugin.getIsTrainManager().getMap().contains(loc)) {
-            ret = ByteCart.myPlugin.getIsTrainManager().getMap().get(loc);
-            /*			if(ByteCart.debug  && ret)
-				ByteCart.log.info("ByteCart: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " is wagon !");
+        if (ByteCartRedux.myPlugin.getIsTrainManager().getMap().contains(loc)) {
+            ret = ByteCartRedux.myPlugin.getIsTrainManager().getMap().get(loc);
+            /*			if(ByteCartRedux.debug  && ret)
+				ByteCartRedux.log.info("ByteCartRedux: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " is wagon !");
 			 */
             return ret;
         }
-		/*		if(ByteCart.debug)
-			ByteCart.log.info("ByteCart: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " is not wagon !");
+		/*		if(ByteCartRedux.debug)
+			ByteCartRedux.log.info("ByteCartRedux: "+ this.getName() + " at " + this.getLocation() + " : " + this.getVehicle() + " is not wagon !");
 		 */
         return false;
     }
@@ -159,7 +159,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggable {
      */
     protected final void setWasTrain(Location loc, boolean b) {
         if (b) {
-            ByteCart.myPlugin.getIsTrainManager().getMap().put(loc, true);
+            ByteCartRedux.myPlugin.getIsTrainManager().getMap().put(loc, true);
         }
 
     }

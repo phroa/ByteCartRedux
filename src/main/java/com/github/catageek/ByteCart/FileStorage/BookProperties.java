@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.FileStorage;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 
 import java.io.Closeable;
 import java.io.Flushable;
@@ -61,8 +61,8 @@ public final class BookProperties implements Closeable, Flushable {
      * @throws IOException
      */
     public void setProperty(String key, String value) throws IOException {
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart: BookProperties : setting key " + key + " to " + value);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux: BookProperties : setting key " + key + " to " + value);
         }
         Properties.setProperty(key, value);
     }
@@ -85,8 +85,8 @@ public final class BookProperties implements Closeable, Flushable {
      * @throws IOException
      */
     public void clearProperty(String key) throws IOException {
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart: BookProperties : clearing key " + key);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux: BookProperties : clearing key " + key);
         }
         Properties.remove(key);
     }
@@ -130,8 +130,8 @@ public final class BookProperties implements Closeable, Flushable {
      * @return the value
      */
     public int getInt(String key, int defaultvalue) {
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart: property string : " + Properties.getProperty(key, "" + defaultvalue));
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux: property string : " + Properties.getProperty(key, "" + defaultvalue));
         }
         return Integer.parseInt(Properties.getProperty(key, "" + defaultvalue));
 

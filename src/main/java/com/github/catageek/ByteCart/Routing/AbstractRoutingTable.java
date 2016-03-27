@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Routing;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Updaters.UpdaterContent;
 import com.github.catageek.ByteCart.Util.DirectionRegistry;
 import com.github.catageek.ByteCart.Wanderer.RouteValue;
@@ -58,8 +58,8 @@ public abstract class AbstractRoutingTable {
 
             if (!directlyconnected && (routermetric > computedmetric || routermetric < 0)) {
                 this.setEntry(ring, from, new Metric(computedmetric));
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart : Update : ring = " + ring + ", metric = " + computedmetric + ", direction " + from.ToString());
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux : Update : ring = " + ring + ", metric = " + computedmetric + ", direction " + from.ToString());
                 }
                 neighbour.updateTimestamp();
             }
@@ -71,8 +71,8 @@ public abstract class AbstractRoutingTable {
             Integer route;
             if (!neighbour.hasRouteTo(route = it.next())) {
                 this.removeEntry(route, from);
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart : Remove : ring = " + route + " from " + from.ToString());
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux : Remove : ring = " + route + " from " + from.ToString());
                 }
                 neighbour.updateTimestamp();
             }

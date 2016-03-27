@@ -31,7 +31,7 @@ final class Base64BookOutputStream extends BookOutputStream {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BookOutputStream#getEncodedString()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BookOutputStream#getEncodedString()
      */
     @Override
     protected String getEncodedString() {
@@ -39,7 +39,7 @@ final class Base64BookOutputStream extends BookOutputStream {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BookOutputStream#getBuffer()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BookOutputStream#getBuffer()
      */
     @Override
     protected byte[] getBuffer() {

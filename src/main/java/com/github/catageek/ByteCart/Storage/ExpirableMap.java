@@ -35,14 +35,14 @@ public final class ExpirableMap<K, T> extends Expirable<K> {
     private final Map<K, T> Map = Collections.synchronizedMap(new HashMap<K, T>());
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.ThreadManagement.Expirable#Expirable(long, boolean, String)
+     * @see com.github.catageek.ByteCartRedux.ThreadManagement.Expirable#Expirable(long, boolean, String)
      */
     public ExpirableMap(long duration, boolean isSync, String name) {
         super(duration, isSync, name);
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.ThreadManagement.Expirable#expire(java.lang.Object[])
+     * @see com.github.catageek.ByteCartRedux.ThreadManagement.Expirable#expire(java.lang.Object[])
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -59,8 +59,8 @@ public final class ExpirableMap<K, T> extends Expirable<K> {
      * @return true if the element was added
      */
     public boolean put(K key, T value, boolean reset) {
-        //		if(ByteCart.debug)
-        //			ByteCart.log.info("ByteCart: create ephemeral key (" + key +") in " + this.getName() + " for " + this.getDuration() + " ticks");
+        //		if(ByteCartRedux.debug)
+        //			ByteCartRedux.log.info("ByteCartRedux: create ephemeral key (" + key +") in " + this.getName() + " for " + this.getDuration() + " ticks");
         if (reset) {
             this.reset(key, key, Map);
         }
@@ -79,7 +79,7 @@ public final class ExpirableMap<K, T> extends Expirable<K> {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.ThreadManagement.Expirable#reset(java.lang.Object, java.lang.Object[])
+     * @see com.github.catageek.ByteCartRedux.ThreadManagement.Expirable#reset(java.lang.Object, java.lang.Object[])
      */
     @Override
     public void reset(K key, Object... objects) {

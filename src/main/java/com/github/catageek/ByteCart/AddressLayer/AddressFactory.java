@@ -19,7 +19,7 @@
 package com.github.catageek.ByteCart.AddressLayer;
 
 import com.github.catageek.ByteCart.AddressLayer.AddressBook.Parameter;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.FileStorage.BookFile;
 import com.github.catageek.ByteCart.FileStorage.BookProperties.Conf;
 import com.github.catageek.ByteCart.Signs.BC7010;
@@ -59,13 +59,13 @@ public class AddressFactory {
     public final static <T extends Address> T getDefaultTicket(Inventory inv) {
         String destination;
         if (inv.getHolder() instanceof Player) {
-            destination = ByteCart.myPlugin.getConfig().getString("PlayersNoTicketDefaultRoute", "0.0.0");
+            destination = ByteCartRedux.myPlugin.getConfig().getString("PlayersNoTicketDefaultRoute", "0.0.0");
             if ((new BC7010(null, (Player) inv.getHolder())).setAddress(destination, "No ticket found !")) {
                 return (T) new AddressBook(new Ticket(new BookFile(inv, Ticket.getTicketslot(inv), false, "ticket"), Conf.NETWORK),
                         Parameter.DESTINATION);
             }
         } else if (inv.getHolder() instanceof Vehicle) {
-            destination = ByteCart.myPlugin.getConfig().getString("EmptyCartsDefaultRoute", "0.0.0");
+            destination = ByteCartRedux.myPlugin.getConfig().getString("EmptyCartsDefaultRoute", "0.0.0");
             if ((new BC7011(null, (Vehicle) inv.getHolder())).setAddress(destination, "No ticket found !")) {
                 return (T) new AddressBook(new Ticket(new BookFile(inv, Ticket.getTicketslot(inv), false, "ticket"), Conf.NETWORK),
                         Parameter.DESTINATION);

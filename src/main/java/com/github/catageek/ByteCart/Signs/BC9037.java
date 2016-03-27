@@ -35,7 +35,7 @@ final class BC9037 extends AbstractBC9037 {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractBC9037#negated()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractBC9037#negated()
      */
     @Override
     protected boolean negated() {
@@ -43,7 +43,7 @@ final class BC9037 extends AbstractBC9037 {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#getName()
      */
     @Override
     public final String getName() {
@@ -51,7 +51,7 @@ final class BC9037 extends AbstractBC9037 {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public final String getFriendlyName() {

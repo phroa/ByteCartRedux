@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.EventManagement;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Event.UpdaterRemoveEvent;
 import com.github.catageek.ByteCart.Storage.ExpirableSet;
 import org.bukkit.Bukkit;
@@ -35,7 +35,7 @@ final class UpdaterSet {
 
     // entries stay for 1h
     UpdaterSet() {
-        long duration = ByteCart.myPlugin.getConfig().getInt("updater.timeout", 60) * 1200;
+        long duration = ByteCartRedux.myPlugin.getConfig().getInt("updater.timeout", 60) * 1200;
         updateSet = new ExpirableSet<Integer>(duration, false, "UpdaterRoutes");
     }
 

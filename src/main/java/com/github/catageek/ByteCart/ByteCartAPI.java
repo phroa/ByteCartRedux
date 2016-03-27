@@ -19,8 +19,7 @@
 package com.github.catageek.ByteCart;
 
 import com.github.catageek.ByteCart.AddressLayer.Resolver;
-
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 
 public final class ByteCartAPI {

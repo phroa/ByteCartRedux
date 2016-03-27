@@ -39,7 +39,7 @@ class BC7018 extends AbstractTriggeredSign implements Triggable, Clickable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Clickable#click()
+     * @see com.github.catageek.ByteCartRedux.Signs.Clickable#click()
      */
     @Override
     public void click() {
@@ -55,7 +55,7 @@ class BC7018 extends AbstractTriggeredSign implements Triggable, Clickable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
@@ -63,7 +63,7 @@ class BC7018 extends AbstractTriggeredSign implements Triggable, Clickable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public String getName() {
@@ -71,7 +71,7 @@ class BC7018 extends AbstractTriggeredSign implements Triggable, Clickable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {

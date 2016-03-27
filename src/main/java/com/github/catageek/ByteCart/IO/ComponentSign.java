@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.IO;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 
@@ -60,7 +60,7 @@ public final class ComponentSign extends AbstractComponent {
         if (blockstate instanceof org.bukkit.block.Sign) {
             return ((org.bukkit.block.Sign) blockstate).getLine(line);
         } else {
-            ByteCart.log.info("ByteCart: AddressSign cannot be built");
+            ByteCartRedux.log.info("ByteCartRedux: AddressSign cannot be built");
             throw new IllegalArgumentException();
         }
 

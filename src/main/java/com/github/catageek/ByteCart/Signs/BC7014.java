@@ -21,7 +21,7 @@ package com.github.catageek.ByteCart.Signs;
 import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.RegistryInput;
 import com.github.catageek.ByteCart.IO.InputFactory;
 import com.github.catageek.ByteCart.Util.MathUtil;
@@ -39,7 +39,7 @@ class BC7014 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7010#getAddressToWrite()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getAddressToWrite()
      */
     @Override
     protected Address getAddressToWrite() {
@@ -56,8 +56,8 @@ class BC7014 extends BC7010 implements Triggable {
             return null;
         }
 
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart: " + this.getName() + " wire : " + wire.getAmount());
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux: " + this.getName() + " wire : " + wire.getAmount());
         }
 
         return AddressFactory.getAddress(format(wire, InvAddress));
@@ -88,7 +88,7 @@ class BC7014 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7010#getIsTrain()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getIsTrain()
      */
     @Override
     protected final boolean getIsTrain() {
@@ -101,7 +101,7 @@ class BC7014 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7010#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getName()
      */
     @Override
     public String getName() {
@@ -109,7 +109,7 @@ class BC7014 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7010#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {
@@ -117,7 +117,7 @@ class BC7014 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7010#forceTicketReuse()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#forceTicketReuse()
      */
     @Override
     protected boolean forceTicketReuse() {

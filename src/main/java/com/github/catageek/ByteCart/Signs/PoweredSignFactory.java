@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Signs;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.AbstractIC;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -44,8 +44,8 @@ public class PoweredSignFactory {
 
         int ICnumber = Integer.parseInt(signString.substring(3, 7));
 /*
-        if(ByteCart.debug)
-			ByteCart.log.info("ByteCart: Powered #IC " + ICnumber + " detected");
+        if(ByteCartRedux.debug)
+			ByteCartRedux.log.info("ByteCartRedux: Powered #IC " + ICnumber + " detected");
 */
 
         try {
@@ -66,16 +66,16 @@ public class PoweredSignFactory {
 
             }
         } catch (Exception e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
 
             // there was no inventory in the cart
             return null;
         }
 /*
-		if(ByteCart.debug)
-			ByteCart.log.info("ByteCart: #IC " + ICnumber + " not activated");
+		if(ByteCartRedux.debug)
+			ByteCartRedux.log.info("ByteCartRedux: #IC " + ICnumber + " not activated");
 */
         return null;
 

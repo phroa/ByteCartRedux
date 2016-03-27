@@ -20,6 +20,6 @@
  *
  */
 /**
- * Events launched by ByteCart
+ * Events launched by ByteCartRedux
  */
 package com.github.catageek.ByteCart.Event;

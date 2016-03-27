@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.FileStorage;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
@@ -63,8 +63,8 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         }
         OutputStream.flush();
         getItemStack().setItemMeta(OutputStream.getBook());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : Flushing meta to itemstack");
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : Flushing meta to itemstack");
         }
     }
 
@@ -76,8 +76,8 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         if (isClosed) {
             throw new IOException("ItemStack has been already closed");
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : Closing itemstack");
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : Closing itemstack");
         }
         OutputStream.close();
         isClosed = true;

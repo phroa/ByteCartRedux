@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Signs;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.AbstractIC;
 import com.github.catageek.ByteCart.HAL.PinRegistry;
 import com.github.catageek.ByteCart.HAL.RegistryOutput;
@@ -50,7 +50,7 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
 
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public void trigger() {
@@ -64,11 +64,11 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
 
             if (!this.decrementWaveCount()) {
 
-                (new RemoveCount(ByteCart.myPlugin.Lockduration + 6, true, "Removecount")).reset(getLocation(), this.getOutput(0));
+                (new RemoveCount(ByteCartRedux.myPlugin.Lockduration + 6, true, "Removecount")).reset(getLocation(), this.getOutput(0));
             }
         } catch (Exception e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
 
             e.printStackTrace();
@@ -76,7 +76,7 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Powerable#power()
+     * @see com.github.catageek.ByteCartRedux.Signs.Powerable#power()
      */
     @Override
     public void power() {
@@ -122,14 +122,14 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
         synchronized (wavecount) {
             if (!wavecount.contains(this.getLocation())) {
                 wavecount.put(getLocation(), 1);
-                //				if(ByteCart.debug)
-                //					ByteCart.log.info("ByteCart." + getName() + ": count = " + wavecount.getValue(getBlock()) + " init");
+                //				if(ByteCartRedux.debug)
+                //					ByteCartRedux.log.info("ByteCartRedux." + getName() + ": count = " + wavecount.getValue(getBlock()) + " init");
             } else {
-                //				if(ByteCart.debug)
-                //					ByteCart.log.info("ByteCart." + getName() + ": ++count = " + wavecount.getValue(getBlock()) + " before");
+                //				if(ByteCartRedux.debug)
+                //					ByteCartRedux.log.info("ByteCartRedux." + getName() + ": ++count = " + wavecount.getValue(getBlock()) + " before");
                 wavecount.put(getLocation(), wavecount.get(getLocation()) + 1);
-                //				if(ByteCart.debug)
-                //					ByteCart.log.info("ByteCart." + getName() + ": ++count = " + wavecount.getValue(getBlock()) + " after");
+                //				if(ByteCartRedux.debug)
+                //					ByteCartRedux.log.info("ByteCartRedux." + getName() + ": ++count = " + wavecount.getValue(getBlock()) + " after");
             }
         }
 
@@ -147,13 +147,13 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
                 wavecount.put(getLocation(), wavecount.get(getLocation()) - 1);
             } else {
                 wavecount.remove(getLocation());
-                //				if(ByteCart.debug)
-                //					ByteCart.log.info("ByteCart." + getName() + ": --count = 0");
+                //				if(ByteCartRedux.debug)
+                //					ByteCartRedux.log.info("ByteCartRedux." + getName() + ": --count = 0");
                 return false;
             }
 
-            //		if(ByteCart.debug)
-            //			ByteCart.log.info("ByteCart." + getName() + ": --count = " + wavecount.getValue(getBlock()));
+            //		if(ByteCartRedux.debug)
+            //			ByteCartRedux.log.info("ByteCartRedux." + getName() + ": --count = " + wavecount.getValue(getBlock()));
 
             return true;
         }
@@ -176,7 +176,7 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public final String getName() {
@@ -184,7 +184,7 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public final String getFriendlyName() {
@@ -192,7 +192,7 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#isTrain()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#isTrain()
      */
     @Override
     public boolean isTrain() {
@@ -200,7 +200,7 @@ final class BC7003 extends AbstractIC implements Triggable, Powerable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#wasTrain(org.bukkit.Location)
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#wasTrain(org.bukkit.Location)
      */
     @Override
     public boolean wasTrain(org.bukkit.Location loc) {

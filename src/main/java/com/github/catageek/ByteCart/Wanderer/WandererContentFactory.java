@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Wanderer;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.FileStorage.BCFile;
 import com.github.catageek.ByteCart.FileStorage.BookFile;
 import com.github.catageek.ByteCart.Wanderer.Wanderer.Level;
@@ -51,7 +51,7 @@ abstract public class WandererContentFactory {
     public static boolean isWanderer(Inventory inv) {
         String prefix = getType(inv);
         if (prefix != null) {
-            return ByteCart.myPlugin.getWandererManager().isWandererType(prefix);
+            return ByteCartRedux.myPlugin.getWandererManager().isWandererType(prefix);
         }
 
         return false;

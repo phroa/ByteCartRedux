@@ -20,7 +20,7 @@ package com.github.catageek.ByteCart.plugins;
 
 import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Event.SignCreateEvent;
 import com.github.catageek.ByteCart.Event.SignRemoveEvent;
 import com.github.catageek.ByteCart.Event.UpdaterClearStationEvent;
@@ -55,7 +55,7 @@ import java.util.MissingResourceException;
  */
 public final class BCDynmapPlugin implements Listener {
 
-    private static final String name = ByteCart.myPlugin.getConfig().getString("dynmap.layer", "ByteCart");
+    private static final String name = ByteCartRedux.myPlugin.getConfig().getString("dynmap.layer", "ByteCartRedux");
     static MarkerSet markerset;
     private static MarkerIcon defaulticon;
     private static MarkerIcon erroricon;
@@ -191,12 +191,12 @@ public final class BCDynmapPlugin implements Listener {
      */
     public static void removeObsoleteMarkers() {
         if (markerset != null) {
-            Bukkit.getScheduler().runTask(ByteCart.myPlugin, new searchObsoleteMarkers());
+            Bukkit.getScheduler().runTask(ByteCartRedux.myPlugin, new searchObsoleteMarkers());
         }
     }
 
     /**
-     * Load the ByteCart icon
+     * Load the ByteCartRedux icon
      *
      * @param markerapi dynmap marker API
      * @param id the id of the icon
@@ -210,7 +210,7 @@ public final class BCDynmapPlugin implements Listener {
             try (InputStream png = getClass().getResourceAsStream(file)) {
                 icon = markerapi.createMarkerIcon(id, label, png);
             } catch (IOException e) {
-                throw new MissingResourceException("ByteCart : icon could not be loaded", this.getClass().getName(), file);
+                throw new MissingResourceException("ByteCartRedux : icon could not be loaded", this.getClass().getName(), file);
             }
         }
         return icon;

@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
 /**
  * Connects to and uses a SQLite database
@@ -60,16 +59,16 @@ public class SQLite extends Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                plugin.getLog().log(Level.SEVERE, "Unable to create database!");
+                plugin.getLog().error("Unable to create database!");
             }
         }
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toPath().toString() + "/" + dbLocation);
         } catch (SQLException e) {
-            plugin.getLog().log(Level.SEVERE, "Could not connect to SQLite server! because: " + e.getMessage());
+            plugin.getLog().error("Could not connect to SQLite server! because: " + e.getMessage());
         } catch (ClassNotFoundException e) {
-            plugin.getLog().log(Level.SEVERE, "JDBC Driver not found!");
+            plugin.getLog().error("JDBC Driver not found!");
         }
         return connection;
     }
@@ -95,7 +94,7 @@ public class SQLite extends Database {
             try {
                 connection.close();
             } catch (SQLException e) {
-                plugin.getLog().log(Level.SEVERE, "Error closing the SQLite Connection!");
+                plugin.getLog().error("Error closing the SQLite Connection!");
                 e.printStackTrace();
             }
         }

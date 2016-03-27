@@ -38,7 +38,7 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.IO.OutputPin#write(boolean)
+     * @see com.github.catageek.ByteCartRedux.IO.OutputPin#write(boolean)
      */
     @Override
     public void write(boolean bit) {
@@ -53,7 +53,7 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.IO.InputPin#read()
+     * @see com.github.catageek.ByteCartRedux.IO.InputPin#read()
      */
     @Override
     public boolean read() {
@@ -65,7 +65,7 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.RegistryInput#getBit(int)
+     * @see com.github.catageek.ByteCartRedux.HAL.RegistryInput#getBit(int)
      */
     @Override
     public boolean getBit(int index) {
@@ -73,7 +73,7 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.Registry#getAmount()
+     * @see com.github.catageek.ByteCartRedux.HAL.Registry#getAmount()
      */
     @Override
     public int getAmount() {
@@ -81,7 +81,7 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.Registry#length()
+     * @see com.github.catageek.ByteCartRedux.HAL.Registry#length()
      */
     @Override
     public int length() {

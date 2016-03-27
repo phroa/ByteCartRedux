@@ -126,7 +126,7 @@ public final class DirectionRegistry implements Partitionable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Storage.Partitionable#getAmount()
+     * @see com.github.catageek.ByteCartRedux.Storage.Partitionable#getAmount()
      */
     @Override
     public final int getAmount() {

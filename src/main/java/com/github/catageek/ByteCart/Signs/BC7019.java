@@ -40,7 +40,7 @@ final class BC7019 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public String getName() {
@@ -48,7 +48,7 @@ final class BC7019 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {
@@ -56,7 +56,7 @@ final class BC7019 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7010#getAddressToWrite()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getAddressToWrite()
      */
     @Override
     protected Address getAddressToWrite() {

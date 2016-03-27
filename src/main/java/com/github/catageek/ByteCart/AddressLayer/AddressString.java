@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.AddressLayer;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.VirtualRegistry;
 
 
@@ -30,7 +30,7 @@ public class AddressString extends AbstractAddress implements Address {
     private final static Resolver resolver;
 
     static {
-        resolver = ByteCart.myPlugin.getResolver();
+        resolver = ByteCartRedux.myPlugin.getResolver();
     }
 
     /**
@@ -117,7 +117,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getRegion()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getRegion()
      */
     @Override
     public VirtualRegistry getRegion() {
@@ -127,7 +127,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AbstractAddress#setRegion(int)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setRegion(int)
      */
     @Override
     public void setRegion(int region) {
@@ -135,7 +135,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getTrack()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getTrack()
      */
     @Override
     public VirtualRegistry getTrack() {
@@ -145,7 +145,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AbstractAddress#setTrack(int)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setTrack(int)
      */
     @Override
     public void setTrack(int track) {
@@ -153,7 +153,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#getStation()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#getStation()
      */
     @Override
     public VirtualRegistry getStation() {
@@ -163,7 +163,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AbstractAddress#setStation(int)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setStation(int)
      */
     @Override
     public void setStation(int station) {
@@ -171,7 +171,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#isTrain()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isTrain()
      */
     @Override
     public boolean isTrain() {
@@ -193,7 +193,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AbstractAddress#setIsTrain(boolean)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setIsTrain(boolean)
      */
     @Override
     public void setIsTrain(boolean isTrain) {
@@ -201,7 +201,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AbstractAddress#toString()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#toString()
      */
     @Override
     public java.lang.String toString() {
@@ -212,7 +212,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AbstractAddress#setAddress(java.lang.String)
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#setAddress(java.lang.String)
      */
     @Override
     public boolean setAddress(java.lang.String s) {
@@ -227,7 +227,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.AbstractAddress#UpdateAddress()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.AbstractAddress#UpdateAddress()
      */
     @Override
     protected boolean UpdateAddress() {
@@ -236,7 +236,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#remove()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#remove()
      */
     @Override
     public void remove() {
@@ -245,7 +245,7 @@ public class AddressString extends AbstractAddress implements Address {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.AddressLayer.Address#isReturnable()
+     * @see com.github.catageek.ByteCartRedux.AddressLayer.Address#isReturnable()
      */
     @Override
     public boolean isReturnable() {

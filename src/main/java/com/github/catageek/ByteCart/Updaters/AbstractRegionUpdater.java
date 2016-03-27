@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Updaters;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Routing.BCCounter;
 import com.github.catageek.ByteCart.Routing.Metric;
 import com.github.catageek.ByteCart.Signs.BC8010;
@@ -78,8 +78,8 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
                 }
 
                 // Storing the route from where we arrive
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart : Wanderer : storing ring " + current + " direction " + getFrom().ToString());
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux : Wanderer : storing ring " + current + " direction " + getFrom().ToString());
                 }
 
                 getRoutingTable().setEntry(current, getFrom(), new Metric(0));
@@ -98,7 +98,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
 
 
             // storing the route in the map
-            //			ByteCart.myPlugin.getUm().getMapRoutes().put(getVehicle().getEntityId(), getRoutes(), false);
+            //			ByteCartRedux.myPlugin.getUm().getMapRoutes().put(getVehicle().getEntityId(), getRoutes(), false);
 
             setCurrent(current);
             this.getRoutes().setLastrouterid(this.getCenter().hashCode());
@@ -113,7 +113,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.DefaultRouterWanderer#doAction(org.bukkit.block.BlockFace)
+     * @see com.github.catageek.ByteCartRedux.Routing.DefaultRouterWanderer#doAction(org.bukkit.block.BlockFace)
      */
     @Override
     public void doAction(BlockFace To) {
@@ -122,8 +122,8 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
 
         int current = getCurrent();
         current = (current == -2 ? 0 : current);
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : doAction() : current is " + current);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : doAction() : current is " + current);
         }
 
         // If we are turning back, keep current track otherwise discard
@@ -145,7 +145,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.DefaultRouterWanderer#giveRouterDirection()
+     * @see com.github.catageek.ByteCartRedux.Routing.DefaultRouterWanderer#giveRouterDirection()
      */
     @Override
     public final BlockFace giveRouterDirection() {

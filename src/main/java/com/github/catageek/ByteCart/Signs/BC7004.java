@@ -54,7 +54,7 @@ final class BC7004 extends AbstractIC implements Powerable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Powerable#power()
+     * @see com.github.catageek.ByteCartRedux.Signs.Powerable#power()
      */
     @Override
     public void power() throws ClassNotFoundException, IOException {
@@ -97,7 +97,7 @@ final class BC7004 extends AbstractIC implements Powerable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public String getName() {
@@ -105,7 +105,7 @@ final class BC7004 extends AbstractIC implements Powerable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {

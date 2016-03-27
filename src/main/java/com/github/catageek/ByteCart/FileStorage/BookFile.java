@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.FileStorage;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -42,7 +42,7 @@ public final class BookFile implements BCFile {
     static final int PAGESIZE = 1 << PAGELOG;
     static final int MAXPAGE = 20;
     static final int MAXSIZE = MAXPAGE * PAGESIZE;
-    private static final String prefix = ByteCart.myPlugin.getConfig().getString("author");
+    private static final String prefix = ByteCartRedux.myPlugin.getConfig().getString("author");
     private final String author;
     private final Inventory container;
     private final boolean binarymode;
@@ -115,7 +115,7 @@ public final class BookFile implements BCFile {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BCFile#getCapacity()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getCapacity()
      */
     @Override
     public int getCapacity() {
@@ -123,7 +123,7 @@ public final class BookFile implements BCFile {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BCFile#clear()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#clear()
      */
     @Override
     public void clear() {
@@ -135,7 +135,7 @@ public final class BookFile implements BCFile {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BCFile#isEmpty()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#isEmpty()
      */
     @Override
     public boolean isEmpty() {
@@ -147,7 +147,7 @@ public final class BookFile implements BCFile {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BCFile#getOutputStream()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getOutputStream()
      */
     @Override
     public OutputStream getOutputStream() throws IOException {
@@ -165,7 +165,7 @@ public final class BookFile implements BCFile {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BCFile#getInputStream()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getInputStream()
      */
     @Override
     public InputStream getInputStream() throws IOException {
@@ -188,8 +188,8 @@ public final class BookFile implements BCFile {
             if (isClosed) {
                 throw new IOException("Book File has already been closed");
             }
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : BookFile : closing");
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : BookFile : closing");
             }
             isClosed = true;
         }
@@ -214,7 +214,7 @@ public final class BookFile implements BCFile {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BCFile#getContainer()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getContainer()
      */
     @Override
     public Inventory getContainer() {
@@ -222,7 +222,7 @@ public final class BookFile implements BCFile {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BCFile#getDescription()
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#getDescription()
      */
     @Override
     public String getDescription() throws IOException {
@@ -237,7 +237,7 @@ public final class BookFile implements BCFile {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.FileStorage.BCFile#setDescription(java.lang.String)
+     * @see com.github.catageek.ByteCartRedux.FileStorage.BCFile#setDescription(java.lang.String)
      */
     @Override
     public void setDescription(String s) throws IOException {

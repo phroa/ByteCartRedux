@@ -21,7 +21,7 @@ package com.github.catageek.ByteCart.Signs;
 import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.CollisionManagement.CollisionAvoiderBuilder;
 import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
 import com.github.catageek.ByteCart.CollisionManagement.SimpleCollisionAvoider;
@@ -51,7 +51,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     abstract public String getName();
@@ -118,7 +118,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
 
             this.addIO();
 
-            SimpleCollisionAvoider intersection = ByteCart.myPlugin.getCollisionAvoiderManager().<SimpleCollisionAvoider>getCollisionAvoider(builder);
+            SimpleCollisionAvoider intersection = ByteCartRedux.myPlugin.getCollisionAvoiderManager().<SimpleCollisionAvoider>getCollisionAvoider(builder);
 
             if (!WandererContentFactory.isWanderer(getInventory())) {
 
@@ -126,7 +126,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
 
                 // if this is a cart in a train
                 if (this.wasTrain(this.getLocation())) {
-                    ByteCart.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation());
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation());
                     intersection.Book(isTrain);
                     return;
                 }
@@ -144,15 +144,15 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
             manageWanderer(intersection);
 
         } catch (ClassCastException e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
 
             // Not the good blocks to build the signs
             return;
         } catch (NullPointerException e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
             e.printStackTrace();
 
@@ -170,7 +170,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCSign#getLevel()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getLevel()
      */
     @Override
     public Wanderer.Level getLevel() {
@@ -178,7 +178,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCSign#getSignAddress()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getSignAddress()
      */
     @Override
     public final Address getSignAddress() {
@@ -186,7 +186,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCSign#getCenter()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getCenter()
      */
     @Override
     public final org.bukkit.block.Block getCenter() {
@@ -194,7 +194,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCSign#getDestinationIP()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getDestinationIP()
      */
     @Override
     public final String getDestinationIP() {

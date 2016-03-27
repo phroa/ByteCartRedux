@@ -20,6 +20,6 @@
  *
  */
 /**
- * A package that provides addons to ByteCart
+ * A package that provides addons to ByteCartRedux
  */
 package com.github.catageek.ByteCart.plugins;

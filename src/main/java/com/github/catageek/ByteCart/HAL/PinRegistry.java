@@ -39,13 +39,13 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
      */
     public PinRegistry(T[] pins) {
         this.PinArray = Arrays.asList(pins);
-/*		if(ByteCart.debug)
-            ByteCart.log.info("ByteCart : creating PinRegistry with" + this.length() + "pin(s)");
+/*		if(ByteCartRedux.debug)
+            ByteCartRedux.log.info("ByteCartRedux : creating PinRegistry with" + this.length() + "pin(s)");
 */
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.Registry#length()
+     * @see com.github.catageek.ByteCartRedux.HAL.Registry#length()
      */
     @Override
     public int length() {
@@ -53,7 +53,7 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.Registry#getAmount()
+     * @see com.github.catageek.ByteCartRedux.HAL.Registry#getAmount()
      */
     @Override
     public int getAmount() {
@@ -77,7 +77,7 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.RegistryOutput#setAmount(int)
+     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setAmount(int)
      */
     @Override
     public void setAmount(int amount) {
@@ -103,7 +103,7 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.RegistryOutput#setBit(int, boolean)
+     * @see com.github.catageek.ByteCartRedux.HAL.RegistryOutput#setBit(int, boolean)
      */
     @Override
     public void setBit(int index, boolean value) {
@@ -111,7 +111,7 @@ public class PinRegistry<T> implements RegistryInput, RegistryOutput, Registry {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.RegistryInput#getBit(int)
+     * @see com.github.catageek.ByteCartRedux.HAL.RegistryInput#getBit(int)
      */
     @Override
     public boolean getBit(int index) {

@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Routing;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.FileStorage.BookFile;
 import com.github.catageek.ByteCart.Storage.ExternalizableTreeMap;
 import com.github.catageek.ByteCart.Storage.PartitionedHashSet;
@@ -66,7 +66,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.RoutingTableWritable#clear(boolean)
+     * @see com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable#clear(boolean)
      */
     @Override
     public void clear(boolean fullreset) {
@@ -87,14 +87,14 @@ final class RoutingTableBook extends AbstractRoutingTable implements
             map.put(route, routes);
         }
 
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : clear routing table map");
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : clear routing table map");
         }
         wasModified = true;
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.RoutingTableWritable#getRouteNumbers()
+     * @see com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable#getRouteNumbers()
      */
     @Override
     public final <T extends RouteValue> Iterator<T> getOrderedRouteNumbers() {
@@ -104,7 +104,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#getMetric(int, com.github.catageek.ByteCart.Util.DirectionRegistry)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getMetric(int, com.github.catageek.ByteCartRedux.Util.DirectionRegistry)
      */
     @Override
     public int getMetric(int entry, DirectionRegistry direction) {
@@ -124,7 +124,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#getMinMetric(int)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getMinMetric(int)
      */
     @Override
     public int getMinMetric(int entry) {
@@ -138,8 +138,8 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#setEntry(int, com.github.catageek.ByteCart.Util.DirectionRegistry, com.github
-     * .catageek.ByteCart.Routing.Metric)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#setEntry(int, com.github.catageek.ByteCartRedux.Util.DirectionRegistry, com.github
+     * .catageek.ByteCartRedux.Routing.Metric)
      */
     private void setMapEntry(int entry, DirectionRegistry direction, Metric metric) {
 
@@ -164,8 +164,8 @@ final class RoutingTableBook extends AbstractRoutingTable implements
 
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#setEntry(int, com.github.catageek.ByteCart.Util.DirectionRegistry, com.github
-     * .catageek.ByteCart.Routing.Metric)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#setEntry(int, com.github.catageek.ByteCartRedux.Util.DirectionRegistry, com.github
+     * .catageek.ByteCartRedux.Routing.Metric)
      */
     @Override
     public void setEntry(int entry, DirectionRegistry direction, Metric metric) {
@@ -173,7 +173,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#isEmpty(int)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#isEmpty(int)
      */
     @Override
     public boolean isEmpty(int entry) {
@@ -181,7 +181,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#getDirection(int)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getDirection(int)
      */
     @Override
     public DirectionRegistry getDirection(int entry) {
@@ -199,7 +199,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#getDirectlyConnectedList(com.github.catageek.ByteCart.Util.DirectionRegistry)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getDirectlyConnectedList(com.github.catageek.ByteCartRedux.Util.DirectionRegistry)
      */
     @Override
     public Set<Integer> getDirectlyConnectedList(DirectionRegistry direction) {
@@ -223,7 +223,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#getNotDirectlyConnectedList(com.github.catageek.ByteCart.Util.DirectionRegistry)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#getNotDirectlyConnectedList(com.github.catageek.ByteCartRedux.Util.DirectionRegistry)
      */
     @Override
     protected Set<Integer> getNotDirectlyConnectedList(
@@ -259,7 +259,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractRoutingTable#removeEntry(int, com.github.catageek.ByteCart.Util.DirectionRegistry)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractRoutingTable#removeEntry(int, com.github.catageek.ByteCartRedux.Util.DirectionRegistry)
      */
     @Override
     public void removeEntry(int entry, DirectionRegistry from) {
@@ -282,7 +282,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.RoutingTableWritable#serialize()
+     * @see com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable#serialize()
      */
     @Override
     public void serialize() throws IOException {
@@ -293,8 +293,8 @@ final class RoutingTableBook extends AbstractRoutingTable implements
             file.clear();
             ObjectOutputStream oos = new ObjectOutputStream(file.getOutputStream());
             oos.writeObject(this);
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : serialize() : object written, now closing");
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : serialize() : object written, now closing");
             }
             oos.flush();
             wasModified = false;
@@ -320,7 +320,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.RoutingTableWritable#size()
+     * @see com.github.catageek.ByteCartRedux.Routing.RoutingTableWritable#size()
      */
     @Override
     public int size() {

@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Signs;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.PinRegistry;
 import com.github.catageek.ByteCart.IO.OutputPin;
 import com.github.catageek.ByteCart.IO.OutputPinFactory;
@@ -35,7 +35,7 @@ class BC7020 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public void trigger() {
@@ -43,7 +43,7 @@ class BC7020 extends AbstractTriggeredSign implements Triggable {
 
         // if this is a cart in a train
         if (this.wasTrain(this.getLocation())) {
-            ByteCart.myPlugin.getIsTrainManager().getMap().reset(getLocation());
+            ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getLocation());
             actionWagon();
             return;
         }
@@ -83,7 +83,7 @@ class BC7020 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public String getName() {
@@ -91,7 +91,7 @@ class BC7020 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {

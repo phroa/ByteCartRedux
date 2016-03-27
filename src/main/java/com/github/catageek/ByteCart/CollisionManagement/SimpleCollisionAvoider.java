@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.CollisionManagement;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.HAL.RegistryOutput;
 import com.github.catageek.ByteCart.Signs.Triggable;
 import com.github.catageek.ByteCart.Storage.ExpirableMap;
@@ -40,8 +40,8 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
 
     public SimpleCollisionAvoider(Triggable ic, org.bukkit.Location loc) {
         super(loc);
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart: new IntersectionSide() at " + loc);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux: new IntersectionSide() at " + loc);
         }
 
         Lever1 = ic.getOutput(0);
@@ -62,17 +62,17 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
 
         IntersectionSide.Side trueside = getActiveTrueSide(s);
 
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : WishToGo to side " + trueside + " and isTrain is " + isTrain);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : WishToGo to side " + trueside + " and isTrain is " + isTrain);
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : state is " + state);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : state is " + state);
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : recentlyUsed is " + this.getRecentlyUsed() + " and hasTrain is " + this.getHasTrain());
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : recentlyUsed is " + this.getRecentlyUsed() + " and hasTrain is " + this.getHasTrain());
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : Lever1 is " + Lever1.getAmount());
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : Lever1 is " + Lever1.getAmount());
         }
 
         if (trueside != state
@@ -110,7 +110,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
 
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.CollisionAvoider#Add(com.github.catageek.ByteCart.Signs.Triggable)
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.CollisionAvoider#Add(com.github.catageek.ByteCartRedux.Signs.Triggable)
      */
     @Override
     public void Add(Triggable t) {
@@ -126,8 +126,8 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
         Active = Lever2;
         reversed ^= t.isLeverReversed();
         Lever2.setAmount(getSecondLeverSide(state).Value());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart: Add and setting lever2 to " + Lever2.getAmount());
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux: Add and setting lever2 to " + Lever2.getAmount());
         }
     }
 
@@ -138,20 +138,20 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
      */
     private void Set(IntersectionSide.Side s) {
         this.Lever1.setAmount(s.Value());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart: Setting lever1 to " + Lever1.getAmount());
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux: Setting lever1 to " + Lever1.getAmount());
         }
         if (this.Lever2 != null) {
             this.Lever2.setAmount(getSecondLeverSide(state).Value());
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart: Setting lever2 to " + Lever2.getAmount());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux: Setting lever2 to " + Lever2.getAmount());
             }
         }
         state = s;
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.CollisionAvoider#getSecondpos()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.CollisionAvoider#getSecondpos()
      */
     @Override
     public int getSecondpos() {
@@ -159,7 +159,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.AbstractCollisionAvoider#getRecentlyUsedMap()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.AbstractCollisionAvoider#getRecentlyUsedMap()
      */
     @Override
     protected ExpirableMap<Location, Boolean> getRecentlyUsedMap() {
@@ -167,7 +167,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.CollisionManagement.AbstractCollisionAvoider#getHasTrainMap()
+     * @see com.github.catageek.ByteCartRedux.CollisionManagement.AbstractCollisionAvoider#getHasTrainMap()
      */
     @Override
     protected ExpirableMap<Location, Boolean> getHasTrainMap() {

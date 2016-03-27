@@ -38,7 +38,7 @@ class BC7013 extends BC7014 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7014#format(com.github.catageek.ByteCart.HAL.RegistryInput, com.github.catageek.ByteCart
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7014#format(com.github.catageek.ByteCartRedux.HAL.RegistryInput, com.github.catageek.ByteCartRedux
      * .AddressLayer.AddressRouted)
      */
     @Override
@@ -49,7 +49,7 @@ class BC7013 extends BC7014 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7014#addIO()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7014#addIO()
      */
     @Override
     protected void addIO() {
@@ -71,7 +71,7 @@ class BC7013 extends BC7014 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7014#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7014#getName()
      */
     @Override
     public String getName() {
@@ -79,7 +79,7 @@ class BC7013 extends BC7014 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7014#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7014#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {
@@ -87,7 +87,7 @@ class BC7013 extends BC7014 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7014#forceTicketReuse()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7014#forceTicketReuse()
      */
     @Override
     protected boolean forceTicketReuse() {

@@ -20,7 +20,7 @@ package com.github.catageek.ByteCart.Updaters;
 
 import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
 import com.github.catageek.ByteCart.Event.UpdaterEnterSubnetEvent;
 import com.github.catageek.ByteCart.Event.UpdaterLeaveSubnetEvent;
@@ -101,9 +101,9 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
                     Bukkit.getServer().getPluginManager().callEvent(event);
                 }
 
-                if (ByteCart.debug) {
-                    ByteCart.log
-                            .info("ByteCart : UpdaterLocal : Update() : rewrite sign to " + address + "(" + this.getSignAddress().toString() + ")");
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log
+                            .info("ByteCartRedux : UpdaterLocal : Update() : rewrite sign to " + address + "(" + this.getSignAddress().toString() + ")");
                 }
             }
         }
@@ -163,8 +163,8 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
         int start = getFirstStationNumber();
         int end = getLastStationNumber();
         int step = 256 >> netmask;
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : getFreeSubnet() : start = "
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : getFreeSubnet() : start = "
                     + start + " end " + end + " step = " + step + "\n" + this.getCounter().toString());
         }
         for (int i = start; i < end; i += step) {
@@ -173,13 +173,13 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
                 free &= (this.getCounter().getCount(j) == 0);
             }
             if (free) {
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart : getFreeSubnet() : testing : " + i + " : " + free);
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux : getFreeSubnet() : testing : " + i + " : " + free);
                 }
                 return i;
             }
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : getFreeSubnet() : testing : " + i + " : " + free);
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : getFreeSubnet() : testing : " + i + " : " + free);
             }
         }
         LogUtil.sendError(this.getContent().getPlayer(), "Sign at " + this.getCenter().getLocation().toString()

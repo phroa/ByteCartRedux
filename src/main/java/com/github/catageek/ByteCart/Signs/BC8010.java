@@ -22,7 +22,7 @@ import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
 import com.github.catageek.ByteCart.AddressLayer.ReturnAddressFactory;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.CollisionManagement.CollisionAvoiderBuilder;
 import com.github.catageek.ByteCart.CollisionManagement.Router;
 import com.github.catageek.ByteCart.CollisionManagement.RouterCollisionAvoiderBuilder;
@@ -86,7 +86,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
@@ -96,7 +96,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
         try {
 
             BlockFace direction, to;
-            Router router = ByteCart.myPlugin.getCollisionAvoiderManager().<Router>getCollisionAvoider(builder);
+            Router router = ByteCartRedux.myPlugin.getCollisionAvoiderManager().<Router>getCollisionAvoider(builder);
             boolean isTrain = AbstractTriggeredSign.isTrain(destination);
 
             // Here begins the triggered action
@@ -108,9 +108,9 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
                 if (this.wasTrain(this.getLocation())) {
 
                     // leave a message to next cart that it is a train
-                    ByteCart.myPlugin.getIsTrainManager().getMap().reset(getLocation());
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getLocation());
                     // tell to router not to change position
-                    ByteCart.myPlugin.getCollisionAvoiderManager().<Router>getCollisionAvoider(builder).Book(isTrain);
+                    ByteCartRedux.myPlugin.getCollisionAvoiderManager().<Router>getCollisionAvoider(builder).Book(isTrain);
                     return;
                 }
 
@@ -132,8 +132,8 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
                         destination = AddressFactory.getAddress(this.getInventory());
                     }
 
-                    if (ByteCart.debug) {
-                        ByteCart.log.info("ByteCart : TTL is " + destination.getTTL());
+                    if (ByteCartRedux.debug) {
+                        ByteCartRedux.log.info("ByteCartRedux : TTL is " + destination.getTTL());
                     }
 
 
@@ -173,16 +173,16 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
             wanderer.doAction(to);
 
         } catch (ClassCastException e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
             e.printStackTrace();
 
             // Not the good blocks to build the signs
             return;
         } catch (NullPointerException e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
 
             e.printStackTrace();
@@ -257,12 +257,12 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
      * @throws IOException
      */
     protected final Wanderer getWanderer() throws ClassNotFoundException, IOException {
-        return ByteCart.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
+        return ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
     }
 
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCSign#getLevel()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getLevel()
      */
     @Override
     public Wanderer.Level getLevel() {
@@ -280,7 +280,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCSign#getSignAddress()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getSignAddress()
      */
     @Override
     public final Address getSignAddress() {
@@ -288,7 +288,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.HasRoutingTable#getRoutingTable()
+     * @see com.github.catageek.ByteCartRedux.Signs.HasRoutingTable#getRoutingTable()
      */
     @Override
     public final RoutingTableWritable getRoutingTable() {
@@ -305,7 +305,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCSign#getDestinationIP()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getDestinationIP()
      */
     @Override
     public final String getDestinationIP() {
@@ -313,7 +313,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCRouter#getOriginTrack()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCRouter#getOriginTrack()
      */
     @Override
     public final int getOriginTrack() {
@@ -321,7 +321,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BCSign#getCenter()
+     * @see com.github.catageek.ByteCartRedux.Signs.BCSign#getCenter()
      */
     @Override
     public final Block getCenter() {
@@ -329,7 +329,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public String getName() {
@@ -337,7 +337,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggable
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {

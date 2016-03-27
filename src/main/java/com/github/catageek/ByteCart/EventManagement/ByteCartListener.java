@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.EventManagement;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Event.SignCreateEvent;
 import com.github.catageek.ByteCart.Event.SignRemoveEvent;
 import com.github.catageek.ByteCart.HAL.AbstractIC;
@@ -138,8 +138,8 @@ public class ByteCartListener implements Listener {
 
                 if (myIC != null) {
 
-                    if (ByteCart.debug) {
-                        ByteCart.log.info("ByteCart: " + myIC.getName() + ".trigger()");
+                    if (ByteCartRedux.debug) {
+                        ByteCartRedux.log.info("ByteCartRedux: " + myIC.getName() + ".trigger()");
                     }
 
                     myIC.trigger();
@@ -323,8 +323,8 @@ public class ByteCartListener implements Listener {
 
 			if (myIC != null) {
 				try {
-					if(ByteCart.debug)
-						ByteCart.log.info("ByteCart: power()");
+					if(ByteCartRedux.debug)
+						ByteCartRedux.log.info("ByteCartRedux: power()");
 
 					myIC.power();
 				} catch (ClassNotFoundException e) {
@@ -389,8 +389,8 @@ public class ByteCartListener implements Listener {
 
         if (myIC != null) {
 
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart: " + myIC.getName() + ".click()");
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux: " + myIC.getName() + ".click()");
             }
 
             myIC.click();

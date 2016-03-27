@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Signs;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.CollisionManagement.SimpleCollisionAvoider;
 import com.github.catageek.ByteCart.Updaters.UpdaterLocal;
 
@@ -39,7 +39,7 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggable 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#manageUpdater(com.github.catageek.ByteCart.CollisionManagement
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#manageUpdater(com.github.catageek.ByteCartRedux.CollisionManagement
      * .SimpleCollisionAvoider)
      */
     @Override
@@ -47,11 +47,11 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggable 
         // it's an updater, so let it choosing direction
         super.manageWanderer(intersection);
 
-        if (ByteCart.myPlugin.getConfig().getBoolean("oldBC9000behaviour", true)) {
+        if (ByteCartRedux.myPlugin.getConfig().getBoolean("oldBC9000behaviour", true)) {
             UpdaterLocal updater;
             try {
                 updater =
-                        (UpdaterLocal) ByteCart.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
+                        (UpdaterLocal) ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
 
                 // here we perform routes update
                 updater.leaveSubnet();
@@ -68,7 +68,7 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggable 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#getName()
      */
     @Override
     public String getName() {
@@ -76,7 +76,7 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggable 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {

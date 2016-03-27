@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Routing;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Util.DirectionRegistry;
 import com.github.catageek.ByteCart.Wanderer.Counter;
 import com.github.catageek.ByteCart.Wanderer.RouteValue;
@@ -160,8 +160,8 @@ public final class BCCounter implements Serializable, Counter {
                 index = ring;
             }
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : minimum found ring " + index + " with " + min);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : minimum found ring " + index + " with " + min);
         }
         return index;
 
@@ -177,7 +177,7 @@ public final class BCCounter implements Serializable, Counter {
         while (it.hasNext()) {
             int ring = it.next();
             int count = map.get(ring);
-            s += "ByteCart: Count for ring " + ring + " = " + count + "\n";
+            s += "ByteCartRedux: Count for ring " + ring + " = " + count + "\n";
         }
         return s;
     }

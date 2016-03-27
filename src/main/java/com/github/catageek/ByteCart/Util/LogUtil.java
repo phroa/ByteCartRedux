@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Util;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -37,7 +37,7 @@ public final class LogUtil {
         if (sender != null && (sender instanceof Player) && ((Player) sender).isOnline()) {
             sender.sendMessage(message);
         } else {
-            ByteCart.log.info(message);
+            ByteCartRedux.log.info(message);
         }
     }
 }

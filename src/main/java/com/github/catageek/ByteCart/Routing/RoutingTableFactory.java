@@ -42,7 +42,7 @@ public final class RoutingTableFactory {
     static public RoutingTableWritable getRoutingTable(Inventory inv) throws IOException, ClassNotFoundException {
         RoutingTableBook rt;
 
-        // If upgrading from ByteCart 1.x, cleaning routing table
+        // If upgrading from ByteCartRedux 1.x, cleaning routing table
         if (!inv.contains(Material.WRITTEN_BOOK)) {
             inv.clear();
         }

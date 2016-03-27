@@ -82,7 +82,7 @@ public class SignPostRouteEvent extends BCRoutableSignEvent {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Event.BCSignEvent#getSign()
+     * @see com.github.catageek.ByteCartRedux.Event.BCSignEvent#getSign()
      */
     protected final BCSign getSign() {
         return router;

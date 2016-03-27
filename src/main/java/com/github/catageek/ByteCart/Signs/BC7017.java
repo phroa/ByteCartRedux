@@ -22,7 +22,7 @@ import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
 import com.github.catageek.ByteCart.AddressLayer.ReturnAddressFactory;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -42,7 +42,7 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getName()
      */
     @Override
     public String getName() {
@@ -50,7 +50,7 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {
@@ -58,7 +58,7 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Triggable#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.Triggable#trigger()
      */
     @Override
     public void trigger() {
@@ -70,8 +70,8 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggable {
 
         String returnAddressString = returnAddress.toString();
         AddressRouted targetAddress = AddressFactory.getAddress(getInventory());
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart: 7017 : Writing address " + returnAddressString);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux: 7017 : Writing address " + returnAddressString);
         }
         returnAddress.remove();
         returnAddress.finalizeAddress();
@@ -80,7 +80,7 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggable {
         targetAddress.setTrain(isTrain);
         if (this.getInventory().getHolder() instanceof Player) {
             ((Player) this.getInventory().getHolder()).sendMessage(
-                    ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCart.myPlugin.getConfig().getString("Info.SetAddress") + " ("
+                    ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.myPlugin.getConfig().getString("Info.SetAddress") + " ("
                             + ChatColor.RED + returnAddressString + ")");
         }
         targetAddress.initializeTTL();

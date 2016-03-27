@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.ThreadManagement;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -64,9 +64,9 @@ final class BCBukkitRunnable<K> {
 
 
                 if (old.isSync()) {
-                    task = runnable.runTaskLater(ByteCart.myPlugin, duration);
+                    task = runnable.runTaskLater(ByteCartRedux.myPlugin, duration);
                 } else {
-                    task = runnable.runTaskLaterAsynchronously(ByteCart.myPlugin, duration);
+                    task = runnable.runTaskLaterAsynchronously(ByteCartRedux.myPlugin, duration);
                 }
                 old.cancel();
             }
@@ -105,7 +105,7 @@ final class BCBukkitRunnable<K> {
      */
     BukkitTask runTaskLater(Object... objects) {
         BukkitRunnable runnable = new Expire(Expirable, Key, objects);
-        org.bukkit.scheduler.BukkitTask task = runnable.runTaskLater(ByteCart.myPlugin, Expirable.getDuration());
+        org.bukkit.scheduler.BukkitTask task = runnable.runTaskLater(ByteCartRedux.myPlugin, Expirable.getDuration());
         return task;
     }
 
@@ -117,7 +117,7 @@ final class BCBukkitRunnable<K> {
      */
     BukkitTask runTaskLaterAsynchronously(Object... objects) {
         BukkitRunnable runnable = new Expire(Expirable, Key, objects);
-        org.bukkit.scheduler.BukkitTask task = runnable.runTaskLaterAsynchronously(ByteCart.myPlugin, Expirable.getDuration());
+        org.bukkit.scheduler.BukkitTask task = runnable.runTaskLaterAsynchronously(ByteCartRedux.myPlugin, Expirable.getDuration());
         return task;
     }
 

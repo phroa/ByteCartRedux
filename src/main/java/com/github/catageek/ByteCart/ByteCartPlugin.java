@@ -20,9 +20,9 @@ package com.github.catageek.ByteCart;
 
 import com.github.catageek.ByteCart.AddressLayer.Resolver;
 import com.github.catageek.ByteCart.Wanderer.WandererManager;
+import org.slf4j.Logger;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 
 public interface ByteCartPlugin {

@@ -20,7 +20,7 @@ package com.github.catageek.ByteCart.Signs;
 
 import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressRouted;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
 import com.github.catageek.ByteCart.CollisionManagement.SimpleCollisionAvoider;
 import com.github.catageek.ByteCart.Event.SignPostSubnetEvent;
@@ -49,7 +49,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#trigger()
      */
     @Override
     public void trigger() {
@@ -57,7 +57,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
 
             this.addIO();
 
-            SimpleCollisionAvoider intersection = ByteCart.myPlugin.getCollisionAvoiderManager().<SimpleCollisionAvoider>getCollisionAvoider(builder);
+            SimpleCollisionAvoider intersection = ByteCartRedux.myPlugin.getCollisionAvoiderManager().<SimpleCollisionAvoider>getCollisionAvoider(builder);
 
             if (!WandererContentFactory.isWanderer(getInventory())) {
 
@@ -65,7 +65,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
 
                 // if this is a cart in a train
                 if (this.wasTrain(this.getLocation())) {
-                    ByteCart.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation());
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation());
                     intersection.Book(isTrain);
                     return;
                 }
@@ -85,15 +85,15 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
             manageWanderer(intersection);
 
         } catch (ClassCastException e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
 
             // Not the good blocks to build the signs
             return;
         } catch (NullPointerException e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
             e.printStackTrace();
 
@@ -104,7 +104,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#manageUpdater(com.github.catageek.ByteCart.CollisionManagement
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#manageUpdater(com.github.catageek.ByteCartRedux.CollisionManagement
      * .SimpleCollisionAvoider)
      */
     @Override
@@ -112,7 +112,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
         // it's an updater, so let it choosing direction
         Wanderer wanderer;
         try {
-            wanderer = ByteCart.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
+            wanderer = ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
 
             // routing
             Side to = intersection.WishToGo(wanderer.giveSimpleDirection(), false);
@@ -129,7 +129,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#route()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#route()
      */
     @Override
     protected Side route() {
@@ -194,7 +194,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
      * 1: right lever
      */
     /* (non-Javadoc)
-	 * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#addIO()
+	 * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#addIO()
 	 */
     @Override
     protected void addIO() {
@@ -264,7 +264,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.HasNetmask#getNetmask()
+     * @see com.github.catageek.ByteCartRedux.Signs.HasNetmask#getNetmask()
      */
     @Override
     public final int getNetmask() {

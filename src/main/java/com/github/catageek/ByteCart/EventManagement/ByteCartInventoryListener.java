@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.EventManagement;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Event.UpdaterCreateEvent;
 import com.github.catageek.ByteCart.ModifiableRunnable;
 import org.bukkit.entity.Entity;
@@ -42,7 +42,7 @@ public class ByteCartInventoryListener implements Listener {
     // flag set when we deal with an updater command
     private final boolean isUpdater;
 
-    public ByteCartInventoryListener(ByteCart plugin, Player player, ModifiableRunnable<Inventory> execute,
+    public ByteCartInventoryListener(ByteCartRedux plugin, Player player, ModifiableRunnable<Inventory> execute,
             boolean isupdater) {
         this.Player = player;
         this.Execute = execute;
@@ -66,7 +66,7 @@ public class ByteCartInventoryListener implements Listener {
                 // we launch an UpdaterCreateEvent
                 StorageMinecart v = (StorageMinecart) inv.getHolder();
                 UpdaterCreateEvent e = new UpdaterCreateEvent(v.getEntityId(), v.getLocation());
-                ByteCart.myPlugin.getServer().getPluginManager().callEvent(e);
+                ByteCartRedux.myPlugin.getServer().getPluginManager().callEvent(e);
             }
         }
         // Self unregistering

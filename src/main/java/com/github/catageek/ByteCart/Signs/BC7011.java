@@ -32,7 +32,7 @@ public class BC7011 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7010#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getName()
      */
     @Override
     public String getName() {
@@ -40,7 +40,7 @@ public class BC7011 extends BC7010 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7010#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7010#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {

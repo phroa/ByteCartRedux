@@ -70,7 +70,7 @@ public abstract class UpdaterContentFactory {
         long creation = rte.getCreationtime();
         long expiration = rte.getExpirationTime();
         if (creation != expiration && Calendar.getInstance().getTimeInMillis() > expiration) {
-            LogUtil.sendSuccess(rte.getPlayer(), "ByteCart : Updater created " + (new Date(rte.getCreationtime())).toString() + " expired");
+            LogUtil.sendSuccess(rte.getPlayer(), "ByteCartRedux : Updater created " + (new Date(rte.getCreationtime())).toString() + " expired");
             WandererContentFactory.deleteContent(rte.getInventory());
             return;
         }

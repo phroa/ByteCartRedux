@@ -29,7 +29,7 @@ final class BC9064 extends AbstractBC9000 implements Subnet, HasNetmask, Triggab
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#getName()
      */
     @Override
     public final String getName() {
@@ -37,7 +37,7 @@ final class BC9064 extends AbstractBC9000 implements Subnet, HasNetmask, Triggab
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.AbstractIC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.AbstractIC#getFriendlyName()
      */
     @Override
     public final String getFriendlyName() {

@@ -19,7 +19,7 @@
 package com.github.catageek.ByteCart.Updaters;
 
 import com.github.catageek.ByteCart.AddressLayer.Address;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Event.UpdaterSetRingEvent;
 import com.github.catageek.ByteCart.Signs.BCSign;
 import com.github.catageek.ByteCart.Util.LogUtil;
@@ -45,8 +45,8 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
         // update sign with new number we found or current
         this.getSignAddress().setAddress(this.getAddress(current));
         this.getSignAddress().finalizeAddress();
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : change address on sign to " + this.getAddress(current));
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : change address on sign to " + this.getAddress(current));
         }
         return current;
     }
@@ -60,8 +60,8 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             current = this.getCounter().firstEmpty();
             // if there is already a route, find another number
             // except if the route connects to here
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : trying ring " + current);
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : trying ring " + current);
             }
             if (!this.getRoutingTable().isEmpty(current)
                     && !this.getRoutingTable().isDirectlyConnected(current, getFrom())) {
@@ -81,8 +81,8 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             this.getRoutingTable().removeEntry(getTrackNumber(), getFrom());
             this.getSignAddress().setAddress(this.getAddress(current));
             this.getSignAddress().finalizeAddress();
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : change address on sign to " + this.getAddress(current));
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : change address on sign to " + this.getAddress(current));
             }
             return current;
         } else {
@@ -91,8 +91,8 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             // we keep it, otherwise we find a new number (if possible)
             //			if (! this.getRoutingTable().isDirectlyConnected(getTrackNumber(), getFrom()) && this.isTrackNumberProvider())
             //				return setSign(current);
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : getOrSetCurrent() : current as track on sign " + this.getTrackNumber());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : getOrSetCurrent() : current as track on sign " + this.getTrackNumber());
             }
 
             return getTrackNumber();
@@ -128,8 +128,8 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             int current = this.getRoutes().getCurrent();
 
             if (this.isSignNeedUpdate(current)) {
-                if (ByteCart.debug) {
-                    ByteCart.log.info("ByteCart : selectDirection() : sign need update as current = " + current);
+                if (ByteCartRedux.debug) {
+                    ByteCartRedux.log.info("ByteCartRedux : selectDirection() : sign need update as current = " + current);
                 }
                 return this.getFrom().getBlockFace();
             }
@@ -138,28 +138,28 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             if (isTrackNumberProvider()) {
                 try {
                     if ((face = this.getRoutingTable().getFirstUnknown()) != null && !this.isSameTrack(face)) {
-                        if (ByteCart.debug) {
-                            ByteCart.log.info("ByteCart : selectDirection() : first unknown " + face.toString());
+                        if (ByteCartRedux.debug) {
+                            ByteCartRedux.log.info("ByteCartRedux : selectDirection() : first unknown " + face.toString());
                         }
                         return face;
                     }
                 } catch (NullPointerException e) {
                     LogUtil.sendError(this.getRoutes().getPlayer(),
-                            "ByteCart : Chest expected at position " + this.getCenter().getRelative(BlockFace.UP, 5).getLocation());
+                            "ByteCartRedux : Chest expected at position " + this.getCenter().getRelative(BlockFace.UP, 5).getLocation());
                     throw e;
                 }
 
                 int min;
                 if ((min = this.getCounter().getMinimum(this.getRoutingTable(), this.getFrom())) != -1) {
-                    if (ByteCart.debug) {
-                        ByteCart.log.info("ByteCart : selectDirection() : minimum counter " + min);
+                    if (ByteCartRedux.debug) {
+                        ByteCartRedux.log.info("ByteCartRedux : selectDirection() : minimum counter " + min);
                     }
                     return this.getRoutingTable().getDirection(min).getBlockFace();
                 }
             }
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : selectDirection() : default ");
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : selectDirection() : default ");
         }
         return DefaultRouterWanderer.getRandomBlockFace(this.getRoutingTable(), this.getFrom().getBlockFace());
     }
@@ -195,8 +195,8 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
 
 
             setCurrent(current);
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : Update() : current is " + current);
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : Update() : current is " + current);
             }
 
             // update track counter if we have entered a new one

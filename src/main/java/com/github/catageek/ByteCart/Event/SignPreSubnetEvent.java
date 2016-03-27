@@ -57,7 +57,7 @@ public class SignPreSubnetEvent extends SignPostSubnetEvent {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Event.SignPostSubnetEvent#getSign()
+     * @see com.github.catageek.ByteCartRedux.Event.SignPostSubnetEvent#getSign()
      */
     @Override
     protected BCSign getSign() {

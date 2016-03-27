@@ -29,7 +29,7 @@ final class BC7021 extends BC7020 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7020#actionWagon()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7020#actionWagon()
      */
     @Override
     protected void actionWagon() {
@@ -37,7 +37,7 @@ final class BC7021 extends BC7020 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7020#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7020#getName()
      */
     @Override
     public final String getName() {
@@ -45,7 +45,7 @@ final class BC7021 extends BC7020 implements Triggable {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.BC7020#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.Signs.BC7020#getFriendlyName()
      */
     @Override
     public final String getFriendlyName() {

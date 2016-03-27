@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.HAL;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.IO.ComponentSign;
 import com.github.catageek.ByteCart.Util.MathUtil;
 import org.bukkit.Material;
@@ -60,7 +60,7 @@ abstract public class AbstractIC implements IC {
         icCache.remove(block.getLocation(emptyLocation).toString());
     }
 
-    // This function checks if we have a ByteCart sign at this location
+    // This function checks if we have a ByteCartRedux sign at this location
     static public final boolean checkEligibility(Block b) {
 
         if (b.getType() != Material.SIGN_POST && b.getType() != Material.WALL_SIGN) {
@@ -75,7 +75,7 @@ abstract public class AbstractIC implements IC {
 
         String line_content = ((Sign) b.getState()).getLine(1);
 
-        if (ByteCart.myPlugin.getConfig().getBoolean("FixBroken18", false)) {
+        if (ByteCartRedux.myPlugin.getConfig().getBoolean("FixBroken18", false)) {
             if (ret = AbstractIC.checkLooseEligibility(line_content)) {
                 (new ComponentSign(b)).setLine(1, "[" + line_content + "]");
             } else {
@@ -109,13 +109,13 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getName()
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getName()
      */
     @Override
     abstract public String getName();
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getFriendlyName()
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getFriendlyName()
      */
     @Override
     public String getFriendlyName() {
@@ -123,7 +123,7 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#addInputRegistry(com.github.catageek.ByteCart.HAL.RegistryInput)
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#addInputRegistry(com.github.catageek.ByteCartRedux.HAL.RegistryInput)
      */
     @Override
     public final void addInputRegistry(RegistryInput reg) {
@@ -131,7 +131,7 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#addOutputRegistry(com.github.catageek.ByteCart.HAL.RegistryOutput)
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#addOutputRegistry(com.github.catageek.ByteCartRedux.HAL.RegistryOutput)
      */
     @Override
     public final void addOutputRegistry(RegistryOutput reg) {
@@ -139,7 +139,7 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getInput(int)
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getInput(int)
      */
     @Override
     public final RegistryInput getInput(int index) {
@@ -147,7 +147,7 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getOutput(int)
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getOutput(int)
      */
     @Override
     public final RegistryOutput getOutput(int index) {
@@ -155,7 +155,7 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getCardinal()
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getCardinal()
      */
     @Override
     public final BlockFace getCardinal() {
@@ -163,7 +163,7 @@ abstract public class AbstractIC implements IC {
             BlockFace f = ((org.bukkit.material.Sign) this.getBlock().getState().getData()).getFacing().getOppositeFace();
             f = MathUtil.straightUp(f);
             if (f == BlockFace.UP) {
-                ByteCart.log.severe("ByteCart: Tilted sign found at " + this.getLocation() + ". Please straight it up in the axis of the track");
+                ByteCartRedux.log.severe("ByteCartRedux: Tilted sign found at " + this.getLocation() + ". Please straight it up in the axis of the track");
             }
             return f;
         } catch (ClassCastException e) {
@@ -173,7 +173,7 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getBlock()
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getBlock()
      */
     @Override
     public final Block getBlock() {
@@ -181,7 +181,7 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getBuildPermission()
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getBuildPermission()
      */
     @Override
     public final String getBuildPermission() {
@@ -189,23 +189,23 @@ abstract public class AbstractIC implements IC {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getTriggertax()
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getTriggertax()
      */
     @Override
     public final int getTriggertax() {
-        return ByteCart.myPlugin.getConfig().getInt("usetax." + this.getName());
+        return ByteCartRedux.myPlugin.getConfig().getInt("usetax." + this.getName());
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getBuildtax()
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getBuildtax()
      */
     @Override
     public final int getBuildtax() {
-        return ByteCart.myPlugin.getConfig().getInt("buildtax." + this.getName());
+        return ByteCartRedux.myPlugin.getConfig().getInt("buildtax." + this.getName());
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.HAL.IC#getLocation()
+     * @see com.github.catageek.ByteCartRedux.HAL.IC#getLocation()
      */
     @Override
     public org.bukkit.Location getLocation() {

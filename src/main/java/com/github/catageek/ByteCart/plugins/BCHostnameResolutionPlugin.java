@@ -23,7 +23,7 @@ import code.husky.mysql.MySQL;
 import code.husky.sqlite.SQLite;
 import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.Resolver;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Event.SignCreateEvent;
 import com.github.catageek.ByteCart.Event.SignRemoveEvent;
 import com.github.catageek.ByteCart.Event.UpdaterClearStationEvent;
@@ -54,20 +54,20 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
     Connection con;
     Statement s;
     boolean err = false;
-    private String database = ByteCart.myPlugin.getConfig().getString("database", "BCHostnames");
-    private String sql = ByteCart.myPlugin.getConfig().getString("sql", "sqllite");
+    private String database = ByteCartRedux.myPlugin.getConfig().getString("database", "BCHostnames");
+    private String sql = ByteCartRedux.myPlugin.getConfig().getString("sql", "sqllite");
     private String host, port, user, password;
 
     public void onLoad() {
         if (sql.equalsIgnoreCase("mysql")) {
-            FileConfiguration config = ByteCart.myPlugin.getConfig();
+            FileConfiguration config = ByteCartRedux.myPlugin.getConfig();
             host = config.getString("hostname");
             port = config.getString("port");
             user = config.getString("user");
             password = config.getString("password");
-            mysql = new MySQL(ByteCart.myPlugin, host, port, database, user, password);
+            mysql = new MySQL(ByteCartRedux.myPlugin, host, port, database, user, password);
         } else {
-            mysql = new SQLite(ByteCart.myPlugin, database);
+            mysql = new SQLite(ByteCartRedux.myPlugin, database);
         }
         con = mysql.openConnection();
         try {
@@ -173,9 +173,9 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
                                             }
                                             return onCommand(a, b, c, d, n);
                                         } else {
-                                            ByteCart.log.info("SQL error code: " + e.getErrorCode());
-                                            ByteCart.log.info("SQL error msg: " + e.getMessage());
-                                            ByteCart.log.info("SQL error state: " + e.getSQLState());
+                                            ByteCartRedux.log.info("SQL error code: " + e.getErrorCode());
+                                            ByteCartRedux.log.info("SQL error msg: " + e.getMessage());
+                                            ByteCartRedux.log.info("SQL error state: " + e.getSQLState());
                                             return false;
                                         }
                                     }
@@ -236,9 +236,9 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
                         }
                         return onCommand(a, b, c, d, n);
                     } else {
-                        ByteCart.log.info("SQL error code: " + e.getErrorCode());
-                        ByteCart.log.info("SQL error msg: " + e.getMessage());
-                        ByteCart.log.info("SQL error state: " + e.getSQLState());
+                        ByteCartRedux.log.info("SQL error code: " + e.getErrorCode());
+                        ByteCartRedux.log.info("SQL error msg: " + e.getMessage());
+                        ByteCartRedux.log.info("SQL error state: " + e.getSQLState());
                         return false;
                     }
                 }
@@ -262,9 +262,9 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
                     }
                 }
             } catch (SQLException e) {
-                ByteCart.log.info("SQL error code: " + e.getErrorCode());
-                ByteCart.log.info("SQL error msg: " + e.getMessage());
-                ByteCart.log.info("SQL error state: " + e.getSQLState());
+                ByteCartRedux.log.info("SQL error code: " + e.getErrorCode());
+                ByteCartRedux.log.info("SQL error msg: " + e.getMessage());
+                ByteCartRedux.log.info("SQL error state: " + e.getSQLState());
             }
         }
     }
@@ -279,9 +279,9 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
                     removeEntry(name);
                 }
             } catch (SQLException e) {
-                ByteCart.log.info("SQL error code: " + e.getErrorCode());
-                ByteCart.log.info("SQL error msg: " + e.getMessage());
-                ByteCart.log.info("SQL error state: " + e.getSQLState());
+                ByteCartRedux.log.info("SQL error code: " + e.getErrorCode());
+                ByteCartRedux.log.info("SQL error msg: " + e.getMessage());
+                ByteCartRedux.log.info("SQL error state: " + e.getSQLState());
             }
         }
     }
@@ -299,9 +299,9 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
                 }
             }
         } catch (SQLException e) {
-            ByteCart.log.info("SQL error code: " + e.getErrorCode());
-            ByteCart.log.info("SQL error msg: " + e.getMessage());
-            ByteCart.log.info("SQL error state: " + e.getSQLState());
+            ByteCartRedux.log.info("SQL error code: " + e.getErrorCode());
+            ByteCartRedux.log.info("SQL error msg: " + e.getMessage());
+            ByteCartRedux.log.info("SQL error state: " + e.getSQLState());
         }
     }
 
@@ -316,9 +316,9 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
                 }
             }
         } catch (SQLException e) {
-            ByteCart.log.info("SQL error code: " + e.getErrorCode());
-            ByteCart.log.info("SQL error msg: " + e.getMessage());
-            ByteCart.log.info("SQL error state: " + e.getSQLState());
+            ByteCartRedux.log.info("SQL error code: " + e.getErrorCode());
+            ByteCartRedux.log.info("SQL error msg: " + e.getMessage());
+            ByteCartRedux.log.info("SQL error state: " + e.getSQLState());
         }
     }
 
@@ -334,9 +334,9 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
                 }
             }
         } catch (SQLException e) {
-            ByteCart.log.info("SQL error code: " + e.getErrorCode());
-            ByteCart.log.info("SQL error msg: " + e.getMessage());
-            ByteCart.log.info("SQL error state: " + e.getSQLState());
+            ByteCartRedux.log.info("SQL error code: " + e.getErrorCode());
+            ByteCartRedux.log.info("SQL error msg: " + e.getMessage());
+            ByteCartRedux.log.info("SQL error state: " + e.getSQLState());
         }
     }
 
@@ -347,9 +347,9 @@ public final class BCHostnameResolutionPlugin implements Resolver, Listener, Com
                 return getEntryByName(name).getString("ip");
             }
         } catch (SQLException e) {
-            ByteCart.log.info("SQL error code: " + e.getErrorCode());
-            ByteCart.log.info("SQL error msg: " + e.getMessage());
-            ByteCart.log.info("SQL error state: " + e.getSQLState());
+            ByteCartRedux.log.info("SQL error code: " + e.getErrorCode());
+            ByteCartRedux.log.info("SQL error msg: " + e.getMessage());
+            ByteCartRedux.log.info("SQL error state: " + e.getSQLState());
         }
         return "";
     }

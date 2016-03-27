@@ -38,7 +38,7 @@ public class DefaultRouterWanderer extends AbstractUpdater {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractWanderer#doAction(com.github.catageek.ByteCart.CollisionManagement.SimpleCollisionAvoider
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractWanderer#doAction(com.github.catageek.ByteCartRedux.CollisionManagement.SimpleCollisionAvoider
      * .Side)
      */
     @Override
@@ -47,7 +47,7 @@ public class DefaultRouterWanderer extends AbstractUpdater {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractWanderer#doAction(org.bukkit.block.BlockFace)
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractWanderer#doAction(org.bukkit.block.BlockFace)
      */
     @Override
     public void doAction(BlockFace To) {
@@ -55,7 +55,7 @@ public class DefaultRouterWanderer extends AbstractUpdater {
 
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractWanderer#giveSimpleDirection()
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractWanderer#giveSimpleDirection()
      */
     @Override
     public Side giveSimpleDirection() {
@@ -63,7 +63,7 @@ public class DefaultRouterWanderer extends AbstractUpdater {
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Routing.AbstractWanderer#giveRouterDirection()
+     * @see com.github.catageek.ByteCartRedux.Routing.AbstractWanderer#giveRouterDirection()
      */
     @Override
     public BlockFace giveRouterDirection() {

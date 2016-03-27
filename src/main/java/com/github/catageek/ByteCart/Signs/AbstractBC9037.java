@@ -111,7 +111,7 @@ abstract class AbstractBC9037 extends AbstractSimpleCrossroad implements Triggab
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#route()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#route()
      */
     @Override
     protected IntersectionSide.Side route() {

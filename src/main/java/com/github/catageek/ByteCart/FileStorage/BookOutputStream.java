@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.FileStorage;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import org.bukkit.inventory.meta.BookMeta;
 
 import java.io.ByteArrayOutputStream;
@@ -45,8 +45,8 @@ class BookOutputStream extends ByteArrayOutputStream {
     @Override
     public void write(byte[] bytes, int off, int len) {
         //		this.reset();
-        //		if(ByteCart.debug)
-        //			ByteCart.log.info("ByteCart : empty data cache buffer");
+        //		if(ByteCartRedux.debug)
+        //			ByteCartRedux.log.info("ByteCartRedux : empty data cache buffer");
 
         super.write(bytes, off, len);
     }
@@ -107,8 +107,8 @@ class BookOutputStream extends ByteArrayOutputStream {
 
         this.book.setPages(strings);
 
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : Flushing " + len + " bytes of data to meta");
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : Flushing " + len + " bytes of data to meta");
         }
     }
 

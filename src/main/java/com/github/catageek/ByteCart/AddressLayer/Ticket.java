@@ -19,7 +19,7 @@
 package com.github.catageek.ByteCart.AddressLayer;
 
 import com.github.catageek.ByteCart.AddressLayer.AddressBook.Parameter;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.FileStorage.BookFile;
 import com.github.catageek.ByteCart.FileStorage.BookProperties;
 import com.github.catageek.ByteCart.FileStorage.BookProperties.Conf;
@@ -93,7 +93,7 @@ final class Ticket {
     private final static boolean isTicket(ItemStack stack) {
         if (stack != null && stack.getType().equals(Material.WRITTEN_BOOK) && stack.hasItemMeta()) {
             String bookauthor = ((BookMeta) stack.getItemMeta()).getAuthor();
-            if (bookauthor.equals(ByteCart.myPlugin.getConfig().getString("author"))) {
+            if (bookauthor.equals(ByteCartRedux.myPlugin.getConfig().getString("author"))) {
                 return true;
             }
         }
@@ -111,7 +111,7 @@ final class Ticket {
 
         ItemStack stack;
 
-        if (ByteCart.myPlugin.getConfig().getBoolean("mustProvideBooks")
+        if (ByteCartRedux.myPlugin.getConfig().getBoolean("mustProvideBooks")
                 && inv.contains(Material.BOOK_AND_QUILL)) {
 
             // priority given to book in hand
@@ -175,8 +175,8 @@ final class Ticket {
 
         if (slot != -1) {
             if (inv.getItem(slot) == null
-                    && ByteCart.myPlugin.getConfig().getBoolean("mustProvideBooks")
-                    && ByteCart.myPlugin.getConfig().getBoolean("usebooks")) {
+                    && ByteCartRedux.myPlugin.getConfig().getBoolean("mustProvideBooks")
+                    && ByteCartRedux.myPlugin.getConfig().getBoolean("usebooks")) {
                 return -1;
             }
             return slot;
@@ -196,8 +196,8 @@ final class Ticket {
             return;
         }
 
-        ItemStack stack = getBookStack(ByteCart.myPlugin.getConfig().getString("author"),
-                ByteCart.myPlugin.getConfig().getString("title"));
+        ItemStack stack = getBookStack(ByteCartRedux.myPlugin.getConfig().getString("author"),
+                ByteCartRedux.myPlugin.getConfig().getString("title"));
 
         // swap with an existing book if needed
         int existingticket = Ticket.getTicketslot(inv);
@@ -317,7 +317,7 @@ final class Ticket {
      * @param s
      */
     void appendTitle(String name, String s) {
-        StringBuilder build = new StringBuilder(ByteCart.myPlugin.getConfig().getString("title"));
+        StringBuilder build = new StringBuilder(ByteCartRedux.myPlugin.getConfig().getString("title"));
         if (name != null) {
             build.append(" ").append(name);
         }

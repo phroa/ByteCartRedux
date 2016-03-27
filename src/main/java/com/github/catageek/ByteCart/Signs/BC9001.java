@@ -20,7 +20,7 @@ package com.github.catageek.ByteCart.Signs;
 
 import com.github.catageek.ByteCart.AddressLayer.Address;
 import com.github.catageek.ByteCart.AddressLayer.AddressFactory;
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide;
 import com.github.catageek.ByteCart.CollisionManagement.IntersectionSide.Side;
 import com.github.catageek.ByteCart.Event.SignPostStationEvent;
@@ -52,7 +52,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractBC9000#trigger()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractBC9000#trigger()
      */
     @Override
     public void trigger() {
@@ -82,7 +82,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
                 // if this is a cart in a train
                 if (this.wasTrain(this.getLocation())) {
-                    ByteCart.myPlugin.getIsTrainManager().getMap().reset(getLocation());
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getLocation());
                     //				this.getOutput(0).setAmount(3);	// push buttons
                     return;
                 }
@@ -97,7 +97,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
                 if (this.isAddressMatching() && this.getName().equals("BC9001") && this.getInventory().getHolder() instanceof Player) {
                     ((Player) this.getInventory().getHolder()).sendMessage(
-                            ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.GREEN + ByteCart.myPlugin.getConfig().getString("Info.Destination") + " "
+                            ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.GREEN + ByteCartRedux.myPlugin.getConfig().getString("Info.Destination") + " "
                                     + this.getFriendlyName() + " (" + sign + ")");
 
                 }
@@ -107,7 +107,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
             // it's an wanderer
             Wanderer wanderer;
             try {
-                wanderer = ByteCart.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
+                wanderer = ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
                 // here we perform wanderer action
                 wanderer.doAction(IntersectionSide.Side.LEVER_OFF);
             } catch (ClassNotFoundException e) {
@@ -123,15 +123,15 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
 
         } catch (ClassCastException e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
 
             // Not the good blocks to build the signs
             return;
         } catch (NullPointerException e) {
-            if (ByteCart.debug) {
-                ByteCart.log.info("ByteCart : " + e.toString());
+            if (ByteCartRedux.debug) {
+                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
             e.printStackTrace();
 
@@ -143,7 +143,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.Powerable#power()
+     * @see com.github.catageek.ByteCartRedux.Signs.Powerable#power()
      */
     @Override
     public void power() {
@@ -169,7 +169,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractBC9000#route()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractBC9000#route()
      */
     @Override
     protected Side route() {
@@ -195,7 +195,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
     }
 
     /* (non-Javadoc)
-     * @see com.github.catageek.ByteCart.Signs.AbstractSimpleCrossroad#getName()
+     * @see com.github.catageek.ByteCartRedux.Signs.AbstractSimpleCrossroad#getName()
      */
     @Override
     public final String getName() {

@@ -18,7 +18,7 @@
  */
 package com.github.catageek.ByteCart.Wanderer;
 
-import com.github.catageek.ByteCart.ByteCart;
+import com.github.catageek.ByteCart.ByteCartRedux;
 import com.github.catageek.ByteCart.Routing.BCCounter;
 import com.github.catageek.ByteCart.Routing.Metric;
 import com.github.catageek.ByteCart.Util.DirectionRegistry;
@@ -249,8 +249,8 @@ public class WandererContent implements InventoryContent {
      */
     public void setRoute(int number, int metric) {
         tablemap.put(number, new Metric(metric));
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : setting metric of ring " + number + " to " + metric);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : setting metric of ring " + number + " to " + metric);
         }
     }
 
@@ -288,8 +288,8 @@ public class WandererContent implements InventoryContent {
             route = it.next().value();
             if (routingTable.getDirection(route).getAmount() != from.getAmount()) {
                 if (!this.hasRouteTo(route)) {
-                    if (ByteCart.debug) {
-                        ByteCart.log.info("ByteCart : found ring " + route + " was never visited");
+                    if (ByteCartRedux.debug) {
+                        ByteCartRedux.log.info("ByteCartRedux : found ring " + route + " was never visited");
                     }
                     return route;
                 } else {
@@ -300,8 +300,8 @@ public class WandererContent implements InventoryContent {
                 }
             }
         }
-        if (ByteCart.debug) {
-            ByteCart.log.info("ByteCart : minimum found ring " + ret + " with " + min);
+        if (ByteCartRedux.debug) {
+            ByteCartRedux.log.info("ByteCartRedux : minimum found ring " + ret + " with " + min);
         }
         return ret;
     }
