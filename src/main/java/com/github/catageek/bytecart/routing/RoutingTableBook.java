@@ -19,11 +19,11 @@
 package com.github.catageek.bytecart.routing;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.collection.ExternalizableTreeMap;
 import com.github.catageek.bytecart.collection.PartitionedHashSet;
+import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.item.inventory.Inventory;
 
 import java.io.Externalizable;
 import java.io.IOException;

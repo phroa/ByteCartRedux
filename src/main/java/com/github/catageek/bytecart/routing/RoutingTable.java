@@ -19,7 +19,7 @@
 package com.github.catageek.bytecart.routing;
 
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -81,7 +81,7 @@ public interface RoutingTable {
      *
      * @return the direction
      */
-    BlockFace getFirstUnknown();
+    Direction getFirstUnknown();
 
     /**
      * Get the number of entries in the routing table

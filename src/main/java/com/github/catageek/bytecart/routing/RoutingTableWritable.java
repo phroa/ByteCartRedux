@@ -52,7 +52,7 @@ public interface RoutingTableWritable extends RoutingTable {
      * @param neighbour the IGP packet received
      * @param from the direction from where we received it
      */
-    void Update(UpdaterContent neighbour, DirectionRegistry from);
+    void update(UpdaterContent neighbour, DirectionRegistry from);
 
     /**
      * Clear the routing table

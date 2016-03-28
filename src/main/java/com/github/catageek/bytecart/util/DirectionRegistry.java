@@ -18,12 +18,12 @@
  */
 package com.github.catageek.bytecart.util;
 
+import com.github.catageek.bytecart.collection.Partitionable;
 import com.github.catageek.bytecart.hardware.Registry;
 import com.github.catageek.bytecart.hardware.RegistryOutput;
 import com.github.catageek.bytecart.hardware.VirtualRegistry;
-import com.github.catageek.bytecart.collection.Partitionable;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 /**
  * A 4-bit registry with 1 cardinal direction per bit
@@ -52,22 +52,22 @@ public final class DirectionRegistry implements Partitionable {
     /**
      * Build the registry matching the blockface
      *
-     * @param b blockface
+     * @param direction blockface
      */
-    public DirectionRegistry(BlockFace b) {
+    public DirectionRegistry(Direction direction) {
         this();
-        this.setCardinal(b, true);
+        this.setCardinal(direction, true);
     }
 
     /**
      * Set a cardinal direction bit individually
      *
-     * @param face the cardinal direction
+     * @param direction the cardinal direction
      * @param value true or false
      */
-    public final void setCardinal(BlockFace face, boolean value) {
+    public final void setCardinal(Direction direction, boolean value) {
 
-        switch (face) {
+        switch (direction) {
             case EAST:
                 this.registry.setBit(0, value);
                 break;
@@ -85,18 +85,19 @@ public final class DirectionRegistry implements Partitionable {
 
     }
 
-    public final BlockFace ToString() {
+    // TODO: wtf, seriously?
+    public final Direction ToString() {
         switch (this.getAmount()) {
             case 1:
-                return BlockFace.SOUTH;
+                return Direction.SOUTH;
             case 2:
-                return BlockFace.WEST;
+                return Direction.WEST;
             case 4:
-                return BlockFace.NORTH;
+                return Direction.NORTH;
             case 8:
-                return BlockFace.EAST;
+                return Direction.EAST;
         }
-        return BlockFace.SELF;
+        return Direction.NONE;
     }
 
     /**
@@ -104,18 +105,18 @@ public final class DirectionRegistry implements Partitionable {
      *
      * @return the direction, or self if there is no direction, or several directions are mixed
      */
-    public final BlockFace getBlockFace() {
+    public final Direction getBlockFace() {
         switch (this.getAmount()) {
             case 1:
-                return BlockFace.SOUTH;
+                return Direction.SOUTH;
             case 2:
-                return BlockFace.WEST;
+                return Direction.WEST;
             case 4:
-                return BlockFace.NORTH;
+                return Direction.NORTH;
             case 8:
-                return BlockFace.EAST;
+                return Direction.EAST;
         }
-        return BlockFace.SELF;
+        return Direction.NONE;
     }
 
     @Override

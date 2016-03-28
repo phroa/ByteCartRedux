@@ -21,8 +21,9 @@ package com.github.catageek.bytecart.routing;
 import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.updater.UpdaterContent;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +40,7 @@ public abstract class AbstractRoutingTable {
      * @param neighbour the IGP packet received
      * @param from the direction from where we received it
      */
-    public void Update(UpdaterContent neighbour, DirectionRegistry from) {
+    public void update(UpdaterContent neighbour, DirectionRegistry from) {
         // Djikstra algorithm
         // search for better routes in the received ones
         int interfacedelay = neighbour.getInterfaceDelay();
@@ -58,7 +59,7 @@ public abstract class AbstractRoutingTable {
             if (!directlyconnected && (routermetric > computedmetric || routermetric < 0)) {
                 this.setEntry(ring, from, new Metric(computedmetric));
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : Update : ring = " + ring + ", metric = " + computedmetric + ", direction " + from.ToString());
+                    ByteCartRedux.log.info("ByteCartRedux : update : ring = " + ring + ", metric = " + computedmetric + ", direction " + from.ToString());
                 }
                 neighbour.updateTimestamp();
             }
@@ -109,22 +110,12 @@ public abstract class AbstractRoutingTable {
      *
      * @return the direction
      */
-    public final BlockFace getFirstUnknown() {
-        for (BlockFace face : BlockFace.values()) {
-            switch (face) {
-                case NORTH:
-                case EAST:
-                case SOUTH:
-                case WEST:
-
-                    if (this.getDirectlyConnectedList(new DirectionRegistry(face)).isEmpty()) {
-                        return face;
-                    }
-                default:
-                    break;
-            }
-        }
-        return null;
+    public final Direction getFirstUnknown() {
+        return Arrays.asList(Direction.values()).stream()
+                .filter(Direction::isCardinal)
+                .filter(direction -> this.getDirectlyConnectedList(new DirectionRegistry(direction)).isEmpty())
+                .findFirst()
+                .orElse(null);
     }
 
     /**
