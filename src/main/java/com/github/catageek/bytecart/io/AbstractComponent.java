@@ -18,26 +18,26 @@
  */
 package com.github.catageek.bytecart.io;
 
-import org.bukkit.block.Block;
+import org.spongepowered.api.block.BlockSnapshot;
 
 /**
  * Abstract class containing common methods for all components
  */
 public abstract class AbstractComponent implements Component {
 
-    private final Block block;
+    private final BlockSnapshot block;
 
     /**
      * @param block the block containing the component
      */
-    protected AbstractComponent(Block block) {
+    protected AbstractComponent(BlockSnapshot block) {
         this.block = block;
     }
 
     /**
      * @return the block
      */
-    public Block getBlock() {
+    public BlockSnapshot getBlock() {
         return block;
     }
 }

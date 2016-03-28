@@ -20,10 +20,10 @@ package com.github.catageek.bytecart.io;
 
 import com.github.catageek.bytecart.hardware.RegistryInput;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.material.Lever;
-import org.bukkit.material.MaterialData;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.trait.BooleanTraits;
+import org.spongepowered.api.data.key.Keys;
 
 /**
  * A lever
@@ -33,29 +33,23 @@ public class ComponentLever extends AbstractComponent implements OutputPin, Inpu
     /**
      * @param block the block containing the component
      */
-    public ComponentLever(Block block) {
+    public ComponentLever(BlockSnapshot block) {
         super(block);
     }
 
     @Override
     public void write(boolean bit) {
         BlockState block = this.getBlock().getState();
-        Lever lever = (Lever) block.getData();
-        if (lever.isPowered() ^ bit) {
-            lever.setPowered(bit);
-            block.setData(lever);
-            block.update(false, true);
-            MathUtil.forceUpdate(this.getBlock().getRelative(lever.getAttachedFace()));
+        boolean powered = block.getTraitValue(BooleanTraits.LEVER_POWERED).orElse(false);
+        if (powered != bit) {
+            block.withTrait(BooleanTraits.LEVER_POWERED, bit);
+            MathUtil.forceUpdate(this.getBlock().getLocation().get().getRelative(block.get(Keys.DIRECTION).get().getOpposite()).createSnapshot());
         }
     }
 
     @Override
     public boolean read() {
-        MaterialData md = this.getBlock().getState().getData();
-        if (md instanceof Lever) {
-            return ((Lever) md).isPowered();
-        }
-        return false;
+        return this.getBlock().getState().getTraitValue(BooleanTraits.LEVER_POWERED).orElse(false);
     }
 
     @Override

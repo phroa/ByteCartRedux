@@ -27,6 +27,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.util.Vector;
+import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
@@ -96,10 +97,8 @@ public final class MathUtil {
         }
     }
 
-    public static final void forceUpdate(Block b) {
-        Material oldData = b.getType();
-        b.setType(Material.BEDROCK);
-        b.setType(oldData);
+    public static final void forceUpdate(BlockSnapshot b) {
+        b.restore(true, true);
     }
 
     public static final void loadChunkAround(World world, int x, int z, int radius) {

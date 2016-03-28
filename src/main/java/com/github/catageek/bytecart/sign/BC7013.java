@@ -22,7 +22,7 @@ import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.hardware.PinRegistry;
 import com.github.catageek.bytecart.hardware.RegistryInput;
 import com.github.catageek.bytecart.hardware.SuperRegistry;
-import com.github.catageek.bytecart.io.InputFactory;
+import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.InputPin;
 import com.github.catageek.bytecart.util.MathUtil;
 import org.bukkit.block.BlockFace;
@@ -48,14 +48,14 @@ class BC7013 extends BC7014 implements Triggerable {
     protected void addIO() {
         // Input[0] : wire on left
         org.bukkit.block.Block block = this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal()));
-        RegistryInput wire = InputFactory.getInput(block);
+        RegistryInput wire = InputPinFactory.getInput(block);
 
         InputPin[] levers = new InputPin[2];
         block = this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.clockwise(getCardinal()));
-        levers[0] = InputFactory.getInput(block);
+        levers[0] = InputPinFactory.getInput(block);
 
         block = this.getBlock().getRelative(getCardinal().getOppositeFace());
-        levers[1] = InputFactory.getInput(block);
+        levers[1] = InputPinFactory.getInput(block);
 
         RegistryInput ret = new SuperRegistry<RegistryInput>(new PinRegistry<InputPin>(levers), wire);
 

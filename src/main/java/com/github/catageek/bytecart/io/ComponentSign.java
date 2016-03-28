@@ -19,8 +19,12 @@
 package com.github.catageek.bytecart.io;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.text.Text;
+
+import java.util.List;
 
 /**
  * A sign
@@ -30,7 +34,7 @@ public final class ComponentSign extends AbstractComponent {
     /**
      * @param block the block containing the component
      */
-    public ComponentSign(Block block) {
+    public ComponentSign(BlockSnapshot block) {
         super(block);
     }
 
@@ -42,10 +46,10 @@ public final class ComponentSign extends AbstractComponent {
      */
     public void setLine(int line, String s) {
         BlockState blockstate = this.getBlock().getState();
-
-        if (blockstate instanceof org.bukkit.block.Sign) {
-            ((org.bukkit.block.Sign) blockstate).setLine(line, s);
-            blockstate.update();
+        if (blockstate.supports(Keys.SIGN_LINES)) {
+            List<Text> list = blockstate.get(Keys.SIGN_LINES).get();
+            list.set(line, Text.of(s));
+            blockstate.with(Keys.SIGN_LINES, list);
         }
     }
 
@@ -57,8 +61,8 @@ public final class ComponentSign extends AbstractComponent {
      */
     public String getLine(int line) {
         BlockState blockstate = this.getBlock().getState();
-        if (blockstate instanceof org.bukkit.block.Sign) {
-            return ((org.bukkit.block.Sign) blockstate).getLine(line);
+        if (blockstate.supports(Keys.SIGN_LINES)) {
+            return blockstate.get(Keys.SIGN_LINES).get().get(line).toPlain();
         } else {
             ByteCartRedux.log.info("ByteCartRedux: AddressSign cannot be built");
             throw new IllegalArgumentException();

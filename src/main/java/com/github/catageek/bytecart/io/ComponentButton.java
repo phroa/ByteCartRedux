@@ -20,13 +20,17 @@ package com.github.catageek.bytecart.io;
 
 import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
-import org.bukkit.material.Button;
-import org.bukkit.material.MaterialData;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.block.trait.BooleanTraits;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -34,51 +38,51 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ComponentButton extends AbstractComponent implements OutputPin, InputPin {
 
-    final static private Map<Location, Integer> ActivatedButtonMap = new ConcurrentHashMap<Location, Integer>();
+    private static final Map<Location<World>, UUID> ACTIVATED_BUTTON_MAP = new ConcurrentHashMap<>();
 
     /**
      * @param block the block containing the component
      */
-    protected ComponentButton(Block block) {
+    protected ComponentButton(BlockSnapshot block) {
         super(block);
     }
 
     @Override
     public void write(boolean bit) {
-        final Block block = this.getBlock();
+        final BlockSnapshot block = this.getBlock();
         final BlockState blockstate = block.getState();
-        if (blockstate.getData() instanceof Button) {
+        if (buttonPowered(blockstate)) {
             final ComponentButton component = this;
-            int id;
-
-            final Button button = (Button) blockstate.getData();
+            UUID taskId;
 
             if (bit) {
-                if (ActivatedButtonMap.containsKey(block)) {
+                if (ACTIVATED_BUTTON_MAP.containsKey(block)) {
 
                     // if button is already on, we cancel the scheduled thread
-                    ByteCartRedux.myPlugin.getServer().getScheduler().cancelTask(ActivatedButtonMap.get(block));
+                    Sponge.getScheduler().getTaskById(ACTIVATED_BUTTON_MAP.get(block)).get().cancel();
 
                     // and we reschedule one
-                    id = ByteCartRedux.myPlugin.getServer().getScheduler()
-                            .scheduleSyncDelayedTask(ByteCartRedux.myPlugin, new SetButtonOff(component, ActivatedButtonMap)
-                                    , 40);
+                    taskId = Sponge.getScheduler().createTaskBuilder()
+                            .delayTicks(40)
+                            .execute(new SetButtonOff(component, ACTIVATED_BUTTON_MAP))
+                            .submit(ByteCartRedux.myPlugin).getUniqueId();
 
                     // We update the HashMap
-                    ActivatedButtonMap.put(block.getLocation(), id);
+                    ACTIVATED_BUTTON_MAP.put(block.getLocation().get(), taskId);
 
                 } else {
                     // if button is off, we power the button
-                    button.setPowered(true);
-                    blockstate.setData(button);
-                    blockstate.update(false, true);
-                    MathUtil.forceUpdate(this.getBlock().getRelative(button.getAttachedFace()));
-                    id = ByteCartRedux.myPlugin.getServer().getScheduler()
-                            .scheduleSyncDelayedTask(ByteCartRedux.myPlugin, new SetButtonOff(component, ActivatedButtonMap)
-                                    , 40);
+                    power(blockstate, true);
+
+                    MathUtil.forceUpdate(this.getBlock().getLocation().get().getRelative(this.getBlock().get(Keys.DIRECTION).get().getOpposite())
+                            .createSnapshot());
+                    taskId = Sponge.getScheduler().createTaskBuilder()
+                            .delayTicks(40)
+                            .execute(new SetButtonOff(component, ACTIVATED_BUTTON_MAP))
+                            .submit(ByteCartRedux.myPlugin).getUniqueId();
 
                     // We update the HashMap
-                    ActivatedButtonMap.put(block.getLocation(), id);
+                    ACTIVATED_BUTTON_MAP.put(block.getLocation().get(), taskId);
                 }
             }
 
@@ -87,11 +91,21 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
 
     @Override
     public boolean read() {
-        MaterialData md = this.getBlock().getState().getData();
-        if (md instanceof Button) {
-            return ((Button) md).isPowered();
+        return buttonPowered(getBlock().getState());
+    }
+
+    static void power(BlockState blockstate, boolean power) {
+        if (blockstate.getType().equals(BlockTypes.STONE_BUTTON)) {
+            blockstate.withTrait(BooleanTraits.STONE_BUTTON_POWERED, power);
         }
-        return false;
+        if (blockstate.getType().equals(BlockTypes.WOODEN_BUTTON)) {
+            blockstate.withTrait(BooleanTraits.WOODEN_BUTTON_POWERED, power);
+        }
+    }
+
+    static boolean buttonPowered(BlockState blockstate) {
+        return blockstate.getTraitValue(BooleanTraits.STONE_BUTTON_POWERED).orElse(false) || blockstate
+                .getTraitValue(BooleanTraits.WOODEN_BUTTON_POWERED).orElse(false);
     }
 
 

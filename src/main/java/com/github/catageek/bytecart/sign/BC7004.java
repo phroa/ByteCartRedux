@@ -27,7 +27,7 @@ import com.github.catageek.bytecart.address.AddressString;
 import com.github.catageek.bytecart.address.TicketFactory;
 import com.github.catageek.bytecart.hardware.AbstractIC;
 import com.github.catageek.bytecart.hardware.PinRegistry;
-import com.github.catageek.bytecart.io.InputFactory;
+import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.InputPin;
 import com.github.catageek.bytecart.util.MathUtil;
 import org.bukkit.Material;
@@ -67,9 +67,9 @@ final class BC7004 extends AbstractIC implements Powerable {
         InputPin[] wire = new InputPin[2];
 
         // Right
-        wire[0] = InputFactory.getInput(block.getRelative(BlockFace.UP).getRelative(MathUtil.clockwise(getCardinal())));
+        wire[0] = InputPinFactory.getInput(block.getRelative(BlockFace.UP).getRelative(MathUtil.clockwise(getCardinal())));
         // left
-        wire[1] = InputFactory.getInput(block.getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal())));
+        wire[1] = InputPinFactory.getInput(block.getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal())));
 
         // InputRegistry[0] = wire
         this.addInputRegistry(new PinRegistry<InputPin>(wire));

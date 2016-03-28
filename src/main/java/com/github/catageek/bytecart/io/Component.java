@@ -18,7 +18,7 @@
  */
 package com.github.catageek.bytecart.io;
 
-import org.bukkit.block.Block;
+import org.spongepowered.api.block.BlockSnapshot;
 
 /**
  * Represents a component, i.e a lever, a button, etc.
@@ -30,6 +30,6 @@ public interface Component {
      *
      * @return the block
      */
-    Block getBlock();
+    BlockSnapshot getBlock();
 
 }

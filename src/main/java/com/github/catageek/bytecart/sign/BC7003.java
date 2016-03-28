@@ -22,7 +22,7 @@ import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.hardware.AbstractIC;
 import com.github.catageek.bytecart.hardware.PinRegistry;
 import com.github.catageek.bytecart.hardware.RegistryOutput;
-import com.github.catageek.bytecart.io.InputFactory;
+import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.InputPin;
 import com.github.catageek.bytecart.io.OutputPin;
 import com.github.catageek.bytecart.io.OutputPinFactory;
@@ -85,9 +85,9 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
         InputPin[] wire = new InputPin[2];
 
         // Right
-        wire[0] = InputFactory.getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.clockwise(getCardinal())));
+        wire[0] = InputPinFactory.getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.clockwise(getCardinal())));
         // left
-        wire[1] = InputFactory.getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal())));
+        wire[1] = InputPinFactory.getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal())));
 
         // InputRegistry[0] = detector
         this.addInputRegistry(new PinRegistry<InputPin>(wire));

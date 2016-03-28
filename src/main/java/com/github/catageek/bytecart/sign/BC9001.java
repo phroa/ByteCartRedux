@@ -26,7 +26,7 @@ import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.event.custom.SignPostStationEvent;
 import com.github.catageek.bytecart.event.custom.SignPreStationEvent;
 import com.github.catageek.bytecart.hardware.PinRegistry;
-import com.github.catageek.bytecart.io.InputFactory;
+import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.InputPin;
 import com.github.catageek.bytecart.util.MathUtil;
 import com.github.catageek.bytecart.updater.Wanderer;
@@ -64,10 +64,10 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
             InputPin[] wire = new InputPin[2];
 
             // Right
-            wire[0] = InputFactory
+            wire[0] = InputPinFactory
                     .getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(getCardinal(), 2).getRelative(MathUtil.clockwise(getCardinal())));
             // left
-            wire[1] = InputFactory.getInput(
+            wire[1] = InputPinFactory.getInput(
                     this.getBlock().getRelative(BlockFace.UP).getRelative(getCardinal(), 2).getRelative(MathUtil.anticlockwise(getCardinal())));
 
             // InputRegistry[0] = start/stop command

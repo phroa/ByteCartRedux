@@ -19,11 +19,14 @@
 package com.github.catageek.bytecart.io;
 
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.Location;
-import org.bukkit.block.BlockState;
-import org.bukkit.material.Button;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * this call represents a thread that powers off a button
@@ -31,32 +34,28 @@ import java.util.Map;
 public class SetButtonOff implements Runnable {
 
     final private Component component;
-    final private Map<Location, Integer> ActivatedButtonMap;
+    final private Map<Location<World>, UUID> activatedButtonMap;
 
     /**
      * @param component the component to power off
-     * @param ActivatedButtonMap a map containing the task id of current task
+     * @param activatedButtonMap a map containing the task id of current task
      */
-    public SetButtonOff(Component component, Map<Location, Integer> ActivatedButtonMap) {
+    public SetButtonOff(Component component, Map<Location<World>, UUID> activatedButtonMap) {
         this.component = component;
-        this.ActivatedButtonMap = ActivatedButtonMap;
+        this.activatedButtonMap = activatedButtonMap;
     }
 
     @Override
     public void run() {
 
-        BlockState block = component.getBlock().getState();
+        BlockSnapshot block = component.getBlock();
 
-        if (block.getData() instanceof Button) {
-            Button button = (Button) block.getData();
-
-            button.setPowered(false);
-            block.setData(button);
-
-            block.update(false, true);
-            MathUtil.forceUpdate(component.getBlock().getRelative(button.getAttachedFace()));
+        if (block.getState().getType().equals(BlockTypes.WOODEN_BUTTON) || block.getState().getType().equals(BlockTypes.STONE_BUTTON)) {
+            ComponentButton.power(block.getState(), false);
+            MathUtil.forceUpdate(block.getLocation().get().getRelative(block.get(Keys.DIRECTION).get().getOpposite())
+                    .createSnapshot());
         }
 
-        ActivatedButtonMap.remove(block.getLocation());
+        activatedButtonMap.remove(block.getLocation());
     }
 }

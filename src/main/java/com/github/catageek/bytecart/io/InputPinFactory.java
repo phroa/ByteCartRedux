@@ -18,14 +18,14 @@
  */
 package com.github.catageek.bytecart.io;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.item.ItemTypes;
 
 
 /**
  * A factory for input pins
  */
-final public class InputFactory {
+public final class InputPinFactory {
 
     /**
      * Get an instance of the input component
@@ -33,14 +33,13 @@ final public class InputFactory {
      * @param block block containing the component
      * @return the instance
      */
-    @SuppressWarnings("unchecked")
-    static public <T> T getInput(Block block) {
+    public static InputPin getInput(BlockSnapshot block) {
 
-        if (block.getType().equals(Material.REDSTONE_WIRE)) {
-            return (T) new ComponentWire(block);
+        if (block.getState().getType().equals(ItemTypes.REDSTONE)) {
+            return new ComponentWire(block);
         }
-        if (block.getType().equals(Material.LEVER)) {
-            return (T) new ComponentLever(block);
+        if (block.getState().getType().equals(ItemTypes.LEVER)) {
+            return new ComponentLever(block);
         }
         return null;
 

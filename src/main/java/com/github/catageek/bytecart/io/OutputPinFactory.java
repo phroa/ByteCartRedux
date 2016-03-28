@@ -18,14 +18,14 @@
  */
 package com.github.catageek.bytecart.io;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.item.ItemTypes;
 
 
 /**
  * Factory to get an instance of an output component
  */
-final public class OutputPinFactory {
+public final class OutputPinFactory {
 
     /**
      * Get an instance of the output component
@@ -33,13 +33,13 @@ final public class OutputPinFactory {
      * @param block block containing the component
      * @return the instance
      */
-    static public OutputPin getOutput(Block block) {
+    static public OutputPin getOutput(BlockSnapshot block) {
 
-        if (block.getType().equals(Material.LEVER)) {
+        if (block.getState().getType().equals(ItemTypes.LEVER)) {
             return new ComponentLever(block);
         }
 
-        if (block.getType().equals(Material.STONE_BUTTON) || block.getType().equals(Material.WOOD_BUTTON)) {
+        if (block.getState().getType().equals(ItemTypes.STONE_BUTTON) || block.getState().getType().equals(ItemTypes.WOODEN_BUTTON)) {
             return new ComponentButton(block);
         }
 

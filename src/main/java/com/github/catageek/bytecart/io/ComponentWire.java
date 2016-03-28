@@ -19,8 +19,8 @@
 package com.github.catageek.bytecart.io;
 
 import com.github.catageek.bytecart.hardware.RegistryInput;
-import org.bukkit.block.Block;
-import org.bukkit.material.RedstoneWire;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.data.key.Keys;
 
 
 /**
@@ -31,24 +31,23 @@ public class ComponentWire extends AbstractComponent implements InputPin, Regist
     /**
      * @param block the block containing the wire
      */
-    public ComponentWire(Block block) {
+    public ComponentWire(BlockSnapshot block) {
         super(block);
     }
 
     @Override
     public boolean read() {
-        return ((RedstoneWire) this.getBlock().getState().getData()).isPowered();
+        return this.getBlock().getState().get(Keys.POWER).filter(i -> i > 0).isPresent();
     }
 
     @Override
     public boolean getBit(int index) {
-        RedstoneWire wire = ((RedstoneWire) this.getBlock().getState().getData());
-        return (wire.getData() & 1 << (length() - index)) != 0;
+        return (this.getBlock().getState().get(Keys.POWER).get() & 1 << (length() - index)) != 0;
     }
 
     @Override
     public int getValue() {
-        return ((RedstoneWire) this.getBlock().getState().getData()).getData();
+        return this.getBlock().getState().get(Keys.POWER).get();
     }
 
     @Override
