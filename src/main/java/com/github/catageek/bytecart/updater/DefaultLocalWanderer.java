@@ -24,7 +24,7 @@ import com.github.catageek.bytecart.sign.BCRouter;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.sign.HasNetmask;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
 import java.util.Random;
@@ -86,7 +86,7 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
     }
 
     @Override
-    public BlockFace giveRouterDirection() {
+    public Direction giveRouterDirection() {
         // check if we are in the good region
         if (this.getSignAddress().isValid()
                 && this.getSignAddress().getRegion().getValue() != getWandererRegion()) {
@@ -143,7 +143,7 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
     }
 
     @Override
-    public void doAction(BlockFace to) {
+    public void doAction(Direction to) {
 
         int signring = this.getSignAddress().getTrack().getValue();
         // the route where we went the lesser

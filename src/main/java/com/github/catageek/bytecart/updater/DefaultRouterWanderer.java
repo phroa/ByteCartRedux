@@ -21,7 +21,7 @@ package com.github.catageek.bytecart.updater;
 
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.sign.BCSign;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 /**
  *
@@ -37,14 +37,13 @@ public class DefaultRouterWanderer extends AbstractUpdater {
         super(bc, region);
     }
 
-     */
     @Override
-    public void doAction(Side To) {
+    public void doAction(Side to) {
         return;
     }
 
     @Override
-    public void doAction(BlockFace To) {
+    public void doAction(Direction to) {
     }
 
 
@@ -54,7 +53,7 @@ public class DefaultRouterWanderer extends AbstractUpdater {
     }
 
     @Override
-    public BlockFace giveRouterDirection() {
+    public Direction giveRouterDirection() {
         return getRandomBlockFace(this.getRoutingTable(), this.getFrom().getBlockFace());
     }
 

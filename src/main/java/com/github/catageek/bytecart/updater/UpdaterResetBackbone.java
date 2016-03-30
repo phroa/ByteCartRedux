@@ -19,7 +19,7 @@
 package com.github.catageek.bytecart.updater;
 
 import com.github.catageek.bytecart.sign.BCSign;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 class UpdaterResetBackbone extends UpdaterBackBone implements Wanderer {
 
@@ -29,15 +29,15 @@ class UpdaterResetBackbone extends UpdaterBackBone implements Wanderer {
 
 
     @Override
-    public void doAction(BlockFace to) {
+    public void doAction(Direction to) {
         if (!this.isAtBorder()) {
             reset();
         }
     }
 
     @Override
-    protected BlockFace selectDirection() {
-        BlockFace face;
+    protected Direction selectDirection() {
+        Direction face;
         if ((face = manageBorder()) != null) {
             return face;
         }

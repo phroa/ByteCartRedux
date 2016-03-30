@@ -23,16 +23,17 @@ import com.github.catageek.bytecart.file.BCFile;
 import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
 import com.github.catageek.bytecart.updater.Wanderer.Scope;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.property.SlotIndex;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Optional;
 
 abstract public class WandererContentFactory {
 
@@ -59,11 +60,11 @@ abstract public class WandererContentFactory {
     }
 
     static String getType(Inventory inv) {
-        ItemStack stack = inv.getItem(0);
+        Optional<ItemStack> stack = inv.query(new SlotIndex(0)).peek();
         String prefix = null;
-        if (stack != null && stack.getType().equals(Material.WRITTEN_BOOK) && stack.hasItemMeta()) {
-            BookMeta book = (BookMeta) stack.getItemMeta();
-            String booktitle = book.getTitle();
+        if (stack.isPresent() && stack.get().getItem().equals(ItemTypes.WRITTEN_BOOK)) {
+            ItemStack book = stack.get();
+            String booktitle = book.get(Keys.DISPLAY_NAME).get().toPlain();
             int index = booktitle.indexOf(".");
             if (index > 0) {
                 prefix = booktitle.substring(0, index);
@@ -88,10 +89,10 @@ abstract public class WandererContentFactory {
         if (!isWanderer(inv)) {
             return false;
         }
-        ItemStack stack = inv.getItem(0);
-        if (stack != null && stack.getType().equals(Material.WRITTEN_BOOK) && stack.hasItemMeta()) {
-            final BookMeta book = (BookMeta) stack.getItemMeta();
-            final String booktitle = book.getTitle();
+        Optional<ItemStack> stack = inv.query(new SlotIndex(0)).peek();
+        if (stack.isPresent() && stack.get().getItem().equals(ItemTypes.WRITTEN_BOOK)) {
+            final ItemStack book = stack.get();
+            final String booktitle = book.get(Keys.DISPLAY_NAME).get().toPlain();
             final String dot = "\\.";
             final StringBuilder match = new StringBuilder();
 
@@ -149,6 +150,6 @@ abstract public class WandererContentFactory {
     }
 
     public static void deleteContent(Inventory inv) {
-        inv.clear(0);
+        inv.query(new SlotIndex(0)).clear();
     }
 }

@@ -24,9 +24,9 @@ import com.github.catageek.bytecart.routing.Metric;
 import com.github.catageek.bytecart.routing.RouteValue;
 import com.github.catageek.bytecart.routing.RoutingTable;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.Inventory;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -40,23 +40,23 @@ public class WandererContent implements InventoryContent {
      *
      */
     private static final long serialVersionUID = -9068486630910859194L;
-    protected Map<Integer, Metric> tablemap = new HashMap<Integer, Metric>();
+    protected Map<Integer, Metric> tableMap = new HashMap<Integer, Metric>();
     private transient Inventory inventory = null;
     private String player;
     private BCCounter counter;
-    private long creationtime = Calendar.getInstance().getTimeInMillis();
-    private int lastrouterid;
-    private Stack<Integer> Start;
-    private Stack<Integer> End;
+    private long creationTime = Calendar.getInstance().getTimeInMillis();
+    private int lastRouterId;
+    private Stack<Integer> start;
+    private Stack<Integer> end;
     //internal variable used by updaters
-    private int Current = -2;
-    private long expirationtime;
-    private Wanderer.Level Level;
-    private int Region;
+    private int current = -2;
+    private long expirationTime;
+    private Wanderer.Level level;
+    private int region;
 
     public WandererContent(Inventory inv, Wanderer.Level level, int region, Player player) {
-        this.Region = region;
-        this.Level = level;
+        this.region = region;
+        this.level = level;
         this.inventory = inv;
         this.player = player.getName();
         counter = new BCCounter();
@@ -70,7 +70,7 @@ public class WandererContent implements InventoryContent {
      * @return the level
      */
     public Wanderer.Level getLevel() {
-        return Level;
+        return level;
     }
 
     /**
@@ -79,7 +79,7 @@ public class WandererContent implements InventoryContent {
      * @param level the level to store
      */
     final void setLevel(Wanderer.Level level) {
-        Level = level;
+        this.level = level;
     }
 
     /**
@@ -88,7 +88,7 @@ public class WandererContent implements InventoryContent {
      * @return the region
      */
     public int getRegion() {
-        return Region;
+        return region;
     }
 
     /**
@@ -97,7 +97,7 @@ public class WandererContent implements InventoryContent {
      * @param region the region to set
      */
     final void setRegion(int region) {
-        Region = region;
+        this.region = region;
     }
 
     /**
@@ -106,7 +106,7 @@ public class WandererContent implements InventoryContent {
      * @return the ring id
      */
     public int getCurrent() {
-        return Current;
+        return current;
     }
 
     /**
@@ -115,7 +115,7 @@ public class WandererContent implements InventoryContent {
      * @param current the ring id
      */
     public void setCurrent(int current) {
-        Current = current;
+        this.current = current;
     }
 
     /**
@@ -148,23 +148,23 @@ public class WandererContent implements InventoryContent {
         this.inventory = inventory;
     }
 
-    public long getCreationtime() {
-        return creationtime;
+    public long getCreationTime() {
+        return creationTime;
     }
 
     /**
-     * @param creationtime the creationtime to set
+     * @param creationTime the creationtime to set
      */
     @SuppressWarnings("unused")
-    private void setCreationtime(long creationtime) {
-        this.creationtime = creationtime;
+    private void setCreationTime(long creationTime) {
+        this.creationTime = creationTime;
     }
 
     /**
      * @return the player
      */
     public Player getPlayer() {
-        return Bukkit.getPlayer(player);
+        return Sponge.getServer().getPlayer(player).get();
     }
 
 
@@ -173,45 +173,45 @@ public class WandererContent implements InventoryContent {
      *
      * @return the id
      */
-    public final int getLastrouterid() {
-        return lastrouterid;
+    public final int getLastRouterId() {
+        return lastRouterId;
     }
 
     /**
      * Store an id in the updater book
      *
-     * @param lastrouterid the id to store
+     * @param lastRouterId the id to store
      */
-    public final void setLastrouterid(int lastrouterid) {
-        this.lastrouterid = lastrouterid;
+    public final void setLastRouterId(int lastRouterId) {
+        this.lastRouterId = lastRouterId;
     }
 
     /**
      * @return the start
      */
     public Stack<Integer> getStart() {
-        return Start;
+        return start;
     }
 
     /**
      * @param start the start to set
      */
     void setStart(Stack<Integer> start) {
-        Start = start;
+        this.start = start;
     }
 
     /**
      * @return the end
      */
     public Stack<Integer> getEnd() {
-        return End;
+        return end;
     }
 
     /**
      * @param end the end to set
      */
     void setEnd(Stack<Integer> end) {
-        End = end;
+        this.end = end;
     }
 
     /**
@@ -220,7 +220,7 @@ public class WandererContent implements InventoryContent {
     public void updateTimestamp() {
         long initial;
         long expiration;
-        if ((initial = this.getCreationtime()) == (expiration = this.getExpirationTime())) {
+        if ((initial = this.getCreationTime()) == (expiration = this.getExpirationTime())) {
             return;
         }
         long last = Calendar.getInstance().getTimeInMillis();
@@ -231,7 +231,7 @@ public class WandererContent implements InventoryContent {
     }
 
     public long getExpirationTime() {
-        return expirationtime;
+        return expirationTime;
     }
 
     /**
@@ -240,7 +240,7 @@ public class WandererContent implements InventoryContent {
      * @param lastupdate the lastupdate to set
      */
     protected void setExpirationTime(long lastupdate) {
-        this.expirationtime = lastupdate;
+        this.expirationTime = lastupdate;
     }
 
     /**
@@ -250,7 +250,7 @@ public class WandererContent implements InventoryContent {
      * @param metric the metric value
      */
     public void setRoute(int number, int metric) {
-        tablemap.put(number, new Metric(metric));
+        tableMap.put(number, new Metric(metric));
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux : setting metric of ring " + number + " to " + metric);
         }
@@ -263,7 +263,7 @@ public class WandererContent implements InventoryContent {
      * @return the metric
      */
     public int getMetric(int entry) {
-        return tablemap.get(entry).value();
+        return tableMap.get(entry).value();
     }
 
     /**
@@ -315,6 +315,6 @@ public class WandererContent implements InventoryContent {
      * @return true if there is data on this ring
      */
     public boolean hasRouteTo(int ring) {
-        return tablemap.containsKey(ring);
+        return tableMap.containsKey(ring);
     }
 }

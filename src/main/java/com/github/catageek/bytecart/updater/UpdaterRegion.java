@@ -18,13 +18,13 @@
  */
 package com.github.catageek.bytecart.updater;
 
-import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.event.custom.UpdaterSetRingEvent;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.util.LogUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.util.Direction;
 
 import java.util.Random;
 
@@ -113,8 +113,8 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
                 || (track > 0 && !this.getRoutingTable().isDirectlyConnected(track, getFrom()));
     }
 
-    protected BlockFace selectDirection() {
-        BlockFace face;
+    protected Direction selectDirection() {
+        Direction face;
         if ((face = manageBorder()) != null) {
             return face;
         }
@@ -141,7 +141,8 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
                     }
                 } catch (NullPointerException e) {
                     LogUtil.sendError(this.getRoutes().getPlayer(),
-                            "ByteCartRedux : Chest expected at position " + this.getCenter().getRelative(BlockFace.UP, 5).getLocation());
+                            "ByteCartRedux : Chest expected at position " + this.getCenter().getLocation().get()
+                                    .add(Direction.UP.toVector3d().mul(5)));
                     throw e;
                 }
 
@@ -161,7 +162,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
     }
 
     @Override
-    public void Update(BlockFace To) {
+    public void update(Direction to) {
 
         // current: track number we are on
         int current = getCurrent();
@@ -176,7 +177,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
                 // we provide one
                 current = setSign(current);
                 event = new UpdaterSetRingEvent(this, -1, current);
-                Bukkit.getServer().getPluginManager().callEvent(event);
+                Sponge.getEventManager().post(event);
             }
 
             if (getSignAddress().isValid()) {
@@ -185,7 +186,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
                 current = getOrSetCurrent(current);
                 event = new UpdaterSetRingEvent(this, old, current);
                 if (old != current) {
-                    Bukkit.getServer().getPluginManager().callEvent(event);
+                    Sponge.getEventManager().post(event);
                 }
             }
 
@@ -200,7 +201,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
                 this.getCounter().incrementCount(current, new Random().nextInt(this.getRoutingTable().size() + 1) + 1);
             }
 
-            routeUpdates(To);
+            routeUpdates(to);
         }
     }
 

@@ -20,11 +20,11 @@ package com.github.catageek.bytecart.updater;
 
 import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.routing.Metric;
+import com.github.catageek.bytecart.routing.RouteValue;
 import com.github.catageek.bytecart.routing.RoutingTableWritable;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import com.github.catageek.bytecart.routing.RouteValue;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.Inventory;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -43,9 +43,9 @@ public class UpdaterContent extends WandererContent implements Serializable {
      */
     private static final long serialVersionUID = 848098890652934583L;
 
-    private boolean fullreset = false;
-    private boolean isnew = false;
-    private long lastrouterseen;
+    private boolean fullReset = false;
+    private boolean isNew = false;
+    private long lastRouterSeen;
 
     public UpdaterContent(Inventory inv, Wanderer.Level level, int region, Player player
             , boolean isfullreset) {
@@ -53,11 +53,11 @@ public class UpdaterContent extends WandererContent implements Serializable {
     }
 
     public UpdaterContent(Inventory inv, Wanderer.Level level, int region, Player player
-            , boolean isfullreset, boolean isnew) {
+            , boolean isfullreset, boolean isNew) {
         super(inv, level, region, player);
-        this.fullreset = isfullreset;
-        this.isnew = isnew;
-        this.setExpirationTime(ByteCartRedux.rootNode.getNode("updater", "timeout").getInt(60) * 60000 + getCreationtime());
+        this.fullReset = isfullreset;
+        this.isNew = isNew;
+        this.setExpirationTime(ByteCartRedux.rootNode.getNode("updater", "timeout").getInt(60) * 60000 + getCreationTime());
     }
 
     /**
@@ -66,7 +66,7 @@ public class UpdaterContent extends WandererContent implements Serializable {
      * @return the set
      */
     public Set<Entry<Integer, Metric>> getEntrySet() {
-        return tablemap.entrySet();
+        return tableMap.entrySet();
     }
 
     /**
@@ -76,12 +76,12 @@ public class UpdaterContent extends WandererContent implements Serializable {
      * @param direction the direction to exclude
      */
     void putRoutes(RoutingTableWritable table, DirectionRegistry direction) {
-        tablemap.clear();
+        tableMap.clear();
         Iterator<RouteValue> it = table.getOrderedRouteNumbers();
         while (it.hasNext()) {
             int i = it.next().value();
             if (table.getDirection(i) != null && table.getDirection(i).getAmount() != direction.getAmount()) {
-                tablemap.put(i, new Metric(table.getMinMetric(i)));
+                tableMap.put(i, new Metric(table.getMinMetric(i)));
                 if (ByteCartRedux.debug) {
                     ByteCartRedux.log.info("ByteCartRedux : Route exchange : give ring " + i + " with metric " + table.getMinMetric(i) + " to " + table
                             .getDirection(i).getBlockFace());
@@ -95,7 +95,7 @@ public class UpdaterContent extends WandererContent implements Serializable {
      * Set the timestamp field to now
      */
     void seenTimestamp() {
-        this.lastrouterseen = Calendar.getInstance().getTimeInMillis();
+        this.lastRouterSeen = Calendar.getInstance().getTimeInMillis();
     }
 
     /**
@@ -104,23 +104,23 @@ public class UpdaterContent extends WandererContent implements Serializable {
      * @return the time difference, or -1 if seenTimestamp() was never called
      */
     public int getInterfaceDelay() {
-        if (lastrouterseen != 0) {
-            return (int) ((Calendar.getInstance().getTimeInMillis() - lastrouterseen) / 1000);
+        if (lastRouterSeen != 0) {
+            return (int) ((Calendar.getInstance().getTimeInMillis() - lastRouterSeen) / 1000);
         }
         return -1;
     }
 
     /**
-     * @return the fullreset
+     * @return the fullReset
      */
-    boolean isFullreset() {
-        return fullreset;
+    boolean isFullReset() {
+        return fullReset;
     }
 
     /**
-     * @return the isnew
+     * @return the isNew
      */
     boolean isNew() {
-        return isnew;
+        return isNew;
     }
 }

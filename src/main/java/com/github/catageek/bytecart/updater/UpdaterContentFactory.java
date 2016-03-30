@@ -19,11 +19,11 @@
 package com.github.catageek.bytecart.updater;
 
 import com.github.catageek.bytecart.file.BookFile;
-import com.github.catageek.bytecart.util.LogUtil;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
 import com.github.catageek.bytecart.updater.Wanderer.Scope;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
+import com.github.catageek.bytecart.util.LogUtil;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.Inventory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -66,10 +66,10 @@ public abstract class UpdaterContentFactory {
             throws IOException, ClassNotFoundException {
 
         // delete content if expired
-        long creation = rte.getCreationtime();
+        long creation = rte.getCreationTime();
         long expiration = rte.getExpirationTime();
         if (creation != expiration && Calendar.getInstance().getTimeInMillis() > expiration) {
-            LogUtil.sendSuccess(rte.getPlayer(), "ByteCartRedux : Updater created " + (new Date(rte.getCreationtime())).toString() + " expired");
+            LogUtil.sendSuccess(rte.getPlayer(), "ByteCartRedux : Updater created " + (new Date(rte.getCreationTime())).toString() + " expired");
             WandererContentFactory.deleteContent(rte.getInventory());
             return;
         }

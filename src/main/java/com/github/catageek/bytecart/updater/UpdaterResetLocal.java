@@ -18,8 +18,8 @@
  */
 package com.github.catageek.bytecart.updater;
 
-import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.collision.IntersectionSide;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.event.custom.UpdaterClearStationEvent;
@@ -28,8 +28,8 @@ import com.github.catageek.bytecart.event.custom.UpdaterSignInvalidateEvent;
 import com.github.catageek.bytecart.sign.BC9001;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.Bukkit;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.util.Direction;
 
 import java.util.Stack;
 
@@ -40,7 +40,7 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
     }
 
     @Override
-    public void doAction(BlockFace to) {
+    public void doAction(Direction to) {
         int ring;
         if ((ring = this.getTrackNumber()) != -1) {
             incrementRingCounter(ring);
@@ -80,13 +80,13 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
         }
 
         if (address.isValid()) {
-            if (this.getContent().isFullreset()) {
+            if (this.getContent().isFullReset()) {
                 if (this.getNetmask() == 8) {
                     UpdaterClearStationEvent event = new UpdaterClearStationEvent(this, address, ((BC9001) this.getBcSign()).getStationName());
-                    Bukkit.getServer().getPluginManager().callEvent(event);
+                    Sponge.getEventManager().post(event);
                 } else {
                     UpdaterClearSubnetEvent event = new UpdaterClearSubnetEvent(this, address, 256 >> this.getNetmask());
-                    Bukkit.getServer().getPluginManager().callEvent(event);
+                    Sponge.getEventManager().post(event);
                 }
                 address.remove();
                 if (ByteCartRedux.debug) {
@@ -95,7 +95,7 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
             }
         } else {
             UpdaterSignInvalidateEvent event = new UpdaterSignInvalidateEvent(this);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Sponge.getEventManager().post(event);
             address.remove();
             if (ByteCartRedux.debug) {
                 ByteCartRedux.log.info("ByteCartRedux: removing invalid address");
@@ -114,7 +114,7 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
     }
 
     @Override
-    public BlockFace giveRouterDirection() {
+    public Direction giveRouterDirection() {
         // check if we are in the good region
         if (this.getSignAddress().isValid()
                 && this.getSignAddress().getRegion().getValue() != getWandererRegion()) {

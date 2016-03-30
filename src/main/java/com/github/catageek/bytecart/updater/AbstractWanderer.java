@@ -24,9 +24,8 @@ import com.github.catageek.bytecart.routing.RoutingTable;
 import com.github.catageek.bytecart.sign.BCRouter;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Vehicle;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.util.Direction;
 
 import java.util.Random;
@@ -41,9 +40,9 @@ import java.util.Random;
 public abstract class AbstractWanderer {
 
     private final BCSign bcsign;
-    private final DirectionRegistry From;
-    private final int Region;
-    private Address SignAddress;
+    private final DirectionRegistry from;
+    private final int region;
+    private Address signAddress;
 
     /**
      * @param bc the ic that triggers this wanderer
@@ -51,14 +50,14 @@ public abstract class AbstractWanderer {
      */
     protected AbstractWanderer(BCSign bc, int region) {
         bcsign = bc;
-        SignAddress = bc.getSignAddress();
-        Region = region;
+        signAddress = bc.getSignAddress();
+        this.region = region;
 
         if (bc instanceof BCRouter) {
             BCRouter ic = (BCRouter) bc;
-            From = new DirectionRegistry(ic.getFrom());
+            from = new DirectionRegistry(ic.getFrom());
         } else {
-            From = null;
+            from = null;
         }
     }
 
@@ -86,7 +85,7 @@ public abstract class AbstractWanderer {
      *
      * @return the direction that the cart should take
      */
-    public abstract BlockFace giveRouterDirection();
+    public abstract Direction giveRouterDirection();
 
     /**
      * Method that must return the position of the lever
@@ -100,7 +99,7 @@ public abstract class AbstractWanderer {
      *
      * @param To the direction where the cart goes
      */
-    public abstract void doAction(BlockFace To);
+    public abstract void doAction(Direction To);
 
     /**
      * Method called when an updater meets a BC9XXX sign
@@ -124,23 +123,23 @@ public abstract class AbstractWanderer {
      * @return the address on the sign
      */
     protected final Address getSignAddress() {
-        return SignAddress;
+        return signAddress;
     }
 
     /**
-     * Set the member variable SignAddress
+     * Set the member variable signAddress
      *
      * @param signAddress
      */
     protected final void setSignAddress(Address signAddress) {
-        SignAddress = signAddress;
+        this.signAddress = signAddress;
     }
 
     /**
      * @return the direction from where we are coming
      */
     public final DirectionRegistry getFrom() {
-        return From;
+        return from;
     }
 
     /**
@@ -153,18 +152,18 @@ public abstract class AbstractWanderer {
     /**
      * @return the Vehicle
      */
-    public final Vehicle getVehicle() {
+    public final Entity getVehicle() {
         return this.getBcSign().getVehicle();
     }
 
     /**
      * Tells if we are about to make a U-turn
      *
-     * @param To the direction we want to go
+     * @param to the direction we want to go
      * @return true if we make a U-turn
      */
-    protected final boolean isSameTrack(BlockFace To) {
-        return getFrom().getBlockFace().equals(To);
+    protected final boolean isSameTrack(Direction to) {
+        return getFrom().getBlockFace().equals(to);
     }
 
     /**
@@ -173,7 +172,7 @@ public abstract class AbstractWanderer {
      * @return the region number
      */
     public final int getWandererRegion() {
-        return Region;
+        return region;
     }
 
     /**
@@ -181,7 +180,7 @@ public abstract class AbstractWanderer {
      *
      * @return the center
      */
-    public final Block getCenter() {
+    public final BlockSnapshot getCenter() {
         return this.getBcSign().getCenter();
     }
 

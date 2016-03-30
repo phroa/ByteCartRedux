@@ -19,10 +19,9 @@
 package com.github.catageek.bytecart.updater;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import com.github.catageek.bytecart.event.custom.UpdaterRemoveEvent;
 import com.github.catageek.bytecart.collection.ExpirableSet;
-import org.bukkit.Bukkit;
-import org.bukkit.event.Event;
+import com.github.catageek.bytecart.event.custom.UpdaterRemoveEvent;
+import org.spongepowered.api.Sponge;
 
 import java.util.Iterator;
 
@@ -54,7 +53,7 @@ public final class UpdaterSet {
     public void clear() {
         Iterator<Integer> it = updateSet.getIterator();
         while (it.hasNext()) {
-            Bukkit.getServer().getPluginManager().callEvent((Event) new UpdaterRemoveEvent(it.next()));
+            Sponge.getEventManager().post(new UpdaterRemoveEvent(it.next()));
         }
         updateSet.clear();
     }

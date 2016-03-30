@@ -18,30 +18,21 @@
  */
 package com.github.catageek.bytecart.event.custom;
 
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
 
-public final class UpdaterRemoveEvent extends Event {
+public final class UpdaterRemoveEvent implements Event {
 
-    private static final HandlerList handlers = new HandlerList();
     private final int vehicleId;
 
     /**
      * Default constructor
      *
-     * @param VehicleId the vehicle id
+     * @param vehicleId the vehicle id
      * @param location the location
      */
-    public UpdaterRemoveEvent(int VehicleId) {
-        this.vehicleId = VehicleId;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
+    public UpdaterRemoveEvent(int vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
     /**
@@ -49,5 +40,10 @@ public final class UpdaterRemoveEvent extends Event {
      */
     public int getVehicleId() {
         return vehicleId;
+    }
+
+    @Override
+    public Cause getCause() {
+        return Cause.source(vehicleId).build();
     }
 }

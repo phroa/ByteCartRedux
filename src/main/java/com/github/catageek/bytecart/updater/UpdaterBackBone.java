@@ -18,10 +18,10 @@
  */
 package com.github.catageek.bytecart.updater;
 
-import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.sign.BCSign;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 class UpdaterBackBone extends AbstractRegionUpdater implements Wanderer {
 
@@ -30,8 +30,8 @@ class UpdaterBackBone extends AbstractRegionUpdater implements Wanderer {
     }
 
 
-    protected BlockFace selectDirection() {
-        BlockFace face;
+    protected Direction selectDirection() {
+        Direction face;
         if ((face = manageBorder()) != null) {
             return face;
         }
@@ -40,7 +40,7 @@ class UpdaterBackBone extends AbstractRegionUpdater implements Wanderer {
     }
 
     @Override
-    public void Update(BlockFace To) {
+    public void update(Direction To) {
 
         // current: track number we are on
         int current = getCurrent();

@@ -22,20 +22,20 @@ import com.github.catageek.bytecart.routing.RoutingTableWritable;
 import com.github.catageek.bytecart.sign.BC8010;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 abstract class AbstractUpdater extends AbstractWanderer {
 
-    private final RoutingTableWritable RoutingTable;
+    private final RoutingTableWritable routingTable;
 
     protected AbstractUpdater(BCSign bc, int region) {
         super(bc, region);
 
         if (bc instanceof BC8010) {
             BC8010 ic = (BC8010) bc;
-            RoutingTable = ic.getRoutingTable();
+            routingTable = ic.getRoutingTable();
         } else {
-            RoutingTable = null;
+            routingTable = null;
         }
 
     }
@@ -45,7 +45,7 @@ abstract class AbstractUpdater extends AbstractWanderer {
      *
      * @return the direction where we must go
      */
-    public final BlockFace manageBorder() {
+    public final Direction manageBorder() {
         if ((isAtBorder())) {
             DirectionRegistry dir;
             if ((dir = this.getRoutingTable().getDirection(this.getWandererRegion())) != null) {
@@ -60,6 +60,6 @@ abstract class AbstractUpdater extends AbstractWanderer {
      * @return the routing table
      */
     protected final RoutingTableWritable getRoutingTable() {
-        return RoutingTable;
+        return routingTable;
     }
 }

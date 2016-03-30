@@ -21,8 +21,8 @@ package com.github.catageek.bytecart.updater;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.event.custom.UpdaterClearRingEvent;
 import com.github.catageek.bytecart.sign.BCSign;
-import org.bukkit.Bukkit;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.util.Direction;
 
 final class UpdaterResetRegion extends UpdaterRegion implements Wanderer {
 
@@ -31,15 +31,15 @@ final class UpdaterResetRegion extends UpdaterRegion implements Wanderer {
     }
 
     @Override
-    public void doAction(BlockFace to) {
+    public void doAction(Direction to) {
         if (!this.isAtBorder()) {
             reset();
         }
     }
 
     @Override
-    protected BlockFace selectDirection() {
-        BlockFace face;
+    protected Direction selectDirection() {
+        Direction face;
         if ((face = manageBorder()) != null) {
             return face;
         }
@@ -59,7 +59,7 @@ final class UpdaterResetRegion extends UpdaterRegion implements Wanderer {
             address.remove();
             if (isValid) {
                 UpdaterClearRingEvent event = new UpdaterClearRingEvent(this, 0);
-                Bukkit.getServer().getPluginManager().callEvent(event);
+                Sponge.getEventManager().post(event);
             }
         }
         // clear routes except route to ring 0

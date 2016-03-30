@@ -23,9 +23,9 @@ import com.github.catageek.bytecart.routing.BCCounter;
 import com.github.catageek.bytecart.routing.Metric;
 import com.github.catageek.bytecart.sign.BC8010;
 import com.github.catageek.bytecart.sign.BCSign;
-import com.github.catageek.bytecart.util.DirectionRegistry;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
-import org.bukkit.block.BlockFace;
+import com.github.catageek.bytecart.util.DirectionRegistry;
+import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -33,35 +33,35 @@ import java.util.Set;
 
 abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
 
-    private final boolean IsTrackNumberProvider;
-    protected UpdaterContent Routes;
+    private final boolean isTrackNumberProvider;
+    protected UpdaterContent routes;
     private BCCounter counter;
 
     AbstractRegionUpdater(BCSign bc, UpdaterContent rte) {
         super(bc, rte.getRegion());
-        Routes = rte;
+        routes = rte;
         counter = rte.getCounter();
 
         if (bc instanceof BC8010) {
             BC8010 ic = (BC8010) bc;
-            IsTrackNumberProvider = ic.isTrackNumberProvider();
+            isTrackNumberProvider = ic.isTrackNumberProvider();
         } else {
-            IsTrackNumberProvider = false;
+            isTrackNumberProvider = false;
         }
     }
 
-    abstract protected void Update(BlockFace to);
+    abstract protected void update(Direction to);
 
     abstract protected int getTrackNumber();
 
-    abstract protected BlockFace selectDirection();
+    abstract protected Direction selectDirection();
 
     /**
      * Perform the IGP routing protocol update
      *
-     * @param To the direction where we are going to
+     * @param to the direction where we are going to
      */
-    protected final void routeUpdates(BlockFace To) {
+    protected final void routeUpdates(Direction to) {
         if (isRouteConsumer()) {
             Set<Integer> connected = getRoutingTable().getDirectlyConnectedList(getFrom());
             int current = getCurrent();
@@ -83,21 +83,21 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
                 }
 
                 getRoutingTable().setEntry(current, getFrom(), new Metric(0));
-                Routes.updateTimestamp();
+                routes.updateTimestamp();
 
             }
 
             // loading received routes in router if coming from another router
-            if (this.getRoutes().getLastrouterid() != this.getCenter().hashCode()) {
-                getRoutingTable().Update(getRoutes(), getFrom());
+            if (this.getRoutes().getLastRouterId() != this.getCenter().hashCode()) {
+                getRoutingTable().update(getRoutes(), getFrom());
             }
 
 
             // preparing the routes to send
-            Routes.putRoutes(getRoutingTable(), new DirectionRegistry(To));
+            routes.putRoutes(getRoutingTable(), new DirectionRegistry(to));
 
             setCurrent(current);
-            this.getRoutes().setLastrouterid(this.getCenter().hashCode());
+            this.getRoutes().setLastRouterId(this.getCenter().hashCode());
 
             try {
                 getRoutingTable().serialize();
@@ -109,9 +109,9 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
     }
 
     @Override
-    public void doAction(BlockFace To) {
+    public void doAction(Direction to) {
 
-        this.Update(To);
+        this.update(to);
 
         int current = getCurrent();
         current = (current == -2 ? 0 : current);
@@ -120,14 +120,14 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
         }
 
         // If we are turning back, keep current track otherwise discard
-        if (!isSameTrack(To)) {
+        if (!isSameTrack(to)) {
             getRoutes().setCurrent(-1);
         }
 
         this.getRoutes().seenTimestamp();
 
         try {
-            UpdaterContentFactory.saveContent(Routes);
+            UpdaterContentFactory.saveContent(routes);
         } catch (ClassNotFoundException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -138,7 +138,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
     }
 
     @Override
-    public final BlockFace giveRouterDirection() {
+    public final Direction giveRouterDirection() {
         return this.selectDirection();
     }
 
@@ -152,7 +152,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
     }
 
     protected final UpdaterContent getRoutes() {
-        return Routes;
+        return routes;
     }
 
     protected final BCCounter getCounter() {
@@ -185,7 +185,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
      * Clear the routing table, keeping ring 0
      */
     protected void reset() {
-        boolean fullreset = this.getRoutes().isFullreset();
+        boolean fullreset = this.getRoutes().isFullReset();
         if (fullreset) {
             this.getSignAddress().remove();
         }
@@ -205,6 +205,6 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
      * @return true if this updater must provide track numbers
      */
     protected final boolean isTrackNumberProvider() {
-        return IsTrackNumberProvider;
+        return isTrackNumberProvider;
     }
 }

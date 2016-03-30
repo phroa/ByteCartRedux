@@ -18,9 +18,9 @@
  */
 package com.github.catageek.bytecart.updater;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.event.custom.UpdaterEnterSubnetEvent;
 import com.github.catageek.bytecart.event.custom.UpdaterLeaveSubnetEvent;
@@ -31,7 +31,7 @@ import com.github.catageek.bytecart.io.ComponentSign;
 import com.github.catageek.bytecart.sign.BC9001;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.util.LogUtil;
-import org.bukkit.Bukkit;
+import org.spongepowered.api.Sponge;
 
 import java.util.Stack;
 
@@ -53,7 +53,7 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
 
             //it's a station, launch event
             UpdaterPassStationEvent event = new UpdaterPassStationEvent(this, this.getSignAddress(), ((BC9001) this.getBcSign()).getStationName());
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Sponge.getEventManager().post(event);
         }
 
         // cookie still there
@@ -93,10 +93,10 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
                 // launch event
                 if (length > 1) {
                     UpdaterSetSubnetEvent event = new UpdaterSetSubnetEvent(this, old, reloadAddress, length);
-                    Bukkit.getServer().getPluginManager().callEvent(event);
+                    Sponge.getEventManager().post(event);
                 } else {
                     UpdaterSetStationEvent event = new UpdaterSetStationEvent(this, old, reloadAddress, ((BC9001) this.getBcSign()).getStationName());
-                    Bukkit.getServer().getPluginManager().callEvent(event);
+                    Sponge.getEventManager().post(event);
                 }
 
                 if (ByteCartRedux.debug) {
@@ -129,7 +129,7 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
                 // launch event
                 UpdaterEnterSubnetEvent event = new UpdaterEnterSubnetEvent(this, getSignAddress(), length,
                         AddressFactory.getAddress(buildAddress(oldstart)), oldend - oldstart);
-                Bukkit.getServer().getPluginManager().callEvent(event);
+                Sponge.getEventManager().post(event);
             }
         } else
             // case of stations
@@ -152,7 +152,7 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
             // launch event
             UpdaterLeaveSubnetEvent event = new UpdaterLeaveSubnetEvent(this, AddressFactory.getAddress(buildAddress(start)), end - start
                     , AddressFactory.getAddress(buildAddress(newstart)), newend - newstart);
-            Bukkit.getServer().getPluginManager().callEvent(event);
+            Sponge.getEventManager().post(event);
         }
     }
 

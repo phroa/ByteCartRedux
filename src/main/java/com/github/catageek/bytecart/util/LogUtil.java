@@ -18,26 +18,21 @@
  */
 package com.github.catageek.bytecart.util;
 
-import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.channel.MessageReceiver;
+import org.spongepowered.api.text.format.TextColors;
 
 public final class LogUtil {
 
-    public static void sendError(CommandSender sender, String message) {
-        display(sender, ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + message);
+    public static void sendError(MessageReceiver receiver, String message) {
+        display(receiver, TextColors.DARK_GREEN + "[Bytecart] " + TextColors.RED + message);
     }
 
-    public static void sendSuccess(CommandSender sender, String message) {
-        display(sender, ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + message);
+    public static void sendSuccess(MessageReceiver receiver, String message) {
+        display(receiver, TextColors.DARK_GREEN + "[Bytecart] " + TextColors.YELLOW + message);
     }
 
-    private static void display(CommandSender sender, String message) {
-        if (sender != null && (sender instanceof Player) && ((Player) sender).isOnline()) {
-            sender.sendMessage(message);
-        } else {
-            ByteCartRedux.log.info(message);
-        }
+    private static void display(MessageReceiver receiver, String message) {
+        receiver.sendMessage(Text.of(message));
     }
 }
