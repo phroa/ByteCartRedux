@@ -66,7 +66,6 @@ public final class ByteCartRedux implements ByteCartPlugin {
     public static ByteCartRedux myPlugin;
     public static boolean debug;
     public int Lockduration;
-    private BCHostnameResolutionPlugin hostnamePlugin;
     private PreloadChunkListener preloadchunklistener;
     private ConstantSpeedListener constantspeedlistener;
     private CollisionAvoiderManager cam;
@@ -106,17 +105,6 @@ public final class ByteCartRedux implements ByteCartPlugin {
         Sponge.getCommandManager().register(this, CommandSpec.builder()
                 .executor(new BytecartCommandExecutor())
                 .build(), "mego", "sendto", "bcreload", "bcupdater", "bcticket", "bcback");
-
-
-        if (rootNode.getNode("hostname_resolution").getBoolean(true)) {
-            hostnamePlugin = new BCHostnameResolutionPlugin();
-            hostnamePlugin.onLoad();
-            ByteCartAPI.setResolver(hostnamePlugin);
-            Sponge.getEventManager().registerListener(this, hostnamePlugin);
-            Sponge.getCommandManager().register(this, CommandSpec.builder()
-                    .executor(hostnamePlugin)
-                    .build(), "host");
-        }
 
         log.info("[ByteCartRedux] plugin has been enabled.");
     }
