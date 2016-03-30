@@ -18,15 +18,7 @@
  */
 package com.github.catageek.bytecart.util;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Vehicle;
-import org.bukkit.util.Vector;
+import com.flowpowered.math.vector.Vector3d;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.vehicle.minecart.Minecart;
@@ -36,8 +28,6 @@ import org.spongepowered.api.world.World;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -111,7 +101,9 @@ public final class MathUtil {
         int j, i = x - radius, k = x + radius, l = z + radius;
         for (; i <= k; ++i) {
             for (j = z - radius; j <= l; ++j) {
-                world.loadChunk(i, j, false);
+                for (int m = 0; m < 256; m += 16) {
+                    world.loadChunk(i, m, j, false);
+                }
             }
         }
 
@@ -145,7 +137,7 @@ public final class MathUtil {
 
     public static double getSpeed(final Minecart minecart) {
 
-        final Vector velocity = minecart.getVelocity();
+        final Vector3d velocity = minecart.getVelocity();
 
         if (velocity.getX() > 0) {
             return velocity.getX();
@@ -162,16 +154,16 @@ public final class MathUtil {
 
     public static void setSpeed(final Minecart minecart, final double speed) {
 
-        final Vector velocity = minecart.getVelocity();
+        Vector3d velocity = minecart.getVelocity();
 
         if (velocity.getX() > 0) {
-            velocity.setX(speed);
+            velocity = new Vector3d(speed, velocity.getY(), velocity.getZ());
         } else if (velocity.getX() < 0) {
-            velocity.setX(-speed);
+            velocity = new Vector3d(-speed, velocity.getY(), velocity.getZ());
         } else if (velocity.getZ() > 0) {
-            velocity.setZ(speed);
+            velocity = new Vector3d(velocity.getX(), velocity.getY(), speed);
         } else if (velocity.getZ() < 0) {
-            velocity.setZ(-speed);
+            velocity = new Vector3d(velocity.getX(), velocity.getY(), -speed);
         }
 
         minecart.setVelocity(velocity);
