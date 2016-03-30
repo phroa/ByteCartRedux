@@ -18,7 +18,7 @@
  */
 package com.github.catageek.bytecart.thread;
 
-import org.bukkit.scheduler.BukkitTask;
+import org.spongepowered.api.scheduler.Task;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,10 +30,10 @@ import java.util.Map;
 
 public abstract class Expirable<K> {
 
-    private final long Duration;
+    private final long duration;
     private final String name;
-    private final boolean IsSync;
-    private Map<K, BukkitTask> ThreadMap = Collections.synchronizedMap(new HashMap<K, BukkitTask>());
+    private final boolean isSync;
+    private Map<K, Task> threadMap = Collections.synchronizedMap(new HashMap<>());
 
     /**
      * @param duration the timeout value
@@ -42,41 +42,41 @@ public abstract class Expirable<K> {
      */
     public Expirable(long duration, boolean isSync, String name) {
         super();
-        this.Duration = duration;
+        this.duration = duration;
         this.name = name;
-        this.IsSync = isSync;
+        this.isSync = isSync;
     }
 
     abstract public void expire(Object... objects);
 
     public void reset(K key, Object... objects) {
-        if (Duration != 0) {
-            (new BCBukkitRunnable<K>(this, key)).renewTaskLater(objects);
+        if (duration != 0) {
+            (new BCRunnable<K>(this, key)).renewTaskLater(objects);
         }
     }
 
     public void reset(long duration, K key, Object... objects) {
         if (duration != 0) {
-            (new BCBukkitRunnable<K>(this, key)).renewTaskLater(duration, objects);
+            (new BCRunnable<K>(this, key)).renewTaskLater(duration, objects);
         }
     }
 
     public final void cancel(K key) {
-        if (Duration != 0) {
-            (new BCBukkitRunnable<K>(this, key)).cancel();
+        if (duration != 0) {
+            (new BCRunnable<K>(this, key)).cancel();
         }
     }
 
-    protected final Map<K, BukkitTask> getThreadMap() {
-        return ThreadMap;
+    protected final Map<K, Task> getThreadMap() {
+        return threadMap;
     }
 
     public final long getDuration() {
-        return Duration;
+        return duration;
     }
 
     public final boolean isSync() {
-        return IsSync;
+        return isSync;
     }
 
     public final String getName() {
