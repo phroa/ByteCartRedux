@@ -19,7 +19,8 @@
 package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.hardware.IC;
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.IOException;
 
@@ -53,7 +54,7 @@ public interface Triggerable extends IC {
      * @param loc the location of the IC
      * @return true if a train is currently using the IC
      */
-    boolean wasTrain(Location loc);
+    boolean wasTrain(Location<World> loc);
 
     /**
      * Tell if the lever is negated

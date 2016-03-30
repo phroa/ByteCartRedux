@@ -22,7 +22,9 @@
 package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.entity.Minecart;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.vehicle.minecart.Minecart;
 
 import java.io.IOException;
 
@@ -35,17 +37,16 @@ final class BC7006 extends AbstractTriggeredSign implements Triggerable {
      * @param block
      * @param vehicle
      */
-    public BC7006(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    public BC7006(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
-        org.bukkit.entity.Vehicle vehicle = this.getVehicle();
+        Entity vehicle = this.getVehicle();
         Minecart cart = (Minecart) vehicle;
-        if (cart.getMaxSpeed() <= 0.4D) {
-            cart.setMaxSpeed(0.68D);
+        if (cart.getSwiftness() <= 0.4D) {
+            cart.setSwiftness(0.68D);
         }
 
         MathUtil.setSpeed(cart, 0.68D);

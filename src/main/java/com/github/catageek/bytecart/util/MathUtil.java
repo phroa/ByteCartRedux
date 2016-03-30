@@ -28,27 +28,33 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.util.Vector;
 import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.vehicle.minecart.Minecart;
 import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
 
 public final class MathUtil {
 
-    public static final BlockFace clockwise(BlockFace f) {
-        BlockFace b = MathUtil.straightUp(f);
+    public static final Direction clockwise(Direction f) {
+        Direction b = MathUtil.straightUp(f);
         switch (b) {
             case NORTH:
-                return BlockFace.EAST;
+                return Direction.EAST;
             case EAST:
-                return BlockFace.SOUTH;
+                return Direction.SOUTH;
             case SOUTH:
-                return BlockFace.WEST;
+                return Direction.WEST;
             case WEST:
-                return BlockFace.NORTH;
+                return Direction.NORTH;
             default:
                 break;
         }
@@ -56,17 +62,17 @@ public final class MathUtil {
 
     }
 
-    public static final BlockFace anticlockwise(BlockFace f) {
-        BlockFace b = MathUtil.straightUp(f);
+    public static final Direction anticlockwise(Direction f) {
+        Direction b = MathUtil.straightUp(f);
         switch (b) {
             case NORTH:
-                return BlockFace.WEST;
+                return Direction.WEST;
             case EAST:
-                return BlockFace.NORTH;
+                return Direction.NORTH;
             case SOUTH:
-                return BlockFace.EAST;
+                return Direction.EAST;
             case WEST:
-                return BlockFace.SOUTH;
+                return Direction.SOUTH;
             default:
                 break;
         }
@@ -119,18 +125,18 @@ public final class MathUtil {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public static org.bukkit.entity.Vehicle getVehicleByLocation(Location loc)
+    public static Entity getVehicleByLocation(Location<World> loc)
             throws ClassNotFoundException, IOException {
-        List<Entity> ent = Arrays.asList(loc.getBlock().getChunk().getEntities());
+        List<Entity> ent = new ArrayList<>(loc.getExtent().getChunk(loc.getChunkPosition()).get().getEntities());
         for (ListIterator<Entity> it = ent.listIterator(); it.hasNext(); ) {
             if (it.next() instanceof Minecart) {
                 it.previous();
 
-                Location cartloc = ((Minecart) it.next()).getLocation();
+                Location<World> cartloc = it.next().getLocation();
 
                 if (cartloc.getBlockX() == loc.getBlockX() && cartloc.getBlockZ() == loc.getBlockZ()) {
                     it.previous();
-                    return (Vehicle) it.next();
+                    return it.next();
                 }
             }
         }

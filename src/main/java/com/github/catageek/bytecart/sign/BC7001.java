@@ -18,20 +18,24 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.flowpowered.math.vector.Vector3d;
 import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.hardware.PinRegistry;
-import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.InputPin;
+import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.OutputPin;
 import com.github.catageek.bytecart.io.OutputPinFactory;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.Location;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Vehicle;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Rails;
-import org.bukkit.util.Vector;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.RailDirection;
+import org.spongepowered.api.data.type.RailDirections;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.vehicle.minecart.Minecart;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.IOException;
 
@@ -49,7 +53,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
     /**
      * Constructor : !! vehicle can be null !!
      */
-    BC7001(org.bukkit.block.Block block, Vehicle vehicle) {
+    BC7001(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
@@ -61,7 +65,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
         OutputPin[] lever = new OutputPin[1];
 
         // Right
-        lever[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(getCardinal().getOppositeFace()));
+        lever[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(getCardinal().getOpposite()).createSnapshot());
 
         // OutputRegistry[0] = occupied signal
         this.addOutputRegistry(new PinRegistry<OutputPin>(lever));
@@ -76,9 +80,12 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
             InputPin[] wire = new InputPin[2];
 
             // Right
-            wire[0] = InputPinFactory.getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.clockwise(getCardinal())));
+            wire[0] = InputPinFactory.getInput(
+                    this.getBlock().getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.clockwise(getCardinal())).createSnapshot());
             // left
-            wire[1] = InputPinFactory.getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal())));
+            wire[1] = InputPinFactory.getInput(
+                    this.getBlock().getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal()))
+                            .createSnapshot());
 
             // InputRegistry[0] = start/stop command
             this.addInputRegistry(new PinRegistry<InputPin>(wire));
@@ -95,25 +102,26 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
                 // the lever is on too
                 final BC7001 myBC7001 = this;
 
-                ByteCartRedux.myPlugin.getServer().getScheduler().scheduleSyncDelayedTask(ByteCartRedux.myPlugin, new Runnable() {
+                Sponge.getScheduler().createTaskBuilder()
+                        .delayTicks(6)
+                        .execute(new Runnable() {
                             public void run() {
 
                                 // we set busy
                                 myBC7001.getOutput(0).setAmount(1);
 
                             }
-                        }
-                        , 6);
+                        })
+                        .submit(ByteCartRedux.myPlugin);
 
 
                 // if the cart is stopped, start it
-                if (this.getVehicle().getVelocity().equals(new Vector(0, 0, 0))) {
-                    if (((Minecart) this.getVehicle()).getMaxSpeed() == 0) {
-                        ((Minecart) this.getVehicle()).setMaxSpeed(0.4d);
+                if (this.getVehicle().getVelocity().equals(Vector3d.ZERO)) {
+                    if (((Minecart) this.getVehicle()).getSwiftness() == 0) {
+                        ((Minecart) this.getVehicle()).setSwiftness(0.4d);
                     }
                     this.getVehicle().setVelocity(
-                            (new Vector(this.getCardinal().getModX(), this.getCardinal().getModY(), this.getCardinal().getModZ()))
-                                    .multiply(ByteCartRedux.rootNode.getNode("BC7001", "startvelocity").getDouble()));
+                            (this.getCardinal().toVector3d()).mul(ByteCartRedux.rootNode.getNode("BC7001", "startvelocity").getDouble()));
                 }
             }
 
@@ -124,9 +132,10 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
                 if (!this.wasTrain(getLocation())) {
                     // the lever is off
                     this.getOutput(0).setAmount(0);
-                    this.getVehicle().setVelocity(new Vector(0, 0, 0));
-                    ((Minecart) this.getVehicle()).setMaxSpeed(0d);
-                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().remove(getBlock().getRelative(getCardinal().getOppositeFace(), 2).getLocation());
+                    this.getVehicle().setVelocity(Vector3d.ZERO);
+                    ((Minecart) this.getVehicle()).setSwiftness(0d);
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap()
+                            .remove(getBlock().getLocation().get().add(getCardinal().getOpposite().toVector3d().mul(2)));
                 } else {
                     ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(this.getLocation());
                 }
@@ -151,13 +160,11 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
         Triggerable bc = this;
 
         // We need to find if a cart is stopped and set the member variable Vehicle
-        org.bukkit.block.Block block = this.getBlock().getRelative(BlockFace.UP, 2);
-        Location loc = block.getLocation();
-        MaterialData rail;
+        BlockSnapshot block = this.getBlock().getLocation().get().add(Direction.UP.toVector3d().mul(2)).createSnapshot();
+        Location<World> loc = block.getLocation().get();
 
         // if the rail is in slope, the cart is 1 block up
-        if ((rail = block.getState().getData()) instanceof Rails
-                && ((Rails) rail).isOnSlope()) {
+        if (block.supports(Keys.RAIL_DIRECTION) && ascending(block.getState().get(Keys.RAIL_DIRECTION).get())) {
             loc.add(0, 1, 0);
         }
 
@@ -168,6 +175,22 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
         } else {
             this.trigger();
         }
+    }
+
+    static boolean ascending(RailDirection d) {
+
+        RailDirection[] sloped = {RailDirections.ASCENDING_EAST,
+                RailDirections.ASCENDING_NORTH,
+                RailDirections.ASCENDING_SOUTH,
+                RailDirections.ASCENDING_WEST};
+
+        for (RailDirection direction : sloped) {
+            if (direction.equals(d)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

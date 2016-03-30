@@ -21,8 +21,8 @@ package com.github.catageek.bytecart.event.custom;
 import com.github.catageek.bytecart.hardware.IC;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.util.Direction;
 
 
 /**
@@ -59,7 +59,7 @@ public abstract class BCRoutableSignEvent extends BCEvent {
      *
      * @return A Location containing position of sign
      */
-    public final Block getBlock() {
+    public final BlockSnapshot getBlock() {
         return getSign().getCenter();
     }
 
@@ -83,7 +83,7 @@ public abstract class BCRoutableSignEvent extends BCEvent {
         return getSign().getName();
     }
 
-    public final BlockFace getDirection() {
+    public final Direction getDirection() {
         return getSign().getCardinal();
     }
 }

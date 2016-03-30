@@ -19,10 +19,11 @@
 package com.github.catageek.bytecart.address;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.property.SlotIndex;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 /**
  * Factory to create or get a ticket
@@ -35,7 +36,6 @@ public final class TicketFactory {
      * @param player the player
      * @param forcereuse must be true to force the reuse of existing ticket
      */
-    @SuppressWarnings("deprecation")
     public static final void getOrCreateTicket(Player player, boolean forcereuse) {
         int slot;
         Inventory inv = player.getInventory();
@@ -55,15 +55,14 @@ public final class TicketFactory {
             return;
         }
 
-        if (inv.getItem(slot) == null
-                && ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()) {
+        if (inv.query(new SlotIndex(slot)).isEmpty() && ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()) {
             String msg = "No empty book in your inventory, you must provide one.";
-            player.sendMessage(ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + msg);
+            player.sendMessage(
+                    Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.RED).append(Text.of(msg)).build());
             return;
         }
 
         Ticket.createTicket(inv, slot);
-        player.updateInventory();
     }
 
     /**
@@ -91,15 +90,10 @@ public final class TicketFactory {
      *
      * @param inv
      */
-    @SuppressWarnings("deprecation")
     public static final void removeTickets(Inventory inv) {
         int slot;
         while ((slot = Ticket.getTicketslot(inv)) != -1) {
-            inv.clear(slot);
-        }
-        InventoryHolder holder;
-        if ((holder = inv.getHolder()) instanceof Player) {
-            ((Player) holder).updateInventory();
+            inv.query(new SlotIndex(slot)).clear();
         }
     }
 }

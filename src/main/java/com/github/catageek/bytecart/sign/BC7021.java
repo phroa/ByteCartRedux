@@ -18,13 +18,15 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+
 /**
  * Power the lever on the train head but not on wagons
  */
 final class BC7021 extends BC7020 implements Triggerable {
 
-    BC7021(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    BC7021(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 

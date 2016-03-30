@@ -20,7 +20,6 @@ package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.sign.Subnet;
-import org.bukkit.event.HandlerList;
 
 /**
  * Event triggered when a vehicle is entering a station sign.
@@ -29,8 +28,6 @@ import org.bukkit.event.HandlerList;
  * direction may change.
  */
 public class SignPreStationEvent extends SignPreSubnetEvent {
-
-    private static final HandlerList handlers = new HandlerList();
 
     /**
      * Default constructor
@@ -46,11 +43,4 @@ public class SignPreStationEvent extends SignPreSubnetEvent {
         super(subnet, side);
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
 }

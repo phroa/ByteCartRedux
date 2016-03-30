@@ -19,12 +19,12 @@
 package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.hardware.IC;
-import org.bukkit.event.Event;
+import org.spongepowered.api.event.Event;
 
 /**
  * A container class for all events
  */
-public abstract class BCEvent extends Event {
+public abstract class BCEvent implements Event {
 
     private final IC ic;
 

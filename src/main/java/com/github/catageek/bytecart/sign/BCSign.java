@@ -21,8 +21,8 @@ package com.github.catageek.bytecart.sign;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.hardware.IC;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Vehicle;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 /**
  * A network sign should implement this
@@ -41,7 +41,7 @@ public interface BCSign extends IC {
      *
      * @return the vehicle
      */
-    Vehicle getVehicle();
+    Entity getVehicle();
 
     /**
      * Get the address stored in the IC
@@ -62,5 +62,5 @@ public interface BCSign extends IC {
      *
      * @return the center
      */
-    Block getCenter();
+    BlockSnapshot getCenter();
 }

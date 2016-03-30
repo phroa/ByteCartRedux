@@ -25,8 +25,9 @@ import com.github.catageek.bytecart.updater.DefaultRouterWanderer;
 import com.github.catageek.bytecart.updater.Wanderer;
 import com.github.catageek.bytecart.updater.Wanderer.Scope;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
 
@@ -37,9 +38,9 @@ import java.io.IOException;
 final class BC8020 extends BC8010 implements BCRouter, Triggerable, HasRoutingTable {
 
 
-    BC8020(Block block, org.bukkit.entity.Vehicle vehicle) throws ClassNotFoundException, IOException {
+    BC8020(BlockSnapshot block, Entity vehicle) throws ClassNotFoundException, IOException {
         super(block, vehicle);
-        this.IsTrackNumberProvider = true;
+        this.isTrackNumberProvider = true;
     }
 
     @Override
@@ -48,26 +49,25 @@ final class BC8020 extends BC8010 implements BCRouter, Triggerable, HasRoutingTa
                 || WandererContentFactory.isWanderer(this.getInventory(), Scope.LOCAL);
     }
 
-     */
     @Override
-    protected BlockFace SelectRoute(AddressRouted IPaddress, Address sign, RoutingTableWritable RoutingTable) {
+    protected Direction selectRoute(AddressRouted destination, Address sign, RoutingTableWritable routingTable) {
 
         try {
-            if (IPaddress.getTTL() != 0) {
+            if (destination.getTTL() != 0) {
                 // lookup destination region
-                return RoutingTable.getDirection(IPaddress.getRegion().getValue()).getBlockFace();
+                return routingTable.getDirection(destination.getRegion().getValue()).getBlockFace();
             }
         } catch (NullPointerException e) {
         }
 
         // if TTL reached end of life and is not returnable, then we lookup region 0
         try {
-            return RoutingTable.getDirection(0).getBlockFace();
+            return routingTable.getDirection(0).getBlockFace();
         } catch (NullPointerException e) {
         }
 
         // If everything has failed, then we randomize output direction
-        return DefaultRouterWanderer.getRandomBlockFace(RoutingTable, getCardinal().getOppositeFace());
+        return DefaultRouterWanderer.getRandomBlockFace(routingTable, getCardinal().getOpposite());
 
     }
 

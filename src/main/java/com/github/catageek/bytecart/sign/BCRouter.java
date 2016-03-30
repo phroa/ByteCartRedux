@@ -19,7 +19,7 @@
 package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.routing.RoutingTable;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 
 /**
@@ -43,7 +43,7 @@ public interface BCRouter extends BCSign {
      *
      * @return the direction
      */
-    BlockFace getFrom();
+    Direction getFrom();
 
     RoutingTable getRoutingTable();
 }

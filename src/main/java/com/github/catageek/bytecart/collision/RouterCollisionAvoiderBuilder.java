@@ -19,21 +19,22 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.sign.Triggerable;
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * A builder for router collision avoider
  */
 public class RouterCollisionAvoiderBuilder extends AbstractCollisionAvoiderBuilder implements CollisionAvoiderBuilder {
 
-    public RouterCollisionAvoiderBuilder(Triggerable ic, Location loc) {
+    public RouterCollisionAvoiderBuilder(Triggerable ic, Location<World> loc) {
         super(ic, loc);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends CollisionAvoider> T getCollisionAvoider() {
-        return (T) new StraightRouter(this.ic.getCardinal().getOppositeFace(), this.loc);
+        return (T) new StraightRouter(this.ic.getCardinal().getOpposite(), this.loc);
     }
 
 

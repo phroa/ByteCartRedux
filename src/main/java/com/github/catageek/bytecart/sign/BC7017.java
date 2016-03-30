@@ -18,25 +18,28 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.ReturnAddressFactory;
-import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.entity.HumanInventory;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 /**
  * A block that makes the cart return to its origin using return address
  */
 public final class BC7017 extends AbstractTriggeredSign implements Triggerable {
 
-    public BC7017(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    public BC7017(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
-    public BC7017(org.bukkit.block.Block block, Player player) {
+    public BC7017(BlockSnapshot block, Player player) {
         super(block, null);
         this.setInventory(player.getInventory());
     }
@@ -69,10 +72,11 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggerable {
         boolean isTrain = targetAddress.isTrain();
         targetAddress.setAddress(returnAddressString);
         targetAddress.setTrain(isTrain);
-        if (this.getInventory().getHolder() instanceof Player) {
-            ((Player) this.getInventory().getHolder()).sendMessage(
-                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " ("
-                            + ChatColor.RED + returnAddressString + ")");
+        if (this.getInventory() instanceof HumanInventory) {
+            ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
+                    Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
+                            .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " (")).color(TextColors.RED)
+                            .append(Text.of(returnAddressString)).color(TextColors.YELLOW).append(Text.of(")")).build());
         }
         targetAddress.initializeTTL();
         targetAddress.finalizeAddress();

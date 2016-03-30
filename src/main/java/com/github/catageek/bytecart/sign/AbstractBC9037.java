@@ -24,6 +24,8 @@ import com.github.catageek.bytecart.collision.IntersectionSide;
 import com.github.catageek.bytecart.hardware.RegistryBoth;
 import com.github.catageek.bytecart.hardware.RegistryInput;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 
 /**
@@ -46,7 +48,7 @@ import com.github.catageek.bytecart.updater.WandererContentFactory;
  */
 abstract class AbstractBC9037 extends AbstractSimpleCrossroad implements Triggerable {
 
-    AbstractBC9037(org.bukkit.block.Block block, org.bukkit.entity.Vehicle vehicle) {
+    AbstractBC9037(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 

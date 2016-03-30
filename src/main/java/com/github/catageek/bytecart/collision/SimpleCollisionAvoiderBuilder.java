@@ -19,14 +19,15 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.sign.Triggerable;
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * A builder for simple collision avoider, i.e for a T cross-roads
  */
 public class SimpleCollisionAvoiderBuilder extends AbstractCollisionAvoiderBuilder implements CollisionAvoiderBuilder {
 
-    public SimpleCollisionAvoiderBuilder(Triggerable ic, Location loc) {
+    public SimpleCollisionAvoiderBuilder(Triggerable ic, Location<World> loc) {
         super(ic, loc);
     }
 

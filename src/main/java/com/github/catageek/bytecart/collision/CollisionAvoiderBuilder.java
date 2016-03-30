@@ -19,7 +19,8 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.sign.Triggerable;
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * A builder for a collision manager
@@ -39,7 +40,7 @@ public interface CollisionAvoiderBuilder {
      *
      * @return the location
      */
-    Location getLocation();
+    Location<World> getLocation();
 
     /**
      * Get the IC attached to the collision managers built

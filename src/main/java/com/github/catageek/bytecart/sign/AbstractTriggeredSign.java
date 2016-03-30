@@ -18,17 +18,22 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.TicketFactory;
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.hardware.AbstractIC;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.InventoryHolder;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.vehicle.minecart.Minecart;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.InventoryProperty;
+import org.spongepowered.api.item.inventory.custom.CustomInventory;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * Base class for all signs that are triggered by vehicles that pass over it.
@@ -37,14 +42,14 @@ import org.bukkit.inventory.InventoryHolder;
  */
 abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
 
-    private final org.bukkit.entity.Vehicle Vehicle;
-    private org.bukkit.inventory.Inventory Inventory;
+    private final Entity vehicle;
+    private Inventory inventory;
 
-    AbstractTriggeredSign(org.bukkit.block.Block block, org.bukkit.entity.Vehicle vehicle) {
+    AbstractTriggeredSign(BlockSnapshot block, Entity vehicle) {
         super(block);
-        this.Vehicle = vehicle;
+        this.vehicle = vehicle;
 
-        this.Inventory = this.extractInventory();
+        this.inventory = this.extractInventory();
     }
 
     public static final boolean isTrain(Address address) {
@@ -57,35 +62,36 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
     /**
      * @return The vehicle which triggered the sign.
      */
-    final public org.bukkit.entity.Vehicle getVehicle() {
-        return Vehicle;
+    public final Entity getVehicle() {
+        return vehicle;
     }
 
     /**
      * Extract the address configuration of the current vehicle. If the vehicle has
      * no address configuration, the default address (if configured) is applied.
      *
-     * @return Inventory with address configuration from the current vehicle.
+     * @return inventory with address configuration from the current vehicle.
      */
-    final private org.bukkit.inventory.Inventory extractInventory() {
+    private final Inventory extractInventory() {
 
-        org.bukkit.inventory.Inventory newInv = Bukkit.createInventory(null, 27);
+        Inventory newInv = CustomInventory.builder().size(27).build();
 
 
         // we load inventory of cart or player
-        if (this.Vehicle != null) {
+        if (this.vehicle != null) {
 
-            if (this.getVehicle() instanceof InventoryHolder) {
-                return ((InventoryHolder) this.getVehicle()).getInventory();
+            if (this.getVehicle().getProperty(InventoryProperty.class).isPresent()) {
+                return (Inventory) this.getVehicle().getProperty(InventoryProperty.class).get().getValue();
             } else if (this.getVehicle() instanceof Minecart) {
-                if (!this.getVehicle().isEmpty()) {
-                    if (((Minecart) this.getVehicle()).getPassenger() instanceof Player) {
+                if (!this.getVehicle().getPassenger().isPresent()) {
+                    if (this.getVehicle().getPassenger().get() instanceof Player) {
 
                         if (ByteCartRedux.debug) {
-                            ByteCartRedux.log.info("ByteCartRedux: loading player inventory :" + ((Player) this.getVehicle().getPassenger()).getDisplayName());
+                            ByteCartRedux.log.info("ByteCartRedux: loading player inventory :" + ((Player) this.getVehicle().getPassenger().get())
+                                    .get(Keys.DISPLAY_NAME));
                         }
 
-                        return ((Player) this.getVehicle().getPassenger()).getInventory();
+                        return ((Player) this.getVehicle().getPassenger().get()).getInventory();
                     }
                 }
             }
@@ -111,8 +117,8 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
     /**
      * @return The inventory of the vehicle which triggered this sign.
      */
-    public org.bukkit.inventory.Inventory getInventory() {
-        return Inventory;
+    public Inventory getInventory() {
+        return inventory;
     }
 
     /**
@@ -120,8 +126,8 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
      *
      * @param inv
      */
-    protected void setInventory(org.bukkit.inventory.Inventory inv) {
-        this.Inventory = inv;
+    protected void setInventory(Inventory inv) {
+        this.inventory = inv;
     }
 
     @Override
@@ -145,7 +151,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
      * @param loc the location where to store the bit
      * @param b the bit
      */
-    protected final void setWasTrain(Location loc, boolean b) {
+    protected final void setWasTrain(Location<World> loc, boolean b) {
         if (b) {
             ByteCartRedux.myPlugin.getIsTrainManager().getMap().put(loc, true);
         }

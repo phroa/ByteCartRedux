@@ -22,14 +22,17 @@
 package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.World;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Vehicle;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.vehicle.minecart.ContainerMinecart;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.IOException;
-import java.util.ListIterator;
 
 /**
  * A cart remover
@@ -39,7 +42,7 @@ final class BC7008 extends AbstractTriggeredSign implements Triggerable {
     /**
      * @param block
      */
-    public BC7008(org.bukkit.block.Block block, Vehicle vehicle) {
+    public BC7008(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
@@ -55,27 +58,22 @@ final class BC7008 extends AbstractTriggeredSign implements Triggerable {
 
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
-        org.bukkit.entity.Vehicle vehicle = this.getVehicle();
+        Entity vehicle = this.getVehicle();
 
         // we eject the passenger
         if (vehicle.getPassenger() != null) {
-            vehicle.eject();
+            vehicle.setPassenger(null);
         }
 
         // we drop items
         if (ByteCartRedux.myPlugin.keepItems()) {
-            org.bukkit.inventory.Inventory inventory;
-            if (vehicle instanceof InventoryHolder) {
-                inventory = ((InventoryHolder) vehicle).getInventory();
-                World world = this.getBlock().getWorld();
-                org.bukkit.Location loc = this.getBlock().getRelative(BlockFace.UP, 2).getLocation();
-                ListIterator<ItemStack> it = inventory.iterator();
-                while (it.hasNext()) {
-                    ItemStack stack = it.next();
-                    if (stack != null) {
-                        world.dropItem(loc, stack);
-                    }
-                }
+            Inventory inventory;
+            if (vehicle instanceof ContainerMinecart) {
+                inventory = ((ContainerMinecart) vehicle).getInventory();
+                World world = this.getBlock().getLocation().get().getExtent();
+                Location<World> loc = this.getBlock().getLocation().get().add(Direction.UP.toVector3d().mul(2));
+                inventory.forEach(stack -> world
+                        .spawnEntity(world.createEntity(EntityTypes.ITEM, loc.getPosition()).get(), Cause.builder().owner(vehicle).build()));
             }
         }
 

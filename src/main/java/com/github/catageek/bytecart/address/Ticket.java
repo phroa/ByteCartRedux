@@ -18,21 +18,23 @@
  */
 package com.github.catageek.bytecart.address;
 
-import com.github.catageek.bytecart.address.AddressBook.Parameter;
+import com.flowpowered.math.vector.Vector2i;
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.address.AddressBook.Parameter;
 import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.file.BookProperties;
 import com.github.catageek.bytecart.file.BookProperties.Conf;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.Slot;
+import org.spongepowered.api.item.inventory.entity.HumanInventory;
+import org.spongepowered.api.item.inventory.equipment.EquipmentTypes;
+import org.spongepowered.api.item.inventory.property.SlotPos;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.ListIterator;
 
 /**
@@ -63,21 +65,23 @@ final class Ticket {
      * @return a slot number, or -1
      */
     static int getTicketslot(Inventory inv) {
-        if (inv.contains(Material.WRITTEN_BOOK)) {
+        if (inv.contains(ItemTypes.WRITTEN_BOOK)) {
 
             // priority given to book in hand
-            if (inv.getHolder() instanceof Player) {
-                Player player = (Player) inv.getHolder();
-                if (isTicket(player.getItemInHand())) {
-                    return player.getInventory().getHeldItemSlot();
+            if (inv instanceof HumanInventory) {
+                Player player = ((Player) ((HumanInventory) inv).getCarrier().get());
+                if (isTicket(player.getEquipped(EquipmentTypes.EQUIPPED).get())) {
+                    return ((HumanInventory) player.getInventory()).getHotbar().getSelectedSlotIndex();
                 }
             }
 
-            ListIterator<ItemStack> it = inv.iterator();
+            Iterator<Inventory> it = inv.iterator();
 
             while (it.hasNext()) {
-                if (isTicket(it.next())) {
-                    return it.previousIndex();
+                Inventory next = it.next();
+                if (isTicket(next.peek().orElse(ItemStack.builder().build()))) {
+                    Vector2i value = next.getProperty(SlotPos.class, 0).get().getValue();
+                    return value.getX() + value.getY() * 9;
                 }
             }
         }

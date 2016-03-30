@@ -19,30 +19,34 @@
 package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.collection.ExpirableMap;
 import com.github.catageek.bytecart.hardware.AbstractIC;
 import com.github.catageek.bytecart.hardware.PinRegistry;
 import com.github.catageek.bytecart.hardware.RegistryOutput;
-import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.InputPin;
+import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.OutputPin;
 import com.github.catageek.bytecart.io.OutputPinFactory;
-import com.github.catageek.bytecart.collection.ExpirableMap;
 import com.github.catageek.bytecart.thread.Expirable;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * A cart counter
  */
 final class BC7003 extends AbstractIC implements Triggerable, Powerable {
 
-    final static private ExpirableMap<org.bukkit.Location, Integer> wavecount = new ExpirableMap<org.bukkit.Location, Integer>(400, false, "BC7003");
+    private static final ExpirableMap<Location<World>, Integer> WAVECOUNT = new ExpirableMap<>(400, false, "BC7003");
 
-    BC7003(org.bukkit.block.Block block) {
+    BC7003(BlockSnapshot block) {
         super(block);
     }
 
-    BC7003(org.bukkit.block.Block block, RegistryOutput io) {
+    BC7003(BlockSnapshot block, RegistryOutput io) {
         this(block);
         // forcing output[0] to be the one in parameter
         this.addOutputRegistry(io);
@@ -75,8 +79,9 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
     @Override
     public void power() {
         // check if we are really powered
-        if (!this.getBlock().getRelative(MathUtil.clockwise(getCardinal())).isBlockPowered() && !this.getBlock()
-                .getRelative(MathUtil.anticlockwise(getCardinal())).isBlockPowered()) {
+        if (!this.getBlock().getLocation().get().getRelative(MathUtil.clockwise(getCardinal())).createSnapshot().getState().get(Keys.POWERED)
+                .orElse(false) && !this.getBlock().getLocation().get().getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot().getState()
+                .get(Keys.POWERED).orElse(false)) {
             return;
         }
 
@@ -85,9 +90,11 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
         InputPin[] wire = new InputPin[2];
 
         // Right
-        wire[0] = InputPinFactory.getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.clockwise(getCardinal())));
+        wire[0] = InputPinFactory.getInput(this.getBlock().getLocation().get().getRelative(Direction.UP).createSnapshot().getLocation().get()
+                .getRelative(MathUtil.clockwise(getCardinal())).createSnapshot());
         // left
-        wire[1] = InputPinFactory.getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal())));
+        wire[1] = InputPinFactory.getInput(this.getBlock().getLocation().get().getRelative(Direction.UP).createSnapshot().getLocation().get()
+                .getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot());
 
         // InputRegistry[0] = detector
         this.addInputRegistry(new PinRegistry<InputPin>(wire));
@@ -103,7 +110,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
 
             this.incrementWaveCount();
             (new RemoveCount(400, true, "Removecount")).reset(getLocation(), this.getOutput(0));
-            wavecount.reset(getLocation(), this.getOutput(0));
+            WAVECOUNT.reset(getLocation(), this.getOutput(0));
         }
 
     }
@@ -112,12 +119,12 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
      * increment the counter
      *
      */
-    final private void incrementWaveCount() {
-        synchronized (wavecount) {
-            if (!wavecount.contains(this.getLocation())) {
-                wavecount.put(getLocation(), 1);
+    private final void incrementWaveCount() {
+        synchronized (WAVECOUNT) {
+            if (!WAVECOUNT.contains(this.getLocation())) {
+                WAVECOUNT.put(getLocation(), 1);
             } else {
-                wavecount.put(getLocation(), wavecount.get(getLocation()) + 1);
+                WAVECOUNT.put(getLocation(), WAVECOUNT.get(getLocation()) + 1);
             }
         }
 
@@ -129,12 +136,12 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
      *
      * @return true if the counter is strictly positive
      */
-    final private boolean decrementWaveCount() {
-        synchronized (wavecount) {
-            if (wavecount.contains(getLocation()) && wavecount.get(getLocation()) > 1) {
-                wavecount.put(getLocation(), wavecount.get(getLocation()) - 1);
+    private final boolean decrementWaveCount() {
+        synchronized (WAVECOUNT) {
+            if (WAVECOUNT.contains(getLocation()) && WAVECOUNT.get(getLocation()) > 1) {
+                WAVECOUNT.put(getLocation(), WAVECOUNT.get(getLocation()) - 1);
             } else {
-                wavecount.remove(getLocation());
+                WAVECOUNT.remove(getLocation());
                 return false;
             }
             return true;
@@ -151,7 +158,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
         OutputPin[] lever = new OutputPin[1];
 
         // Right
-        lever[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(getCardinal(), 2));
+        lever[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().add(getCardinal().toVector3d().mul(2)).createSnapshot());
 
         // OutputRegistry = red light signal
         this.addOutputRegistry(new PinRegistry<OutputPin>(lever));
@@ -173,7 +180,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
     }
 
     @Override
-    public boolean wasTrain(org.bukkit.Location loc) {
+    public boolean wasTrain(Location<World> loc) {
         return false;
     }
 
@@ -185,7 +192,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
     /**
      * Runnable to remove the counter after a timeout
      */
-    final private class RemoveCount extends Expirable<org.bukkit.Location> {
+    private final class RemoveCount extends Expirable<Location<World>> {
 
         public RemoveCount(long duration, boolean isSync, String name) {
             super(duration, isSync, name);

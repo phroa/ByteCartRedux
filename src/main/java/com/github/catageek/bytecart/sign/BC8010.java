@@ -18,11 +18,11 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.ReturnAddressFactory;
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.collision.CollisionAvoiderBuilder;
 import com.github.catageek.bytecart.collision.Router;
 import com.github.catageek.bytecart.collision.RouterCollisionAvoiderBuilder;
@@ -31,17 +31,18 @@ import com.github.catageek.bytecart.event.custom.SignPreRouteEvent;
 import com.github.catageek.bytecart.event.custom.UpdaterPassRouterEvent;
 import com.github.catageek.bytecart.routing.RoutingTableFactory;
 import com.github.catageek.bytecart.routing.RoutingTableWritable;
-import com.github.catageek.bytecart.util.DirectionRegistry;
-import com.github.catageek.bytecart.util.MathUtil;
 import com.github.catageek.bytecart.updater.AbstractWanderer;
 import com.github.catageek.bytecart.updater.Wanderer;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
+import com.github.catageek.bytecart.util.DirectionRegistry;
+import com.github.catageek.bytecart.util.MathUtil;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.InventoryProperty;
+import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
 
@@ -51,48 +52,50 @@ import java.io.IOException;
  */
 public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerable, HasRoutingTable {
 
-    private final BlockFace From;
-    private final Address Sign;
-    private final RoutingTableWritable RoutingTable;
-    private final Block center;
-    protected boolean IsTrackNumberProvider;
+    private final Direction from;
+    private final Address sign;
+    private final RoutingTableWritable routingTable;
+    private final BlockSnapshot center;
+    protected boolean isTrackNumberProvider;
     private AddressRouted destination;
 
-    BC8010(Block block, org.bukkit.entity.Vehicle vehicle) throws ClassNotFoundException, IOException {
+    BC8010(BlockSnapshot block, Entity vehicle) throws ClassNotFoundException, IOException {
         super(block, vehicle);
-        this.IsTrackNumberProvider = true;
-        From = this.getCardinal().getOppositeFace();
+        this.isTrackNumberProvider = true;
+        from = this.getCardinal().getOpposite();
         // reading destination address of the cart
         destination = AddressFactory.getAddress(this.getInventory());
         if (destination == null) {
             destination = AddressFactory.getDefaultTicket(this.getInventory());
         }
         // reading address written on BC8010 sign
-        Sign = AddressFactory.getAddress(this.getBlock(), 3);
+        sign = AddressFactory.getAddress(this.getBlock(), 3);
         // Center of the router, at sign level
-        center = this.getBlock().getRelative(this.getCardinal(), 6).getRelative(MathUtil.clockwise(this.getCardinal()));
+        center = this.getBlock().getLocation().get().add(this.getCardinal().toVector3d().mul(6)).getRelative(MathUtil.clockwise(this.getCardinal()))
+                .createSnapshot();
 
         BlockState blockstate;
 
-        if ((blockstate = center.getRelative(BlockFace.UP, 5).getState()) instanceof InventoryHolder) {
+        if ((blockstate = center.getLocation().get().add(Direction.UP.toVector3d().mul(5)).createSnapshot().getState()).getProperty
+                (InventoryProperty.class).isPresent()) {
             // Loading inventory of chest above router
-            Inventory ChestInventory = ((InventoryHolder) blockstate).getInventory();
+            Inventory chestInventory = ((Inventory) blockstate.getProperty(InventoryProperty.class).get().getValue());
 
             // Converting inventory in routing table
-            RoutingTable = RoutingTableFactory.getRoutingTable(ChestInventory);
+            routingTable = RoutingTableFactory.getRoutingTable(chestInventory);
         } else {
-            RoutingTable = null;
+            routingTable = null;
         }
     }
 
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
 
-        CollisionAvoiderBuilder builder = new RouterCollisionAvoiderBuilder(this, center.getLocation());
+        CollisionAvoiderBuilder builder = new RouterCollisionAvoiderBuilder(this, center.getLocation().get());
 
         try {
 
-            BlockFace direction, to;
+            Direction direction, to;
             Router router = ByteCartRedux.myPlugin.getCollisionAvoiderManager().getCollisionAvoider(builder);
             boolean isTrain = AbstractTriggeredSign.isTrain(destination);
 
@@ -107,7 +110,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
                     // leave a message to next cart that it is a train
                     ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getLocation());
                     // tell to router not to change position
-                    ByteCartRedux.myPlugin.getCollisionAvoiderManager().<Router>getCollisionAvoider(builder).Book(isTrain);
+                    ByteCartRedux.myPlugin.getCollisionAvoiderManager().<Router>getCollisionAvoider(builder).book(isTrain);
                     return;
                 }
 
@@ -143,13 +146,13 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
                     destination.finalizeAddress();
                 }
 
-                direction = this.SelectRoute(destination, Sign, RoutingTable);
+                direction = this.selectRoute(destination, sign, routingTable);
 
                 // trigger event
-                BlockFace bdest = router.WishToGo(From, direction, isTrain);
+                Direction bdest = router.wishToGo(from, direction, isTrain);
                 int ring = this.getRoutingTable().getDirectlyConnected(new DirectionRegistry(bdest));
                 SignPostRouteEvent event = new SignPostRouteEvent(this, ring);
-                Bukkit.getServer().getPluginManager().callEvent(event);
+                Sponge.getEventManager().post(event);
 
                 return;
             }
@@ -158,12 +161,12 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
             Wanderer wanderer = getWanderer();
 
             // routing normally
-            to = router.WishToGo(From, wanderer.giveRouterDirection(), isTrain);
+            to = router.wishToGo(from, wanderer.giveRouterDirection(), isTrain);
 
             if (WandererContentFactory.isWanderer(getInventory(), "Updater")) {
                 int nextring = this.getRoutingTable().getDirectlyConnected(new DirectionRegistry(to));
                 UpdaterPassRouterEvent event = new UpdaterPassRouterEvent(wanderer, to, nextring);
-                Bukkit.getServer().getPluginManager().callEvent(event);
+                Sponge.getEventManager().post(event);
             }
 
             // here we perform routes update
@@ -203,33 +206,33 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
     /**
      * Compute the direction to take
      *
-     * @param IPaddress the destination address
+     * @param destination the destination address
      * @param sign the BC sign
-     * @param RoutingTableWritable the routing table contained in the chest
+     * @param routingTable the routing table contained in the chest
      * @return the direction to destination, or to ring 0. If ring 0 does not exist, random direction
      */
-    protected BlockFace SelectRoute(AddressRouted IPaddress, Address sign, RoutingTableWritable RoutingTable) {
+    protected Direction selectRoute(AddressRouted destination, Address sign, RoutingTableWritable routingTable) {
 
         DirectionRegistry face;
         // same region : lookup destination track
-        if (IPaddress != null && IPaddress.getRegion().getValue() == sign.getRegion().getValue() && IPaddress.getTTL() != 0) {
-            int destination = this.destination.getTrack().getValue();
-            DirectionRegistry out = RoutingTable.getDirection(destination);
+        if (destination != null && destination.getRegion().getValue() == sign.getRegion().getValue() && destination.getTTL() != 0) {
+            int value = this.destination.getTrack().getValue();
+            DirectionRegistry out = routingTable.getDirection(value);
             if (out != null) {
                 // trigger event
                 SignPreRouteEvent event = new SignPreRouteEvent(this, this.getRoutingTable().getDirectlyConnected(out));
-                Bukkit.getServer().getPluginManager().callEvent(event);
-                return RoutingTable.getDirection(event.getTargetTrack()).getBlockFace();
+                Sponge.getEventManager().post(event);
+                return routingTable.getDirection(event.getTargetTrack()).getBlockFace();
             }
         }
 
         // If not in same region, or if TTL is 0, or the ring does not exist then we lookup track 0
-        if ((face = RoutingTable.getDirection(0)) != null) {
+        if ((face = routingTable.getDirection(0)) != null) {
             return face.getBlockFace();
         }
 
         // If everything has failed, then we randomize output direction
-        return AbstractWanderer.getRandomBlockFace(RoutingTable, getCardinal().getOppositeFace());
+        return AbstractWanderer.getRandomBlockFace(routingTable, getCardinal().getOpposite());
     }
 
     /**
@@ -269,18 +272,18 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
      * @return the direction
      */
     @Override
-    public final BlockFace getFrom() {
-        return From;
+    public final Direction getFrom() {
+        return from;
     }
 
     @Override
     public final Address getSignAddress() {
-        return Sign;
+        return sign;
     }
 
     @Override
     public final RoutingTableWritable getRoutingTable() {
-        return RoutingTable;
+        return routingTable;
     }
 
     /**
@@ -289,7 +292,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
      * @return true if the IC provides track number
      */
     public final boolean isTrackNumberProvider() {
-        return IsTrackNumberProvider;
+        return isTrackNumberProvider;
     }
 
     @Override
@@ -299,11 +302,11 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
 
     @Override
     public final int getOriginTrack() {
-        return Sign.getTrack().getValue();
+        return sign.getTrack().getValue();
     }
 
     @Override
-    public final Block getCenter() {
+    public final BlockSnapshot getCenter() {
         return center;
     }
 

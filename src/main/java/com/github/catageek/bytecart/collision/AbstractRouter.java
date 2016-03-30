@@ -19,15 +19,17 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.collection.ExpirableMap;
 import com.github.catageek.bytecart.hardware.PinRegistry;
 import com.github.catageek.bytecart.hardware.RegistryOutput;
 import com.github.catageek.bytecart.io.OutputPin;
 import com.github.catageek.bytecart.io.OutputPinFactory;
 import com.github.catageek.bytecart.sign.Triggerable;
-import com.github.catageek.bytecart.collection.ExpirableMap;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.Location;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.Map;
 import java.util.Set;
@@ -35,18 +37,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractRouter extends AbstractCollisionAvoider implements Router {
 
-    private static final ExpirableMap<Location, Boolean> recentlyUsedMap = new ExpirableMap<Location, Boolean>(40, false, "recentlyUsedRouter");
-    private static final ExpirableMap<Location, Boolean> hasTrainMap = new ExpirableMap<Location, Boolean>(14, false, "hasTrainRouter");
-    protected Map<Side, Side> FromTo = new ConcurrentHashMap<Side, Side>();
-    protected Map<Side, Set<Side>> Possibility = new ConcurrentHashMap<Side, Set<Side>>();
-    private BlockFace From;
+    private static final ExpirableMap<Location<World>, Boolean> recentlyUsedMap = new ExpirableMap<>(40, false, "recentlyUsedRouter");
+    private static final ExpirableMap<Location<World>, Boolean> hasTrainMap = new ExpirableMap<>(14, false, "hasTrainRouter");
+    protected Map<Side, Side> fromTo = new ConcurrentHashMap<Side, Side>();
+    protected Map<Side, Set<Side>> possibility = new ConcurrentHashMap<Side, Set<Side>>();
+    private Direction from;
     private int secondpos = 0;
     private int posmask = 255;
 
-    public AbstractRouter(BlockFace from, org.bukkit.Location loc) {
+    public AbstractRouter(Direction from, Location<World> loc) {
         super(loc);
         this.setFrom(from);
-        this.addIO(from, loc.getBlock());
+        this.addIO(from, loc.createSnapshot());
 
     }
 
@@ -57,8 +59,8 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param to the absolute direction
      * @return the relative direction
      */
-    private final static Side getSide(BlockFace from, BlockFace to) {
-        BlockFace t = to;
+    private final static Side getSide(Direction from, Direction to) {
+        Direction t = to;
         if (from == t) {
             return Side.BACK;
         }
@@ -79,7 +81,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param b the initial direction
      * @return the next direction
      */
-    private final static BlockFace turn(BlockFace b) {
+    private final static Direction turn(Direction b) {
         return MathUtil.anticlockwise(b);
     }
 
@@ -101,7 +103,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     @Override
-    public final BlockFace WishToGo(BlockFace from, BlockFace to, boolean isTrain) {
+    public final Direction wishToGo(Direction from, Direction to, boolean isTrain) {
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux : Router : coming from " + from + " going to " + to);
         }
@@ -149,29 +151,29 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
             //activate primary levers
             ca.route(from);
         }
-        ca.Book(isTrain);
+        ca.book(isTrain);
 
         return ca.getTo();
     }
 
     @Override
-    public void route(BlockFace from) {
+    public void route(Direction from) {
         return;
     }
 
     @Override
-    public abstract BlockFace getTo();
+    public abstract Direction getTo();
 
     @Override
-    public final BlockFace getFrom() {
-        return From;
+    public final Direction getFrom() {
+        return from;
     }
 
     /**
      * @param from the from to set
      */
-    private final void setFrom(BlockFace from) {
-        From = from;
+    private final void setFrom(Direction from) {
+        this.from = from;
     }
 
     /**
@@ -217,7 +219,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @return the relative direction
      */
     @SuppressWarnings("unused")
-    private final Side getSide(BlockFace to) {
+    private final Side getSide(Direction to) {
         return getSide(getFrom(), to);
     }
 
@@ -227,20 +229,24 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param from the origin axis
      * @param center the center of the router
      */
-    private final void addIO(BlockFace from, org.bukkit.block.Block center) {
+    private final void addIO(Direction from, BlockSnapshot center) {
 
-        BlockFace f = from;
-        BlockFace g = MathUtil.clockwise(from);
+        Direction f = from;
+        Direction g = MathUtil.clockwise(from);
         // Main output
         OutputPin[] sortie = new OutputPin[4];
         // East
-        sortie[0] = OutputPinFactory.getOutput(center.getRelative(BlockFace.WEST, 3).getRelative(BlockFace.SOUTH));
+        sortie[0] = OutputPinFactory
+                .getOutput(center.getLocation().get().add(Direction.WEST.toVector3d().mul(3)).getRelative(Direction.SOUTH).createSnapshot());
         // North
-        sortie[1] = OutputPinFactory.getOutput(center.getRelative(BlockFace.EAST, 3).getRelative(BlockFace.NORTH));
+        sortie[1] = OutputPinFactory
+                .getOutput(center.getLocation().get().add(Direction.EAST.toVector3d().mul(3)).getRelative(Direction.NORTH).createSnapshot());
         // South
-        sortie[3] = OutputPinFactory.getOutput(center.getRelative(BlockFace.SOUTH, 3).getRelative(BlockFace.EAST));
+        sortie[3] = OutputPinFactory
+                .getOutput(center.getLocation().get().add(Direction.SOUTH.toVector3d().mul(3)).getRelative(Direction.EAST).createSnapshot());
         // West
-        sortie[2] = OutputPinFactory.getOutput(center.getRelative(BlockFace.NORTH, 3).getRelative(BlockFace.WEST));
+        sortie[2] = OutputPinFactory
+                .getOutput(center.getLocation().get().add(Direction.NORTH.toVector3d().mul(3)).getRelative(Direction.WEST).createSnapshot());
 
         checkIOPresence(sortie);
 
@@ -255,8 +261,9 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
 
         for (int i = 0; i < 7; i++) {
             // the first is Back
-            secondary[i++] = OutputPinFactory.getOutput(center.getRelative(f, 4).getRelative(g, 2));
-            secondary[i] = OutputPinFactory.getOutput(center.getRelative(f, 6));
+            secondary[i++] =
+                    OutputPinFactory.getOutput(center.getLocation().get().add(f.toVector3d().mul(4)).add(g.toVector3d().mul(2)).createSnapshot());
+            secondary[i] = OutputPinFactory.getOutput(center.getLocation().get().add(f.toVector3d().mul(6)).createSnapshot());
             f = g;
             g = MathUtil.clockwise(g);
         }
@@ -305,12 +312,12 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     }
 
     @Override
-    protected ExpirableMap<Location, Boolean> getRecentlyUsedMap() {
+    protected ExpirableMap<Location<World>, Boolean> getRecentlyUsedMap() {
         return recentlyUsedMap;
     }
 
     @Override
-    protected ExpirableMap<Location, Boolean> getHasTrainMap() {
+    protected ExpirableMap<Location<World>, Boolean> getHasTrainMap() {
         return hasTrainMap;
     }
 }

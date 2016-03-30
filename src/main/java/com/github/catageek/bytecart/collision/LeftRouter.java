@@ -19,7 +19,9 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -27,21 +29,20 @@ import java.util.Set;
 /**
  * A router where a cart turns left
  */
-public final class LeftRouter extends AbstractRouter implements
-        Router {
+public final class LeftRouter extends AbstractRouter implements Router {
 
-    public LeftRouter(BlockFace from, org.bukkit.Location loc) {
+    public LeftRouter(Direction from, Location<World> loc) {
         super(from, loc);
-        FromTo.put(Side.BACK, Side.LEFT);
+        fromTo.put(Side.BACK, Side.LEFT);
 
         Set<Side> left = EnumSet.of(Side.LEFT, Side.STRAIGHT, Side.RIGHT);
-        Possibility.put(Side.LEFT, left);
+        possibility.put(Side.LEFT, left);
 
         Set<Side> straight = EnumSet.of(Side.STRAIGHT, Side.LEFT, Side.BACK);
-        Possibility.put(Side.STRAIGHT, straight);
+        possibility.put(Side.STRAIGHT, straight);
 
         Set<Side> right = EnumSet.of(Side.LEFT, Side.BACK);
-        Possibility.put(Side.RIGHT, right);
+        possibility.put(Side.RIGHT, right);
 
         setSecondpos(Integer.parseInt("01000000", 2));
         setPosmask(Integer.parseInt("11100000", 2));
@@ -49,7 +50,7 @@ public final class LeftRouter extends AbstractRouter implements
     }
 
     @Override
-    public BlockFace getTo() {
+    public Direction getTo() {
         return MathUtil.clockwise(this.getFrom());
     }
 

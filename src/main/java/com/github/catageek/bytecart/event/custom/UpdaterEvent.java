@@ -21,6 +21,9 @@ package com.github.catageek.bytecart.event.custom;
 import com.github.catageek.bytecart.hardware.IC;
 import com.github.catageek.bytecart.updater.Wanderer;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
+import org.spongepowered.api.event.cause.Cause;
+
+import java.util.UUID;
 
 /**
  * An event concerning an updater.
@@ -76,8 +79,8 @@ abstract public class UpdaterEvent extends BCEvent {
     /**
      * @return the entity id of the vehicle
      */
-    public final int getVehicleId() {
-        return updater.getVehicle().getEntityId();
+    public final UUID getVehicleId() {
+        return updater.getVehicle().getUniqueId();
     }
 
     /**
@@ -85,5 +88,10 @@ abstract public class UpdaterEvent extends BCEvent {
      */
     protected final Wanderer getUpdater() {
         return updater;
+    }
+
+    @Override
+    public Cause getCause() {
+        return Cause.source(this.getUpdater()).build();
     }
 }

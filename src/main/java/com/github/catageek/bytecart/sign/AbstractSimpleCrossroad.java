@@ -34,6 +34,8 @@ import com.github.catageek.bytecart.io.OutputPinFactory;
 import com.github.catageek.bytecart.util.MathUtil;
 import com.github.catageek.bytecart.updater.Wanderer;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 /**
  * An abstract class for T-intersection signs
@@ -44,10 +46,11 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
     private AddressRouted destination;
 
 
-    AbstractSimpleCrossroad(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    AbstractSimpleCrossroad(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
-        builder = new SimpleCollisionAvoiderBuilder((Triggerable) this, block.getRelative(this.getCardinal(), 3).getLocation());
+        builder = new SimpleCollisionAvoiderBuilder(this, block.getLocation().get().add(this.getCardinal().toVector3d().mul(3))
+                .createSnapshot()
+                .getLocation().get());
     }
 
     @Override
@@ -62,9 +65,9 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
         OutputPin[] lever2 = new OutputPin[2];
 
         // Left
-        lever2[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.anticlockwise(this.getCardinal())));
+        lever2[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.anticlockwise(this.getCardinal())).createSnapshot());
         // Right
-        lever2[1] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.clockwise(this.getCardinal())));
+        lever2[1] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.clockwise(this.getCardinal())).createSnapshot());
 
         PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
 
@@ -75,27 +78,27 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
         // Input[0] = destination region taken from Inventory, slot #0
 
 
-        Address IPaddress = getDestinationAddress();
+        Address destinationAddress = getDestinationAddress();
 
-        if (IPaddress == null) {
+        if (destinationAddress == null) {
             return;
         }
 
-        RegistryInput slot2 = IPaddress.getRegion();
+        RegistryInput slot2 = destinationAddress.getRegion();
 
 
         this.addInputRegistry(slot2);
 
         // Input[1] = destination track taken from cart, slot #1
 
-        RegistryInput slot1 = IPaddress.getTrack();
+        RegistryInput slot1 = destinationAddress.getTrack();
 
 
         this.addInputRegistry(slot1);
 
         // Input[2] = destination station taken from cart, slot #2
 
-        RegistryBoth slot0 = IPaddress.getStation();
+        RegistryBoth slot0 = destinationAddress.getStation();
 
         this.addInputRegistry(slot0);
     }
@@ -103,7 +106,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
 
     protected void manageWanderer(SimpleCollisionAvoider intersection) {
         // routing
-        intersection.WishToGo(route(), false);
+        intersection.wishToGo(route(), false);
     }
 
     protected Side route() {
@@ -123,8 +126,8 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
 
                 // if this is a cart in a train
                 if (this.wasTrain(this.getLocation())) {
-                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation());
-                    intersection.Book(isTrain);
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation().get());
+                    intersection.book(isTrain);
                     return;
                 }
 
@@ -134,7 +137,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
                     this.setWasTrain(this.getLocation(), true);
                 }
 
-                intersection.WishToGo(this.route(), isTrain);
+                intersection.wishToGo(this.route(), isTrain);
                 return;
             }
 
@@ -177,7 +180,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
     }
 
     @Override
-    public final org.bukkit.block.Block getCenter() {
+    public final BlockSnapshot getCenter() {
         return this.getBlock();
     }
 

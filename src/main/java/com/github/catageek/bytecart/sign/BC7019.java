@@ -26,6 +26,8 @@ import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressString;
 import com.github.catageek.bytecart.hardware.RegistryBoth;
 import com.github.catageek.bytecart.hardware.RegistryInput;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 import java.util.Random;
 
@@ -34,9 +36,9 @@ import java.util.Random;
  */
 final class BC7019 extends BC7010 implements Triggerable {
 
-    BC7019(org.bukkit.block.Block block, org.bukkit.entity.Vehicle vehicle) {
+    BC7019(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
-        this.StorageCartAllowed = true;
+        this.storageCartAllowed = true;
     }
 
     @Override

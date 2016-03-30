@@ -18,6 +18,9 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+
 /**
  * Match IP ranges and negate the result.
  *
@@ -30,7 +33,7 @@ package com.github.catageek.bytecart.sign;
  */
 final class BC9137 extends AbstractBC9037 {
 
-    BC9137(org.bukkit.block.Block block, org.bukkit.entity.Vehicle vehicle) {
+    BC9137(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 

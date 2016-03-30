@@ -25,10 +25,12 @@ import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.TicketFactory;
 import com.github.catageek.bytecart.io.ComponentSign;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
-import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.InventoryHolder;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.entity.HumanInventory;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 
 /**
@@ -36,18 +38,17 @@ import org.bukkit.inventory.InventoryHolder;
  */
 public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clickable {
 
-    protected boolean PlayerAllowed = true;
-    protected boolean StorageCartAllowed = false;
+    protected boolean playerAllowed = true;
+    protected boolean storageCartAllowed = false;
 
     /**
      * Constructor : !! vehicle can be null !!
      */
-    public BC7010(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    public BC7010(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
-    public BC7010(Block block, Player player) {
+    public BC7010(BlockSnapshot block, Player player) {
         super(block, null);
         this.setInventory(player.getInventory());
     }
@@ -97,8 +98,8 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      * @return the address to write
      */
     protected Address getAddressToWrite() {
-        Address Address = AddressFactory.getAddress(this.getBlock(), 3);
-        return Address;
+        Address address = AddressFactory.getAddress(this.getBlock(), 3);
+        return address;
     }
 
     /**
@@ -123,27 +124,27 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      * Spawn a ticket in inventory and set the destination address
      * The train bit is not set.
      *
-     * @param SignAddress the destination address
+     * @param signAddress the destination address
      * @param name the destination name
      * @return true if success, false otherwise
      */
-    public final boolean setAddress(String SignAddress, String name) {
-        return setAddress(SignAddress, name, false);
+    public final boolean setAddress(String signAddress, String name) {
+        return setAddress(signAddress, name, false);
     }
 
     /**
      * Spawn a ticket in inventory and set the destination address
      *
-     * @param SignAddress the destination address
+     * @param signAddress the destination address
      * @param name the destination name
      * @param train true if it is a train head
      * @return true if success, false otherwise
      */
-    public final boolean setAddress(String SignAddress, String name, boolean train) {
+    public final boolean setAddress(String signAddress, String name, boolean train) {
         Player player = null;
 
-        if (this.getInventory().getHolder() instanceof Player) {
-            player = (Player) this.getInventory().getHolder();
+        if (this.getInventory() instanceof HumanInventory) {
+            player = (Player) ((HumanInventory) this.getInventory()).getCarrier().get();
         }
 
         if (player == null) {
@@ -152,25 +153,25 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
             TicketFactory.getOrCreateTicket(player, forceTicketReuse());
         }
 
-        AddressRouted IPaddress = getTargetAddress();
+        AddressRouted targetAddress = getTargetAddress();
 
-        if (IPaddress == null || !IPaddress.setAddress(SignAddress)) {
+        if (targetAddress == null || !targetAddress.setAddress(signAddress)) {
 
-            if (this.getInventory().getHolder() instanceof Player) {
-                ((Player) this.getInventory().getHolder())
-                        .sendMessage(
-                                ChatColor.GREEN + "[Bytecart] " + ChatColor.RED + ByteCartRedux.rootNode.getNode("Error", "SetAddress").getString());
+            if (this.getInventory() instanceof HumanInventory) {
+                ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
+                        Text.builder().color(TextColors.GREEN).append(Text.of("[Bytecart] ")).color(TextColors.RED)
+                                .append(Text.of(ByteCartRedux.rootNode.getNode("Error", "SetAddress").getString())).build());
             }
             return false;
         }
-        if (this.getInventory().getHolder() instanceof Player) {
-            this.infoPlayer(SignAddress);
+        if (this.getInventory() instanceof HumanInventory) {
+            this.infoPlayer(signAddress);
         }
-        IPaddress.initializeTTL();
+        targetAddress.initializeTTL();
 
-        IPaddress.setTrain(train);
+        targetAddress.setTrain(train);
 
-        IPaddress.finalizeAddress();
+        targetAddress.finalizeAddress();
         return true;
     }
 
@@ -180,11 +181,10 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      * @return true if the requestor is allowed
      */
     protected final boolean isHolderAllowed() {
-        InventoryHolder holder = this.getInventory().getHolder();
-        if (holder instanceof Player) {
-            return PlayerAllowed;
+        if (this.getInventory() instanceof HumanInventory) {
+            return playerAllowed;
         }
-        return StorageCartAllowed;
+        return storageCartAllowed;
     }
 
     /**
@@ -193,12 +193,15 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      * @param signAddress the address got by the player
      */
     protected void infoPlayer(String signAddress) {
-        ((Player) this.getInventory().getHolder()).sendMessage(
-                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " "
-                        + ChatColor.RED + signAddress);
+        ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
+                Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
+                        .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " ")).color(TextColors.RED)
+                        .append(Text.of(signAddress)).build());
         if (this.getVehicle() == null && !ByteCartRedux.rootNode.getNode("usebooks").getBoolean()) {
-            ((Player) this.getInventory().getHolder()).sendMessage(
-                    ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.rootNode.getNode("Info", "SetAddress2").getString());
+            ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
+                    Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
+                            .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetAddress2").getString() + " ")).color(TextColors.RED)
+                            .append(Text.of(signAddress)).build());
         }
     }
 

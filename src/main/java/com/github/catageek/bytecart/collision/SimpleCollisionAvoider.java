@@ -19,18 +19,19 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.collection.ExpirableMap;
 import com.github.catageek.bytecart.hardware.RegistryOutput;
 import com.github.catageek.bytecart.sign.Triggerable;
-import com.github.catageek.bytecart.collection.ExpirableMap;
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * A collision avoider for T cross-roads
  */
 public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements CollisionAvoider {
 
-    private static final ExpirableMap<Location, Boolean> recentlyUsedMap = new ExpirableMap<Location, Boolean>(20, false, "recentlyUsed9000");
-    private static final ExpirableMap<Location, Boolean> hasTrainMap = new ExpirableMap<Location, Boolean>(14, false, "hastrain");
+    private static final ExpirableMap<Location<World>, Boolean> recentlyUsedMap = new ExpirableMap<>(20, false, "recentlyUsed9000");
+    private static final ExpirableMap<Location<World>, Boolean> hasTrainMap = new ExpirableMap<>(14, false, "hastrain");
     private final Location loc1;
     private RegistryOutput Lever1 = null, Lever2 = null, Active = null;
     private IntersectionSide.Side state;
@@ -38,7 +39,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
     private boolean reversed;
 
 
-    public SimpleCollisionAvoider(Triggerable ic, org.bukkit.Location loc) {
+    public SimpleCollisionAvoider(Triggerable ic, Location<World> loc) {
         super(loc);
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux: new IntersectionSide() at " + loc);
@@ -58,12 +59,12 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
      * @param isTrain true if it is a train
      * @return the direction actually taken
      */
-    public IntersectionSide.Side WishToGo(IntersectionSide.Side s, boolean isTrain) {
+    public IntersectionSide.Side wishToGo(IntersectionSide.Side s, boolean isTrain) {
 
-        IntersectionSide.Side trueside = getActiveTrueSide(s);
+        IntersectionSide.Side trueSide = getActiveTrueSide(s);
 
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : WishToGo to side " + trueside + " and isTrain is " + isTrain);
+            ByteCartRedux.log.info("ByteCartRedux : WishToGo to side " + trueSide + " and isTrain is " + isTrain);
         }
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux : state is " + state);
@@ -75,10 +76,10 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
             ByteCartRedux.log.info("ByteCartRedux : Lever1 is " + Lever1.getValue());
         }
 
-        if (trueside != state
+        if (trueSide != state
                 && (Lever2 == null
                 || (!this.getRecentlyUsed()) && !this.getHasTrain())) {
-            Set(trueside);
+            Set(trueSide);
         }
         this.setRecentlyUsed(true);
         return state;
@@ -153,12 +154,12 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
     }
 
     @Override
-    protected ExpirableMap<Location, Boolean> getRecentlyUsedMap() {
+    protected ExpirableMap<Location<World>, Boolean> getRecentlyUsedMap() {
         return recentlyUsedMap;
     }
 
     @Override
-    protected ExpirableMap<Location, Boolean> getHasTrainMap() {
+    protected ExpirableMap<Location<World>, Boolean> getHasTrainMap() {
         return hasTrainMap;
     }
 

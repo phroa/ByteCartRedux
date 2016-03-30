@@ -18,24 +18,28 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.collision.IntersectionSide;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.event.custom.SignPostStationEvent;
 import com.github.catageek.bytecart.event.custom.SignPreStationEvent;
 import com.github.catageek.bytecart.hardware.PinRegistry;
-import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.InputPin;
-import com.github.catageek.bytecart.util.MathUtil;
+import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.updater.Wanderer;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
+import com.github.catageek.bytecart.util.MathUtil;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.entity.HumanInventory;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
 
@@ -46,7 +50,7 @@ import java.io.IOException;
 public final class BC9001 extends AbstractBC9000 implements Station, Powerable, Triggerable {
 
 
-    BC9001(org.bukkit.block.Block block, org.bukkit.entity.Vehicle vehicle) {
+    BC9001(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
         this.netmask = 8;
     }
@@ -65,10 +69,12 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
             // Right
             wire[0] = InputPinFactory
-                    .getInput(this.getBlock().getRelative(BlockFace.UP).getRelative(getCardinal(), 2).getRelative(MathUtil.clockwise(getCardinal())));
+                    .getInput(this.getBlock().getLocation().get().getRelative(Direction.UP).add(getCardinal().toVector3d().mul(2))
+                            .getRelative(MathUtil.clockwise(getCardinal())).createSnapshot());
             // left
-            wire[1] = InputPinFactory.getInput(
-                    this.getBlock().getRelative(BlockFace.UP).getRelative(getCardinal(), 2).getRelative(MathUtil.anticlockwise(getCardinal())));
+            wire[1] = InputPinFactory
+                    .getInput(this.getBlock().getLocation().get().getRelative(Direction.UP).add(getCardinal().toVector3d().mul(2))
+                            .getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot());
 
             // InputRegistry[0] = start/stop command
             this.addInputRegistry(new PinRegistry<InputPin>(wire));
@@ -91,11 +97,11 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
                 this.route();
 
-                if (this.isAddressMatching() && this.getName().equals("BC9001") && this.getInventory().getHolder() instanceof Player) {
-                    ((Player) this.getInventory().getHolder()).sendMessage(
-                            ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.GREEN + ByteCartRedux.rootNode.getNode("Info", "Destination").getString() +
-                                    " "
-                                    + this.getFriendlyName() + " (" + sign + ")");
+                if (this.isAddressMatching() && this.getName().equals("BC9001") && this.getInventory() instanceof HumanInventory) {
+                    ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
+                            Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.GREEN).append(Text
+                                    .of(ByteCartRedux.rootNode.getNode("Info", "Destination").getString() + " " + this.getFriendlyName() + " (" + sign
+                                            + ")")).build());
 
                 }
                 return;
@@ -172,7 +178,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
         } else {
             event = new SignPreStationEvent(this, Side.LEVER_OFF); // unpower levers if not matching
         }
-        Bukkit.getServer().getPluginManager().callEvent(event);
+        Sponge.getEventManager().post(event);
 
         if (event.getSide().equals(Side.LEVER_ON) && this.getInput(6).getValue() == 0) {
             this.getOutput(0).setAmount(3); // power levers if matching
@@ -181,7 +187,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
             this.getOutput(0).setAmount(0); // unpower levers if not matching
             event1 = new SignPostStationEvent(this, Side.LEVER_ON);
         }
-        Bukkit.getServer().getPluginManager().callEvent(event1);
+        Sponge.getEventManager().post(event1);
         return null;
     }
 
@@ -191,6 +197,6 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
     }
 
     public final String getStationName() {
-        return ((Sign) this.getBlock().getState()).getLine(2);
+        return this.getBlock().getState().get(Keys.SIGN_LINES).get().get(2).toPlain();
     }
 }

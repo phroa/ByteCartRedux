@@ -18,12 +18,15 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+
 /**
  * A 32-station subnet bound
  */
 final class BC9032 extends AbstractBC9000 implements Subnet, HasNetmask, Triggerable {
 
-    BC9032(org.bukkit.block.Block block, org.bukkit.entity.Vehicle vehicle) {
+    BC9032(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
         this.netmask = 3;
     }

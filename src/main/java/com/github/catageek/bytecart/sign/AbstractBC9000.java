@@ -30,7 +30,9 @@ import com.github.catageek.bytecart.hardware.RegistryInput;
 import com.github.catageek.bytecart.hardware.SubRegistry;
 import com.github.catageek.bytecart.updater.Wanderer;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
-import org.bukkit.Bukkit;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 import java.io.IOException;
 
@@ -43,8 +45,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
     protected int netmask;
 
 
-    AbstractBC9000(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    AbstractBC9000(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
@@ -62,8 +63,8 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
 
                 // if this is a cart in a train
                 if (this.wasTrain(this.getLocation())) {
-                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation());
-                    intersection.Book(isTrain);
+                    ByteCartRedux.myPlugin.getIsTrainManager().getMap().reset(getBlock().getLocation().get());
+                    intersection.book(isTrain);
                     return;
                 }
 
@@ -73,9 +74,9 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
                     this.setWasTrain(this.getLocation(), true);
                 }
 
-                Side result = intersection.WishToGo(this.route(), isTrain);
+                Side result = intersection.wishToGo(this.route(), isTrain);
                 SignPostSubnetEvent event = new SignPostSubnetEvent(this, result);
-                Bukkit.getServer().getPluginManager().callEvent(event);
+                Sponge.getEventManager().post(event);
                 return;
             }
 
@@ -108,7 +109,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
             wanderer = ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
 
             // routing
-            Side to = intersection.WishToGo(wanderer.giveSimpleDirection(), false);
+            Side to = intersection.wishToGo(wanderer.giveSimpleDirection(), false);
 
             // here we perform routes update
             wanderer.doAction(to);
@@ -134,7 +135,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
             event = new SignPreSubnetEvent(this, Side.LEVER_OFF);
         }
 
-        Bukkit.getServer().getPluginManager().callEvent(event);
+        Sponge.getEventManager().post(event);
         return event.getSide();
     }
 

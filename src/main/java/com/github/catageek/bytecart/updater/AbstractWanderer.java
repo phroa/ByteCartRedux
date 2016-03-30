@@ -27,6 +27,7 @@ import com.github.catageek.bytecart.util.DirectionRegistry;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Vehicle;
+import org.spongepowered.api.util.Direction;
 
 import java.util.Random;
 
@@ -68,7 +69,7 @@ public abstract class AbstractWanderer {
      * @param from the direction from where we are coming
      * @return the direction
      */
-    public static final BlockFace getRandomBlockFace(RoutingTable routingTable, BlockFace from) {
+    public static final Direction getRandomBlockFace(RoutingTable routingTable, Direction from) {
 
         // selecting a random destination avoiding ring 0 or where we come from
         DirectionRegistry direction = new DirectionRegistry(1 << (new Random()).nextInt(4));

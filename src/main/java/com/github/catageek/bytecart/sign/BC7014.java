@@ -18,24 +18,25 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.hardware.RegistryInput;
 import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.util.Direction;
 
 /**
  * A station field setter using a redstone signal strength
  */
 class BC7014 extends BC7010 implements Triggerable {
 
-    BC7014(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    BC7014(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
-        this.StorageCartAllowed = true;
+        this.storageCartAllowed = true;
     }
 
     @Override
@@ -79,7 +80,7 @@ class BC7014 extends BC7010 implements Triggerable {
      */
     protected void addIO() {
         // Input[0] : wire on left
-        org.bukkit.block.Block block = this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal()));
+        BlockSnapshot block = this.getBlock().getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot();
         RegistryInput wire = InputPinFactory.getInput(block);
         this.addInputRegistry(wire);
     }

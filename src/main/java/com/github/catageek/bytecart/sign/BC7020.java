@@ -23,14 +23,15 @@ import com.github.catageek.bytecart.hardware.PinRegistry;
 import com.github.catageek.bytecart.io.OutputPin;
 import com.github.catageek.bytecart.io.OutputPinFactory;
 import com.github.catageek.bytecart.util.MathUtil;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 /**
  * Power the lever on the train including wagons
  */
 class BC7020 extends AbstractTriggeredSign implements Triggerable {
 
-    BC7020(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    BC7020(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
@@ -70,9 +71,9 @@ class BC7020 extends AbstractTriggeredSign implements Triggerable {
         OutputPin[] lever2 = new OutputPin[2];
 
         // Left
-        lever2[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.anticlockwise(this.getCardinal())));
+        lever2[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.anticlockwise(this.getCardinal())).createSnapshot());
         // Right
-        lever2[1] = OutputPinFactory.getOutput(this.getBlock().getRelative(MathUtil.clockwise(this.getCardinal())));
+        lever2[1] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.clockwise(this.getCardinal())).createSnapshot());
 
         PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
 

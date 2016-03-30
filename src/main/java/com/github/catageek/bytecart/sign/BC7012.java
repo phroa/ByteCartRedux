@@ -20,14 +20,15 @@ package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.hardware.RegistryInput;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 /**
  * A region field setter using redstone
  */
 final class BC7012 extends BC7013 implements Triggerable {
 
-    BC7012(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    BC7012(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 

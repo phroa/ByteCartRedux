@@ -18,9 +18,10 @@
  */
 package com.github.catageek.bytecart.collision;
 
-import com.github.catageek.bytecart.hardware.AbstractIC;
 import com.github.catageek.bytecart.collection.ExpirableMap;
-import org.bukkit.Location;
+import com.github.catageek.bytecart.hardware.AbstractIC;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * Abstract class for collision avoiders
@@ -30,8 +31,8 @@ public abstract class AbstractCollisionAvoider extends AbstractIC {
     /**
      * @param loc the location where the collision avoider will be attached
      */
-    public AbstractCollisionAvoider(org.bukkit.Location loc) {
-        super(loc.getBlock());
+    public AbstractCollisionAvoider(Location<World> loc) {
+        super(loc.createSnapshot());
     }
 
     /**
@@ -39,7 +40,7 @@ public abstract class AbstractCollisionAvoider extends AbstractIC {
      *
      * @return the map
      */
-    abstract protected ExpirableMap<Location, Boolean> getRecentlyUsedMap();
+    abstract protected ExpirableMap<Location<World>, Boolean> getRecentlyUsedMap();
 
     /**
      * Get a map of locations that have the train flag
@@ -47,7 +48,7 @@ public abstract class AbstractCollisionAvoider extends AbstractIC {
      *
      * @return the map
      */
-    abstract protected ExpirableMap<Location, Boolean> getHasTrainMap();
+    abstract protected ExpirableMap<Location<World>, Boolean> getHasTrainMap();
 
     /**
      * Tell if this collision avoider has the train flag set
@@ -82,9 +83,9 @@ public abstract class AbstractCollisionAvoider extends AbstractIC {
     }
 
     /**
-     * {@link Router#Book(boolean)}
+     * {@link Router#book(boolean)}
      */
-    public void Book(boolean isTrain) {
+    public void book(boolean isTrain) {
         setRecentlyUsed(true);
         setHasTrain(this.getHasTrain() | isTrain);
     }

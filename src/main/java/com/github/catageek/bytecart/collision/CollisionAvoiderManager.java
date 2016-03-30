@@ -19,7 +19,8 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.collection.ExpirableMap;
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * Manage the persistence of collision avoiders
@@ -29,14 +30,14 @@ public final class CollisionAvoiderManager {
     /**
      * The map where collision avoiders are stored for 4 seconds
      */
-    private final ExpirableMap<Location, CollisionAvoider> manager = new ExpirableMap<Location, CollisionAvoider>(40, false, "CollisionAvoider");
+    private final ExpirableMap<Location<World>, CollisionAvoider> manager = new ExpirableMap<>(40, false, "CollisionAvoider");
 
     /**
      * Get the map
      *
      * @return the map
      */
-    private ExpirableMap<Location, CollisionAvoider> getManager() {
+    private ExpirableMap<Location<World>, CollisionAvoider> getManager() {
         return manager;
     }
 

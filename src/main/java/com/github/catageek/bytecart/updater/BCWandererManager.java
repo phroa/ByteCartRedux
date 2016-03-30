@@ -19,6 +19,7 @@
 package com.github.catageek.bytecart.updater;
 
 import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.item.inventory.Inventory;
 
 import java.io.IOException;
 import java.util.HashMap;

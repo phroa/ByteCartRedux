@@ -18,7 +18,9 @@
  */
 package com.github.catageek.bytecart.collision;
 
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -26,21 +28,20 @@ import java.util.Set;
 /**
  * A router where the cart goes back
  */
-public final class BackRouter extends AbstractRouter implements
-        Router {
+public final class BackRouter extends AbstractRouter implements Router {
 
-    public BackRouter(BlockFace from, org.bukkit.Location loc) {
+    public BackRouter(Direction from, Location<World> loc) {
         super(from, loc);
-        FromTo.put(Side.BACK, Side.BACK);
+        fromTo.put(Side.BACK, Side.BACK);
 
         Set<Side> left = EnumSet.of(Side.BACK, Side.LEFT);
-        Possibility.put(Side.LEFT, left);
+        possibility.put(Side.LEFT, left);
 
         Set<Side> straight = EnumSet.of(Side.RIGHT, Side.LEFT, Side.BACK);
-        Possibility.put(Side.STRAIGHT, straight);
+        possibility.put(Side.STRAIGHT, straight);
 
         Set<Side> right = EnumSet.of(Side.STRAIGHT, Side.BACK, Side.RIGHT);
-        Possibility.put(Side.RIGHT, right);
+        possibility.put(Side.RIGHT, right);
 
         setSecondpos(Integer.parseInt("10000000", 2));
         setPosmask(Integer.parseInt("11000001", 2));
@@ -48,7 +49,7 @@ public final class BackRouter extends AbstractRouter implements
     }
 
     @Override
-    public final BlockFace getTo() {
+    public final Direction getTo() {
         return this.getFrom();
     }
 

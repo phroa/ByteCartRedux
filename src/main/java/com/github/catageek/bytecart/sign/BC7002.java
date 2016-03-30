@@ -23,7 +23,9 @@ import com.github.catageek.bytecart.hardware.AbstractIC;
 import com.github.catageek.bytecart.hardware.PinRegistry;
 import com.github.catageek.bytecart.io.OutputPin;
 import com.github.catageek.bytecart.io.OutputPinFactory;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 
 /**
@@ -31,8 +33,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 final class BC7002 extends AbstractTriggeredSign implements Triggerable {
 
-    BC7002(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    BC7002(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
@@ -41,13 +42,16 @@ final class BC7002 extends AbstractTriggeredSign implements Triggerable {
         OutputPin[] lever = new OutputPin[1];
 
         // Right
-        lever[0] = OutputPinFactory.getOutput(this.getBlock().getRelative(getCardinal()));
+        lever[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(getCardinal()).createSnapshot());
 
         // OutputRegistry[1] = red light signal
         this.addOutputRegistry(new PinRegistry<OutputPin>(lever));
 
         this.getOutput(0).setAmount(1);
-        (new Release(this)).runTaskLater(ByteCartRedux.myPlugin, 4);
+        Sponge.getScheduler().createTaskBuilder()
+                .execute(new Release(this))
+                .delayTicks(4)
+                .submit(ByteCartRedux.myPlugin);
 
     }
 
@@ -61,7 +65,7 @@ final class BC7002 extends AbstractTriggeredSign implements Triggerable {
         return "Cart detector";
     }
 
-    private final class Release extends BukkitRunnable {
+    private final class Release implements Runnable {
 
         private final AbstractIC bc;
 

@@ -19,9 +19,8 @@
 package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.updater.Wanderer;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.util.Direction;
 
 /**
  * Event triggered when an updater pass a router of the same level.
@@ -31,9 +30,8 @@ import org.bukkit.event.HandlerList;
  */
 public class UpdaterPassRouterEvent extends UpdaterEvent {
 
-    private static final HandlerList handlers = new HandlerList();
-    private final int nextring;
-    private final BlockFace to;
+    private final int nextRing;
+    private final Direction to;
     /**
      * Default constructor
      *
@@ -41,18 +39,10 @@ public class UpdaterPassRouterEvent extends UpdaterEvent {
      * @param to The face from where the updater will leave the router
      * @param nextring The ring number of the track attached to the router where it is going
      */
-    public UpdaterPassRouterEvent(Wanderer updater, BlockFace to, int nextring) {
+    public UpdaterPassRouterEvent(Wanderer updater, Direction to, int nextring) {
         super(updater);
         this.to = to;
-        this.nextring = nextring;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
+        this.nextRing = nextring;
     }
 
     /**
@@ -60,28 +50,28 @@ public class UpdaterPassRouterEvent extends UpdaterEvent {
      *
      * @return The face of the updater
      */
-    public final BlockFace getFrom() {
+    public final Direction getFrom() {
         return getUpdater().getFrom().getBlockFace();
     }
 
     /**
      * @return The ring number of the track attached to the router where it is going
      */
-    public int getNextring() {
-        return nextring;
+    public int getNextRing() {
+        return nextRing;
     }
 
     /**
      * @return The face from where the updater will leave the router
      */
-    public BlockFace getTo() {
+    public Direction getTo() {
         return to;
     }
 
     /**
      * @return The center of the router, at sign level
      */
-    public Block getCenter() {
+    public BlockSnapshot getCenter() {
         return getUpdater().getCenter();
     }
 

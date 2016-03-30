@@ -22,18 +22,19 @@ import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.hardware.PinRegistry;
 import com.github.catageek.bytecart.hardware.RegistryInput;
 import com.github.catageek.bytecart.hardware.SuperRegistry;
-import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.io.InputPin;
+import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.util.Direction;
 
 /**
  * A ring field setter using redstone
  */
 class BC7013 extends BC7014 implements Triggerable {
 
-    BC7013(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    BC7013(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
@@ -47,14 +48,14 @@ class BC7013 extends BC7014 implements Triggerable {
     @Override
     protected void addIO() {
         // Input[0] : wire on left
-        org.bukkit.block.Block block = this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.anticlockwise(getCardinal()));
+        BlockSnapshot block = this.getBlock().getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot();
         RegistryInput wire = InputPinFactory.getInput(block);
 
         InputPin[] levers = new InputPin[2];
-        block = this.getBlock().getRelative(BlockFace.UP).getRelative(MathUtil.clockwise(getCardinal()));
+        block = this.getBlock().getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.clockwise(getCardinal())).createSnapshot();
         levers[0] = InputPinFactory.getInput(block);
 
-        block = this.getBlock().getRelative(getCardinal().getOppositeFace());
+        block = this.getBlock().getLocation().get().getRelative(getCardinal().getOpposite()).createSnapshot();
         levers[1] = InputPinFactory.getInput(block);
 
         RegistryInput ret = new SuperRegistry<RegistryInput>(new PinRegistry<InputPin>(levers), wire);

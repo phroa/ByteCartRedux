@@ -21,7 +21,7 @@ package com.github.catageek.bytecart.address;
 import com.github.catageek.bytecart.hardware.RegistryBoth;
 import com.github.catageek.bytecart.io.AbstractComponent;
 import com.github.catageek.bytecart.io.ComponentSign;
-import org.bukkit.block.Block;
+import org.spongepowered.api.block.BlockSnapshot;
 
 
 /**
@@ -40,7 +40,7 @@ final class AddressSign extends AbstractComponent implements Address {
      * @param block the sign block containing the address
      * @param ligne the line number containing the address
      */
-    AddressSign(Block block, int ligne) {
+    AddressSign(BlockSnapshot block, int ligne) {
 
         super(block);
 

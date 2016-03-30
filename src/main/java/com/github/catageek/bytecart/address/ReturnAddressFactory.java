@@ -21,7 +21,7 @@ package com.github.catageek.bytecart.address;
 import com.github.catageek.bytecart.address.AddressBook.Parameter;
 import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.file.BookProperties.Conf;
-import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.item.inventory.Inventory;
 
 /**
  * Factory class to create a return address from various supports

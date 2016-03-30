@@ -25,17 +25,19 @@ import com.github.catageek.bytecart.io.OutputPin;
 import com.github.catageek.bytecart.io.OutputPinFactory;
 import com.github.catageek.bytecart.util.DirectionRegistry;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
 
 final class BC7009 extends AbstractTriggeredSign implements Triggerable {
 
-    private final BlockFace From;
+    private final Direction from;
 
-    BC7009(org.bukkit.block.Block block, org.bukkit.entity.Vehicle vehicle) {
+    BC7009(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
-        From = getCardinal().getOppositeFace();
+        from = getCardinal().getOpposite();
     }
 
     @Override
@@ -52,10 +54,10 @@ final class BC7009 extends AbstractTriggeredSign implements Triggerable {
             int current = Integer.parseInt(line);
             dir = new DirectionRegistry(current);
         } catch (NumberFormatException e) {
-            dir = new DirectionRegistry(From);
+            dir = new DirectionRegistry(from);
         }
-        BlockFace newdir = MathUtil.clockwise(dir.getBlockFace());
-        if (newdir.equals(From)) {
+        Direction newdir = MathUtil.clockwise(dir.getBlockFace());
+        if (newdir.equals(from)) {
             newdir = MathUtil.clockwise(newdir);
         }
         final int amount = new DirectionRegistry(newdir).getAmount();
@@ -82,18 +84,24 @@ final class BC7009 extends AbstractTriggeredSign implements Triggerable {
     private final void addIO() {
 
         // Center of the device, at sign level
-        org.bukkit.block.Block center = this.getBlock().getRelative(this.getCardinal(), 2).getRelative(MathUtil.clockwise(this.getCardinal()));
+        BlockSnapshot center =
+                this.getBlock().getLocation().get().add(this.getCardinal().toVector3d().mul(2)).getRelative(MathUtil.clockwise(this.getCardinal()))
+                        .createSnapshot();
 
         // Main output
         OutputPin[] sortie = new OutputPin[4];
         // East
-        sortie[0] = OutputPinFactory.getOutput(center.getRelative(BlockFace.WEST, 3).getRelative(BlockFace.SOUTH));
+        sortie[0] = OutputPinFactory
+                .getOutput(center.getLocation().get().add(Direction.WEST.toVector3d().mul(3)).getRelative(Direction.SOUTH).createSnapshot());
         // North
-        sortie[1] = OutputPinFactory.getOutput(center.getRelative(BlockFace.EAST, 3).getRelative(BlockFace.NORTH));
+        sortie[1] = OutputPinFactory
+                .getOutput(center.getLocation().get().add(Direction.EAST.toVector3d().mul(3)).getRelative(Direction.NORTH).createSnapshot());
         // South
-        sortie[3] = OutputPinFactory.getOutput(center.getRelative(BlockFace.SOUTH, 3).getRelative(BlockFace.EAST));
+        sortie[3] = OutputPinFactory
+                .getOutput(center.getLocation().get().add(Direction.SOUTH.toVector3d().mul(3)).getRelative(Direction.EAST).createSnapshot());
         // West
-        sortie[2] = OutputPinFactory.getOutput(center.getRelative(BlockFace.NORTH, 3).getRelative(BlockFace.WEST));
+        sortie[2] = OutputPinFactory
+                .getOutput(center.getLocation().get().add(Direction.NORTH.toVector3d().mul(3)).getRelative(Direction.WEST).createSnapshot());
 
         RegistryOutput main = new PinRegistry<OutputPin>(sortie);
 

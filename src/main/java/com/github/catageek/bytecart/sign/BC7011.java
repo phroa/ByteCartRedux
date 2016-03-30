@@ -19,16 +19,18 @@
 package com.github.catageek.bytecart.sign;
 
 
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+
 /**
  * A universal ticket spawner
  */
 public class BC7011 extends BC7010 implements Triggerable {
 
-    public BC7011(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    public BC7011(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
 
-        this.StorageCartAllowed = true;
+        this.storageCartAllowed = true;
     }
 
     @Override

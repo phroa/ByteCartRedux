@@ -18,6 +18,7 @@
  */
 package com.github.catageek.bytecart.io;
 
+import com.github.catageek.bytecart.hardware.RegistryInput;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.item.ItemTypes;
 
@@ -33,13 +34,13 @@ public final class InputPinFactory {
      * @param block block containing the component
      * @return the instance
      */
-    public static InputPin getInput(BlockSnapshot block) {
+    public static <T extends InputPin & RegistryInput> T getInput(BlockSnapshot block) {
 
         if (block.getState().getType().equals(ItemTypes.REDSTONE)) {
-            return new ComponentWire(block);
+            return (T) new ComponentWire(block);
         }
         if (block.getState().getType().equals(ItemTypes.LEVER)) {
-            return new ComponentLever(block);
+            return (T) new ComponentLever(block);
         }
         return null;
 

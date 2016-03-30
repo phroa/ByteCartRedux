@@ -21,7 +21,6 @@ package com.github.catageek.bytecart.event.custom;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.sign.Subnet;
-import org.bukkit.event.HandlerList;
 
 /**
  * Event triggered when a vehicle is using a subnet sign,
@@ -30,9 +29,6 @@ import org.bukkit.event.HandlerList;
  * The direction may be modified by collision avoidance layer.
  */
 public class SignPreSubnetEvent extends SignPostSubnetEvent {
-
-    private static final HandlerList handlers = new HandlerList();
-
 
     /**
      * Default constructor
@@ -46,14 +42,6 @@ public class SignPreSubnetEvent extends SignPostSubnetEvent {
      */
     public SignPreSubnetEvent(Subnet subnet, Side side) {
         super(subnet, side);
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     @Override

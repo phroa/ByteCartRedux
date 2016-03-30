@@ -28,6 +28,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.inventory.Inventory;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.item.inventory.Inventory;
 
 /**
  * Factory to create address using various supports
@@ -81,7 +83,7 @@ public class AddressFactory {
      * @param line the line number
      * @return the address
      */
-    public final static Address getAddress(Block b, int line) {
+    public final static Address getAddress(BlockSnapshot b, int line) {
         return new AddressSign(b, line);
     }
 

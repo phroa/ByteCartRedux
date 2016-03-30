@@ -21,6 +21,8 @@ package com.github.catageek.bytecart.sign;
 import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.collision.SimpleCollisionAvoider;
 import com.github.catageek.bytecart.updater.UpdaterLocal;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
 
 import java.io.IOException;
 
@@ -32,13 +34,11 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggerabl
 
     private final int netmask;
 
-    BC9000(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    BC9000(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
         this.netmask = 0;
     }
 
-     */
     @Override
     protected void manageWanderer(SimpleCollisionAvoider intersection) {
         // it's an updater, so let it choosing direction
@@ -48,7 +48,8 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggerabl
             UpdaterLocal updater;
             try {
                 updater =
-                        (UpdaterLocal) ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
+                        (UpdaterLocal) ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory())
+                                .getWanderer(this, this.getInventory());
 
                 // here we perform routes update
                 updater.leaveSubnet();

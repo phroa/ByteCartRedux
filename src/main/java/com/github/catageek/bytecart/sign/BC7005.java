@@ -21,6 +21,9 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+
 import java.io.IOException;
 
 /**
@@ -32,15 +35,14 @@ final class BC7005 extends AbstractTriggeredSign implements Triggerable {
      * @param block
      * @param vehicle
      */
-    public BC7005(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    public BC7005(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
     @Override
     public void trigger() throws ClassNotFoundException, IOException {
         if (this.getVehicle() != null) {
-            this.getVehicle().eject();
+            this.getVehicle().setPassenger(null);
         }
     }
 

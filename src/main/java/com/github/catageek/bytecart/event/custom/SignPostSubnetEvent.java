@@ -21,7 +21,7 @@ package com.github.catageek.bytecart.event.custom;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.sign.Subnet;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.event.cause.Cause;
 
 /**
  * Event triggered when a vehicle is using a subnet sign,
@@ -31,7 +31,6 @@ import org.bukkit.event.HandlerList;
  */
 public class SignPostSubnetEvent extends BCRoutableSignEvent {
 
-    private static final HandlerList handlers = new HandlerList();
     protected final Subnet subnet;
     protected Side side;
     /**
@@ -48,14 +47,6 @@ public class SignPostSubnetEvent extends BCRoutableSignEvent {
         super(subnet);
         this.subnet = subnet;
         this.side = side;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     @Override
@@ -88,4 +79,8 @@ public class SignPostSubnetEvent extends BCRoutableSignEvent {
         return subnet.getNetmask();
     }
 
+    @Override
+    public Cause getCause() {
+        return Cause.source(getSign()).build();
+    }
 }

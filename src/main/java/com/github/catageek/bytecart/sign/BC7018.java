@@ -19,7 +19,9 @@
 package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.address.TicketFactory;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
 
 import java.io.IOException;
 
@@ -28,12 +30,11 @@ import java.io.IOException;
  */
 class BC7018 extends AbstractTriggeredSign implements Triggerable, Clickable {
 
-    BC7018(org.bukkit.block.Block block, org.bukkit.entity.Vehicle vehicle) {
+    BC7018(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
-        // TODO Auto-generated constructor stub
     }
 
-    BC7018(org.bukkit.block.Block block, Player player) {
+    BC7018(BlockSnapshot block, Player player) {
         super(block, null);
         this.setInventory(player.getInventory());
     }

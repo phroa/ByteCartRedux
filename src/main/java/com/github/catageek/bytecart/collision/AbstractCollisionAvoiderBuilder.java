@@ -19,7 +19,8 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.sign.Triggerable;
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * Abstract class for colllision avoider builders
@@ -36,7 +37,7 @@ public abstract class AbstractCollisionAvoiderBuilder {
      */
     protected final Location loc;
 
-    public AbstractCollisionAvoiderBuilder(Triggerable ic, Location loc) {
+    public AbstractCollisionAvoiderBuilder(Triggerable ic, Location<World> loc) {
         this.ic = ic;
         this.loc = loc;
     }
@@ -46,7 +47,7 @@ public abstract class AbstractCollisionAvoiderBuilder {
      *
      * @return the location
      */
-    public Location getLocation() {
+    public Location<World> getLocation() {
         return this.loc;
     }
 

@@ -18,7 +18,8 @@
  */
 package com.github.catageek.bytecart.collection;
 
-import org.bukkit.Location;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * A map that contain the train bit for each component
@@ -27,15 +28,15 @@ import org.bukkit.Location;
  */
 public final class IsTrainManager {
 
-    private ExpirableMap<Location, Boolean> IsTrain = new ExpirableMap<Location, Boolean>(14, false, "isTrain");
+    private ExpirableMap<Location<World>, Boolean> isTrain = new ExpirableMap<>(14, false, "isTrain");
 
     /**
      * Get the map
      *
      * @return the map
      */
-    public ExpirableMap<Location, Boolean> getMap() {
-        return IsTrain;
+    public ExpirableMap<Location<World>, Boolean> getMap() {
+        return isTrain;
     }
 
 

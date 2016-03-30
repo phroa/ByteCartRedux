@@ -22,6 +22,8 @@ import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.hardware.AbstractIC;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.data.key.Keys;
 
 
 /**
@@ -36,26 +38,26 @@ public class PoweredSignFactory {
      * @param signString the name of the sign as "BCXXXX"
      * @return a Powerable IC, or null
      */
-    static final public Powerable getPoweredIC(Block block, String signString) {
+    static final public Powerable getPoweredIC(BlockSnapshot block, String signString) {
 
         if (signString.length() < 7) {
             return null;
         }
 
-        int ICnumber = Integer.parseInt(signString.substring(3, 7));
+        int icNumber = Integer.parseInt(signString.substring(3, 7));
 
         try {
 
             // then we instantiate accordingly
-            switch (ICnumber) {
+            switch (icNumber) {
 
                 case 7001:
                     return new BC7001(block, null);
                 case 7003:
                     return new BC7003(block);
                 case 7004:
-                    return new BC7004(block, ((Sign) block.getState()).getLine(3),
-                            ((Sign) block.getState()).getLine(2));
+                    return new BC7004(block, block.getState().get(Keys.SIGN_LINES).get().get(3).toPlain(),
+                            block.getState().get(Keys.SIGN_LINES).get().get(2).toPlain());
                 case 9001:
                     return new BC9001(block, null);
 
@@ -79,7 +81,7 @@ public class PoweredSignFactory {
      * @param block the sign clicked
      * @return a Powerable IC, or null
      */
-    public Powerable getIC(Block block) {
+    public Powerable getIC(BlockSnapshot block) {
 
 
         if (AbstractIC.checkEligibility(block)) {
@@ -87,7 +89,7 @@ public class PoweredSignFactory {
             // if there is really a BC sign post
             // we extract its #
 
-            return PoweredSignFactory.getPoweredIC(block, ((Sign) block.getState()).getLine(1));
+            return PoweredSignFactory.getPoweredIC(block, block.getState().get(Keys.SIGN_LINES).get().get(1).toPlain());
 
 
         }

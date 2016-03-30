@@ -18,21 +18,24 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.ReturnAddressFactory;
-import com.github.catageek.bytecart.ByteCartRedux;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.item.inventory.entity.HumanInventory;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 /**
  * A return address setter
  */
 final class BC7015 extends BC7011 implements Triggerable {
 
-    BC7015(org.bukkit.block.Block block,
-            org.bukkit.entity.Vehicle vehicle) {
+    BC7015(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
@@ -67,8 +70,9 @@ final class BC7015 extends BC7011 implements Triggerable {
 
     @Override
     protected void infoPlayer(String address) {
-        ((Player) this.getInventory().getHolder()).sendMessage(
-                ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.YELLOW + ByteCartRedux.rootNode.getNode("Info", "SetReturnAddress").getString() + " "
-                        + ChatColor.RED + address);
+        ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
+                Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
+                        .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetReturnAddress").getString() + " ")).color(TextColors.RED)
+                        .append(Text.of(address)).build());
     }
 }

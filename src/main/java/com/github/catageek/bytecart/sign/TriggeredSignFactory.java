@@ -25,6 +25,10 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Vehicle;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Rails;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
 
@@ -44,22 +48,23 @@ final public class TriggeredSignFactory {
      * @throws IndexOutOfBoundsException
      * @throws IOException
      */
-    static final public Triggerable getTriggeredIC(Block block, Vehicle vehicle) throws ClassNotFoundException, IndexOutOfBoundsException, IOException {
+    static final public Triggerable getTriggeredIC(BlockSnapshot block, Entity vehicle) throws ClassNotFoundException, IndexOutOfBoundsException,
+            IOException {
 
         if (AbstractIC.checkEligibility(block)) {
 
             // if there is really a BC sign post
             // we extract its #
 
-            return TriggeredSignFactory.getTriggeredIC(block, ((Sign) block.getState()).getLine(1), vehicle);
+            return TriggeredSignFactory.getTriggeredIC(block, block.get(Keys.SIGN_LINES).get().get(1).toPlain(), vehicle);
         }
 
         // Maybe the rail is in slope
-        Block block2 = block.getRelative(BlockFace.DOWN);
+        BlockSnapshot block2 = block.getLocation().get().getRelative(Direction.DOWN).createSnapshot();
         if (AbstractIC.checkEligibility(block2)) {
-            MaterialData rail = block.getRelative(BlockFace.UP).getState().getData();
-            if (rail instanceof Rails && ((Rails) rail).isOnSlope()) {
-                return TriggeredSignFactory.getTriggeredIC(block2, ((Sign) block2.getState()).getLine(1), vehicle);
+            BlockSnapshot rail = block.getLocation().get().getRelative(Direction.UP).createSnapshot();
+            if (rail.supports(Keys.RAIL_DIRECTION) && BC7001.ascending(rail.get(Keys.RAIL_DIRECTION).get())) {
+                return TriggeredSignFactory.getTriggeredIC(block2, block2.get(Keys.SIGN_LINES).get().get(1).toPlain(), vehicle);
             }
         }
         // no BC sign post
@@ -79,7 +84,7 @@ final public class TriggeredSignFactory {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    static final public Triggerable getTriggeredIC(Block block, String signString, Vehicle vehicle) throws ClassNotFoundException, IOException {
+    static final public Triggerable getTriggeredIC(BlockSnapshot block, String signString, Entity vehicle) throws ClassNotFoundException, IOException {
 
         if (signString.length() < 7) {
             return null;

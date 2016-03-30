@@ -20,7 +20,9 @@ package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.util.DirectionRegistry;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 /**
  * A router where the cart turns right
@@ -28,13 +30,13 @@ import org.bukkit.block.BlockFace;
 public final class RightRouter extends AbstractRouter implements
         Router {
 
-    public RightRouter(BlockFace from, org.bukkit.Location loc) {
+    public RightRouter(Direction from, Location<World> loc) {
         super(from, loc);
 
-        FromTo.put(Side.BACK, Side.RIGHT);
-        FromTo.put(Side.LEFT, Side.LEFT);
-        FromTo.put(Side.STRAIGHT, Side.STRAIGHT);
-        FromTo.put(Side.RIGHT, Side.BACK);
+        fromTo.put(Side.BACK, Side.RIGHT);
+        fromTo.put(Side.LEFT, Side.LEFT);
+        fromTo.put(Side.STRAIGHT, Side.STRAIGHT);
+        fromTo.put(Side.RIGHT, Side.BACK);
 
         setSecondpos(Integer.parseInt("00101001", 2));
 
@@ -42,14 +44,14 @@ public final class RightRouter extends AbstractRouter implements
     }
 
     @Override
-    public void route(BlockFace from) {
+    public void route(Direction from) {
         // activate main levers
         this.getOutput(0).setAmount((new DirectionRegistry(MathUtil.anticlockwise(from))).getAmount());
 
     }
 
     @Override
-    public BlockFace getTo() {
+    public Direction getTo() {
         return MathUtil.anticlockwise(this.getFrom());
     }
 

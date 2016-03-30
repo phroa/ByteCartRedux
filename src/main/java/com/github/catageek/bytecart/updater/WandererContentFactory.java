@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.spongepowered.api.item.inventory.Inventory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

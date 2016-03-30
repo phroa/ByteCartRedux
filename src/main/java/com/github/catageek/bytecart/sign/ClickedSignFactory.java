@@ -20,11 +20,12 @@ package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.hardware.AbstractIC;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockType;
+import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.util.Direction;
 
 /**
  * This class contains the method to instantiate any IC
@@ -39,7 +40,7 @@ final public class ClickedSignFactory {
      * @param player the player who clicked the sign
      * @return a Clickable IC, or null
      */
-    static final public Clickable getClickedIC(Block block, Player player) {
+    public static final Clickable getClickedIC(BlockSnapshot block, Player player) {
 
 
         if (AbstractIC.checkEligibility(block)) {
@@ -47,7 +48,7 @@ final public class ClickedSignFactory {
             // if there is really a BC sign post
             // we extract its #
 
-            return ClickedSignFactory.getClickedIC(block, ((Sign) block.getState()).getLine(1), player);
+            return ClickedSignFactory.getClickedIC(block, block.getState().get(Keys.SIGN_LINES).get().get(1).toPlain(), player);
 
 
         }
@@ -64,15 +65,15 @@ final public class ClickedSignFactory {
      * @param player the player who clicked the sign
      * @return a Clickable IC, or null
      */
-    static final public Clickable getBackwardClickedIC(Block block, Player player) {
-        Material type = block.getState().getType();
-        if (type.equals(Material.SIGN_POST) || type.equals(Material.WALL_SIGN)) {
-            BlockFace f = ((org.bukkit.material.Sign) block.getState().getData()).getFacing().getOppositeFace();
-            f = MathUtil.straightUp(f);
+    public static final Clickable getBackwardClickedIC(BlockSnapshot block, Player player) {
+        BlockType type = block.getState().getType();
+        if (type.equals(BlockTypes.STANDING_SIGN) || type.equals(BlockTypes.WALL_SIGN)) {
+            Direction d = block.get(Keys.DIRECTION).get().getOpposite();
+            d = MathUtil.straightUp(d);
 
-            final Block relative = block.getRelative(f, 2);
+            final BlockSnapshot relative = block.getLocation().get().add(d.toVector3d().mul(2)).createSnapshot(); //(d, 2);
             if (AbstractIC.checkEligibility(relative)) {
-                return ClickedSignFactory.getClickedIC(relative, ((Sign) relative.getState()).getLine(1), player);
+                return ClickedSignFactory.getClickedIC(relative, block.getState().get(Keys.SIGN_LINES).get().get(1).toPlain(), player);
             }
         }
         return null;
@@ -87,7 +88,7 @@ final public class ClickedSignFactory {
      * @param player the player who clicked the sign
      * @return a Clickable IC, or null
      */
-    static final public Clickable getClickedIC(Block block, String signString, Player player) {
+    public static final Clickable getClickedIC(BlockSnapshot block, String signString, Player player) {
 
         if (signString.length() < 7) {
             return null;

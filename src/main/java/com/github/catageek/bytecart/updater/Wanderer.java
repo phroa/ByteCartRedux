@@ -21,9 +21,9 @@ package com.github.catageek.bytecart.updater;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.hardware.IC;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Vehicle;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.util.Direction;
 
 /**
  * Represents an updater
@@ -42,14 +42,14 @@ public interface Wanderer {
      *
      * @param to the direction where the cart goes
      */
-    void doAction(BlockFace to);
+    void doAction(Direction to);
 
     /**
      * Method that must return the direction to take on a BC8XXX sign
      *
      * @return the direction that the cart should take
      */
-    BlockFace giveRouterDirection();
+    Direction giveRouterDirection();
 
     /**
      * Method that must return the position of the lever
@@ -84,7 +84,7 @@ public interface Wanderer {
      *
      * @return the Vehicle
      */
-    Vehicle getVehicle();
+    Entity getVehicle();
 
     /**
      * Get the region where this updater is attached to
@@ -98,7 +98,7 @@ public interface Wanderer {
      *
      * @return the center block
      */
-    Block getCenter();
+    BlockSnapshot getCenter();
 
     /**
      * Get the name of the sign

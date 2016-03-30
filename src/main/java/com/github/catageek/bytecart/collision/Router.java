@@ -19,7 +19,7 @@
 package com.github.catageek.bytecart.collision;
 
 import com.github.catageek.bytecart.hardware.RegistryOutput;
-import org.bukkit.block.BlockFace;
+import org.spongepowered.api.util.Direction;
 
 /**
  * A router representation in the collision management layer
@@ -34,14 +34,14 @@ public interface Router extends CollisionAvoider {
      * @param isTrain true if it is a train
      * @return the direction actually taken
      */
-    <T extends Router> BlockFace WishToGo(BlockFace from, BlockFace to, boolean isTrain);
+    <T extends Router> Direction wishToGo(Direction from, Direction to, boolean isTrain);
 
     /**
-     * Book the router, i.e mark it as currently in use
+     * book the router, i.e mark it as currently in use
      *
      * @param b true if this is a train
      */
-    void Book(boolean b);
+    void book(boolean b);
 
     int getSecondpos();
 
@@ -80,7 +80,7 @@ public interface Router extends CollisionAvoider {
      *
      * @return the direction
      */
-    BlockFace getFrom();
+    Direction getFrom();
 
     /**
      * Activate levers according to registry
@@ -88,7 +88,7 @@ public interface Router extends CollisionAvoider {
      *
      * @param from the origin direction
      */
-    void route(BlockFace from);
+    void route(Direction from);
 
     /**
      * Get the lever registry
@@ -104,5 +104,5 @@ public interface Router extends CollisionAvoider {
      *
      * @return the direction
      */
-    BlockFace getTo();
+    Direction getTo();
 }
