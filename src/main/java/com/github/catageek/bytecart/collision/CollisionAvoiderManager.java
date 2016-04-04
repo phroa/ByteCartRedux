@@ -72,7 +72,7 @@ public final class CollisionAvoiderManager {
      * @param loc the location
      * @param ca the collision avoider to store
      */
-    public final void setCollisionAvoider(Location loc, CollisionAvoider ca) {
+    public final void setCollisionAvoider(Location<World> loc, CollisionAvoider ca) {
         this.getManager().put(loc, ca);
     }
 

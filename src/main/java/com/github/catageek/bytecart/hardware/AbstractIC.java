@@ -143,7 +143,7 @@ abstract public class AbstractIC implements IC {
     }
 
     @Override
-    public Location getLocation() {
+    public Location<World> getLocation() {
         return block.getLocation().get();
     }
 }

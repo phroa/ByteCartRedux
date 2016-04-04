@@ -133,7 +133,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
     }
 
     @Override
-    public final boolean wasTrain(Location loc) {
+    public final boolean wasTrain(Location<World> loc) {
         boolean ret;
         if (ByteCartRedux.myPlugin.getIsTrainManager().getMap().contains(loc)) {
             ret = ByteCartRedux.myPlugin.getIsTrainManager().getMap().get(loc);

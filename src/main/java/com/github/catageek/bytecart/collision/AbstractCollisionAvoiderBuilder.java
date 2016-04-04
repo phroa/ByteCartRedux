@@ -35,7 +35,7 @@ abstract class AbstractCollisionAvoiderBuilder {
     /**
      * The location to where the collision avoiders will be attached
      */
-    final Location loc;
+    final Location<World> loc;
 
     AbstractCollisionAvoiderBuilder(Triggerable ic, Location<World> loc) {
         this.ic = ic;
