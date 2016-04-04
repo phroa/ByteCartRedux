@@ -29,44 +29,37 @@ import com.github.catageek.bytecart.sign.Powerable;
 import com.github.catageek.bytecart.sign.PoweredSignFactory;
 import com.github.catageek.bytecart.sign.Triggerable;
 import com.github.catageek.bytecart.sign.TriggeredSignFactory;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.vehicle.VehicleCreateEvent;
-import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.data.Transaction;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.vehicle.minecart.Minecart;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.InteractBlockEvent;
+import org.spongepowered.api.event.block.tileentity.ChangeSignEvent;
+import org.spongepowered.api.event.entity.DisplaceEntityEvent;
+import org.spongepowered.api.event.entity.SpawnEntityEvent;
+import org.spongepowered.api.event.filter.cause.Root;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.util.Direction;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
  * The main listener
  */
-public class ByteCartListener implements Listener {
-
-    private PoweredSignFactory MyPoweredICFactory;
-
-
-    public ByteCartListener() {
-        this.MyPoweredICFactory = new PoweredSignFactory();
-    }
+public class ByteCartListener {
 
     /**
      * Remove sign from cache and launch event
@@ -74,8 +67,8 @@ public class ByteCartListener implements Listener {
      * @param block the sign
      * @param entity the entity at origin of the event
      */
-    private static void removeSignIfNeeded(Block block, Entity entity) {
-        if (!(block.getState() instanceof Sign)) {
+    private static void removeSignIfNeeded(BlockSnapshot block, Entity entity) {
+        if (!block.getState().supports(Keys.SIGN_LINES)) {
             return;
         }
 
@@ -88,7 +81,7 @@ public class ByteCartListener implements Listener {
             }
 
             if (myIC != null) {
-                Bukkit.getPluginManager().callEvent(new SignRemoveEvent(myIC, entity));
+                Sponge.getEventManager().post(new SignRemoveEvent(myIC, entity));
                 AbstractIC.removeFromCache(block);
             }
         } catch (ClassNotFoundException e) {
@@ -101,128 +94,143 @@ public class ByteCartListener implements Listener {
 
     }
 
+
     /**
      * Detect if a sign is under the cart moving
      *
      * @param event
      */
-    @EventHandler(ignoreCancelled = true)
-    public void onVehicleMove(VehicleMoveEvent event) {
-
-        Location loc = event.getFrom();
-        Integer from_x = loc.getBlockX();
-        Integer from_z = loc.getBlockZ();
-        loc = event.getTo();
-        int to_x = loc.getBlockX();
-        int to_z = loc.getBlockZ();
+    @Listener
+    public void onVehicleMove(DisplaceEntityEvent.Move event, @Root Minecart vehicle) throws Exception {
+        Location<World> loc = event.getFromTransform().getLocation();
+        Integer fromX = loc.getBlockX();
+        Integer fromZ = loc.getBlockZ();
+        loc = event.getToTransform().getLocation();
+        int toX = loc.getBlockX();
+        int toZ = loc.getBlockZ();
 
 
         // Check if the vehicle crosses a cube boundary
-        if (from_x == to_x && from_z == to_z) {
+        if (fromX == toX && fromZ == toZ) {
             return;    // no boundary crossed, resumed
         }
+        // we instantiate a member of the BCXXXX class
+        // XXXX is read from the sign
 
-        if (event.getVehicle() instanceof Minecart) // we care only of minecart
-        {
-            Minecart vehicle = (Minecart) event.getVehicle();
-
-            // we instantiate a member of the BCXXXX class
-            // XXXX is read from the sign
-
-            Triggerable myIC;
-            try {
-                myIC = TriggeredSignFactory.getTriggeredIC(event.getTo().getBlock().getRelative(BlockFace.DOWN, 2), vehicle);
-                if (myIC != null) {
-                    myIC.trigger();
-                }
-            } catch (ClassNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IndexOutOfBoundsException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+        Triggerable myIC;
+        try {
+            myIC = TriggeredSignFactory
+                    .getTriggeredIC(event.getToTransform().getLocation().add(Direction.DOWN.toVector3d().mul(2)).createSnapshot(), vehicle);
+            if (myIC != null) {
+                myIC.trigger();
             }
-
+        } catch (ClassNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IndexOutOfBoundsException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
         }
 
-
     }
+
 
     /**
      * Detect a sign under the cart created
      *
      * @param event
      */
-    @EventHandler(ignoreCancelled = true)
-    public void onVehicleCreate(VehicleCreateEvent event) {
-        if (event.getVehicle() instanceof Minecart) // we care only of minecart
-        {
+    @Listener
+    public void onVehicleCreate(SpawnEntityEvent event) throws Exception {
+        for (Entity entity : event.getEntities()) {
+            if (entity instanceof Minecart) // we care only of minecart
+            {
 
-            Minecart vehicle = (Minecart) event.getVehicle();
-            // we instantiate a member of the BCXXXX class
-            // XXXX is read from the sign
+                Minecart vehicle = (Minecart) entity;
+                // we instantiate a member of the BCXXXX class
+                // XXXX is read from the sign
 
-            Triggerable myIC;
-            try {
-                myIC = TriggeredSignFactory.getTriggeredIC(vehicle.getLocation().getBlock().getRelative(BlockFace.DOWN, 2), vehicle);
-                if (myIC != null) {
-                    myIC.trigger();
+                Triggerable myIC;
+                try {
+                    myIC = TriggeredSignFactory
+                            .getTriggeredIC(vehicle.getLocation().add(Direction.DOWN.toVector3d().mul(2)).createSnapshot(), vehicle);
+                    if (myIC != null) {
+                        myIC.trigger();
+                    }
+                } catch (ClassNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IndexOutOfBoundsException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
                 }
-            } catch (ClassNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IndexOutOfBoundsException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
             }
         }
     }
+
 
     /**
      * Detect if we create a sign
      *
      * @param event
      */
-    @EventHandler(ignoreCancelled = true)
-    public void onSignChange(SignChangeEvent event) {
-
-        if (!AbstractIC.checkEligibility(event.getLine(1))) {
+    @Listener
+    public void onSignChange(ChangeSignEvent event) throws Exception {
+        List<Text> lines = event.getText().lines().get();
+        if (!AbstractIC.checkEligibility(lines.get(1).toPlain())) {
             return;
         }
 
-        AbstractIC.removeFromCache(event.getBlock());
+        BlockSnapshot block = event.getTargetTile().getBlock().snapshotFor(event.getTargetTile().getLocation());
+        AbstractIC.removeFromCache(block);
 
         try {
-            IC myIC = TriggeredSignFactory.getTriggeredIC(event.getBlock(), event.getLine(1), null);
+            IC myIC = TriggeredSignFactory.getTriggeredIC(block, lines.get(1).toPlain(), null);
 
             if (myIC == null) {
-                myIC = ClickedSignFactory.getClickedIC(event.getBlock(), event.getLine(1), event.getPlayer());
+                myIC = ClickedSignFactory.getClickedIC(block, lines.get(1).toPlain(), event.getCause().first(Player.class).get());
             }
 
             if (myIC == null) {
-                myIC = PoweredSignFactory.getPoweredIC(event.getBlock(), event.getLine(1));
+                myIC = PoweredSignFactory.getPoweredIC(block, lines.get(1).toPlain());
             }
 
             if (myIC != null) {
-                Player player = event.getPlayer();
+                Player player = event.getCause().first(Player.class).get();
                 if (!player.hasPermission(myIC.getBuildPermission())) {
-                    player.sendMessage(
-                            ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + "You are not authorized to place " + myIC.getFriendlyName()
-                                    + " block.");
-                    player.sendMessage(ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + "You must have " + myIC.getBuildPermission());
-                    event.setLine(1, "");
+                    player.sendMessage(Text.builder()
+                            .color(TextColors.DARK_GREEN)
+                            .append(Text.of("[Bytecart] "))
+                            .color(TextColors.RED)
+                            .append(Text.of("You are not authorized to place " + myIC.getFriendlyName() + " block."))
+                            .build());
+                    player.sendMessage(Text.builder()
+                            .color(TextColors.DARK_GREEN)
+                            .append(Text.of("[Bytecart] "))
+                            .color(TextColors.RED)
+                            .append(Text.of("You must have " + myIC.getBuildPermission()))
+                            .build());
+                    event.getText().addElement(1, Text.EMPTY);
                 } else {
-                    player.sendMessage(ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + myIC.getFriendlyName() + " block created.");
-                    if (event.getLine(2).compareTo("") == 0) {
-                        event.setLine(2, myIC.getFriendlyName());
+                    player.sendMessage(Text.builder()
+                            .color(TextColors.DARK_GREEN)
+                            .append(Text.of("[Bytecart] "))
+                            .color(TextColors.RED)
+                            .append(Text.of(myIC.getFriendlyName() + " block created."))
+                            .build());
+                    if (lines.get(2).toPlain().compareTo("") == 0) {
+                        event.getText().addElement(2, Text.of(myIC.getFriendlyName()));
                     }
-                    Bukkit.getPluginManager().callEvent(new SignCreateEvent(myIC, player, event.getLines()));
+                    Sponge.getEventManager().post(new SignCreateEvent(myIC, player, lines.stream()
+                            .map(Text::toPlain)
+                            .collect(Collectors.toList())
+                            .toArray(new String[4])));
                 }
             }
         } catch (Exception e) {
@@ -230,62 +238,44 @@ public class ByteCartListener implements Listener {
         }
     }
 
+
     /**
      * Check if a sign was broken
      *
      * @param event
      */
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onBlockBreak(BlockBreakEvent event) {
-        removeSignIfNeeded(event.getBlock(), event.getPlayer());
-    }
-
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onEntityChangeBlock(EntityChangeBlockEvent event) {
-        removeSignIfNeeded(event.getBlock(), event.getEntity());
-    }
-
-    /**
-     * Check if a sign was destroyed in the explosion
-     *
-     * @param event
-     */
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onEntityExplode(EntityExplodeEvent event) {
-        Entity entity = event.getEntity();
-        Iterator<Block> it = event.blockList().iterator();
-        while (it.hasNext()) {
-            removeSignIfNeeded(it.next(), entity);
+    @Listener(order = Order.POST)
+    public void onBlockBreak(ChangeBlockEvent.Break event) {
+        for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
+            removeSignIfNeeded(transaction.getFinal(), event.getCause().first(Entity.class).orElse(null));
         }
     }
 
-    /**
-     * Check if a block is powered above a sign.
-     *
-     * @param event
-     */
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockPhysics(BlockPhysicsEvent event) {
+    @Listener(order = Order.POST)
+    public void onBlockBreak(ChangeBlockEvent.Modify event) {
+        for (Transaction<BlockSnapshot> transaction : event.getTransactions()) {
+            removeSignIfNeeded(transaction.getFinal(), event.getCause().first(Entity.class).orElse(null));
 
-        if (event.getChangedType() != Material.REDSTONE_WIRE || !AbstractIC.checkEligibility(event.getBlock().getRelative(BlockFace.DOWN))) {
-            return;
-        }
+            if (!transaction.getFinal().getState().getType().equals(BlockTypes.REDSTONE_WIRE) || !AbstractIC
+                    .checkEligibility(transaction.getFinal().getLocation().get().getRelative(Direction.DOWN).createSnapshot())) {
+                return;
+            }
 
-        Powerable myIC = this.MyPoweredICFactory.getIC(event.getBlock().getRelative(BlockFace.DOWN));
+            Powerable myIC = PoweredSignFactory.getIC(transaction.getFinal().getLocation().get().getRelative(Direction.DOWN).createSnapshot());
 
 
-        if (myIC != null) {
-            try {
-                myIC.power();
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            if (myIC != null) {
+                try {
+                    myIC.power();
+                } catch (ClassNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 
     /**
@@ -293,16 +283,13 @@ public class ByteCartListener implements Listener {
      *
      * @param event
      */
-    @EventHandler(ignoreCancelled = true)
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    @Listener
+    public void onPlayerInteract(InteractBlockEvent.Secondary event, @Root Player player) {
 
-        if (event.getAction().compareTo(Action.RIGHT_CLICK_BLOCK) != 0) {
-            return;
-        }
-        Clickable myIC = ClickedSignFactory.getClickedIC(event.getClickedBlock(), event.getPlayer());
+        Clickable myIC = ClickedSignFactory.getClickedIC(event.getTargetBlock(), player);
 
         if (myIC == null) {
-            myIC = ClickedSignFactory.getBackwardClickedIC(event.getClickedBlock(), event.getPlayer());
+            myIC = ClickedSignFactory.getBackwardClickedIC(event.getTargetBlock(), player);
         }
 
         if (myIC != null) {

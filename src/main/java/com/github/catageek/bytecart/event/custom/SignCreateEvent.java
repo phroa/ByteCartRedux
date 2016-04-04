@@ -19,8 +19,8 @@
 package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.hardware.IC;
-import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
 
 
 /**
@@ -28,7 +28,6 @@ import org.bukkit.event.HandlerList;
  */
 public class SignCreateEvent extends BCEvent {
 
-    private static final HandlerList handlers = new HandlerList();
     private final Player player;
     private final String[] strings;
 
@@ -36,17 +35,6 @@ public class SignCreateEvent extends BCEvent {
         super(ic);
         this.player = player;
         this.strings = strings;
-    }
-
-    /**
-     * Needed for Bukkit Event API usage
-     */
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**
@@ -61,5 +49,10 @@ public class SignCreateEvent extends BCEvent {
      */
     public String[] getStrings() {
         return strings;
+    }
+
+    @Override
+    public Cause getCause() {
+        return Cause.source(player).build();
     }
 }

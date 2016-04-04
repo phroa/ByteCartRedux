@@ -64,8 +64,8 @@ public final class ByteCartRedux implements ByteCartPlugin {
     public static ByteCartRedux myPlugin;
     public static boolean debug;
     public int lockDuration;
-    private PreloadChunkListener preloadchunklistener;
-    private ConstantSpeedListener constantspeedlistener;
+    private PreloadChunkListener preloadChunkListener;
+    private ConstantSpeedListener constantSpeedListener;
     private CollisionAvoiderManager cam;
     private BCWandererManager wf;
     private IsTrainManager it;
@@ -93,7 +93,7 @@ public final class ByteCartRedux implements ByteCartPlugin {
         this.setWf(new BCWandererManager());
         this.setIt(new IsTrainManager());
 
-        Sponge.getEventManager().registerListener(this, new ByteCartListener());
+        Sponge.getEventManager().registerListeners(this, new ByteCartListener());
 
         // register updater factory
         if (!this.getWandererManager().isWandererType("Updater")) {
@@ -133,23 +133,23 @@ public final class ByteCartRedux implements ByteCartPlugin {
         }
 
         if (rootNode.getNode("loadchunks").getBoolean()) {
-            if (preloadchunklistener == null) {
-                preloadchunklistener = new PreloadChunkListener();
-                Sponge.getEventManager().registerListener(this, preloadchunklistener);
+            if (preloadChunkListener == null) {
+                preloadChunkListener = new PreloadChunkListener();
+                Sponge.getEventManager().registerListeners(this, preloadChunkListener);
             }
-        } else if (preloadchunklistener != null) {
-            Sponge.getEventManager().unregisterListeners(preloadchunklistener);
-            preloadchunklistener = null;
+        } else if (preloadChunkListener != null) {
+            Sponge.getEventManager().unregisterListeners(preloadChunkListener);
+            preloadChunkListener = null;
         }
 
         if (rootNode.getNode("constantspeedd").getBoolean(false)) {
-            if (constantspeedlistener == null) {
-                constantspeedlistener = new ConstantSpeedListener();
-                Sponge.getEventManager().registerListener(this, constantspeedlistener);
+            if (constantSpeedListener == null) {
+                constantSpeedListener = new ConstantSpeedListener();
+                Sponge.getEventManager().registerListeners(this, constantSpeedListener);
             }
-        } else if (constantspeedlistener != null) {
-            Sponge.getEventManager().unregisterListeners(constantspeedlistener);
-            constantspeedlistener = null;
+        } else if (constantSpeedListener != null) {
+            Sponge.getEventManager().unregisterListeners(constantSpeedListener);
+            constantSpeedListener = null;
         }
     }
 

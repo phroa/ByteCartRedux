@@ -20,8 +20,6 @@ package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.hardware.AbstractIC;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.data.key.Keys;
 
@@ -81,7 +79,7 @@ public class PoweredSignFactory {
      * @param block the sign clicked
      * @return a Powerable IC, or null
      */
-    public Powerable getIC(BlockSnapshot block) {
+    public static Powerable getIC(BlockSnapshot block) {
 
 
         if (AbstractIC.checkEligibility(block)) {

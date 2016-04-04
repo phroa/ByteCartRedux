@@ -18,37 +18,38 @@
  */
 package com.github.catageek.bytecart.event;
 
+import com.flowpowered.math.vector.Vector3d;
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Minecart;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.vehicle.VehicleMoveEvent;
-import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.util.Vector;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.vehicle.minecart.Minecart;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.entity.DisplaceEntityEvent;
+import org.spongepowered.api.event.filter.cause.Root;
+import org.spongepowered.api.event.world.chunk.UnloadChunkEvent;
+import org.spongepowered.api.world.Chunk;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.extent.Extent;
+
+import java.util.Optional;
 
 /**
  * Listener to load chunks around moving carts
  */
-public final class PreloadChunkListener implements Listener {
+public final class PreloadChunkListener {
 
-    private final Vector NullVector = new Vector(0, 0, 0);
+    @Listener
+    public void onVehicleMove(DisplaceEntityEvent.Move event, @Root Minecart vehicle) {
 
-    @EventHandler(ignoreCancelled = true)
-    public void onVehicleMove(VehicleMoveEvent event) {
+        Location<World> loc = event.getToTransform().getLocation();
+        int toX = loc.getBlockX() >> 4;
+        int toZ = loc.getBlockZ() >> 4;
 
-        Location loc = event.getTo();
-        int to_x = loc.getBlockX() >> 4;
-        int to_z = loc.getBlockZ() >> 4;
-
-        if (event.getVehicle() instanceof Minecart) // we care only of minecart
-        {
-            // preload chunks
-            MathUtil.loadChunkAround(loc.getWorld(), to_x, to_z, 2);
-        }
+        // preload chunks
+        MathUtil.loadChunkAround(loc.getExtent(), toX, toZ, 2);
     }
 
     /**
@@ -56,27 +57,27 @@ public final class PreloadChunkListener implements Listener {
      *
      * @param event
      */
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onChunkUnload(ChunkUnloadEvent event) {
+    @Listener(order = Order.LAST)
+    public void onChunkUnload(UnloadChunkEvent event) {
 
 
-        int n, j, i = event.getChunk().getX() - 2, k = i + 4, l = event.getChunk().getZ() + 2;
-        World world = event.getWorld();
+        int n, j, i = event.getTargetChunk().getPosition().getX() - 2, k = i + 4, l = event.getTargetChunk().getPosition().getZ() + 2;
+        World world = event.getTargetChunk().getWorld();
 
         Entity[] entities;
 
         for (; i <= k; ++i) {
             for (j = l - 4; j <= l; ++j) {
 
-                if (world.isChunkLoaded(i, j)) {
-                    entities = world.getChunkAt(i, j).getEntities();
-
+                Optional<Chunk> chunk = world.getChunk(i, event.getTargetChunk().getPosition().getY(), j);
+                if (chunk.map(Extent::isLoaded).orElse(false)) {
+                    entities = chunk.get().getEntities().toArray(new Entity[0]);
 
                     for (n = entities.length - 1; n >= 0; --n) {
-                        if (entities[n] instanceof Minecart && !((Minecart) entities[n]).getVelocity().equals(NullVector)) {
+                        if (entities[n] instanceof Minecart && !((Minecart) entities[n]).getVelocity().equals(Vector3d.ZERO)) {
 
-                            event.setCancelled(true);
-
+                            Sponge.getServer().getChunkTicketManager().createTicket(ByteCartRedux.myPlugin, world).get()
+                                    .forceChunk(chunk.get().getPosition());
                             return;
                         }
                     }

@@ -19,31 +19,19 @@
 package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.hardware.IC;
-import org.bukkit.entity.Entity;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.event.cause.Cause;
 
 /**
  * Event triggered when a sign is physically removed from the world
  */
 public final class SignRemoveEvent extends BCEvent {
 
-    private static final HandlerList handlers = new HandlerList();
     private final Entity entity;
 
     public SignRemoveEvent(IC ic, Entity entity) {
         super(ic);
         this.entity = entity;
-    }
-
-    /**
-     * Needed for Bukkit Event API usage
-     */
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**
@@ -53,4 +41,8 @@ public final class SignRemoveEvent extends BCEvent {
         return entity;
     }
 
+    @Override
+    public Cause getCause() {
+        return Cause.source(entity).build();
+    }
 }

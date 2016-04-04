@@ -19,74 +19,70 @@
 package com.github.catageek.bytecart.event;
 
 import com.github.catageek.bytecart.util.MathUtil;
-import org.bukkit.Location;
-import org.bukkit.entity.Minecart;
-import org.bukkit.entity.Vehicle;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
-import org.bukkit.event.vehicle.VehicleDestroyEvent;
-import org.bukkit.event.vehicle.VehicleEntityCollisionEvent;
-import org.bukkit.event.vehicle.VehicleMoveEvent;
-import org.bukkit.material.MaterialData;
+import org.spongepowered.api.block.BlockState;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.vehicle.minecart.Minecart;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.block.CollideBlockEvent;
+import org.spongepowered.api.event.entity.CollideEntityEvent;
+import org.spongepowered.api.event.entity.DestructEntityEvent;
+import org.spongepowered.api.event.entity.DisplaceEntityEvent;
+import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.event.filter.cause.Root;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Listener to maintain cart speed
  */
-public final class ConstantSpeedListener implements Listener {
+public final class ConstantSpeedListener {
 
     // We keep the speed of each cart in this map
-    private final Map<Integer, Double> speedmap = new HashMap<Integer, Double>();
+    private final Map<UUID, Double> speedMap = new HashMap<>();
 
     // empty Location
-    private Location location = new Location(null, 0, 0, 0);
+    private Location<World> location;
 
-    @EventHandler(ignoreCancelled = true)
-    public void onVehicleMove(VehicleMoveEvent event) {
-        Vehicle v = event.getVehicle();
-
-        if (!(v instanceof Minecart)) {
-            return;
-        }
-
-        Minecart m = (Minecart) v;
+    @Listener
+    public void onVehicleMove(DisplaceEntityEvent.Move event, @Root Minecart m) {
         double speed = MathUtil.getSpeed(m);
-        int id = m.getEntityId();
+        UUID id = m.getUniqueId();
 
-        MaterialData data = m.getLocation(location).getBlock().getState().getData();
+        BlockState block = (location = m.getLocation()).getBlock();
 
-        if (speed != 0 && (data instanceof org.bukkit.material.Rails)) {
-            Double storedspeed;
-            if (!speedmap.containsKey(id)) {
-                speedmap.put(id, speed);
-            } else if ((storedspeed = speedmap.get(id)) > speed
-                    && storedspeed <= m.getMaxSpeed()) {
-                MathUtil.setSpeed(m, storedspeed);
+        if (speed != 0 && block.supports(Keys.RAIL_DIRECTION)) {
+            Double storedSpeed;
+            if (!speedMap.containsKey(id)) {
+                speedMap.put(id, speed);
+            } else if ((storedSpeed = speedMap.get(id)) > speed
+                    && storedSpeed <= m.getPotentialMaxSpeed()) {
+                MathUtil.setSpeed(m, storedSpeed);
             } else {
-                speedmap.put(id, speed);
+                speedMap.put(id, speed);
             }
         } else {
-            speedmap.remove(id);
+            speedMap.remove(id);
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onVehicleDestroy(VehicleDestroyEvent event) {
-        speedmap.remove(event.getVehicle().getEntityId());
+    @Listener(order = Order.POST)
+    public void onVehicleDestroy(DestructEntityEvent event, @Root Minecart minecart) {
+        speedMap.remove(minecart.getUniqueId());
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onVehicleEntityCollision(VehicleEntityCollisionEvent event) {
-        speedmap.remove(event.getVehicle().getEntityId());
+    @Listener(order = Order.POST)
+    public void onVehicleEntityCollision(CollideEntityEvent event, @First Minecart minecart) {
+        speedMap.remove(minecart.getUniqueId());
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void onVehicleBlockCollision(VehicleBlockCollisionEvent event) {
-        speedmap.remove(event.getVehicle().getEntityId());
+    @Listener(order = Order.POST)
+    public void onVehicleBlockCollision(CollideBlockEvent event, @First Minecart minecart) {
+        speedMap.remove(minecart.getUniqueId());
     }
 
 
