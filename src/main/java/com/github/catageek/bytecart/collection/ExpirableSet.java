@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public final class ExpirableSet<K> extends Expirable<K> {
 
-    private final Set<K> Set = Collections.synchronizedSet(new HashSet<K>());
+    private final Set<K> Set = Collections.synchronizedSet(new HashSet<>());
 
     public ExpirableSet(long duration, boolean isSync, String name) {
         super(duration, isSync, name);
@@ -99,10 +99,7 @@ public final class ExpirableSet<K> extends Expirable<K> {
      * Empty the set
      */
     public void clear() {
-        Iterator<K> it = Set.iterator();
-        while (it.hasNext()) {
-            this.cancel(it.next());
-        }
+        Set.forEach(this::cancel);
         Set.clear();
     }
 

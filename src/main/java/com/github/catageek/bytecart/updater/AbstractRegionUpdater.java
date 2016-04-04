@@ -28,14 +28,13 @@ import com.github.catageek.bytecart.util.DirectionRegistry;
 import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Set;
 
 abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
 
     private final boolean isTrackNumberProvider;
-    protected UpdaterContent routes;
-    private BCCounter counter;
+    private final UpdaterContent routes;
+    private final BCCounter counter;
 
     AbstractRegionUpdater(BCSign bc, UpdaterContent rte) {
         super(bc, rte.getRegion());
@@ -61,7 +60,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
      *
      * @param to the direction where we are going to
      */
-    protected final void routeUpdates(Direction to) {
+    final void routeUpdates(Direction to) {
         if (isRouteConsumer()) {
             Set<Integer> connected = getRoutingTable().getDirectlyConnectedList(getFrom());
             int current = getCurrent();
@@ -72,9 +71,8 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
             // or others track are wrongly recorded, we correct this
             if (current >= 0 && (!connected.contains(current) || connected.size() != 1)) {
 
-                Iterator<Integer> it = connected.iterator();
-                while (it.hasNext()) {
-                    getRoutingTable().removeEntry(it.next(), getFrom());
+                for (int c : connected) {
+                    getRoutingTable().removeEntry(c, getFrom());
                 }
 
                 // Storing the route from where we arrive
@@ -128,9 +126,6 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
 
         try {
             UpdaterContentFactory.saveContent(routes);
-        } catch (ClassNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -151,15 +146,15 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
         return getRoutes().getLevel();
     }
 
-    protected final UpdaterContent getRoutes() {
+    final UpdaterContent getRoutes() {
         return routes;
     }
 
-    protected final BCCounter getCounter() {
+    final BCCounter getCounter() {
         return counter;
     }
 
-    protected final int getCurrent() {
+    final int getCurrent() {
         if (getRoutes() != null)
         // current: track number we are on
         {
@@ -168,7 +163,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
         return -1;
     }
 
-    protected final void setCurrent(int current) {
+    final void setCurrent(int current) {
         if (getRoutes() != null) {
             getRoutes().setCurrent(current);
         }
@@ -177,14 +172,14 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
     /**
      * @return true if the IC can receive routes
      */
-    protected final boolean isRouteConsumer() {
+    private boolean isRouteConsumer() {
         return getRoutes().getLevel().equals(this.getSignLevel());
     }
 
     /**
      * Clear the routing table, keeping ring 0
      */
-    protected void reset() {
+    void reset() {
         boolean fullreset = this.getRoutes().isFullReset();
         if (fullreset) {
             this.getSignAddress().remove();
@@ -204,7 +199,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
      *
      * @return true if this updater must provide track numbers
      */
-    protected final boolean isTrackNumberProvider() {
+    final boolean isTrackNumberProvider() {
         return isTrackNumberProvider;
     }
 }

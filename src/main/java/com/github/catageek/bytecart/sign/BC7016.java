@@ -71,7 +71,7 @@ final class BC7016 extends AbstractTriggeredSign implements Triggerable {
         // Right
         lever2[1] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.clockwise(this.getCardinal())).createSnapshot());
 
-        PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
+        PinRegistry<OutputPin> command1 = new PinRegistry<>(lever2);
 
         this.addOutputRegistry(command1);
     }

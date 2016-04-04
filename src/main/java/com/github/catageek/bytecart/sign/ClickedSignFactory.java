@@ -40,7 +40,7 @@ final public class ClickedSignFactory {
      * @param player the player who clicked the sign
      * @return a Clickable IC, or null
      */
-    public static final Clickable getClickedIC(BlockSnapshot block, Player player) {
+    public static Clickable getClickedIC(BlockSnapshot block, Player player) {
 
 
         if (AbstractIC.checkEligibility(block)) {
@@ -65,7 +65,7 @@ final public class ClickedSignFactory {
      * @param player the player who clicked the sign
      * @return a Clickable IC, or null
      */
-    public static final Clickable getBackwardClickedIC(BlockSnapshot block, Player player) {
+    public static Clickable getBackwardClickedIC(BlockSnapshot block, Player player) {
         BlockType type = block.getState().getType();
         if (type.equals(BlockTypes.STANDING_SIGN) || type.equals(BlockTypes.WALL_SIGN)) {
             Direction d = block.get(Keys.DIRECTION).get().getOpposite();
@@ -88,7 +88,7 @@ final public class ClickedSignFactory {
      * @param player the player who clicked the sign
      * @return a Clickable IC, or null
      */
-    public static final Clickable getClickedIC(BlockSnapshot block, String signString, Player player) {
+    public static Clickable getClickedIC(BlockSnapshot block, String signString, Player player) {
 
         if (signString.length() < 7) {
             return null;

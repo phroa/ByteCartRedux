@@ -31,7 +31,6 @@ public final class UpdaterRemoveEvent implements Event {
      * Default constructor
      *
      * @param vehicleId the vehicle id
-     * @param location the location
      */
     public UpdaterRemoveEvent(UUID vehicleId) {
         this.vehicleId = vehicleId;

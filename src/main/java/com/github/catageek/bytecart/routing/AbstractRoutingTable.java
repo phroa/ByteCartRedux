@@ -31,7 +31,7 @@ import java.util.Set;
 /**
  * An abstract class for routing tables 
  */
-public abstract class AbstractRoutingTable {
+abstract class AbstractRoutingTable {
 
 
     /**
@@ -66,10 +66,9 @@ public abstract class AbstractRoutingTable {
         }
         // search for routes that are no more announced and not directly connected
         // to remove them
-        Iterator<Integer> it = this.getNotDirectlyConnectedList(from).iterator();
-        while (it.hasNext()) {
+        for (int i : this.getNotDirectlyConnectedList(from)) {
             Integer route;
-            if (!neighbour.hasRouteTo(route = it.next())) {
+            if (!neighbour.hasRouteTo(route = i)) {
                 this.removeEntry(route, from);
                 if (ByteCartRedux.debug) {
                     ByteCartRedux.log.info("ByteCartRedux : Remove : ring = " + route + " from " + from.ToString());
@@ -87,10 +86,7 @@ public abstract class AbstractRoutingTable {
      * @return true if the track is directly connected at this direction
      */
     public final boolean isDirectlyConnected(int ring, DirectionRegistry direction) {
-        if (this.getDirection(ring) != null) {
-            return this.getMetric(ring, direction) == 0;
-        }
-        return false;
+        return this.getDirection(ring) != null && this.getMetric(ring, direction) == 0;
     }
 
 
@@ -124,7 +120,7 @@ public abstract class AbstractRoutingTable {
      * @param direction the direction
      * @return a list of track numbers
      */
-    abstract public Set<Integer> getDirectlyConnectedList(DirectionRegistry direction);
+    protected abstract Set<Integer> getDirectlyConnectedList(DirectionRegistry direction);
 
     /**
      * Get the metric associated with this entry and this direction
@@ -133,7 +129,7 @@ public abstract class AbstractRoutingTable {
      * @param direction the direction
      * @return the metric
      */
-    abstract public int getMetric(int entry, DirectionRegistry direction);
+    protected abstract int getMetric(int entry, DirectionRegistry direction);
 
     /**
      * Get the minimum metric for a specific entry
@@ -141,7 +137,7 @@ public abstract class AbstractRoutingTable {
      * @param entry the track number
      * @return the minimum metric recorded, or -1
      */
-    abstract public int getMinMetric(int entry);
+    protected abstract int getMinMetric(int entry);
 
     /**
      * Store a line in the routing table
@@ -150,7 +146,7 @@ public abstract class AbstractRoutingTable {
      * @param direction the direction to associate
      * @param metric the metric to associate
      */
-    abstract public void setEntry(int entry, DirectionRegistry direction, Metric metric);
+    protected abstract void setEntry(int entry, DirectionRegistry direction, Metric metric);
 
     /**
      * Tells if there is no record for an entry
@@ -181,7 +177,7 @@ public abstract class AbstractRoutingTable {
      * @param entry the track number
      * @param from the direction to remove
      */
-    abstract public void removeEntry(int entry, DirectionRegistry from);
+    protected abstract void removeEntry(int entry, DirectionRegistry from);
 
     /**
      * Return the best direction matching the entry
@@ -189,5 +185,5 @@ public abstract class AbstractRoutingTable {
      * @param entry the track number
      * @return the direction
      */
-    abstract public DirectionRegistry getDirection(int entry);
+    protected abstract DirectionRegistry getDirection(int entry);
 }

@@ -33,13 +33,12 @@ import org.spongepowered.api.util.Direction;
  */
 public class DefaultRouterWanderer extends AbstractUpdater {
 
-    public DefaultRouterWanderer(BCSign bc, int region) {
+    DefaultRouterWanderer(BCSign bc, int region) {
         super(bc, region);
     }
 
     @Override
     public void doAction(Side to) {
-        return;
     }
 
     @Override

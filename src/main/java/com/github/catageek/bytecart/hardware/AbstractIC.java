@@ -43,12 +43,12 @@ abstract public class AbstractIC implements IC {
     private static final Map<Location<World>, Boolean> IC_CACHE = new WeakHashMap<>();
     private static Location<World> location;
     private final BlockSnapshot block;
-    private RegistryInput[] input = new RegistryInput[9];
+    private final RegistryInput[] input = new RegistryInput[9];
     private int inputArgs = 0;
-    private RegistryOutput[] output = new RegistryOutput[6];
+    private final RegistryOutput[] output = new RegistryOutput[6];
     private int outputArgs = 0;
 
-    public AbstractIC(BlockSnapshot block) {
+    protected AbstractIC(BlockSnapshot block) {
         this.block = block;
         location = block.getLocation().orElse(new Location<>(Sponge.getServer().getWorlds().toArray(new World[0])[0], 0, 0, 0));
     }
@@ -93,7 +93,7 @@ abstract public class AbstractIC implements IC {
 
     }
 
-    public static boolean checkLooseEligibility(String s) {
+    private static boolean checkLooseEligibility(String s) {
 
         return s.matches("^BC[0-9]{4}$");
 

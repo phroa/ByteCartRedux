@@ -31,7 +31,7 @@ public abstract class AbstractCollisionAvoider extends AbstractIC {
     /**
      * @param loc the location where the collision avoider will be attached
      */
-    public AbstractCollisionAvoider(Location<World> loc) {
+    AbstractCollisionAvoider(Location<World> loc) {
         super(loc.createSnapshot());
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractCollisionAvoider extends AbstractIC {
      *
      * @return true if the flag is set
      */
-    protected boolean getHasTrain() {
+    boolean getHasTrain() {
         return this.getHasTrainMap().contains(getLocation());
     }
 
@@ -71,14 +71,14 @@ public abstract class AbstractCollisionAvoider extends AbstractIC {
      *
      * @return true if recently used
      */
-    protected boolean getRecentlyUsed() {
+    boolean getRecentlyUsed() {
         return this.getRecentlyUsedMap().contains(getLocation());
     }
 
     /**
      * @param recentlyUsed the recentlyUsed to set
      */
-    protected void setRecentlyUsed(boolean recentlyUsed) {
+    void setRecentlyUsed(boolean recentlyUsed) {
         this.getRecentlyUsedMap().put(getLocation(), recentlyUsed);
     }
 
@@ -109,7 +109,7 @@ public abstract class AbstractCollisionAvoider extends AbstractIC {
         STRAIGHT(4),
         RIGHT(6);
 
-        private int Value;
+        private final int Value;
 
         Side(int b) {
             Value = b;

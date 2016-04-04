@@ -31,10 +31,6 @@ import java.io.IOException;
  */
 final class BC7005 extends AbstractTriggeredSign implements Triggerable {
 
-    /**
-     * @param block
-     * @param vehicle
-     */
     public BC7005(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }

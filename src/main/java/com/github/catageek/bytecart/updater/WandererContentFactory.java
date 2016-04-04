@@ -24,7 +24,6 @@ import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
 import com.github.catageek.bytecart.updater.Wanderer.Scope;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -53,11 +52,8 @@ abstract public class WandererContentFactory {
 
     public static boolean isWanderer(Inventory inv) {
         String prefix = getType(inv);
-        if (prefix != null) {
-            return ByteCartRedux.myPlugin.getWandererManager().isWandererType(prefix);
-        }
+        return prefix != null && ByteCartRedux.myPlugin.getWandererManager().isWandererType(prefix);
 
-        return false;
     }
 
     static String getType(Inventory inv) {
@@ -126,20 +122,15 @@ abstract public class WandererContentFactory {
         return false;
     }
 
-    public static void createWanderer(CarriedInventory<?> inv, int region, Level level, Player player
-            , String name, String type) throws IOException {
+    public static void createWanderer(CarriedInventory<?> inv, Level level, String name, String type) throws IOException {
         try (BCFile file = new BookFile(inv, 0, true, name)) {
             String dot = ".";
-            StringBuilder match = new StringBuilder();
-            match.append(name).append(dot).append(level.scope.name);
-            match.append(dot).append(type).append(dot);
-            file.setDescription(match.toString());
+            file.setDescription(String.format("%s.%s.%s.", name, level.scope.name, type));
             file.flush();
         }
     }
 
-    public static <T extends InventoryContent> void saveContent(T rte)
-            throws IOException, ClassNotFoundException {
+    public static <T extends InventoryContent> void saveContent(T rte) throws IOException {
         CarriedInventory<?> inv = rte.getInventory();
 
         try (BCFile file = new BookFile(inv, 0, true)) {

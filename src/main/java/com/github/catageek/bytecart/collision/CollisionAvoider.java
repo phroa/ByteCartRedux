@@ -23,7 +23,7 @@ import com.github.catageek.bytecart.sign.Triggerable;
 /**
  * A state machine depending of 2 elements
  */
-public interface CollisionAvoider {
+interface CollisionAvoider {
 
     /**
      * Get the value stored as second pos
@@ -34,9 +34,6 @@ public interface CollisionAvoider {
 
     /**
      * Add the second triggered IC to current CollisonAvoider
-     *
-     *
-     * @param t
      */
     void Add(Triggerable t);
 }

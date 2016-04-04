@@ -97,7 +97,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
                 .getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot());
 
         // InputRegistry[0] = detector
-        this.addInputRegistry(new PinRegistry<InputPin>(wire));
+        this.addInputRegistry(new PinRegistry<>(wire));
 
         // Adding lever as output 0
         this.AddOutputIO();
@@ -119,7 +119,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
      * increment the counter
      *
      */
-    private final void incrementWaveCount() {
+    private void incrementWaveCount() {
         synchronized (WAVECOUNT) {
             if (!WAVECOUNT.contains(this.getLocation())) {
                 WAVECOUNT.put(getLocation(), 1);
@@ -136,7 +136,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
      *
      * @return true if the counter is strictly positive
      */
-    private final boolean decrementWaveCount() {
+    private boolean decrementWaveCount() {
         synchronized (WAVECOUNT) {
             if (WAVECOUNT.contains(getLocation()) && WAVECOUNT.get(getLocation()) > 1) {
                 WAVECOUNT.put(getLocation(), WAVECOUNT.get(getLocation()) - 1);
@@ -152,7 +152,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
      * Add the lever behind the sign to give the red light signal
      *
      */
-    private final void AddOutputIO() {
+    private void AddOutputIO() {
         // Declare red light signal = lever
 
         OutputPin[] lever = new OutputPin[1];
@@ -161,7 +161,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
         lever[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().add(getCardinal().toVector3d().mul(2)).createSnapshot());
 
         // OutputRegistry = red light signal
-        this.addOutputRegistry(new PinRegistry<OutputPin>(lever));
+        this.addOutputRegistry(new PinRegistry<>(lever));
     }
 
     @Override

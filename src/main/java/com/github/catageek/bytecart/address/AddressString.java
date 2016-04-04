@@ -74,7 +74,7 @@ public class AddressString extends AbstractAddress implements Address {
      * @return true if the address is in the valid format or a resolvable name
      */
     static public boolean isResolvableAddressOrName(String s) {
-        return (s.matches("([0-9]{1,4}\\.){2,2}[0-9]{1,3}"))
+        return (s.matches("([0-9]{1,4}\\.){2}[0-9]{1,3}"))
                 || isResolvableName(s);
 
     }
@@ -88,14 +88,14 @@ public class AddressString extends AbstractAddress implements Address {
      * @return true if the address is in the valid format
      */
     static private boolean isAddress(String s) {
-        return s.matches("([0-9]{1,4}\\.){2,2}[0-9]{1,3}");
+        return s.matches("([0-9]{1,4}\\.){2}[0-9]{1,3}");
 
     }
 
     /**
      * Static method to check if a name resolution gives a valid address
      *
-     * @param s the string containing the name to check
+     * @param name the string containing the name to check
      * @return true if the resolution gives an address
      */
     static private boolean isResolvableName(String name) {

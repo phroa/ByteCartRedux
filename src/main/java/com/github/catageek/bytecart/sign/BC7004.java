@@ -77,7 +77,7 @@ final class BC7004 extends AbstractIC implements Powerable {
         wire[1] = InputPinFactory.getInput(block.getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot());
 
         // InputRegistry[0] = wire
-        this.addInputRegistry(new PinRegistry<InputPin>(wire));
+        this.addInputRegistry(new PinRegistry<>(wire));
 
         // if wire is on, we spawn a cart
         if (this.getInput(0).getValue() != 0) {

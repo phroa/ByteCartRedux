@@ -36,7 +36,7 @@ public class PoweredSignFactory {
      * @param signString the name of the sign as "BCXXXX"
      * @return a Powerable IC, or null
      */
-    static final public Powerable getPoweredIC(BlockSnapshot block, String signString) {
+    static public Powerable getPoweredIC(BlockSnapshot block, String signString) {
 
         if (signString.length() < 7) {
             return null;

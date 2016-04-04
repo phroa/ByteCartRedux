@@ -36,7 +36,7 @@ public final class BCCounter implements Serializable, Counter {
      *
      */
     private static final long serialVersionUID = 6858180714411403984L;
-    private final Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+    private final Map<Integer, Integer> map = new HashMap<>();
 
     public BCCounter() {
     }
@@ -44,7 +44,6 @@ public final class BCCounter implements Serializable, Counter {
     /**
      * Get a counter by its id
      *
-     * @param counter
      * @return the counter
      */
     public int getCount(int counter) {

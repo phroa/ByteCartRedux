@@ -35,7 +35,6 @@ public final class BookProperties implements Closeable, Flushable {
     private final Conf PageNumber;
     private final BCFile file;
     private boolean isClosed = false;
-    private OutputStream os = null;
 
     /**
      * @param file the file
@@ -58,9 +57,8 @@ public final class BookProperties implements Closeable, Flushable {
      *
      * @param key the key
      * @param value the value
-     * @throws IOException
      */
-    public void setProperty(String key, String value) throws IOException {
+    public void setProperty(String key, String value) {
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux: BookProperties : setting key " + key + " to " + value);
         }
@@ -74,7 +72,7 @@ public final class BookProperties implements Closeable, Flushable {
      */
     private void save() throws IOException {
         file.clear();
-        os = file.getOutputStream();
+        OutputStream os = file.getOutputStream();
         Properties.store(os, PageNumber.name);
     }
 
@@ -82,9 +80,8 @@ public final class BookProperties implements Closeable, Flushable {
      * Removes a property
      *
      * @param key the key to remove
-     * @throws IOException
      */
-    public void clearProperty(String key) throws IOException {
+    public void clearProperty(String key) {
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux: BookProperties : clearing key " + key);
         }

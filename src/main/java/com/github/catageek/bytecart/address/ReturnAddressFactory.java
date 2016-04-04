@@ -35,7 +35,7 @@ public final class ReturnAddressFactory {
      * @return the return address
      */
     @SuppressWarnings("unchecked")
-    public final static <T extends Address> T getAddress(CarriedInventory<?> inv) {
+    public static <T extends Address> T getAddress(CarriedInventory<?> inv) {
         int slot;
         if ((slot = Ticket.getTicketslot(inv)) != -1) {
             return (T) new ReturnAddressBook(new Ticket(new BookFile(inv, slot, false), Conf.NETWORK), Parameter.RETURN);

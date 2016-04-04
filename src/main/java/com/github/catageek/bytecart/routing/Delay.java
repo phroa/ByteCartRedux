@@ -29,7 +29,7 @@ import java.io.ObjectOutput;
 /**
  * A time metric
  */
-public class Delay implements Externalizable {
+class Delay implements Externalizable {
 
     /**
      *

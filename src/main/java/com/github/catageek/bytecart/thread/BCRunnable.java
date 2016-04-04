@@ -55,7 +55,7 @@ final class BCRunnable<K> {
         Map<K, Task> map = expirable.getThreadMap();
         synchronized (map) {
             if (!expirable.getThreadMap().containsKey(key)) {
-                task = (expirable.isSync() ? this.runTaskLater(objects) : this.runTaskLaterAsynchronously(objects));
+                task = (expirable.isSync() ? this.runTaskLater(objects, duration) : this.runTaskLaterAsynchronously(objects, duration));
 
             } else {
                 Task old = expirable.getThreadMap().get(key);
@@ -104,8 +104,7 @@ final class BCRunnable<K> {
      */
     Task runTaskLater(Object... objects) {
         Runnable runnable = new Expire(expirable, key, objects);
-        Task task = Sponge.getScheduler().createTaskBuilder().delayTicks(expirable.getDuration()).execute(runnable).submit(ByteCartRedux.myPlugin);
-        return task;
+        return Sponge.getScheduler().createTaskBuilder().delayTicks(expirable.getDuration()).execute(runnable).submit(ByteCartRedux.myPlugin);
     }
 
     /**
@@ -116,9 +115,8 @@ final class BCRunnable<K> {
      */
     Task runTaskLaterAsynchronously(Object... objects) {
         Runnable runnable = new Expire(expirable, key, objects);
-        Task task = Sponge.getScheduler().createTaskBuilder().async().delayTicks(expirable.getDuration()).execute(runnable)
+        return Sponge.getScheduler().createTaskBuilder().async().delayTicks(expirable.getDuration()).execute(runnable)
                 .submit(ByteCartRedux.myPlugin);
-        return task;
     }
 
     /**

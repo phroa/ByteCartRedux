@@ -29,7 +29,7 @@ abstract class AbstractAddress implements Address {
     /**
      * A flag to tell to the world if the address should be considered as valid or not
      */
-    protected boolean isValid = true;
+    boolean isValid = true;
 
     @Override
     public final boolean isValid() {
@@ -78,7 +78,7 @@ abstract class AbstractAddress implements Address {
      *
      * @return always true
      */
-    protected boolean UpdateAddress() {
+    boolean UpdateAddress() {
         finalizeAddress();
         return true;
     }

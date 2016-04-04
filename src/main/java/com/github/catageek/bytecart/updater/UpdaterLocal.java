@@ -37,7 +37,7 @@ import java.util.Stack;
 
 public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implements Wanderer {
 
-    protected UpdaterLocal(BCSign bc, UpdaterContent rte) {
+    UpdaterLocal(BCSign bc, UpdaterContent rte) {
         super(bc, rte);
     }
 
@@ -156,7 +156,7 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
         }
     }
 
-    private final int getFreeSubnet(int netmask) {
+    private int getFreeSubnet(int netmask) {
         boolean free;
         int start = getFirstStationNumber();
         int end = getLastStationNumber();
@@ -187,18 +187,17 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
     }
 
     private String buildAddress(int start) {
-        String address = "" + this.getCounter().getCount(counterSlot.REGION.slot)
+        return "" + this.getCounter().getCount(counterSlot.REGION.slot)
                 + "." + getCurrent()
                 + "." + start;
-        return address;
     }
 
 
-    private final boolean isInSubnet(int address, int netmask) {
+    private boolean isInSubnet(int address, int netmask) {
         return (address >= this.getFirstStationNumber() && (address | (255 >> netmask)) < this.getLastStationNumber());
     }
 
-    private final boolean needUpdate() {
+    private boolean needUpdate() {
         return getSignAddress().getRegion().getValue() != this.getCounter().getCount(counterSlot.REGION.slot)
                 || getSignAddress().getTrack().getValue() != this.getCounter().getCount(counterSlot.RING.slot)
                 || !isInSubnet(getSignAddress().getStation().getValue(), this.getNetmask());

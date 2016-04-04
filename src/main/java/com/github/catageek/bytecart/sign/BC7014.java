@@ -68,7 +68,7 @@ class BC7014 extends BC7010 implements Triggerable {
      * @param InvAddress the address to modify
      * @return a string containing the address
      */
-    protected String format(RegistryInput wire, AddressRouted InvAddress) {
+    String format(RegistryInput wire, AddressRouted InvAddress) {
         return "" + InvAddress.getRegion().getValue() + "."
                 + InvAddress.getTrack().getValue() + "."
                 + wire.getValue();
@@ -78,7 +78,7 @@ class BC7014 extends BC7010 implements Triggerable {
      * Register the input wire on the left of the sign
      *
      */
-    protected void addIO() {
+    void addIO() {
         // Input[0] : wire on left
         BlockSnapshot block = this.getBlock().getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot();
         RegistryInput wire = InputPinFactory.getInput(block);

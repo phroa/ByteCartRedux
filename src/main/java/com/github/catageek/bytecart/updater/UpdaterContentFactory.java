@@ -47,23 +47,18 @@ public abstract class UpdaterContentFactory {
 
     public static void createRoutingTableExchange(CarriedInventory<?> inv, int region, Level level, Player player
             , boolean isfullreset, boolean isnew) throws IOException {
-        WandererContentFactory.createWanderer(inv, region, level, player, "Updater", level.type);
+        WandererContentFactory.createWanderer(inv, level, "Updater", level.type);
         UpdaterContent rte;
         if (level.scope.equals(Scope.LOCAL)) {
             rte = new UpdaterContent(inv, level, region, player, isfullreset);
         } else {
             rte = new UpdaterContent(inv, level, region, player, isfullreset, isnew);
         }
-        try {
-            saveContent(rte);
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        saveContent(rte);
     }
 
     public static void saveContent(UpdaterContent rte)
-            throws IOException, ClassNotFoundException {
+            throws IOException {
 
         // delete content if expired
         long creation = rte.getCreationTime();

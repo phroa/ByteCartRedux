@@ -40,9 +40,9 @@ public class WandererContent implements InventoryContent {
      *
      */
     private static final long serialVersionUID = -9068486630910859194L;
-    protected Map<Integer, Metric> tableMap = new HashMap<Integer, Metric>();
+    final Map<Integer, Metric> tableMap = new HashMap<>();
     private transient CarriedInventory<?> inventory = null;
-    private String player;
+    private final String player;
     private BCCounter counter;
     private long creationTime = Calendar.getInstance().getTimeInMillis();
     private int lastRouterId;
@@ -54,14 +54,14 @@ public class WandererContent implements InventoryContent {
     private Wanderer.Level level;
     private int region;
 
-    public WandererContent(CarriedInventory<?> inv, Wanderer.Level level, int region, Player player) {
+    WandererContent(CarriedInventory<?> inv, Wanderer.Level level, int region, Player player) {
         this.region = region;
         this.level = level;
         this.inventory = inv;
         this.player = player.getName();
         counter = new BCCounter();
-        setStart(new Stack<Integer>());
-        setEnd(new Stack<Integer>());
+        setStart(new Stack<>());
+        setEnd(new Stack<>());
     }
 
     /**
@@ -196,7 +196,7 @@ public class WandererContent implements InventoryContent {
     /**
      * @param start the start to set
      */
-    void setStart(Stack<Integer> start) {
+    private void setStart(Stack<Integer> start) {
         this.start = start;
     }
 
@@ -210,7 +210,7 @@ public class WandererContent implements InventoryContent {
     /**
      * @param end the end to set
      */
-    void setEnd(Stack<Integer> end) {
+    private void setEnd(Stack<Integer> end) {
         this.end = end;
     }
 
@@ -239,7 +239,7 @@ public class WandererContent implements InventoryContent {
      *
      * @param lastupdate the lastupdate to set
      */
-    protected void setExpirationTime(long lastupdate) {
+    void setExpirationTime(long lastupdate) {
         this.expirationTime = lastupdate;
     }
 

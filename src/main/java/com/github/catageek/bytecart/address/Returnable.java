@@ -22,6 +22,6 @@ package com.github.catageek.bytecart.address;
 /**
  * Represent a return address
  */
-public interface Returnable extends AddressRouted {
+interface Returnable extends AddressRouted {
 
 }

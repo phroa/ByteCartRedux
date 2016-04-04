@@ -20,7 +20,6 @@ package com.github.catageek.bytecart.collection;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * A set containing powers of 2 of an integer
@@ -56,9 +55,8 @@ public class PartitionedHashSet<E extends Partitionable> extends HashSet<E> {
      */
     public final int getPartitionedValue() {
         int ret = 0;
-        Iterator<E> it = this.iterator();
-        while (it.hasNext()) {
-            ret |= it.next().getAmount();
+        for (E e : this) {
+            ret |= e.getAmount();
         }
         return ret;
     }

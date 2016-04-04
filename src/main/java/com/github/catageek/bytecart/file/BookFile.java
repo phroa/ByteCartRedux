@@ -41,10 +41,9 @@ public final class BookFile implements BCFile {
     // log2 of length of a page in bytes
     static final int PAGELOG = 8;
     static final int PAGESIZE = 1 << PAGELOG;
-    static final int MAXPAGE = 20;
-    static final int MAXSIZE = MAXPAGE * PAGESIZE;
+    private static final int MAXPAGE = 20;
+    private static final int MAXSIZE = MAXPAGE * PAGESIZE;
     private static final String PREFIX = ByteCartRedux.rootNode.getNode("author").getString();
-    private final String author;
     private final CarriedInventory<?> container;
     private final boolean binaryMode;
     private final SlotIndex slot;
@@ -78,15 +77,16 @@ public final class BookFile implements BCFile {
             inventory.query(slot).set(stack = ItemStack.of(ItemTypes.WRITTEN_BOOK, 1));
         }
 
+        String author;
         if (!this.stack.get(Keys.BOOK_AUTHOR).isPresent() || !this.stack.get(Keys.BOOK_AUTHOR).get().toPlain().startsWith(PREFIX)) {
             if (suffix != null && suffix.length() != 0) {
-                this.author = PREFIX + "." + suffix;
+                author = PREFIX + "." + suffix;
             } else {
-                this.author = PREFIX;
+                author = PREFIX;
             }
             this.stack.offer(Keys.BOOK_AUTHOR, Text.of(author));
         } else {
-            this.author = this.stack.get(Keys.BOOK_AUTHOR).get().toPlain();
+            author = this.stack.get(Keys.BOOK_AUTHOR).get().toPlain();
         }
     }
 
@@ -111,9 +111,9 @@ public final class BookFile implements BCFile {
     @Override
     public void clear() {
         if (outputStream != null) {
-            this.outputStream.getBook().offer(Keys.BOOK_PAGES, new ArrayList<Text>());
+            this.outputStream.getBook().offer(Keys.BOOK_PAGES, new ArrayList<>());
         } else {
-            stack.offer(Keys.BOOK_PAGES, new ArrayList<Text>());
+            stack.offer(Keys.BOOK_PAGES, new ArrayList<>());
         }
     }
 

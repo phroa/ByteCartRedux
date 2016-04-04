@@ -54,8 +54,6 @@ public final class PreloadChunkListener {
 
     /**
      * We cancel this event if a cart is moving in the chunk or around
-     *
-     * @param event
      */
     @Listener(order = Order.LAST)
     public void onChunkUnload(UnloadChunkEvent event) {
@@ -74,7 +72,7 @@ public final class PreloadChunkListener {
                     entities = chunk.get().getEntities().toArray(new Entity[0]);
 
                     for (n = entities.length - 1; n >= 0; --n) {
-                        if (entities[n] instanceof Minecart && !((Minecart) entities[n]).getVelocity().equals(Vector3d.ZERO)) {
+                        if (entities[n] instanceof Minecart && !entities[n].getVelocity().equals(Vector3d.ZERO)) {
 
                             Sponge.getServer().getChunkTicketManager().createTicket(ByteCartRedux.myPlugin, world).get()
                                     .forceChunk(chunk.get().getPosition());

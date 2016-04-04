@@ -28,7 +28,7 @@ import org.spongepowered.api.world.World;
  */
 public final class IsTrainManager {
 
-    private ExpirableMap<Location<World>, Boolean> isTrain = new ExpirableMap<>(14, false, "isTrain");
+    private final ExpirableMap<Location<World>, Boolean> isTrain = new ExpirableMap<>(14, false, "isTrain");
 
     /**
      * Get the map

@@ -57,13 +57,13 @@ final class BC8020 extends BC8010 implements BCRouter, Triggerable, HasRoutingTa
                 // lookup destination region
                 return routingTable.getDirection(destination.getRegion().getValue()).getBlockFace();
             }
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         // if TTL reached end of life and is not returnable, then we lookup region 0
         try {
             return routingTable.getDirection(0).getBlockFace();
-        } catch (NullPointerException e) {
+        } catch (NullPointerException ignored) {
         }
 
         // If everything has failed, then we randomize output direction

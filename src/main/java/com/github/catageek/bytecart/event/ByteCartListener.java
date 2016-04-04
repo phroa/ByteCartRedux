@@ -84,10 +84,7 @@ public class ByteCartListener {
                 Sponge.getEventManager().post(new SignRemoveEvent(myIC, entity));
                 AbstractIC.removeFromCache(block);
             }
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -97,8 +94,6 @@ public class ByteCartListener {
 
     /**
      * Detect if a sign is under the cart moving
-     *
-     * @param event
      */
     @Listener
     public void onVehicleMove(DisplaceEntityEvent.Move event, @Root Minecart vehicle) throws Exception {
@@ -124,13 +119,7 @@ public class ByteCartListener {
             if (myIC != null) {
                 myIC.trigger();
             }
-        } catch (ClassNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (IndexOutOfBoundsException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (IOException e1) {
+        } catch (ClassNotFoundException | IOException | IndexOutOfBoundsException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
@@ -140,8 +129,6 @@ public class ByteCartListener {
 
     /**
      * Detect a sign under the cart created
-     *
-     * @param event
      */
     @Listener
     public void onVehicleCreate(SpawnEntityEvent event) throws Exception {
@@ -160,13 +147,7 @@ public class ByteCartListener {
                     if (myIC != null) {
                         myIC.trigger();
                     }
-                } catch (ClassNotFoundException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } catch (IndexOutOfBoundsException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } catch (IOException e1) {
+                } catch (ClassNotFoundException | IOException | IndexOutOfBoundsException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
@@ -177,8 +158,6 @@ public class ByteCartListener {
 
     /**
      * Detect if we create a sign
-     *
-     * @param event
      */
     @Listener
     public void onSignChange(ChangeSignEvent event) throws Exception {
@@ -241,8 +220,6 @@ public class ByteCartListener {
 
     /**
      * Check if a sign was broken
-     *
-     * @param event
      */
     @Listener(order = Order.POST)
     public void onBlockBreak(ChangeBlockEvent.Break event) {
@@ -267,10 +244,7 @@ public class ByteCartListener {
             if (myIC != null) {
                 try {
                     myIC.power();
-                } catch (ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (ClassNotFoundException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -280,8 +254,6 @@ public class ByteCartListener {
 
     /**
      * Detect a sign that a player right-clicks
-     *
-     * @param event
      */
     @Listener
     public void onPlayerInteract(InteractBlockEvent.Secondary event, @Root Player player) {

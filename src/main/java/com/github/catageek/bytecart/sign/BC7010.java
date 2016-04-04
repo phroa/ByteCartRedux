@@ -38,13 +38,12 @@ import org.spongepowered.api.text.format.TextColors;
  */
 public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clickable {
 
-    protected boolean playerAllowed = true;
-    protected boolean storageCartAllowed = false;
+    boolean storageCartAllowed = false;
 
     /**
      * Constructor : !! vehicle can be null !!
      */
-    public BC7010(BlockSnapshot block, Entity vehicle) {
+    BC7010(BlockSnapshot block, Entity vehicle) {
         super(block, vehicle);
     }
 
@@ -74,7 +73,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
 
         boolean isTrain = getIsTrain();
 
-        this.setAddress(address.toString(), this.getNameToWrite(), isTrain);
+        this.setAddress(address.toString(), isTrain);
 
         // if this is the first car of a train
         // we save the state during 2 s
@@ -88,7 +87,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      *
      * @return the train bit value
      */
-    protected boolean getIsTrain() {
+    boolean getIsTrain() {
         return (new ComponentSign(this.getBlock())).getLine(0).equalsIgnoreCase("train");
     }
 
@@ -97,9 +96,8 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      *
      * @return the address to write
      */
-    protected Address getAddressToWrite() {
-        Address address = AddressFactory.getAddress(this.getBlock(), 3);
-        return address;
+    Address getAddressToWrite() {
+        return AddressFactory.getAddress(this.getBlock(), 3);
     }
 
     /**
@@ -107,7 +105,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      *
      * @return the name
      */
-    protected String getNameToWrite() {
+    private String getNameToWrite() {
         return (new ComponentSign(this.getBlock())).getLine(2);
     }
 
@@ -116,7 +114,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      *
      * @return the destination address
      */
-    protected AddressRouted getTargetAddress() {
+    AddressRouted getTargetAddress() {
         return AddressFactory.getAddress(this.getInventory());
     }
 
@@ -125,22 +123,20 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      * The train bit is not set.
      *
      * @param signAddress the destination address
-     * @param name the destination name
      * @return true if success, false otherwise
      */
-    public final boolean setAddress(String signAddress, String name) {
-        return setAddress(signAddress, name, false);
+    public final boolean setAddress(String signAddress) {
+        return setAddress(signAddress, false);
     }
 
     /**
      * Spawn a ticket in inventory and set the destination address
      *
      * @param signAddress the destination address
-     * @param name the destination name
      * @param train true if it is a train head
      * @return true if success, false otherwise
      */
-    public final boolean setAddress(String signAddress, String name, boolean train) {
+    public final boolean setAddress(String signAddress, boolean train) {
         Player player = null;
 
         if (this.getInventory() instanceof HumanInventory) {
@@ -180,11 +176,8 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      *
      * @return true if the requestor is allowed
      */
-    protected final boolean isHolderAllowed() {
-        if (this.getInventory() instanceof HumanInventory) {
-            return playerAllowed;
-        }
-        return storageCartAllowed;
+    private boolean isHolderAllowed() {
+        return this.getInventory() instanceof HumanInventory || storageCartAllowed;
     }
 
     /**
@@ -192,7 +185,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      *
      * @param signAddress the address got by the player
      */
-    protected void infoPlayer(String signAddress) {
+    void infoPlayer(String signAddress) {
         ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
                 Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
                         .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " ")).color(TextColors.RED)
@@ -226,7 +219,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      *
      * @return true if modifying, false to create
      */
-    protected boolean forceTicketReuse() {
+    boolean forceTicketReuse() {
         return false;
     }
 }

@@ -34,7 +34,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
         super(bc, rte);
     }
 
-    private final String getAddress(int ring) {
+    private String getAddress(int ring) {
         return "" + getWandererRegion() + "." + ring + ".0";
     }
 
@@ -170,7 +170,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
 
         if (getRoutes() != null) {
 
-            UpdaterSetRingEvent event = null;
+            UpdaterSetRingEvent event;
 
             if (isTrackNumberProvider() && !getSignAddress().isValid()) {
                 // if there is no address on the sign

@@ -34,7 +34,7 @@ public class Base64 {
         IA['='] = 0;
     }
 
-    public final static char[] encodeToChar(byte[] sArr, boolean lineSep) {
+    private static char[] encodeToChar(byte[] sArr, boolean lineSep) {
         // Check special case
         int sLen = sArr != null ? sArr.length : 0;
         if (sLen == 0) {
@@ -80,7 +80,7 @@ public class Base64 {
         return dArr;
     }
 
-    public final static byte[] encodeToByte(byte[] sArr, boolean lineSep) {
+    public static byte[] encodeToByte(byte[] sArr, boolean lineSep) {
         // Check special case
         int sLen = sArr != null ? sArr.length : 0;
         if (sLen == 0) {
@@ -127,12 +127,12 @@ public class Base64 {
     }
 
 
-    public final static String encodeToString(byte[] sArr, boolean lineSep) {
+    public static String encodeToString(byte[] sArr, boolean lineSep) {
         // Reuse char[] since we can't create a String incrementally anyway and StringBuffer/Builder would be slower.
         return new String(encodeToChar(sArr, lineSep));
     }
 
-    public final static byte[] decodeFast(String s) {
+    public static byte[] decodeFast(String s) {
         // Check special case
         int sLen = s.length();
         if (sLen == 0) {

@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -76,8 +75,7 @@ public final class ExternalizableTreeMap<K extends Externalizable, V extends Ext
         s.writeShort(size());
 
         // Write out keys and values (alternating)
-        for (Iterator<Map.Entry<K, V>> i = entrySet().iterator(); i.hasNext(); ) {
-            Map.Entry<K, V> e = i.next();
+        for (Map.Entry<K, V> e : entrySet()) {
             s.writeObject(e.getKey());
             s.writeObject(e.getValue());
         }

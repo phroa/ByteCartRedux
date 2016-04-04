@@ -45,7 +45,7 @@ final class BC7002 extends AbstractTriggeredSign implements Triggerable {
         lever[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(getCardinal()).createSnapshot());
 
         // OutputRegistry[1] = red light signal
-        this.addOutputRegistry(new PinRegistry<OutputPin>(lever));
+        this.addOutputRegistry(new PinRegistry<>(lever));
 
         this.getOutput(0).setAmount(1);
         Sponge.getScheduler().createTaskBuilder()

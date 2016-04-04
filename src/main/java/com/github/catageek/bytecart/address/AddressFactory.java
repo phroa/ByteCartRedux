@@ -41,7 +41,7 @@ public class AddressFactory {
      * @return the address or null if there is no ticket
      */
     @SuppressWarnings("unchecked")
-    public final static <T extends Address> T getAddress(CarriedInventory<?> inv) {
+    public static <T extends Address> T getAddress(CarriedInventory<?> inv) {
         int slot;
         if ((slot = Ticket.getTicketslot(inv)) != -1) {
             return (T) new AddressBook(new Ticket(new BookFile(inv, slot, false, "ticket"), Conf.NETWORK), Parameter.DESTINATION);
@@ -56,17 +56,17 @@ public class AddressFactory {
      * @return the address
      */
     @SuppressWarnings("unchecked")
-    public final static <T extends Address> T getDefaultTicket(CarriedInventory<?> inv) {
+    public static <T extends Address> T getDefaultTicket(CarriedInventory<?> inv) {
         String destination;
         if (inv.getCarrier().get() instanceof Player) {
             destination = ByteCartRedux.rootNode.getNode("PlayersNoTicketDefaultRoute").getString("0.0.0");
-            if ((new BC7010(null, (Player) inv.getCarrier().get())).setAddress(destination, "No ticket found !")) {
+            if ((new BC7010(null, (Player) inv.getCarrier().get())).setAddress(destination)) {
                 return (T) new AddressBook(new Ticket(new BookFile(inv, Ticket.getTicketslot(inv), false, "ticket"), Conf.NETWORK),
                         Parameter.DESTINATION);
             }
         } else if (inv.getCarrier().get() instanceof ContainerMinecart) {
             destination = ByteCartRedux.rootNode.getNode("EmptyCartsDefaultRoute").getString("0.0.0");
-            if ((new BC7011(null, (ContainerMinecart) inv.getCarrier().get())).setAddress(destination, "No ticket found !")) {
+            if ((new BC7011(null, (ContainerMinecart) inv.getCarrier().get())).setAddress(destination)) {
                 return (T) new AddressBook(new Ticket(new BookFile(inv, Ticket.getTicketslot(inv), false, "ticket"), Conf.NETWORK),
                         Parameter.DESTINATION);
             }
@@ -81,7 +81,7 @@ public class AddressFactory {
      * @param line the line number
      * @return the address
      */
-    public final static Address getAddress(BlockSnapshot b, int line) {
+    public static Address getAddress(BlockSnapshot b, int line) {
         return new AddressSign(b, line);
     }
 
@@ -93,7 +93,7 @@ public class AddressFactory {
      * @param s the address in the form aa.bb.cc
      * @return the address
      */
-    public final static Address getAddress(String s) {
+    public static Address getAddress(String s) {
         return new AddressString(s, true);
     }
 
@@ -105,7 +105,7 @@ public class AddressFactory {
      * @param s the address in the form aa.bb.cc
      * @return the address
      */
-    public final static Address getUnresolvedAddress(String s) {
+    public static Address getUnresolvedAddress(String s) {
         return new AddressString(s, false);
     }
 }

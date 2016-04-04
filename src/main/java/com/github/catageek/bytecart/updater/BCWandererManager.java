@@ -18,7 +18,6 @@
  */
 package com.github.catageek.bytecart.updater;
 
-import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.IOException;
@@ -27,12 +26,12 @@ import java.util.Map;
 
 public class BCWandererManager implements WandererManager {
 
-    private static final Map<String, WandererFactory> map = new HashMap<String, WandererFactory>();
+    private static final Map<String, WandererFactory> map = new HashMap<>();
 
     /**
      * Register a wanderer type
      *
-     * @param wanderer the wanderer class implementing the wanderer
+     * @param factory the wanderer class implementing the wanderer
      * @param type the name that will reference this type of wanderer
      */
     public boolean register(WandererFactory factory, String type) {
@@ -55,13 +54,10 @@ public class BCWandererManager implements WandererManager {
             return false;
         }
         try {
-            WandererContentFactory.createWanderer(ivc.getInventory(), ivc.getRegion(), ivc.getLevel(),
-                    ivc.getPlayer(), type, suffix);
+            WandererContentFactory.createWanderer(ivc.getInventory(), ivc.getLevel(),
+                    type, suffix);
             WandererContentFactory.saveContent(ivc);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -71,7 +67,6 @@ public class BCWandererManager implements WandererManager {
     /**
      * Get a wanderer
      *
-     * @param bc the sign that request the wanderer
      * @param inv the inventory where to extract the wanderercontent from
      * @return the wanderer
      * @throws ClassNotFoundException
@@ -95,7 +90,7 @@ public class BCWandererManager implements WandererManager {
         return map.containsKey(type);
     }
 
-    public void saveContent(InventoryContent rte) throws ClassNotFoundException, IOException {
+    public void saveContent(InventoryContent rte) throws IOException {
 
         WandererContentFactory.saveContent(rte);
     }

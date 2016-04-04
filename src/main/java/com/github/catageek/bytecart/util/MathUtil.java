@@ -26,7 +26,6 @@ import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -34,7 +33,7 @@ import java.util.ListIterator;
 
 public final class MathUtil {
 
-    public static final Direction clockwise(Direction f) {
+    public static Direction clockwise(Direction f) {
         Direction b = MathUtil.straightUp(f);
         switch (b) {
             case NORTH:
@@ -52,7 +51,7 @@ public final class MathUtil {
 
     }
 
-    public static final Direction anticlockwise(Direction f) {
+    public static Direction anticlockwise(Direction f) {
         Direction b = MathUtil.straightUp(f);
         switch (b) {
             case NORTH:
@@ -70,7 +69,7 @@ public final class MathUtil {
 
     }
 
-    public static final Direction straightUp(Direction b) {
+    public static Direction straightUp(Direction b) {
         switch (b) {
             case NORTH:
             case NORTH_NORTHWEST:
@@ -93,11 +92,11 @@ public final class MathUtil {
         }
     }
 
-    public static final void forceUpdate(BlockSnapshot b) {
+    public static void forceUpdate(BlockSnapshot b) {
         b.restore(true, true);
     }
 
-    public static final void loadChunkAround(World world, int x, int z, int radius) {
+    public static void loadChunkAround(World world, int x, int z, int radius) {
         int j, i = x - radius, k = x + radius, l = z + radius;
         for (; i <= k; ++i) {
             for (j = z - radius; j <= l; ++j) {
@@ -114,11 +113,8 @@ public final class MathUtil {
      *
      * @param loc the location
      * @return the vehicle, or null
-     * @throws ClassNotFoundException
-     * @throws IOException
      */
-    public static Entity getVehicleByLocation(Location<World> loc)
-            throws ClassNotFoundException, IOException {
+    public static Entity getVehicleByLocation(Location<World> loc) {
         List<Entity> ent = new ArrayList<>(loc.getExtent().getChunk(loc.getChunkPosition()).get().getEntities());
         for (ListIterator<Entity> it = ent.listIterator(); it.hasNext(); ) {
             if (it.next() instanceof Minecart) {

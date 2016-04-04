@@ -56,7 +56,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
     private final Address sign;
     private final RoutingTableWritable routingTable;
     private final BlockSnapshot center;
-    protected boolean isTrackNumberProvider;
+    boolean isTrackNumberProvider;
     private AddressRouted destination;
 
     BC8010(BlockSnapshot block, Entity vehicle) throws ClassNotFoundException, IOException {
@@ -172,23 +172,13 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
             // here we perform routes update
             wanderer.doAction(to);
 
-        } catch (ClassCastException e) {
+        } catch (ClassCastException | NullPointerException e) {
             if (ByteCartRedux.debug) {
                 ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
             }
             e.printStackTrace();
 
             // Not the good blocks to build the signs
-            return;
-        } catch (NullPointerException e) {
-            if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
-            }
-
-            e.printStackTrace();
-
-            // there was no inventory in the cart
-            return;
         }
 
 
@@ -198,7 +188,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
      * Tells if this cart needs normal routing
      * @return true if the cart needs normal routing
      */
-    protected boolean selectWanderer() {
+    boolean selectWanderer() {
         // everything that is not an wanderer must be routed
         return !WandererContentFactory.isWanderer(getInventory());
     }
@@ -211,7 +201,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
      * @param routingTable the routing table contained in the chest
      * @return the direction to destination, or to ring 0. If ring 0 does not exist, random direction
      */
-    protected Direction selectRoute(AddressRouted destination, Address sign, RoutingTableWritable routingTable) {
+    Direction selectRoute(AddressRouted destination, Address sign, RoutingTableWritable routingTable) {
 
         DirectionRegistry face;
         // same region : lookup destination track
@@ -256,7 +246,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    protected final Wanderer getWanderer() throws ClassNotFoundException, IOException {
+    private Wanderer getWanderer() throws ClassNotFoundException, IOException {
         return ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
     }
 

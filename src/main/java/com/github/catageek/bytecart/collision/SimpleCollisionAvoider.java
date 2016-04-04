@@ -93,7 +93,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
      * @param s the original side
      * @return the fixed side
      */
-    private final IntersectionSide.Side getActiveTrueSide(IntersectionSide.Side s) {
+    private IntersectionSide.Side getActiveTrueSide(IntersectionSide.Side s) {
         if (Active != Lever2) {
             return s;
         }
@@ -105,7 +105,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
      * @param s the original side
      * @return the fixed side
      */
-    private final IntersectionSide.Side getSecondLeverSide(IntersectionSide.Side s) {
+    private IntersectionSide.Side getSecondLeverSide(IntersectionSide.Side s) {
         return reversed ? s : s.opposite();
     }
 

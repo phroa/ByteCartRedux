@@ -42,7 +42,7 @@ import java.io.IOException;
  */
 abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet, HasNetmask {
 
-    protected int netmask;
+    int netmask;
 
 
     AbstractBC9000(BlockSnapshot block, Entity vehicle) {
@@ -88,7 +88,6 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
             }
 
             // Not the good blocks to build the signs
-            return;
         } catch (NullPointerException e) {
             if (ByteCartRedux.debug) {
                 ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
@@ -96,13 +95,11 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
             e.printStackTrace();
 
             // there was no inventory in the cart
-            return;
         }
 
     }
 
-    @Override
-    protected void manageWanderer(SimpleCollisionAvoider intersection) {
+    @Override void manageWanderer(SimpleCollisionAvoider intersection) {
         // it's an updater, so let it choosing direction
         Wanderer wanderer;
         try {
@@ -113,17 +110,13 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
 
             // here we perform routes update
             wanderer.doAction(to);
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    @Override
-    protected Side route() {
+    @Override Side route() {
         SignPreSubnetEvent event;
         AddressRouted dst = this.getDestinationAddress();
         int ttl;
@@ -145,9 +138,9 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
      * @param station a station number in the subnet
      * @return the first station number
      */
-    protected final RegistryBoth applyNetmask(RegistryBoth station) {
+    private RegistryBoth applyNetmask(RegistryBoth station) {
         if (this.netmask < station.length()) {
-            return new SubRegistry<RegistryBoth>(station, this.netmask, 0);
+            return new SubRegistry<>(station, this.netmask, 0);
         }
         return station;
     }
@@ -157,7 +150,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
      *
      * @return true if the address is in the subnet
      */
-    protected boolean isAddressMatching() {
+    boolean isAddressMatching() {
         try {
             return this.getInput(2).getValue() == this.getInput(5).getValue()
                     && this.getInput(1).getValue() == this.getInput(4).getValue()
@@ -184,8 +177,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
      * 0: left lever
      * 1: right lever
      */
-    @Override
-    protected void addIO() {
+    @Override void addIO() {
         Address sign = this.getSignAddress();
 
         super.addIO();
@@ -237,7 +229,7 @@ abstract class AbstractBC9000 extends AbstractSimpleCrossroad implements Subnet,
      *
      * @param addr the address to register
      */
-    protected void addAddressAsInputs(Address addr) {
+    private void addAddressAsInputs(Address addr) {
         if (addr.isValid()) {
             RegistryInput region = addr.getRegion();
             this.addInputRegistry(region);

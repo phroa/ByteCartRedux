@@ -33,7 +33,7 @@ public class SignPostRouteEvent extends BCRoutableSignEvent {
 
     private final BCRouter router;
 
-    protected int to;
+    int to;
 
     /**
      * Default constructor

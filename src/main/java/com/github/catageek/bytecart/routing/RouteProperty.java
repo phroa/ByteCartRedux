@@ -25,7 +25,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -39,7 +38,7 @@ final class RouteProperty implements Externalizable {
      */
     private static final long serialVersionUID = -3548458365177323172L;
 
-    private TreeMap<Metric, PartitionedHashSet<DirectionRegistry>> map = new TreeMap<Metric, PartitionedHashSet<DirectionRegistry>>();
+    private final TreeMap<Metric, PartitionedHashSet<DirectionRegistry>> map = new TreeMap<>();
 
     public RouteProperty() {
     }
@@ -57,10 +56,10 @@ final class RouteProperty implements Externalizable {
      * @param value the value to decompose
      * @return the set
      */
-    public final PartitionedHashSet<DirectionRegistry> getPartitionedHashSet(int value) {
+    private PartitionedHashSet<DirectionRegistry> getPartitionedHashSet(int value) {
         int reg = value;
         int cur = 1;
-        PartitionedHashSet<DirectionRegistry> set = new PartitionedHashSet<DirectionRegistry>();
+        PartitionedHashSet<DirectionRegistry> set = new PartitionedHashSet<>();
         while (reg != 0) {
             if ((reg & 1) != 0) {
                 set.add(new DirectionRegistry(cur));
@@ -87,9 +86,7 @@ final class RouteProperty implements Externalizable {
     @Override
     public void writeExternal(ObjectOutput arg0) throws IOException {
         arg0.writeInt(map.size());
-        Iterator<Entry<Metric, PartitionedHashSet<DirectionRegistry>>> it = map.entrySet().iterator();
-        while (it.hasNext()) {
-            Entry<Metric, PartitionedHashSet<DirectionRegistry>> entry = it.next();
+        for (Entry<Metric, PartitionedHashSet<DirectionRegistry>> entry : map.entrySet()) {
             arg0.writeShort((entry.getKey().value() << 4) + entry.getValue().getPartitionedValue());
         }
     }

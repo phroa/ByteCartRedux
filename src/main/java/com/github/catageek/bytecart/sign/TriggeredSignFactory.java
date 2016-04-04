@@ -42,7 +42,7 @@ final public class TriggeredSignFactory {
      * @throws IndexOutOfBoundsException
      * @throws IOException
      */
-    static final public Triggerable getTriggeredIC(BlockSnapshot block, Entity vehicle) throws ClassNotFoundException, IndexOutOfBoundsException,
+    static public Triggerable getTriggeredIC(BlockSnapshot block, Entity vehicle) throws ClassNotFoundException, IndexOutOfBoundsException,
             IOException {
 
         if (AbstractIC.checkEligibility(block)) {
@@ -78,7 +78,7 @@ final public class TriggeredSignFactory {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    static final public Triggerable getTriggeredIC(BlockSnapshot block, String signString, Entity vehicle) throws ClassNotFoundException, IOException {
+    static public Triggerable getTriggeredIC(BlockSnapshot block, String signString, Entity vehicle) throws ClassNotFoundException, IOException {
 
         if (signString.length() < 7) {
             return null;

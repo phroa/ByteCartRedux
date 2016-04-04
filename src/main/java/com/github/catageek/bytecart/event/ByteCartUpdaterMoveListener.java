@@ -72,11 +72,11 @@ public class ByteCartUpdaterMoveListener implements EventListener<DisplaceEntity
      *
      * @param id the vehicle id
      */
-    public static final void addUpdater(UUID id) {
+    public static void addUpdater(UUID id) {
         updaterSet.getMap().add(id);
     }
 
-    public static final void clearUpdaters() {
+    public static void clearUpdaters() {
         if (updaterSet != null) {
             updaterSet.clear();
         }
@@ -113,10 +113,7 @@ public class ByteCartUpdaterMoveListener implements EventListener<DisplaceEntity
                         updaterSet.getMap().reset(duration / 50, v.getUniqueId());
                         Sponge.getEventManager().post(new UpdaterRemoveEvent(v.getUniqueId()));
                     }
-                } catch (ClassNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
+                } catch (ClassNotFoundException | IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }

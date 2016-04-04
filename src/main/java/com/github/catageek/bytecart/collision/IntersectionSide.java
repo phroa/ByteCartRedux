@@ -28,7 +28,7 @@ public interface IntersectionSide {
         LEVER_ON(3),
         LEVER_OFF(0);
 
-        private int Value;
+        private final int Value;
 
         Side(int b) {
             Value = b;

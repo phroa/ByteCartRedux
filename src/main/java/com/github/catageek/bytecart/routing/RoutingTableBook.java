@@ -45,7 +45,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
 
     private static final long serialVersionUID = -7013741680310224056L;
     private boolean wasModified = false;
-    private ExternalizableTreeMap<RouteNumber, RouteProperty> map = new ExternalizableTreeMap<RouteNumber, RouteProperty>();
+    private ExternalizableTreeMap<RouteNumber, RouteProperty> map = new ExternalizableTreeMap<>();
     private CarriedInventory<?> inventory;
 
     public RoutingTableBook() {
@@ -138,7 +138,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         }
 
         if ((set = smap.getMap().get(dist)) == null) {
-            set = new PartitionedHashSet<DirectionRegistry>(3);
+            set = new PartitionedHashSet<>(3);
             smap.getMap().put(dist, set);
             wasModified = true;
         }
@@ -173,7 +173,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
 
     @Override
     public Set<Integer> getDirectlyConnectedList(DirectionRegistry direction) {
-        SortedMap<Integer, Metric> list = new TreeMap<Integer, Metric>();
+        SortedMap<Integer, Metric> list = new TreeMap<>();
         Iterator<Entry<RouteNumber, RouteProperty>> it = map.entrySet().iterator();
         Entry<RouteNumber, RouteProperty> entry;
         Metric zero = new Metric(0);
@@ -195,7 +195,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     @Override
     protected Set<Integer> getNotDirectlyConnectedList(
             DirectionRegistry direction) {
-        SortedMap<Integer, Metric> list = new TreeMap<Integer, Metric>();
+        SortedMap<Integer, Metric> list = new TreeMap<>();
         Iterator<Entry<RouteNumber, RouteProperty>> it = map.entrySet().iterator();
         Entry<RouteNumber, RouteProperty> entry;
         Metric zero = new Metric(0);
@@ -212,9 +212,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
                     && set.contains(direction))) {
                 // extract routes going to directions with distance > 0
                 smap = smap.tailMap(one);
-                Iterator<Metric> it2 = smap.keySet().iterator();
-                while (it2.hasNext()) {
-                    Metric d = it2.next();
+                for (Metric d : smap.keySet()) {
                     if (smap.get(d).contains(direction)) {
                         list.put(entry.getKey().value(), d);
                         break;

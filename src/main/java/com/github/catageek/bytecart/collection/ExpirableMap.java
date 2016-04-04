@@ -32,7 +32,7 @@ import java.util.Map;
  */
 public final class ExpirableMap<K, T> extends Expirable<K> {
 
-    private final Map<K, T> Map = Collections.synchronizedMap(new HashMap<K, T>());
+    private final Map<K, T> Map = Collections.synchronizedMap(new HashMap<>());
 
     public ExpirableMap(long duration, boolean isSync, String name) {
         super(duration, isSync, name);
@@ -52,7 +52,7 @@ public final class ExpirableMap<K, T> extends Expirable<K> {
      * @param reset must be set to true to reset the timeout to initial value, false otherwise
      * @return true if the element was added
      */
-    public boolean put(K key, T value, boolean reset) {
+    boolean put(K key, T value, boolean reset) {
         if (reset) {
             this.reset(key, key, Map);
         }

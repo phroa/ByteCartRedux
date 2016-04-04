@@ -43,10 +43,7 @@ class BC7018 extends AbstractTriggeredSign implements Triggerable, Clickable {
     public void click() {
         try {
             this.trigger();
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (ClassNotFoundException | IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

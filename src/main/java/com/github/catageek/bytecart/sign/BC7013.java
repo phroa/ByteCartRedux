@@ -58,7 +58,7 @@ class BC7013 extends BC7014 implements Triggerable {
         block = this.getBlock().getLocation().get().getRelative(getCardinal().getOpposite()).createSnapshot();
         levers[1] = InputPinFactory.getInput(block);
 
-        RegistryInput ret = new SuperRegistry<RegistryInput>(new PinRegistry<InputPin>(levers), wire);
+        RegistryInput ret = new SuperRegistry<>(new PinRegistry<>(levers), wire);
 
         this.addInputRegistry(ret);
 

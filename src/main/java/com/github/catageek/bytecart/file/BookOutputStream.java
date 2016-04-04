@@ -43,11 +43,6 @@ class BookOutputStream extends ByteArrayOutputStream {
     }
 
     @Override
-    public void write(byte[] bytes, int off, int len) {
-        super.write(bytes, off, len);
-    }
-
-    @Override
     public void write(byte[] bytes) throws IOException {
         if (isClosed) {
             throw new IOException("Book has been already closed");
@@ -60,7 +55,7 @@ class BookOutputStream extends ByteArrayOutputStream {
      *
      * @return the buffer
      */
-    protected byte[] getBuffer() {
+    byte[] getBuffer() {
         return this.toByteArray();
     }
 
@@ -107,7 +102,7 @@ class BookOutputStream extends ByteArrayOutputStream {
      *
      * @return the content of the book
      */
-    protected String getEncodedString() {
+    String getEncodedString() {
         return this.toString();
     }
 

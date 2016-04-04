@@ -31,8 +31,8 @@ import org.spongepowered.api.event.cause.Cause;
  */
 public class SignPostSubnetEvent extends BCRoutableSignEvent {
 
-    protected final Subnet subnet;
-    protected Side side;
+    final Subnet subnet;
+    Side side;
     /**
      * Default constructor
      *

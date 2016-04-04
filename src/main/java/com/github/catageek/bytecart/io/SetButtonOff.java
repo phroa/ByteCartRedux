@@ -31,7 +31,7 @@ import java.util.UUID;
 /**
  * this call represents a thread that powers off a button
  */
-public class SetButtonOff implements Runnable {
+class SetButtonOff implements Runnable {
 
     final private Component component;
     final private Map<Location<World>, UUID> activatedButtonMap;
@@ -56,6 +56,6 @@ public class SetButtonOff implements Runnable {
                     .createSnapshot());
         }
 
-        activatedButtonMap.remove(block.getLocation());
+        activatedButtonMap.remove(block.getLocation().get());
     }
 }

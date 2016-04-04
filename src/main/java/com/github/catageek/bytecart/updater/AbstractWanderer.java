@@ -48,7 +48,7 @@ public abstract class AbstractWanderer {
      * @param bc the ic that triggers this wanderer
      * @param region the region where this wanderer is attached to
      */
-    protected AbstractWanderer(BCSign bc, int region) {
+    AbstractWanderer(BCSign bc, int region) {
         bcsign = bc;
         signAddress = bc.getSignAddress();
         this.region = region;
@@ -68,7 +68,7 @@ public abstract class AbstractWanderer {
      * @param from the direction from where we are coming
      * @return the direction
      */
-    public static final Direction getRandomBlockFace(RoutingTable routingTable, Direction from) {
+    public static Direction getRandomBlockFace(RoutingTable routingTable, Direction from) {
 
         // selecting a random destination avoiding ring 0 or where we come from
         DirectionRegistry direction = new DirectionRegistry(1 << (new Random()).nextInt(4));
@@ -113,7 +113,7 @@ public abstract class AbstractWanderer {
      *
      * @return true if we just met a backbone router, or leave the backbone
      */
-    protected final boolean isAtBorder() {
+    final boolean isAtBorder() {
 
         return this.getWandererRegion() == 0 ^ this.getSignLevel().scope.equals(Wanderer.Scope.BACKBONE);
 
@@ -122,22 +122,21 @@ public abstract class AbstractWanderer {
     /**
      * @return the address on the sign
      */
-    protected final Address getSignAddress() {
+    final Address getSignAddress() {
         return signAddress;
     }
 
     /**
      * Set the member variable signAddress
-     *
-     * @param signAddress
      */
-    protected final void setSignAddress(Address signAddress) {
+    final void setSignAddress(Address signAddress) {
         this.signAddress = signAddress;
     }
 
     /**
      * @return the direction from where we are coming
      */
+    @SuppressWarnings("WeakerAccess")
     public final DirectionRegistry getFrom() {
         return from;
     }
@@ -145,7 +144,7 @@ public abstract class AbstractWanderer {
     /**
      * @return the level of the sign
      */
-    public final Wanderer.Level getSignLevel() {
+    final Wanderer.Level getSignLevel() {
         return this.getBcSign().getLevel();
     }
 
@@ -162,7 +161,7 @@ public abstract class AbstractWanderer {
      * @param to the direction we want to go
      * @return true if we make a U-turn
      */
-    protected final boolean isSameTrack(Direction to) {
+    final boolean isSameTrack(Direction to) {
         return getFrom().getBlockFace().equals(to);
     }
 
@@ -171,6 +170,7 @@ public abstract class AbstractWanderer {
      *
      * @return the region number
      */
+    @SuppressWarnings("WeakerAccess")
     public final int getWandererRegion() {
         return region;
     }
@@ -180,6 +180,7 @@ public abstract class AbstractWanderer {
      *
      * @return the center
      */
+    @SuppressWarnings("WeakerAccess")
     public final BlockSnapshot getCenter() {
         return this.getBcSign().getCenter();
     }
@@ -196,6 +197,7 @@ public abstract class AbstractWanderer {
     /**
      * @return the IC
      */
+    @SuppressWarnings("WeakerAccess")
     public final BCSign getBcSign() {
         return bcsign;
     }

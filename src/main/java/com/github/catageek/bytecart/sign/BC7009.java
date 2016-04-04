@@ -77,11 +77,8 @@ final class BC7009 extends AbstractTriggeredSign implements Triggerable {
 
     /**
      * Registers levers as output
-     *
-     * @param from the origin axis
-     * @param center the center of the router
      */
-    private final void addIO() {
+    private void addIO() {
 
         // Center of the device, at sign level
         BlockSnapshot center =
@@ -103,7 +100,7 @@ final class BC7009 extends AbstractTriggeredSign implements Triggerable {
         sortie[2] = OutputPinFactory
                 .getOutput(center.getLocation().get().add(Direction.NORTH.toVector3d().mul(3)).getRelative(Direction.WEST).createSnapshot());
 
-        RegistryOutput main = new PinRegistry<OutputPin>(sortie);
+        RegistryOutput main = new PinRegistry<>(sortie);
 
         // output[0] is main levers
         this.addOutputRegistry(main);

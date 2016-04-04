@@ -122,7 +122,7 @@ public final class ByteCartRedux implements ByteCartPlugin {
      * Load the configuration file
      *
      */
-    protected final void loadConfig() {
+    final void loadConfig() {
         debug = rootNode.getNode("debug").getBoolean(false);
         keepitems = rootNode.getNode("keepitems").getBoolean(true);
 

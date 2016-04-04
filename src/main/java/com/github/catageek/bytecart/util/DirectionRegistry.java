@@ -33,9 +33,9 @@ public final class DirectionRegistry implements Partitionable {
     /**
      *
      */
-    private VirtualRegistry registry;
+    private final VirtualRegistry registry;
 
-    public DirectionRegistry() {
+    private DirectionRegistry() {
         this.registry = new VirtualRegistry(4);
     }
 
@@ -65,7 +65,7 @@ public final class DirectionRegistry implements Partitionable {
      * @param direction the cardinal direction
      * @param value true or false
      */
-    public final void setCardinal(Direction direction, boolean value) {
+    private void setCardinal(Direction direction, boolean value) {
 
         switch (direction) {
             case EAST:

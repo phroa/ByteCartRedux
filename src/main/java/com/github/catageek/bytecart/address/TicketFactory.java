@@ -38,7 +38,7 @@ public final class TicketFactory {
      * @param player the player
      * @param forcereuse must be true to force the reuse of existing ticket
      */
-    public static final void getOrCreateTicket(Player player, boolean forcereuse) {
+    public static void getOrCreateTicket(Player player, boolean forcereuse) {
         int slot;
         Inventory inv = player.getInventory();
 
@@ -72,7 +72,7 @@ public final class TicketFactory {
      *
      * @param inv the inventory where to put the ticket
      */
-    public static final void getOrCreateTicket(Inventory inv) {
+    public static void getOrCreateTicket(Inventory inv) {
         int slot;
 
         // if storage cart or we must reuse a existing ticket
@@ -89,10 +89,8 @@ public final class TicketFactory {
 
     /**
      * Remove a ticket from an inventory
-     *
-     * @param inv
      */
-    public static final void removeTickets(CarriedInventory<?> inv) {
+    public static void removeTickets(CarriedInventory<?> inv) {
         int slot;
         while ((slot = Ticket.getTicketslot(inv)) != -1) {
             inv.query(new SlotIndex(slot)).clear();

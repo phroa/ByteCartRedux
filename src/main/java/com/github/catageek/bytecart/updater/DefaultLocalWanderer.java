@@ -37,9 +37,9 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
     private final Stack<Integer> End;
     private final T content;
     private final Counter Counter;
-    protected com.github.catageek.bytecart.routing.RoutingTable RoutingTable = null;
+    com.github.catageek.bytecart.routing.RoutingTable RoutingTable = null;
 
-    protected DefaultLocalWanderer(BCSign bc, T rte) {
+    DefaultLocalWanderer(BCSign bc, T rte) {
         super(bc, rte.getRegion());
         content = rte;
         Counter = content.getCounter();
@@ -236,23 +236,23 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
         save();
     }
 
-    protected final int getNetmask() {
+    final int getNetmask() {
         return SignNetmask;
     }
 
-    protected final Stack<Integer> getStart() {
+    final Stack<Integer> getStart() {
         return Start;
     }
 
-    protected final Stack<Integer> getEnd() {
+    final Stack<Integer> getEnd() {
         return End;
     }
 
-    protected final Counter getCounter() {
+    final Counter getCounter() {
         return Counter;
     }
 
-    protected final T getContent() {
+    final T getContent() {
         return content;
     }
 
@@ -262,11 +262,11 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
      *
      * @return the first station number
      */
-    protected int getFirstStationNumber() {
+    int getFirstStationNumber() {
         return (this.getStart().empty() ? 0 : this.getStart().peek());
     }
 
-    protected final boolean isExactSubnet(int address, int netmask) {
+    final boolean isExactSubnet(int address, int netmask) {
         return (address == this.getFirstStationNumber() && (address | (255 >> netmask)) == (this.getLastStationNumber() - 1));
     }
 
@@ -276,11 +276,11 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
      *
      * @return the last station number
      */
-    protected int getLastStationNumber() {
+    int getLastStationNumber() {
         return (this.getEnd().empty()) ? 256 : this.getEnd().peek();
     }
 
-    protected void incrementRingCounter(int ring) {
+    void incrementRingCounter(int ring) {
         if (this.getContent().hasRouteTo(ring)) {
             this.getContent().setRoute(ring
                     , this.getContent().getMetric(ring) + (new Random()).nextInt(RoutingTable.size()) + 1);
@@ -292,22 +292,19 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
     public void save() {
         try {
             ByteCartAPI.getPlugin().getWandererManager().saveContent(getContent());
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public void leaveSubnet() {
+    void leaveSubnet() {
         if (!this.getStart().empty() && !this.getEnd().empty()) {
             this.fillSubnet();
         }
     }
 
-    private final void fillSubnet() {
+    private void fillSubnet() {
         int start = this.getFirstStationNumber();
         int end = this.getLastStationNumber();
         for (int i = start; i < end; i++) {

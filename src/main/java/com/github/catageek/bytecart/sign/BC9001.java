@@ -77,7 +77,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
                             .getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot());
 
             // InputRegistry[0] = start/stop command
-            this.addInputRegistry(new PinRegistry<InputPin>(wire));
+            this.addInputRegistry(new PinRegistry<>(wire));
 
             triggerBC7003();
 
@@ -113,10 +113,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
                 wanderer = ByteCartRedux.myPlugin.getWandererManager().getFactory(this.getInventory()).getWanderer(this, this.getInventory());
                 // here we perform wanderer action
                 wanderer.doAction(IntersectionSide.Side.LEVER_OFF);
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (ClassNotFoundException | IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -131,7 +128,6 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
             }
 
             // Not the good blocks to build the signs
-            return;
         } catch (NullPointerException e) {
             if (ByteCartRedux.debug) {
                 ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
@@ -139,7 +135,6 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
             e.printStackTrace();
 
             // there was no inventory in the cart
-            return;
         }
 
 
@@ -155,7 +150,7 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
      * Manage the red light signal when triggered
      *
      */
-    protected void triggerBC7003() {
+    private void triggerBC7003() {
         (new BC7003(this.getBlock())).trigger();
     }
 
@@ -163,13 +158,12 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
      * Manage the red light signal when powered
      *
      */
-    protected void powerBC7003() {
+    private void powerBC7003() {
         (new BC7003(this.getBlock())).power();
     }
 
 
-    @Override
-    protected Side route() {
+    @Override Side route() {
         SignPreStationEvent event;
         SignPostStationEvent event1;
         // test if every destination field matches sign field

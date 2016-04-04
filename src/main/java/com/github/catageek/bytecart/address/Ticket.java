@@ -40,7 +40,6 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Implement a ticket
@@ -80,12 +79,9 @@ final class Ticket {
                 }
             }
 
-            Iterator<Inventory> it = inv.iterator();
-
-            while (it.hasNext()) {
-                Inventory next = it.next();
-                if (isTicket(next.peek().orElse(ItemStack.builder().build()))) {
-                    Vector2i value = next.getProperty(SlotPos.class, 0).get().getValue();
+            for (Inventory slot : inv) {
+                if (isTicket(slot.peek().orElse(ItemStack.builder().build()))) {
+                    Vector2i value = slot.getProperty(SlotPos.class, 0).get().getValue();
                     return value.getX() + value.getY() * 9;
                 }
             }
@@ -99,7 +95,7 @@ final class Ticket {
      * @param stack the stack to check
      * @return true if it is a ticket
      */
-    private final static boolean isTicket(ItemStack stack) {
+    private static boolean isTicket(ItemStack stack) {
         if (stack != null && stack.getItem().equals(ItemTypes.WRITTEN_BOOK)) {
             String bookAuthor = stack.get(Keys.BOOK_AUTHOR).get().toPlain();
             if (bookAuthor.equals(ByteCartRedux.rootNode.getNode("author").getString())) {
@@ -116,9 +112,7 @@ final class Ticket {
      * @param inv The inventory to search in
      * @return a slot number, or -1
      */
-    static <T extends CarriedInventory<?> & OrderedInventory> int getEmptyOrBookAndQuillSlot(T inv) {
-
-        ItemStack stack;
+    private static <T extends CarriedInventory<?> & OrderedInventory> int getEmptyOrBookAndQuillSlot(T inv) {
 
         if (ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()
                 && inv.contains(ItemTypes.WRITABLE_BOOK)) {
@@ -126,7 +120,7 @@ final class Ticket {
             // priority given to book in hand
             if (inv.getCarrier().get() instanceof Player) {
                 Player player = (Player) inv.getCarrier().get();
-                if (isEmptyBook(stack = player.getEquipped(EquipmentTypes.EQUIPPED).orElse(ItemStack.of(ItemTypes.STONE, 1)))) {
+                if (isEmptyBook(player.getEquipped(EquipmentTypes.EQUIPPED).orElse(ItemStack.of(ItemTypes.STONE, 1)))) {
                     return ((HumanInventory) player.getInventory()).getHotbar().getSelectedSlotIndex();
                 }
             }
@@ -240,12 +234,9 @@ final class Ticket {
      * @return true if it is an empty book_and_quill
      */
     private static boolean isEmptyBook(ItemStack stack) {
-        if (stack != null && stack.getItem().equals(ItemTypes.WRITABLE_BOOK)) {
+        return stack != null && stack.getItem().equals(ItemTypes.WRITABLE_BOOK) && !stack.get(Keys.BOOK_PAGES).filter(texts -> !texts.isEmpty())
+                .isPresent();
 
-            return !stack.get(Keys.BOOK_PAGES).filter(texts -> !texts.isEmpty()).isPresent();
-        }
-
-        return false;
     }
 
     /**
@@ -267,12 +258,7 @@ final class Ticket {
      * @return true
      */
     final boolean setEntry(Parameter parameter, String value) {
-        try {
-            properties.setProperty(parameter.getName(), value);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        properties.setProperty(parameter.getName(), value);
         return true;
     }
 
@@ -303,9 +289,6 @@ final class Ticket {
      * <p>{@link Ticket#close()} must be called to actually perform the operation</p>
      *
      * <p>The appended value is " name (string)"</p>
-     *
-     * @param name
-     * @param s
      */
     void appendTitle(String name, String s) {
         StringBuilder build = new StringBuilder(ByteCartRedux.rootNode.getNode("title").getString());
@@ -341,12 +324,7 @@ final class Ticket {
      * @param defaultvalue the value to set
      */
     void resetValue(Parameter parameter, String defaultvalue) {
-        try {
-            properties.setProperty(parameter.getName(), defaultvalue);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        properties.setProperty(parameter.getName(), defaultvalue);
     }
 
     /**
@@ -357,12 +335,7 @@ final class Ticket {
      * @param parameter parameter to remove
      */
     void remove(Parameter parameter) {
-        try {
-            properties.clearProperty(parameter.getName());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        properties.clearProperty(parameter.getName());
     }
 
     /**

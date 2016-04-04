@@ -55,10 +55,7 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggerabl
                 updater.leaveSubnet();
                 updater.save();
 
-            } catch (ClassNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (ClassNotFoundException | IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

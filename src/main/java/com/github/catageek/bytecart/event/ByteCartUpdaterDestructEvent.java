@@ -32,8 +32,6 @@ class ByteCartUpdaterDestructEvent implements EventListener<DestructEntityEvent>
 
     /**
      * Detect a destroyed updater
-     *
-     * @param event
      */
     @Listener
     @Override

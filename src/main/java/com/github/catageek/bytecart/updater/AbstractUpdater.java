@@ -28,7 +28,7 @@ abstract class AbstractUpdater extends AbstractWanderer {
 
     private final RoutingTableWritable routingTable;
 
-    protected AbstractUpdater(BCSign bc, int region) {
+    AbstractUpdater(BCSign bc, int region) {
         super(bc, region);
 
         if (bc instanceof BC8010) {
@@ -45,7 +45,7 @@ abstract class AbstractUpdater extends AbstractWanderer {
      *
      * @return the direction where we must go
      */
-    public final Direction manageBorder() {
+    final Direction manageBorder() {
         if ((isAtBorder())) {
             DirectionRegistry dir;
             if ((dir = this.getRoutingTable().getDirection(this.getWandererRegion())) != null) {
@@ -59,7 +59,7 @@ abstract class AbstractUpdater extends AbstractWanderer {
     /**
      * @return the routing table
      */
-    protected final RoutingTableWritable getRoutingTable() {
+    final RoutingTableWritable getRoutingTable() {
         return routingTable;
     }
 }

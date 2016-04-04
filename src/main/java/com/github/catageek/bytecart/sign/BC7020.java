@@ -59,14 +59,14 @@ class BC7020 extends AbstractTriggeredSign implements Triggerable {
      * A method called on each wagon of the train
      *
      */
-    protected void actionWagon() {
+    void actionWagon() {
     }
 
     /**
      * Register the output levers
      *
      */
-    protected void addIO() {
+    private void addIO() {
         // Output[0] = 2 bits registry representing levers on the left and on the right of the sign
         OutputPin[] lever2 = new OutputPin[2];
 
@@ -75,7 +75,7 @@ class BC7020 extends AbstractTriggeredSign implements Triggerable {
         // Right
         lever2[1] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.clockwise(this.getCardinal())).createSnapshot());
 
-        PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
+        PinRegistry<OutputPin> command1 = new PinRegistry<>(lever2);
 
         this.addOutputRegistry(command1);
     }

@@ -27,8 +27,6 @@ public interface ModifiableRunnable<T> extends Runnable {
 
     /**
      * Updates the inventory variable
-     *
-     * @param t
      */
     void setParam(T t);
 

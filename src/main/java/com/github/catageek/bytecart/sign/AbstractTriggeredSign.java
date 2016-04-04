@@ -53,16 +53,14 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
         this.inventory = this.extractInventory();
     }
 
-    public static final boolean isTrain(Address address) {
-        if (address != null) {
-            return address.isTrain();
-        }
-        return false;
+    static boolean isTrain(Address address) {
+        return address != null && address.isTrain();
     }
 
     /**
      * @return The vehicle which triggered the sign.
      */
+    @SuppressWarnings("WeakerAccess")
     public final Entity getVehicle() {
         return vehicle;
     }
@@ -73,7 +71,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
      *
      * @return inventory with address configuration from the current vehicle.
      */
-    private final CarriedInventory<?> extractInventory() {
+    private CarriedInventory<?> extractInventory() {
 
         Inventory newInv = CustomInventory.builder().size(27).build();
 
@@ -88,7 +86,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
                     if (this.getVehicle().getPassenger().get() instanceof Player) {
 
                         if (ByteCartRedux.debug) {
-                            ByteCartRedux.log.info("ByteCartRedux: loading player inventory :" + ((Player) this.getVehicle().getPassenger().get())
+                            ByteCartRedux.log.info("ByteCartRedux: loading player inventory :" + this.getVehicle().getPassenger().get()
                                     .get(Keys.DISPLAY_NAME));
                         }
 
@@ -118,16 +116,14 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
     /**
      * @return The inventory of the vehicle which triggered this sign.
      */
-    public CarriedInventory<?> getInventory() {
+    CarriedInventory<?> getInventory() {
         return inventory;
     }
 
     /**
      * Set the inventory variable
-     *
-     * @param inv
      */
-    protected void setInventory(CarriedInventory<?> inv) {
+    void setInventory(CarriedInventory<?> inv) {
         this.inventory = inv;
     }
 
@@ -152,7 +148,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
      * @param loc the location where to store the bit
      * @param b the bit
      */
-    protected final void setWasTrain(Location<World> loc, boolean b) {
+    final void setWasTrain(Location<World> loc, boolean b) {
         if (b) {
             ByteCartRedux.myPlugin.getIsTrainManager().getMap().put(loc, true);
         }

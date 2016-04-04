@@ -48,7 +48,7 @@ final class UpdaterResetRegion extends UpdaterRegion implements Wanderer {
 
 
     @Override
-    protected final void reset() {
+    final void reset() {
         // case of reset
         // erase address on sign if ring 0
         Address address = this.getSignAddress();

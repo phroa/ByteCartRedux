@@ -33,7 +33,7 @@ public abstract class Expirable<K> {
     private final long duration;
     private final String name;
     private final boolean isSync;
-    private Map<K, Task> threadMap = Collections.synchronizedMap(new HashMap<>());
+    private final Map<K, Task> threadMap = Collections.synchronizedMap(new HashMap<>());
 
     /**
      * @param duration the timeout value
@@ -51,23 +51,23 @@ public abstract class Expirable<K> {
 
     public void reset(K key, Object... objects) {
         if (duration != 0) {
-            (new BCRunnable<K>(this, key)).renewTaskLater(objects);
+            (new BCRunnable<>(this, key)).renewTaskLater(objects);
         }
     }
 
-    public void reset(long duration, K key, Object... objects) {
+    protected void reset(long duration, K key, Object... objects) {
         if (duration != 0) {
-            (new BCRunnable<K>(this, key)).renewTaskLater(duration, objects);
+            (new BCRunnable<>(this, key)).renewTaskLater(duration, objects);
         }
     }
 
-    public final void cancel(K key) {
+    protected final void cancel(K key) {
         if (duration != 0) {
-            (new BCRunnable<K>(this, key)).cancel();
+            (new BCRunnable<>(this, key)).cancel();
         }
     }
 
-    protected final Map<K, Task> getThreadMap() {
+    final Map<K, Task> getThreadMap() {
         return threadMap;
     }
 

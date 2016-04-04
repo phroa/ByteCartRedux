@@ -43,7 +43,7 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
     /**
      * @param block the block containing the component
      */
-    protected ComponentButton(BlockSnapshot block) {
+    ComponentButton(BlockSnapshot block) {
         super(block);
     }
 
@@ -56,10 +56,10 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
             UUID taskId;
 
             if (bit) {
-                if (ACTIVATED_BUTTON_MAP.containsKey(block)) {
+                if (ACTIVATED_BUTTON_MAP.containsKey(block.getLocation().get())) {
 
                     // if button is already on, we cancel the scheduled thread
-                    Sponge.getScheduler().getTaskById(ACTIVATED_BUTTON_MAP.get(block)).get().cancel();
+                    Sponge.getScheduler().getTaskById(ACTIVATED_BUTTON_MAP.get(block.getLocation().get())).get().cancel();
 
                     // and we reschedule one
                     taskId = Sponge.getScheduler().createTaskBuilder()
@@ -103,7 +103,7 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
         }
     }
 
-    static boolean buttonPowered(BlockState blockstate) {
+    private static boolean buttonPowered(BlockState blockstate) {
         return blockstate.getTraitValue(BooleanTraits.STONE_BUTTON_POWERED).orElse(false) || blockstate
                 .getTraitValue(BooleanTraits.WOODEN_BUTTON_POWERED).orElse(false);
     }

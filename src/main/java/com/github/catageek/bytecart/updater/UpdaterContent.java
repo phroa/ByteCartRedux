@@ -24,7 +24,6 @@ import com.github.catageek.bytecart.routing.RouteValue;
 import com.github.catageek.bytecart.routing.RoutingTableWritable;
 import com.github.catageek.bytecart.util.DirectionRegistry;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.Serializable;

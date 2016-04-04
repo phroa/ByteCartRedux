@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.util.Stack;
 
 
-public interface InventoryContent extends Serializable {
+interface InventoryContent extends Serializable {
 
     /**
      * @return the inventory

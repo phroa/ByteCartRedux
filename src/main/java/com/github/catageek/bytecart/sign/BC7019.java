@@ -68,12 +68,7 @@ final class BC7019 extends BC7010 implements Triggerable {
 
         int newStation = startStation + (new Random()).nextInt(endStation - startStation + 1);
 
-        StringBuilder sb = new StringBuilder();
-        String dot = ".";
-
-        sb.append(newRegion).append(dot).append(newTrack).append(dot).append(newStation);
-
-        return new AddressString(sb.toString(), false);
+        return new AddressString(String.format("%d.%d.%d", newRegion, newTrack, newStation), false);
     }
 
 

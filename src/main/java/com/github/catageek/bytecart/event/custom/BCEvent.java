@@ -24,11 +24,11 @@ import org.spongepowered.api.event.Event;
 /**
  * A container class for all events
  */
-public abstract class BCEvent implements Event {
+abstract class BCEvent implements Event {
 
     private final IC ic;
 
-    public BCEvent(IC ic) {
+    BCEvent(IC ic) {
         super();
         this.ic = ic;
     }

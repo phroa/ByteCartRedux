@@ -25,19 +25,19 @@ import org.spongepowered.api.world.World;
 /**
  * Abstract class for colllision avoider builders
  */
-public abstract class AbstractCollisionAvoiderBuilder {
+abstract class AbstractCollisionAvoiderBuilder {
 
     /**
      * The first IC attached to the collision avoiders created
      */
-    protected final Triggerable ic;
+    final Triggerable ic;
 
     /**
      * The location to where the collision avoiders will be attached
      */
-    protected final Location loc;
+    final Location loc;
 
-    public AbstractCollisionAvoiderBuilder(Triggerable ic, Location<World> loc) {
+    AbstractCollisionAvoiderBuilder(Triggerable ic, Location<World> loc) {
         this.ic = ic;
         this.loc = loc;
     }

@@ -76,7 +76,7 @@ public class ByteCartCommandExecutor {
                         return CommandResult.empty();
                     }
 
-                    (new BC7010(player.getLocation().createSnapshot(), player)).setAddress(hostOrAddress, null, isTrain);
+                    (new BC7010(player.getLocation().createSnapshot(), player)).setAddress(hostOrAddress, isTrain);
                 }
                 return CommandResult.success();
             }).build();
@@ -124,7 +124,7 @@ public class ByteCartCommandExecutor {
                         public void run() {
                             if ((new BC7011(player.getLocation().createSnapshot(),
                                     ((CarriedInventory<ContainerMinecart>) inventory).getCarrier().get()))
-                                    .setAddress(address, null, this.isTrain)) {
+                                    .setAddress(address, this.isTrain)) {
                                 LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " " + hostOrAddress);
                                 LogUtil.sendSuccess(player,
                                         ByteCartRedux.rootNode.getNode("Info", "GetTTL").getString() + AddressFactory.<AddressRouted>getAddress(
@@ -137,7 +137,6 @@ public class ByteCartCommandExecutor {
 
 
                         /**
-                         * @param inventory
                          * @param inventory the inventory to set
                          */
 
@@ -222,7 +221,7 @@ public class ByteCartCommandExecutor {
                     return CommandResult.empty();
                 }
 
-                (new BC7010(player.get().getLocation().createSnapshot(), player.get())).setAddress(addressString, null, isTrain);
+                (new BC7010(player.get().getLocation().createSnapshot(), player.get())).setAddress(addressString, isTrain);
 
                 player.get().sendMessage(Text.builder()
                         .color(TextColors.DARK_GREEN)
@@ -409,8 +408,8 @@ public class ByteCartCommandExecutor {
         private final Wanderer.Level level;
         private final int region;
         private CarriedInventory<ContainerMinecart> inventory;
-        private boolean isFullReset;
-        private boolean isNew;
+        private final boolean isFullReset;
+        private final boolean isNew;
 
 
         public ExecuteUpdate(Player player, Wanderer.Level level, int region, boolean isFullReset, boolean isNew) {
@@ -440,7 +439,6 @@ public class ByteCartCommandExecutor {
 
 
         /**
-         * @param inventory
          * @param inventory the inventory to set
          */
 

@@ -30,8 +30,6 @@ import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.event.entity.DisplaceEntityEvent;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.filter.cause.Root;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,15 +43,12 @@ public final class ConstantSpeedListener {
     // We keep the speed of each cart in this map
     private final Map<UUID, Double> speedMap = new HashMap<>();
 
-    // empty Location
-    private Location<World> location;
-
     @Listener
     public void onVehicleMove(DisplaceEntityEvent.Move event, @Root Minecart m) {
         double speed = MathUtil.getSpeed(m);
         UUID id = m.getUniqueId();
 
-        BlockState block = (location = m.getLocation()).getBlock();
+        BlockState block = m.getLocation().getBlock();
 
         if (speed != 0 && block.supports(Keys.RAIL_DIRECTION)) {
             Double storedSpeed;

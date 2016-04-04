@@ -68,7 +68,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
         lever[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(getCardinal().getOpposite()).createSnapshot());
 
         // OutputRegistry[0] = occupied signal
-        this.addOutputRegistry(new PinRegistry<OutputPin>(lever));
+        this.addOutputRegistry(new PinRegistry<>(lever));
 
         // here starts the action
 
@@ -88,7 +88,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
                             .createSnapshot());
 
             // InputRegistry[0] = start/stop command
-            this.addInputRegistry(new PinRegistry<InputPin>(wire));
+            this.addInputRegistry(new PinRegistry<>(wire));
 
             // if the wire is on
             if (this.getInput(0).getValue() > 0) {
@@ -104,13 +104,11 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
 
                 Sponge.getScheduler().createTaskBuilder()
                         .delayTicks(6)
-                        .execute(new Runnable() {
-                            public void run() {
+                        .execute(() -> {
 
-                                // we set busy
-                                myBC7001.getOutput(0).setAmount(1);
+                            // we set busy
+                            myBC7001.getOutput(0).setAmount(1);
 
-                            }
                         })
                         .submit(ByteCartRedux.myPlugin);
 
@@ -157,7 +155,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
     public void power() throws ClassNotFoundException, IOException {
         // power update
 
-        Triggerable bc = this;
+        Triggerable bc;
 
         // We need to find if a cart is stopped and set the member variable Vehicle
         BlockSnapshot block = this.getBlock().getLocation().get().add(Direction.UP.toVector3d().mul(2)).createSnapshot();

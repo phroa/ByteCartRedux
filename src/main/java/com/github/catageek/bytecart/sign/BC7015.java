@@ -47,10 +47,7 @@ final class BC7015 extends BC7011 implements Triggerable {
     @Override
     protected final boolean getIsTrain() {
         Address address;
-        if ((address = AddressFactory.getAddress(this.getInventory())) != null) {
-            return address.isTrain();
-        }
-        return false;
+        return (address = AddressFactory.getAddress(this.getInventory())) != null && address.isTrain();
     }
 
     @Override

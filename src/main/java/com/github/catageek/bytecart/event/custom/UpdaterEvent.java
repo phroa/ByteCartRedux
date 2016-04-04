@@ -29,7 +29,7 @@ import java.util.UUID;
  * An event concerning an updater.
  * Implementations must inherit this class.
  */
-abstract public class UpdaterEvent extends BCEvent {
+abstract class UpdaterEvent extends BCEvent {
 
     private final Wanderer updater;
 
@@ -86,7 +86,7 @@ abstract public class UpdaterEvent extends BCEvent {
     /**
      * @return The updater involved
      */
-    protected final Wanderer getUpdater() {
+    final Wanderer getUpdater() {
         return updater;
     }
 

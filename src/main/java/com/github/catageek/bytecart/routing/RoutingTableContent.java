@@ -56,7 +56,7 @@ abstract class RoutingTableContent<T extends RoutingTableContent<T>> implements 
     /**
      * @param amount the value to store
      */
-    protected void setValue(int amount) {
+    void setValue(int amount) {
         data.setAmount(amount);
     }
 

@@ -20,7 +20,6 @@ package com.github.catageek.bytecart.updater;
 
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
-import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.IOException;

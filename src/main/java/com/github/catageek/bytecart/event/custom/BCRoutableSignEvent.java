@@ -28,9 +28,9 @@ import org.spongepowered.api.util.Direction;
 /**
  * A sign event. Implementations must inherit this class
  */
-public abstract class BCRoutableSignEvent extends BCEvent {
+abstract class BCRoutableSignEvent extends BCEvent {
 
-    public BCRoutableSignEvent(IC ic) {
+    BCRoutableSignEvent(IC ic) {
         super(ic);
     }
 

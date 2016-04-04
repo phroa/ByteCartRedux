@@ -42,7 +42,7 @@ import org.spongepowered.api.entity.Entity;
  */
 abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements BCSign {
 
-    protected CollisionAvoiderBuilder builder;
+    final CollisionAvoiderBuilder builder;
     private AddressRouted destination;
 
 
@@ -60,7 +60,7 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
      * Register the inputs and outputs
      *
      */
-    protected void addIO() {
+    void addIO() {
         // Output[0] = 2 bits registry representing levers on the left and on the right of the sign
         OutputPin[] lever2 = new OutputPin[2];
 
@@ -69,12 +69,12 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
         // Right
         lever2[1] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.clockwise(this.getCardinal())).createSnapshot());
 
-        PinRegistry<OutputPin> command1 = new PinRegistry<OutputPin>(lever2);
+        PinRegistry<OutputPin> command1 = new PinRegistry<>(lever2);
 
         this.addOutputRegistry(command1);
     }
 
-    protected final void addIOInv() {
+    final void addIOInv() {
         // Input[0] = destination region taken from Inventory, slot #0
 
 
@@ -104,12 +104,12 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
     }
 
 
-    protected void manageWanderer(SimpleCollisionAvoider intersection) {
+    void manageWanderer(SimpleCollisionAvoider intersection) {
         // routing
         intersection.wishToGo(route(), false);
     }
 
-    protected Side route() {
+    Side route() {
         return Side.LEVER_OFF;
     }
 
@@ -149,7 +149,6 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
             }
 
             // Not the good blocks to build the signs
-            return;
         } catch (NullPointerException e) {
             if (ByteCartRedux.debug) {
                 ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
@@ -157,12 +156,11 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
             e.printStackTrace();
 
             // there was no inventory in the cart
-            return;
         }
 
     }
 
-    protected final AddressRouted getDestinationAddress() {
+    final AddressRouted getDestinationAddress() {
         if (destination != null) {
             return destination;
         }

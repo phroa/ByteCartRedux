@@ -39,13 +39,13 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
 
     private static final ExpirableMap<Location<World>, Boolean> recentlyUsedMap = new ExpirableMap<>(40, false, "recentlyUsedRouter");
     private static final ExpirableMap<Location<World>, Boolean> hasTrainMap = new ExpirableMap<>(14, false, "hasTrainRouter");
-    protected Map<Side, Side> fromTo = new ConcurrentHashMap<Side, Side>();
-    protected Map<Side, Set<Side>> possibility = new ConcurrentHashMap<Side, Set<Side>>();
+    final Map<Side, Side> fromTo = new ConcurrentHashMap<>();
+    final Map<Side, Set<Side>> possibility = new ConcurrentHashMap<>();
     private Direction from;
     private int secondpos = 0;
     private int posmask = 255;
 
-    public AbstractRouter(Direction from, Location<World> loc) {
+    AbstractRouter(Direction from, Location<World> loc) {
         super(loc);
         this.setFrom(from);
         this.addIO(from, loc.createSnapshot());
@@ -59,7 +59,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param to the absolute direction
      * @return the relative direction
      */
-    private final static Side getSide(Direction from, Direction to) {
+    private static Side getSide(Direction from, Direction to) {
         Direction t = to;
         if (from == t) {
             return Side.BACK;
@@ -81,7 +81,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param b the initial direction
      * @return the next direction
      */
-    private final static Direction turn(Direction b) {
+    private static Direction turn(Direction b) {
         return MathUtil.anticlockwise(b);
     }
 
@@ -92,14 +92,13 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param d the numbers of bits to shift left
      * @return the result
      */
-    private final static int leftRotate8(int value, int d) {
+    private static int leftRotate8(int value, int d) {
         int b = 8 - d;
         return (value >> (b)) | ((value & ((1 << b) - 1)) << d);
     }
 
     @Override
     public void Add(Triggerable t) {
-        return;
     }
 
     @Override
@@ -158,7 +157,6 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
 
     @Override
     public void route(Direction from) {
-        return;
     }
 
     @Override
@@ -172,7 +170,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     /**
      * @param from the from to set
      */
-    private final void setFrom(Direction from) {
+    private void setFrom(Direction from) {
         this.from = from;
     }
 
@@ -182,7 +180,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param ca the collision avoider against which to check the state
      * @return false if a transition is needed
      */
-    private final boolean ValidatePosition(Router ca) {
+    private boolean ValidatePosition(Router ca) {
         Side side = getSide(this.getFrom(), ca.getFrom());
         if (ByteCartRedux.debug) {
             ByteCartRedux.log.info("ByteCartRedux : pos value befor rotation : " + Integer.toBinaryString(getSecondpos()));
@@ -219,7 +217,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @return the relative direction
      */
     @SuppressWarnings("unused")
-    private final Side getSide(Direction to) {
+    private Side getSide(Direction to) {
         return getSide(getFrom(), to);
     }
 
@@ -229,7 +227,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param from the origin axis
      * @param center the center of the router
      */
-    private final void addIO(Direction from, BlockSnapshot center) {
+    private void addIO(Direction from, BlockSnapshot center) {
 
         Direction f = from;
         Direction g = MathUtil.clockwise(from);
@@ -250,7 +248,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
 
         checkIOPresence(sortie);
 
-        RegistryOutput main = new PinRegistry<OutputPin>(sortie);
+        RegistryOutput main = new PinRegistry<>(sortie);
 
         // output[0] is main levers
         this.addOutputRegistry(main);
@@ -270,7 +268,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
 
         checkIOPresence(secondary);
 
-        RegistryOutput second = new PinRegistry<OutputPin>(secondary);
+        RegistryOutput second = new PinRegistry<>(secondary);
 
         // output[1] is second and third levers
         this.addOutputRegistry(second);
@@ -283,8 +281,8 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
      * @param sortie an array of levers
      */
     private void checkIOPresence(OutputPin[] sortie) {
-        for (int i = 0; i < sortie.length; i++) {
-            if (sortie[i] == null) {
+        for (OutputPin pin : sortie) {
+            if (pin == null) {
                 ByteCartRedux.log.error("ByteCartRedux : Lever missing or wrongly positioned in router " + this.getLocation());
                 throw new NullPointerException();
             }
