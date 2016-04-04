@@ -26,6 +26,7 @@ import com.github.catageek.bytecart.event.ConstantSpeedListener;
 import com.github.catageek.bytecart.event.PreloadChunkListener;
 import com.github.catageek.bytecart.updater.BCWandererManager;
 import com.github.catageek.bytecart.updater.UpdaterFactory;
+import com.google.inject.Inject;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.slf4j.Logger;
@@ -41,12 +42,14 @@ import org.spongepowered.api.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 /**
  * Main class
  */
-@Plugin(id = "com.github.catageek.bytecart", name = "ByteCartRedux", description = "Minecart routing system", version = "3.0.0.0")
+@Plugin(id = "com.github.catageek.bytecart",
+        name = "ByteCartRedux",
+        description = "Minecart routing system",
+        version = "3.0.0.1",
+        url = "https://github.com/phroa/ByteCartRedux")
 public final class ByteCartRedux implements ByteCartPlugin {
 
     @Inject
