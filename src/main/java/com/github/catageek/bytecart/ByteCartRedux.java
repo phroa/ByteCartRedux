@@ -48,7 +48,7 @@ import java.io.IOException;
 @Plugin(id = "com.github.catageek.bytecart",
         name = "ByteCartRedux",
         description = "Minecart routing system",
-        version = "3.0.0.1",
+        version = "3.0.0.2",
         url = "https://github.com/phroa/ByteCartRedux")
 public final class ByteCartRedux implements ByteCartPlugin {
 
