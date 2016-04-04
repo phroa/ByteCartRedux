@@ -18,8 +18,6 @@
  */
 package com.github.catageek.bytecart;
 
-import org.bukkit.inventory.Inventory;
-
 /**
  * Represents a runnable that can updates its inventory variable
  *
@@ -30,8 +28,8 @@ public interface ModifiableRunnable<T> extends Runnable {
     /**
      * Updates the inventory variable
      *
-     * @param inventory
+     * @param t
      */
-    void SetParam(Inventory inventory);
+    void setParam(T t);
 
 }

@@ -21,9 +21,11 @@ package com.github.catageek.bytecart.event.custom;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
+import java.util.UUID;
+
 public final class UpdaterRemoveEvent implements Event {
 
-    private final int vehicleId;
+    private final UUID vehicleId;
 
     /**
      * Default constructor
@@ -31,14 +33,14 @@ public final class UpdaterRemoveEvent implements Event {
      * @param vehicleId the vehicle id
      * @param location the location
      */
-    public UpdaterRemoveEvent(int vehicleId) {
+    public UpdaterRemoveEvent(UUID vehicleId) {
         this.vehicleId = vehicleId;
     }
 
     /**
      * @return the vehicleId
      */
-    public int getVehicleId() {
+    public UUID getVehicleId() {
         return vehicleId;
     }
 

@@ -18,37 +18,37 @@
  */
 package com.github.catageek.bytecart.event;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.event.custom.UpdaterMoveEvent;
 import com.github.catageek.bytecart.event.custom.UpdaterRemoveEvent;
 import com.github.catageek.bytecart.updater.UpdaterContentFactory;
 import com.github.catageek.bytecart.updater.UpdaterSet;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Vehicle;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.vehicle.VehicleDestroyEvent;
-import org.bukkit.event.vehicle.VehicleMoveEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.event.EventListener;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.entity.DisplaceEntityEvent;
+import org.spongepowered.api.item.inventory.Carrier;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.UUID;
 
 /**
  * Launch an event when an updater moves
  * This listener unregisters itself automatically if there is no updater
  */
-public class ByteCartUpdaterMoveListener implements Listener {
+public class ByteCartUpdaterMoveListener implements EventListener<DisplaceEntityEvent.Move> {
 
     // flag for singleton
     private static boolean exist = false;
 
     // A map with ephemeral elements and timers
-    private static UpdaterSet updaterset = new UpdaterSet();
+    private static UpdaterSet updaterSet = new UpdaterSet();
 
     /**
      * @return the exist
@@ -62,7 +62,7 @@ public class ByteCartUpdaterMoveListener implements Listener {
      */
     public static void setExist(boolean exist) {
         if (!isExist() && exist) {
-            updaterset = new UpdaterSet();
+            updaterSet = new UpdaterSet();
         }
         ByteCartUpdaterMoveListener.exist = exist;
     }
@@ -72,44 +72,46 @@ public class ByteCartUpdaterMoveListener implements Listener {
      *
      * @param id the vehicle id
      */
-    public static final void addUpdater(int id) {
-        updaterset.getMap().add(id);
+    public static final void addUpdater(UUID id) {
+        updaterSet.getMap().add(id);
     }
 
     public static final void clearUpdaters() {
-        if (updaterset != null) {
-            updaterset.clear();
+        if (updaterSet != null) {
+            updaterSet.clear();
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onVehicleMoveEvent(VehicleMoveEvent event) {
+    @Listener
+    @Override
+    public void handle(DisplaceEntityEvent.Move event) {
 
-        Location loc = event.getFrom();
-        Integer from_x = loc.getBlockX();
-        Integer from_z = loc.getBlockZ();
-        loc = event.getTo();
-        int to_x = loc.getBlockX();
-        int to_z = loc.getBlockZ();
+        Location<World> loc = event.getFromTransform().getLocation();
+        Integer fromX = loc.getBlockX();
+        Integer fromZ = loc.getBlockZ();
+        loc = event.getToTransform().getLocation();
+        int toX = loc.getBlockX();
+        int toZ = loc.getBlockZ();
 
 
         // Check if the vehicle crosses a cube boundary
-        if (from_x == to_x && from_z == to_z) {
+        if (fromX == toX && fromZ == toZ) {
             return;    // no boundary crossed, resumed
         }
 
-        Vehicle v = event.getVehicle();
+        Entity v = event.getTargetEntity();
         // reset the timer
-        if (v instanceof InventoryHolder) {
-            Inventory inv = ((InventoryHolder) v).getInventory();
+        if (v instanceof Carrier) {
+            CarriedInventory inv = ((Carrier) v).getInventory();
             if (WandererContentFactory.isWanderer(inv, "Updater")) {
-                Bukkit.getServer().getPluginManager().callEvent((Event) new UpdaterMoveEvent(event));
+                Sponge.getEventManager().registerListeners(ByteCartRedux.myPlugin, new ByteCartUpdaterDestructEvent());
+                Sponge.getEventManager().post(new UpdaterMoveEvent(event));
                 try {
                     long duration = UpdaterContentFactory.getUpdaterContent(inv).getExpirationTime()
                             - Calendar.getInstance().getTimeInMillis();
                     if (duration < 1000) {
-                        updaterset.getMap().reset(duration / 50, v.getEntityId());
-                        Bukkit.getServer().getPluginManager().callEvent((Event) new UpdaterRemoveEvent(v.getEntityId()));
+                        updaterSet.getMap().reset(duration / 50, v.getUniqueId());
+                        Sponge.getEventManager().post(new UpdaterRemoveEvent(v.getUniqueId()));
                     }
                 } catch (ClassNotFoundException e) {
                     // TODO Auto-generated catch block
@@ -122,30 +124,14 @@ public class ByteCartUpdaterMoveListener implements Listener {
             }
         }
 
-        if (updaterset.getMap().isEmpty()) {
+        if (updaterSet.getMap().isEmpty()) {
             removeListener();
         }
     }
 
-    /**
-     * Detect a destroyed updater
-     *
-     * @param event
-     */
-    @EventHandler(ignoreCancelled = true)
-    public void onVehicleDestroy(VehicleDestroyEvent event) {
-        Vehicle v = event.getVehicle();
-        if (v instanceof InventoryHolder) {
-            Inventory inv = ((InventoryHolder) v).getInventory();
-            if (WandererContentFactory.isWanderer(inv, "Updater")) {
-                Bukkit.getServer().getPluginManager().callEvent((Event) new UpdaterRemoveEvent(v.getEntityId()));
-            }
-        }
-    }
-
     private void removeListener() {
-        HandlerList.unregisterAll(this);
-        updaterset = null;
+        Sponge.getEventManager().unregisterListeners(this);
+        updaterSet = null;
         setExist(false);
     }
 }

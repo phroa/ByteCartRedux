@@ -24,34 +24,35 @@ import com.github.catageek.bytecart.event.custom.UpdaterRemoveEvent;
 import org.spongepowered.api.Sponge;
 
 import java.util.Iterator;
+import java.util.UUID;
 
 /**
  * A set for integers with a timeout of 1h
  */
 public final class UpdaterSet {
 
-    private final ExpirableSet<Integer> updateSet;
+    private final ExpirableSet<UUID> updateSet;
 
     // entries stay for 1h
-    UpdaterSet() {
+    public UpdaterSet() {
         long duration = ByteCartRedux.rootNode.getNode("updater", "timeout").getInt(60) * 1200;
-        updateSet = new ExpirableSet<Integer>(duration, false, "UpdaterRoutes");
+        updateSet = new ExpirableSet<>(duration, false, "UpdaterRoutes");
     }
 
-    public ExpirableSet<Integer> getMap() {
+    public ExpirableSet<UUID> getMap() {
         return updateSet;
     }
 
-    public boolean isUpdater(Integer id) {
+    public boolean isUpdater(UUID id) {
         return updateSet.contains(id);
     }
 
-    public void addUpdater(int id) {
+    public void addUpdater(UUID id) {
         this.updateSet.add(id);
     }
 
     public void clear() {
-        Iterator<Integer> it = updateSet.getIterator();
+        Iterator<UUID> it = updateSet.getIterator();
         while (it.hasNext()) {
             Sponge.getEventManager().post(new UpdaterRemoveEvent(it.next()));
         }

@@ -18,38 +18,31 @@
  */
 package com.github.catageek.bytecart.event.custom;
 
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.entity.DisplaceEntityEvent;
 
 /**
  * Event trigger when an updater moves from 1 block
  */
-public final class UpdaterMoveEvent extends Event {
+public final class UpdaterMoveEvent implements Event {
 
-    private static final HandlerList handlers = new HandlerList();
-    private final VehicleMoveEvent event;
+    private final DisplaceEntityEvent.Move event;
 
-    public UpdaterMoveEvent(VehicleMoveEvent event) {
+    public UpdaterMoveEvent(DisplaceEntityEvent.Move event) {
         this.event = event;
-    }
-
-    /**
-     * Needed for Bukkit Event API usage
-     */
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     /**
      * @return the event
      */
-    public VehicleMoveEvent getEvent() {
+    public DisplaceEntityEvent.Move getEvent() {
         return event;
     }
 
-    public HandlerList getHandlers() {
-        return handlers;
+    @Override
+    public Cause getCause() {
+        return event.getCause();
     }
 
 }

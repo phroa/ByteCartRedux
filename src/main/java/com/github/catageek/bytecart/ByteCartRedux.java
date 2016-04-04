@@ -19,19 +19,17 @@
 package com.github.catageek.bytecart;
 
 import com.github.catageek.bytecart.address.Resolver;
+import com.github.catageek.bytecart.collection.IsTrainManager;
 import com.github.catageek.bytecart.collision.CollisionAvoiderManager;
 import com.github.catageek.bytecart.event.ByteCartListener;
 import com.github.catageek.bytecart.event.ConstantSpeedListener;
 import com.github.catageek.bytecart.event.PreloadChunkListener;
-import com.github.catageek.bytecart.collection.IsTrainManager;
-import com.github.catageek.bytecart.updater.UpdaterFactory;
 import com.github.catageek.bytecart.updater.BCWandererManager;
-import com.github.catageek.bytecart.plugins.BCHostnameResolutionPlugin;
+import com.github.catageek.bytecart.updater.UpdaterFactory;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
@@ -65,7 +63,7 @@ public final class ByteCartRedux implements ByteCartPlugin {
 
     public static ByteCartRedux myPlugin;
     public static boolean debug;
-    public int Lockduration;
+    public int lockDuration;
     private PreloadChunkListener preloadchunklistener;
     private ConstantSpeedListener constantspeedlistener;
     private CollisionAvoiderManager cam;
@@ -102,10 +100,12 @@ public final class ByteCartRedux implements ByteCartPlugin {
             this.getWandererManager().register(new UpdaterFactory(), "Updater");
         }
 
-        Sponge.getCommandManager().register(this, CommandSpec.builder()
-                .executor(new BytecartCommandExecutor())
-                .build(), "mego", "sendto", "bcreload", "bcupdater", "bcticket", "bcback");
-
+        Sponge.getCommandManager().register(this, ByteCartCommandExecutor.MEGO, "mego");
+        Sponge.getCommandManager().register(this, ByteCartCommandExecutor.SENDTO, "sendto");
+        Sponge.getCommandManager().register(this, ByteCartCommandExecutor.BCRELOAD, "bcreload");
+        Sponge.getCommandManager().register(this, ByteCartCommandExecutor.BCUPDATER, "bcupdater");
+        Sponge.getCommandManager().register(this, ByteCartCommandExecutor.BCTICKET, "bcticket");
+        Sponge.getCommandManager().register(this, ByteCartCommandExecutor.BCBACK, "bcback");
         log.info("[ByteCartRedux] plugin has been enabled.");
     }
 
@@ -126,7 +126,7 @@ public final class ByteCartRedux implements ByteCartPlugin {
         debug = rootNode.getNode("debug").getBoolean(false);
         keepitems = rootNode.getNode("keepitems").getBoolean(true);
 
-        Lockduration = rootNode.getNode("Lockduration").getInt(44);
+        lockDuration = rootNode.getNode("lockDuration").getInt(44);
 
         if (debug) {
             log.info("ByteCartRedux : debug mode is on.");

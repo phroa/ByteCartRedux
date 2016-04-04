@@ -18,49 +18,48 @@
  */
 package com.github.catageek.bytecart.event.custom;
 
-import org.bukkit.Location;
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+
+import java.util.UUID;
 
 /**
  * Event triggered when an updater is created
  */
-public final class UpdaterCreateEvent extends Event {
+public final class UpdaterCreateEvent implements Event {
 
-    private static final HandlerList handlers = new HandlerList();
-    private final int vehicleId;
-    private final Location location;
+    private final UUID vehicleId;
+    private final Location<World> location;
 
     /**
      * Default constructor
      *
-     * @param VehicleId the vehicle id
+     * @param vehicleId the vehicle id
      * @param location the location
      */
-    public UpdaterCreateEvent(int VehicleId, Location location) {
-        this.vehicleId = VehicleId;
+    public UpdaterCreateEvent(UUID vehicleId, Location<World> location) {
+        this.vehicleId = vehicleId;
         this.location = location;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**
      * @return the vehicleId
      */
-    public int getVehicleId() {
+    public UUID getVehicleId() {
         return vehicleId;
     }
 
     /**
      * @return the location
      */
-    public Location getLocation() {
+    public Location<World> getLocation() {
         return location;
+    }
+
+    @Override
+    public Cause getCause() {
+        return Cause.source(vehicleId).build();
     }
 }

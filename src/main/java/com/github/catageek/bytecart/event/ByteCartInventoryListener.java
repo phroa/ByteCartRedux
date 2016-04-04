@@ -19,58 +19,65 @@
 package com.github.catageek.bytecart.event;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import com.github.catageek.bytecart.event.custom.UpdaterCreateEvent;
 import com.github.catageek.bytecart.ModifiableRunnable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.minecart.StorageMinecart;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
+import com.github.catageek.bytecart.event.custom.UpdaterCreateEvent;
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.vehicle.minecart.ContainerMinecart;
+import org.spongepowered.api.event.EventListener;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.entity.InteractEntityEvent;
+import org.spongepowered.api.item.inventory.Carrier;
+import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 /**
  * Class implementing a listener and waiting for a player to right-click an inventory holder
  * and running a Runnable
  */
-public class ByteCartInventoryListener implements Listener {
+public class ByteCartInventoryListener<T extends Inventory> implements EventListener<InteractEntityEvent.Secondary> {
 
-    private final Player Player;
+    private final Player player;
     // the Runnable to update
-    private final ModifiableRunnable<Inventory> Execute;
+    private final ModifiableRunnable<T> execute;
     // flag set when we deal with an updater command
     private final boolean isUpdater;
 
-    public ByteCartInventoryListener(ByteCartRedux plugin, Player player, ModifiableRunnable<Inventory> execute,
-            boolean isupdater) {
-        this.Player = player;
-        this.Execute = execute;
-        this.isUpdater = isupdater;
+    public ByteCartInventoryListener(ByteCartRedux plugin, Player player, ModifiableRunnable<T> execute,
+            boolean isUpdater) {
+        this.player = player;
+        this.execute = execute;
+        this.isUpdater = isUpdater;
         // self registering as Listener
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        Sponge.getEventManager().registerListeners(plugin, this);
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+    @Listener
+    @Override
+    public void handle(InteractEntityEvent.Secondary event) {
+        if (event.getCause().containsType(Player.class)) {
+            return;
+        }
+        Player player = event.getCause().first(Player.class).get();
         Entity entity;
-        Inventory inv;
-        if (event.getPlayer().equals(Player) && ((entity = event.getRightClicked()) instanceof InventoryHolder)) {
+        T inv;
+        if (player.equals(this.player) && ((entity = event.getTargetEntity()) instanceof Carrier)) {
             // we set the member and run the Runnable
-            this.Execute.SetParam(inv = ((InventoryHolder) entity).getInventory());
-            this.Execute.run();
+            this.execute.setParam(inv = (T) ((Carrier) entity).getInventory());
+            this.execute.run();
             // we cancel the right-click
             event.setCancelled(true);
 
             if (isUpdater) {
                 // we launch an UpdaterCreateEvent
-                StorageMinecart v = (StorageMinecart) inv.getHolder();
-                UpdaterCreateEvent e = new UpdaterCreateEvent(v.getEntityId(), v.getLocation());
-                ByteCartRedux.myPlugin.getServer().getPluginManager().callEvent(e);
+                ContainerMinecart v = ((CarriedInventory<ContainerMinecart>) inv).getCarrier().get();
+                UpdaterCreateEvent e = new UpdaterCreateEvent(v.getUniqueId(), v.getLocation());
+                Sponge.getEventManager().post(e);
             }
         }
         // Self unregistering
-        PlayerInteractEntityEvent.getHandlerList().unregister(this);
+        Sponge.getEventManager().unregisterListeners(this);
     }
 }
 
