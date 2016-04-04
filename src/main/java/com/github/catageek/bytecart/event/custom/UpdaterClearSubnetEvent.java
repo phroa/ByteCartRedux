@@ -20,7 +20,6 @@ package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.updater.Wanderer;
-import org.bukkit.event.HandlerList;
 
 /**
  * Event triggered when a region reset updater clears the address
@@ -28,7 +27,6 @@ import org.bukkit.event.HandlerList;
  */
 public class UpdaterClearSubnetEvent extends UpdaterClearStationEvent {
 
-    private static final HandlerList handlers = new HandlerList();
     private final int length;
 
     /**
@@ -41,14 +39,6 @@ public class UpdaterClearSubnetEvent extends UpdaterClearStationEvent {
     public UpdaterClearSubnetEvent(Wanderer updater, Address oldAddress, int length) {
         super(updater, oldAddress, "");
         this.length = length;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**

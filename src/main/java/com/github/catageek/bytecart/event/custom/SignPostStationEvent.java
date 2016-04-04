@@ -20,7 +20,6 @@ package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.sign.Subnet;
-import org.bukkit.event.HandlerList;
 
 
 /**
@@ -31,8 +30,6 @@ import org.bukkit.event.HandlerList;
  * direction is definitive.
  */
 public class SignPostStationEvent extends SignPostSubnetEvent {
-
-    private static final HandlerList handlers = new HandlerList();
 
     /**
      * Default constructor
@@ -48,11 +45,4 @@ public class SignPostStationEvent extends SignPostSubnetEvent {
         super(subnet, side);
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
 }

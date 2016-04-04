@@ -19,7 +19,6 @@
 package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.updater.Wanderer;
-import org.bukkit.event.HandlerList;
 
 /**
  * Event triggered when a region updater modifies the address
@@ -27,7 +26,6 @@ import org.bukkit.event.HandlerList;
  */
 public class UpdaterSetRingEvent extends UpdaterClearRingEvent {
 
-    private static final HandlerList handlers = new HandlerList();
     private final int newring;
 
     /**
@@ -40,14 +38,6 @@ public class UpdaterSetRingEvent extends UpdaterClearRingEvent {
     public UpdaterSetRingEvent(Wanderer updater, int old, int newring) {
         super(updater, old);
         this.newring = newring;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**

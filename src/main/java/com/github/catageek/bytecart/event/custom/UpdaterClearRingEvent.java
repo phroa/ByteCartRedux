@@ -19,8 +19,7 @@
 package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.updater.Wanderer;
-import org.bukkit.block.BlockFace;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.util.Direction;
 
 /**
  * Event triggered when a region reset updater clears the address
@@ -28,7 +27,6 @@ import org.bukkit.event.HandlerList;
  */
 public class UpdaterClearRingEvent extends UpdaterEvent {
 
-    private static final HandlerList handlers = new HandlerList();
     private final int old;
 
     /**
@@ -42,20 +40,12 @@ public class UpdaterClearRingEvent extends UpdaterEvent {
         this.old = old;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
     /**
      * Get the face of the router where the sign is cleared
      *
      * @return The face of the router
      */
-    public final BlockFace getFrom() {
+    public final Direction getFrom() {
         return getUpdater().getFrom().getBlockFace();
     }
 

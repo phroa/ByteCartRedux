@@ -19,7 +19,6 @@
 package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.sign.BCRouter;
-import org.bukkit.event.HandlerList;
 
 /**
  * Event triggered when a vehicle is entering a router,
@@ -29,8 +28,6 @@ import org.bukkit.event.HandlerList;
  */
 public final class SignPreRouteEvent extends SignPostRouteEvent {
 
-    private static final HandlerList handlers = new HandlerList();
-
     /**
      * Default constructor
      *
@@ -39,14 +36,6 @@ public final class SignPreRouteEvent extends SignPostRouteEvent {
      */
     public SignPreRouteEvent(BCRouter router, int to) {
         super(router, to);
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**

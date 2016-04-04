@@ -20,7 +20,6 @@ package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.updater.Wanderer;
-import org.bukkit.event.HandlerList;
 
 /**
  * Event triggered when an local updater pass a station sign.
@@ -28,7 +27,6 @@ import org.bukkit.event.HandlerList;
 
 public class UpdaterPassStationEvent extends UpdaterEvent {
 
-    private static final HandlerList handlers = new HandlerList();
     private final Address address;
     private final String name;
 
@@ -43,14 +41,6 @@ public class UpdaterPassStationEvent extends UpdaterEvent {
         super(updater);
         this.address = address;
         this.name = name;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**

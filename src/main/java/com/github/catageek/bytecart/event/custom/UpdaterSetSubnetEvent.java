@@ -20,7 +20,6 @@ package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.updater.Wanderer;
-import org.bukkit.event.HandlerList;
 
 /**
  * Event triggered when a local updater modifies the address
@@ -28,7 +27,6 @@ import org.bukkit.event.HandlerList;
  */
 public class UpdaterSetSubnetEvent extends UpdaterClearSubnetEvent {
 
-    private static final HandlerList handlers = new HandlerList();
     private final Address newAddress;
 
     /**
@@ -42,14 +40,6 @@ public class UpdaterSetSubnetEvent extends UpdaterClearSubnetEvent {
     public UpdaterSetSubnetEvent(Wanderer updater, Address oldAddress, Address newAddress, int length) {
         super(updater, oldAddress, length);
         this.newAddress = newAddress;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**

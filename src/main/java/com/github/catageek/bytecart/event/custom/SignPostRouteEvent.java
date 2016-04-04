@@ -20,7 +20,7 @@ package com.github.catageek.bytecart.event.custom;
 
 import com.github.catageek.bytecart.sign.BCRouter;
 import com.github.catageek.bytecart.sign.BCSign;
-import org.bukkit.event.HandlerList;
+import org.spongepowered.api.event.cause.Cause;
 
 
 /**
@@ -30,8 +30,6 @@ import org.bukkit.event.HandlerList;
  * The target track is definitive.
  */
 public class SignPostRouteEvent extends BCRoutableSignEvent {
-
-    private static final HandlerList handlers = new HandlerList();
 
     private final BCRouter router;
 
@@ -47,17 +45,6 @@ public class SignPostRouteEvent extends BCRoutableSignEvent {
         super(router);
         this.router = router;
         this.to = to;
-    }
-
-    /**
-     * Needed for Bukkit Event API usage
-     */
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    public HandlerList getHandlers() {
-        return handlers;
     }
 
     /**
@@ -80,5 +67,10 @@ public class SignPostRouteEvent extends BCRoutableSignEvent {
 
     protected final BCSign getSign() {
         return router;
+    }
+
+    @Override
+    public Cause getCause() {
+        return Cause.source(getSign()).build();
     }
 }
