@@ -27,7 +27,6 @@ import com.github.catageek.bytecart.sign.BC7011;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.vehicle.minecart.ContainerMinecart;
-import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 /**
@@ -42,7 +41,7 @@ public class AddressFactory {
      * @return the address or null if there is no ticket
      */
     @SuppressWarnings("unchecked")
-    public final static <T extends Address> T getAddress(Inventory inv) {
+    public final static <T extends Address> T getAddress(CarriedInventory<?> inv) {
         int slot;
         if ((slot = Ticket.getTicketslot(inv)) != -1) {
             return (T) new AddressBook(new Ticket(new BookFile(inv, slot, false, "ticket"), Conf.NETWORK), Parameter.DESTINATION);

@@ -36,8 +36,8 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
-import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryProperty;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -88,7 +88,7 @@ final class BC7004 extends AbstractIC implements Powerable {
                 Entity entity = block.getLocation().get().getExtent().createEntity(getType(), loc.getPosition()).get();//(loc, getType());
                 // put a ticket in the inventory if necessary
                 if (entity.getProperty(InventoryProperty.class).isPresent() && AddressString.isResolvableAddressOrName(address)) {
-                    Inventory inv = ((Inventory) entity.getProperty(InventoryProperty.class).get());
+                    CarriedInventory<?> inv = ((CarriedInventory<?>) entity.getProperty(InventoryProperty.class).get());
                     TicketFactory.getOrCreateTicket(inv);
                     Address dst = AddressFactory.getAddress(inv);
                     dst.setAddress(address);

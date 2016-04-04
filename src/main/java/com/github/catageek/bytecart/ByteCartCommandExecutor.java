@@ -128,7 +128,7 @@ public class ByteCartCommandExecutor {
                                 LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " " + hostOrAddress);
                                 LogUtil.sendSuccess(player,
                                         ByteCartRedux.rootNode.getNode("Info", "GetTTL").getString() + AddressFactory.<AddressRouted>getAddress(
-                                                inventory).getTTL());
+                                                ((CarriedInventory<ContainerMinecart>) inventory)).getTTL());
                             } else {
                                 LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("Error", "SetAddress").getString());
                             }

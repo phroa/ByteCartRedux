@@ -21,7 +21,7 @@ package com.github.catageek.bytecart.address;
 import com.github.catageek.bytecart.address.AddressBook.Parameter;
 import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.file.BookProperties.Conf;
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 /**
  * Factory class to create a return address from various supports
@@ -35,7 +35,7 @@ public final class ReturnAddressFactory {
      * @return the return address
      */
     @SuppressWarnings("unchecked")
-    public final static <T extends Address> T getAddress(Inventory inv) {
+    public final static <T extends Address> T getAddress(CarriedInventory<?> inv) {
         int slot;
         if ((slot = Ticket.getTicketslot(inv)) != -1) {
             return (T) new ReturnAddressBook(new Ticket(new BookFile(inv, slot, false), Conf.NETWORK), Parameter.RETURN);

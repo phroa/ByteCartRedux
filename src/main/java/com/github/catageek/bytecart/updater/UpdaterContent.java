@@ -25,6 +25,7 @@ import com.github.catageek.bytecart.routing.RoutingTableWritable;
 import com.github.catageek.bytecart.util.DirectionRegistry;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -47,12 +48,12 @@ public class UpdaterContent extends WandererContent implements Serializable {
     private boolean isNew = false;
     private long lastRouterSeen;
 
-    public UpdaterContent(Inventory inv, Wanderer.Level level, int region, Player player
+    public UpdaterContent(CarriedInventory<?> inv, Wanderer.Level level, int region, Player player
             , boolean isfullreset) {
         this(inv, level, region, player, isfullreset, false);
     }
 
-    public UpdaterContent(Inventory inv, Wanderer.Level level, int region, Player player
+    public UpdaterContent(CarriedInventory<?> inv, Wanderer.Level level, int region, Player player
             , boolean isfullreset, boolean isNew) {
         super(inv, level, region, player);
         this.fullReset = isfullreset;

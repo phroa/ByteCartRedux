@@ -19,7 +19,7 @@
 package com.github.catageek.bytecart.updater;
 
 import com.github.catageek.bytecart.sign.BCSign;
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.IOException;
 
@@ -30,6 +30,6 @@ public interface WandererFactory {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    Wanderer getWanderer(BCSign bc, Inventory inv) throws ClassNotFoundException, IOException;
+    Wanderer getWanderer(BCSign bc, CarriedInventory<?> inv) throws ClassNotFoundException, IOException;
 
 }

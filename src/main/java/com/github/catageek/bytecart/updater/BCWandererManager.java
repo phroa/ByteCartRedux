@@ -19,6 +19,7 @@
 package com.github.catageek.bytecart.updater;
 
 import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -76,7 +77,7 @@ public class BCWandererManager implements WandererManager {
      * @throws ClassNotFoundException
      * @throws IOException
      */
-    public WandererFactory getFactory(Inventory inv) throws ClassNotFoundException, IOException {
+    public WandererFactory getFactory(CarriedInventory<?> inv) throws ClassNotFoundException, IOException {
         if (WandererContentFactory.isWanderer(inv)
                 && WandererContentFactory.getWandererContent(inv) != null) {
             return map.get(WandererContentFactory.getType(inv));

@@ -21,7 +21,7 @@ package com.github.catageek.bytecart.updater;
 import com.github.catageek.bytecart.routing.RoutingTable;
 import com.github.catageek.bytecart.util.DirectionRegistry;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.Serializable;
 import java.util.Stack;
@@ -32,7 +32,7 @@ public interface InventoryContent extends Serializable {
     /**
      * @return the inventory
      */
-    Inventory getInventory();
+    CarriedInventory<?> getInventory();
 
     /**
      * Get the level of the wanderer

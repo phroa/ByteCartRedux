@@ -23,7 +23,7 @@ import com.github.catageek.bytecart.updater.Wanderer.Level;
 import com.github.catageek.bytecart.updater.Wanderer.Scope;
 import com.github.catageek.bytecart.util.LogUtil;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -32,7 +32,7 @@ import java.util.Date;
 
 public abstract class UpdaterContentFactory {
 
-    public static UpdaterContent getUpdaterContent(Inventory inv)
+    public static UpdaterContent getUpdaterContent(CarriedInventory<?> inv)
             throws IOException, ClassNotFoundException {
         UpdaterContent rte = null;
         try (BookFile file = new BookFile(inv, 0, true)) {
@@ -45,7 +45,7 @@ public abstract class UpdaterContentFactory {
         return rte;
     }
 
-    public static void createRoutingTableExchange(Inventory inv, int region, Level level, Player player
+    public static void createRoutingTableExchange(CarriedInventory<?> inv, int region, Level level, Player player
             , boolean isfullreset, boolean isnew) throws IOException {
         WandererContentFactory.createWanderer(inv, region, level, player, "Updater", level.type);
         UpdaterContent rte;

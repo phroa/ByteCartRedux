@@ -40,8 +40,8 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryProperty;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
@@ -79,7 +79,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
         if ((blockstate = center.getLocation().get().add(Direction.UP.toVector3d().mul(5)).createSnapshot().getState()).getProperty
                 (InventoryProperty.class).isPresent()) {
             // Loading inventory of chest above router
-            Inventory chestInventory = ((Inventory) blockstate.getProperty(InventoryProperty.class).get().getValue());
+            CarriedInventory<?> chestInventory = ((CarriedInventory<?>) blockstate.getProperty(InventoryProperty.class).get().getValue());
 
             // Converting inventory in routing table
             routingTable = RoutingTableFactory.getRoutingTable(chestInventory);

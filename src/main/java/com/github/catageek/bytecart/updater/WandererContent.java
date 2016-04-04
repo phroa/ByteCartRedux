@@ -26,7 +26,7 @@ import com.github.catageek.bytecart.routing.RoutingTable;
 import com.github.catageek.bytecart.util.DirectionRegistry;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class WandererContent implements InventoryContent {
      */
     private static final long serialVersionUID = -9068486630910859194L;
     protected Map<Integer, Metric> tableMap = new HashMap<Integer, Metric>();
-    private transient Inventory inventory = null;
+    private transient CarriedInventory<?> inventory = null;
     private String player;
     private BCCounter counter;
     private long creationTime = Calendar.getInstance().getTimeInMillis();
@@ -54,7 +54,7 @@ public class WandererContent implements InventoryContent {
     private Wanderer.Level level;
     private int region;
 
-    public WandererContent(Inventory inv, Wanderer.Level level, int region, Player player) {
+    public WandererContent(CarriedInventory<?> inv, Wanderer.Level level, int region, Player player) {
         this.region = region;
         this.level = level;
         this.inventory = inv;
@@ -137,14 +137,14 @@ public class WandererContent implements InventoryContent {
     /**
      * @return the inventory
      */
-    public Inventory getInventory() {
+    public CarriedInventory<?> getInventory() {
         return inventory;
     }
 
     /**
      * @param inventory the inventory to set
      */
-    public void setInventory(Inventory inventory) {
+    public void setInventory(CarriedInventory<?> inventory) {
         this.inventory = inventory;
     }
 

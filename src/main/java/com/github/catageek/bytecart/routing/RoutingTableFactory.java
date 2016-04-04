@@ -20,7 +20,7 @@ package com.github.catageek.bytecart.routing;
 
 import com.github.catageek.bytecart.file.BookFile;
 import org.spongepowered.api.item.ItemTypes;
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -39,7 +39,7 @@ public final class RoutingTableFactory {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    public static RoutingTableWritable getRoutingTable(Inventory inv) throws IOException, ClassNotFoundException {
+    public static RoutingTableWritable getRoutingTable(CarriedInventory<?> inv) throws IOException, ClassNotFoundException {
         RoutingTableBook rt;
 
         // If upgrading from ByteCartRedux 1.x, cleaning routing table

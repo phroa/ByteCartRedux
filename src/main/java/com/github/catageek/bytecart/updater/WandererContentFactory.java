@@ -29,6 +29,7 @@ import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.property.SlotIndex;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -37,7 +38,7 @@ import java.util.Optional;
 
 abstract public class WandererContentFactory {
 
-    public static WandererContent getWandererContent(Inventory inv)
+    public static WandererContent getWandererContent(CarriedInventory<?> inv)
             throws IOException, ClassNotFoundException {
         WandererContent rte = null;
         try (BookFile file = new BookFile(inv, 0, true)) {
@@ -125,7 +126,7 @@ abstract public class WandererContentFactory {
         return false;
     }
 
-    public static void createWanderer(Inventory inv, int region, Level level, Player player
+    public static void createWanderer(CarriedInventory<?> inv, int region, Level level, Player player
             , String name, String type) throws IOException {
         try (BCFile file = new BookFile(inv, 0, true, name)) {
             String dot = ".";
@@ -139,7 +140,7 @@ abstract public class WandererContentFactory {
 
     public static <T extends InventoryContent> void saveContent(T rte)
             throws IOException, ClassNotFoundException {
-        Inventory inv = rte.getInventory();
+        CarriedInventory<?> inv = rte.getInventory();
 
         try (BCFile file = new BookFile(inv, 0, true)) {
             file.clear();

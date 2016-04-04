@@ -22,6 +22,8 @@ import com.github.catageek.bytecart.ByteCartRedux;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.property.SlotIndex;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
+import org.spongepowered.api.item.inventory.type.OrderedInventory;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
@@ -62,7 +64,7 @@ public final class TicketFactory {
             return;
         }
 
-        Ticket.createTicket(inv, slot);
+        Ticket.createTicket(((CarriedInventory<?> & OrderedInventory) inv), slot);
     }
 
     /**
@@ -81,7 +83,7 @@ public final class TicketFactory {
             return;
         }
 
-        Ticket.createTicket(inv, Ticket.searchSlot(inv));
+        Ticket.createTicket((OrderedInventory) inv, Ticket.searchSlot((CarriedInventory<?> & OrderedInventory) inv));
 
     }
 
@@ -90,7 +92,7 @@ public final class TicketFactory {
      *
      * @param inv
      */
-    public static final void removeTickets(Inventory inv) {
+    public static final void removeTickets(CarriedInventory<?> inv) {
         int slot;
         while ((slot = Ticket.getTicketslot(inv)) != -1) {
             inv.query(new SlotIndex(slot)).clear();

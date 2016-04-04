@@ -32,6 +32,7 @@ import org.spongepowered.api.entity.vehicle.minecart.Minecart;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryProperty;
 import org.spongepowered.api.item.inventory.custom.CustomInventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -43,7 +44,7 @@ import org.spongepowered.api.world.World;
 abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
 
     private final Entity vehicle;
-    private Inventory inventory;
+    private CarriedInventory<?> inventory;
 
     AbstractTriggeredSign(BlockSnapshot block, Entity vehicle) {
         super(block);
@@ -72,7 +73,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
      *
      * @return inventory with address configuration from the current vehicle.
      */
-    private final Inventory extractInventory() {
+    private final CarriedInventory<?> extractInventory() {
 
         Inventory newInv = CustomInventory.builder().size(27).build();
 
@@ -81,7 +82,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
         if (this.vehicle != null) {
 
             if (this.getVehicle().getProperty(InventoryProperty.class).isPresent()) {
-                return (Inventory) this.getVehicle().getProperty(InventoryProperty.class).get().getValue();
+                return (CarriedInventory<?>) this.getVehicle().getProperty(InventoryProperty.class).get().getValue();
             } else if (this.getVehicle() instanceof Minecart) {
                 if (!this.getVehicle().getPassenger().isPresent()) {
                     if (this.getVehicle().getPassenger().get() instanceof Player) {
@@ -103,7 +104,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
                 String DefaultRoute = ByteCartRedux.rootNode.getNode("EmptyCartsDefaultRoute").getString();
                 TicketFactory.getOrCreateTicket(newInv);
                 //construct address object
-                AddressRouted myAddress = AddressFactory.getAddress(newInv);
+                AddressRouted myAddress = AddressFactory.getAddress(((CarriedInventory<?>) newInv));
                 //write address
                 myAddress.setAddress(DefaultRoute);
                 myAddress.initializeTTL();
@@ -111,13 +112,13 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
             }
 
         }
-        return newInv;
+        return ((CarriedInventory<?>) newInv);
     }
 
     /**
      * @return The inventory of the vehicle which triggered this sign.
      */
-    public Inventory getInventory() {
+    public CarriedInventory<?> getInventory() {
         return inventory;
     }
 
@@ -126,7 +127,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
      *
      * @param inv
      */
-    protected void setInventory(Inventory inv) {
+    protected void setInventory(CarriedInventory<?> inv) {
         this.inventory = inv;
     }
 

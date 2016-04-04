@@ -23,7 +23,7 @@ import com.github.catageek.bytecart.collection.ExternalizableTreeMap;
 import com.github.catageek.bytecart.collection.PartitionedHashSet;
 import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.util.DirectionRegistry;
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -46,12 +46,12 @@ final class RoutingTableBook extends AbstractRoutingTable implements
     private static final long serialVersionUID = -7013741680310224056L;
     private boolean wasModified = false;
     private ExternalizableTreeMap<RouteNumber, RouteProperty> map = new ExternalizableTreeMap<RouteNumber, RouteProperty>();
-    private Inventory inventory;
+    private CarriedInventory<?> inventory;
 
     public RoutingTableBook() {
     }
 
-    RoutingTableBook(Inventory inv) {
+    RoutingTableBook(CarriedInventory<?> inv) {
         this.inventory = inv;
     }
 
@@ -60,7 +60,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
      *
      * @param inventory the inventory
      */
-    final void setInventory(Inventory inventory) {
+    final void setInventory(CarriedInventory<?> inventory) {
         this.inventory = inventory;
     }
 

@@ -21,12 +21,13 @@ package com.github.catageek.bytecart.updater;
 import com.github.catageek.bytecart.sign.BCSign;
 import com.github.catageek.bytecart.updater.Wanderer.Level;
 import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.IOException;
 
 public final class UpdaterFactory implements WandererFactory {
 
-    public Wanderer getWanderer(BCSign bc, Inventory inv) throws ClassNotFoundException, IOException {
+    public Wanderer getWanderer(BCSign bc, CarriedInventory<?> inv) throws ClassNotFoundException, IOException {
         UpdaterContent rte;
         if (WandererContentFactory.isWanderer(inv, Level.REGION, "Updater")
                 && (rte = UpdaterContentFactory.getUpdaterContent(inv)) != null) {
