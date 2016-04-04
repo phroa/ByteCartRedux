@@ -19,12 +19,6 @@
 package com.github.catageek.bytecart.sign;
 
 import com.github.catageek.bytecart.hardware.AbstractIC;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Vehicle;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Rails;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
