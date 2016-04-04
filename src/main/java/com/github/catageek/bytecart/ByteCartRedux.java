@@ -81,9 +81,6 @@ public final class ByteCartRedux implements ByteCartPlugin {
 
     @Listener
     public void onInitialization(GameInitializationEvent event) {
-
-        ByteCartAPI.setPlugin(this);
-
         this.loadConfig();
 
         this.setCam(new CollisionAvoiderManager());

@@ -18,7 +18,7 @@
  */
 package com.github.catageek.bytecart.updater;
 
-import com.github.catageek.bytecart.ByteCartAPI;
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.sign.BCRouter;
 import com.github.catageek.bytecart.sign.BCSign;
@@ -291,7 +291,7 @@ public class DefaultLocalWanderer<T extends InventoryContent> extends AbstractWa
 
     public void save() {
         try {
-            ByteCartAPI.getPlugin().getWandererManager().saveContent(getContent());
+            ByteCartRedux.myPlugin.getWandererManager().saveContent(getContent());
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
