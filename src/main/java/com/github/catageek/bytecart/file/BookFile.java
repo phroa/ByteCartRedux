@@ -24,6 +24,7 @@ import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.property.SlotIndex;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 import org.spongepowered.api.text.Text;
 
 import java.io.IOException;
@@ -44,7 +45,7 @@ public final class BookFile implements BCFile {
     static final int MAXSIZE = MAXPAGE * PAGESIZE;
     private static final String PREFIX = ByteCartRedux.rootNode.getNode("author").getString();
     private final String author;
-    private final Inventory container;
+    private final CarriedInventory<?> container;
     private final boolean binaryMode;
     private final SlotIndex slot;
     private ItemStack stack;
@@ -57,7 +58,7 @@ public final class BookFile implements BCFile {
      * @param index the slot index
      * @param binary true to set binary mode
      */
-    public BookFile(Inventory inventory, int index, boolean binary) {
+    public BookFile(CarriedInventory<?> inventory, int index, boolean binary) {
         this(inventory, index, binary, ".BookFile");
     }
 
@@ -67,7 +68,7 @@ public final class BookFile implements BCFile {
      * @param binary true to set binary mode
      * @param suffix the suffix of the author name, or null
      */
-    public BookFile(Inventory inventory, int index, boolean binary, String suffix) {
+    public BookFile(CarriedInventory<?> inventory, int index, boolean binary, String suffix) {
         this.binaryMode = binary;
         this.container = inventory;
         this.slot = new SlotIndex(index);
@@ -180,7 +181,7 @@ public final class BookFile implements BCFile {
     }
 
     @Override
-    public Inventory getContainer() {
+    public CarriedInventory<?> getContainer() {
         return container;
     }
 

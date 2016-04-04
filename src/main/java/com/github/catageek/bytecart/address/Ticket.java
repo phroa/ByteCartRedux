@@ -24,18 +24,23 @@ import com.github.catageek.bytecart.address.AddressBook.Parameter;
 import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.file.BookProperties;
 import com.github.catageek.bytecart.file.BookProperties.Conf;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.Carrier;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.Slot;
 import org.spongepowered.api.item.inventory.entity.HumanInventory;
 import org.spongepowered.api.item.inventory.equipment.EquipmentTypes;
+import org.spongepowered.api.item.inventory.property.SlotIndex;
 import org.spongepowered.api.item.inventory.property.SlotPos;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
+import org.spongepowered.api.item.inventory.type.OrderedInventory;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.ListIterator;
 
 /**
  * Implement a ticket
@@ -95,9 +100,9 @@ final class Ticket {
      * @return true if it is a ticket
      */
     private final static boolean isTicket(ItemStack stack) {
-        if (stack != null && stack.getType().equals(Material.WRITTEN_BOOK) && stack.hasItemMeta()) {
-            String bookauthor = ((BookMeta) stack.getItemMeta()).getAuthor();
-            if (bookauthor.equals(ByteCartRedux.rootNode.getNode("author").getString())) {
+        if (stack != null && stack.getItem().equals(ItemTypes.WRITTEN_BOOK)) {
+            String bookAuthor = stack.get(Keys.BOOK_AUTHOR).get().toPlain();
+            if (bookAuthor.equals(ByteCartRedux.rootNode.getNode("author").getString())) {
                 return true;
             }
         }
@@ -111,40 +116,34 @@ final class Ticket {
      * @param inv The inventory to search in
      * @return a slot number, or -1
      */
-    static int getEmptyOrBookAndQuillSlot(Inventory inv) {
+    static <T extends CarriedInventory<?> & OrderedInventory> int getEmptyOrBookAndQuillSlot(T inv) {
 
         ItemStack stack;
 
         if (ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()
-                && inv.contains(Material.BOOK_AND_QUILL)) {
+                && inv.contains(ItemTypes.WRITABLE_BOOK)) {
 
             // priority given to book in hand
-            if (inv.getHolder() instanceof Player) {
-                Player player = (Player) inv.getHolder();
-                if (isEmptyBook(stack = player.getItemInHand())) {
-                    return player.getInventory().getHeldItemSlot();
+            if (inv.getCarrier().get() instanceof Player) {
+                Player player = (Player) inv.getCarrier().get();
+                if (isEmptyBook(stack = player.getEquipped(EquipmentTypes.EQUIPPED).orElse(ItemStack.of(ItemTypes.STONE, 1)))) {
+                    return ((HumanInventory) player.getInventory()).getHotbar().getSelectedSlotIndex();
                 }
             }
 
 
-            ListIterator<? extends ItemStack> it = inv.iterator();
-
-            while (it.hasNext()) {
-                stack = it.next();
-
-                if (isEmptyBook(stack)) {
-                    int slot = it.previousIndex();
-                    // found a book
+            for (int slot = 0; slot < inv.size(); slot++) {
+                if (isEmptyBook(inv.getSlot(new SlotIndex(slot)).get().peek().orElse(ItemStack.of(ItemTypes.STONE, 1)))) {
                     return slot;
                 }
             }
         }
 
         // no book found or user must provide one, return empty slot
-        int slot = inv.firstEmpty();
-
-        if (slot != -1) {
-            return slot;
+        for (int slot = 0; slot < inv.size(); slot++) {
+            if (inv.getSlot(new SlotIndex(slot)).get().isEmpty()) {
+                return slot;
+            }
         }
         return -1;
     }
@@ -158,9 +157,14 @@ final class Ticket {
      */
     static int getEmptyOrBookAndQuillSlot(Player player) {
         int slot;
-        if ((slot = getEmptyOrBookAndQuillSlot(player.getInventory())) == -1) {
+        if ((slot = getEmptyOrBookAndQuillSlot(((HumanInventory & OrderedInventory) player.getInventory()))) == -1) {
             String msg = "Error: No space in inventory.";
-            player.sendMessage(ChatColor.DARK_GREEN + "[Bytecart] " + ChatColor.RED + msg);
+            player.sendMessage(Text.builder()
+                    .color(TextColors.DARK_GREEN)
+                    .append(Text.of("[Bytecart] "))
+                    .color(TextColors.RED)
+                    .append(Text.of(msg))
+                    .build());
         }
         return slot;
     }
@@ -172,13 +176,13 @@ final class Ticket {
      * @param inv The inventory to search in
      * @return a slot number, or -1
      */
-    static int searchSlot(Inventory inv) {
+    static <T extends OrderedInventory & CarriedInventory<?>> int searchSlot(T inv) {
         int slot;
         // get a slot containing an emtpy book (or nothing)
         slot = Ticket.getEmptyOrBookAndQuillSlot(inv);
 
         if (slot != -1) {
-            if (inv.getItem(slot) == null
+            if (inv.getSlot(new SlotIndex(slot)).filter(Inventory::isEmpty).isPresent()
                     && ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()
                     && ByteCartRedux.rootNode.getNode("usebooks").getBoolean()) {
                 return -1;
@@ -194,7 +198,7 @@ final class Ticket {
      * @param inv the inventory where to put the ticket
      * @param slot the slot number where to put the ticket
      */
-    static void createTicket(Inventory inv, int slot) {
+    static void createTicket(OrderedInventory inv, int slot) {
 
         if (slot == -1) {
             return;
@@ -206,11 +210,11 @@ final class Ticket {
         // swap with an existing book if needed
         int existingticket = Ticket.getTicketslot(inv);
         if (existingticket != -1 && existingticket != slot) {
-            inv.setItem(slot, inv.getItem(existingticket));
+            inv.set(new SlotIndex(slot), inv.getSlot(new SlotIndex(existingticket)).get().peek().get());
             slot = existingticket;
         }
 
-        inv.setItem(slot, stack);
+        inv.set(new SlotIndex(slot), stack);
     }
 
     /**
@@ -221,15 +225,10 @@ final class Ticket {
      * @return the ItemStack
      */
     private static ItemStack getBookStack(String author, String title) {
-        ItemStack stack;
+        ItemStack stack = ItemStack.of(ItemTypes.WRITTEN_BOOK, 1);
         /* Here we create a ticket in slot, replacing empty book if needed */
-        BookMeta book;
-
-        book = (BookMeta) Bukkit.getServer().getItemFactory().getItemMeta(Material.WRITTEN_BOOK);
-        book.setAuthor(author);
-        book.setTitle(title);
-        stack = new ItemStack(Material.WRITTEN_BOOK);
-        stack.setItemMeta(book);
+        stack.offer(Keys.BOOK_AUTHOR, Text.of(author));
+        stack.offer(Keys.DISPLAY_NAME, Text.of(title));
         return stack;
     }
 
@@ -241,19 +240,9 @@ final class Ticket {
      * @return true if it is an empty book_and_quill
      */
     private static boolean isEmptyBook(ItemStack stack) {
-        BookMeta book;
+        if (stack != null && stack.getItem().equals(ItemTypes.WRITABLE_BOOK)) {
 
-        if (stack != null && stack.getType().equals(Material.BOOK_AND_QUILL)) {
-
-            if (stack.hasItemMeta()) {
-
-                if ((book = (BookMeta) stack.getItemMeta()).hasPages()
-                        && (book.getPage(1).isEmpty())) {
-                    return true;
-                }
-            } else {
-                return true;
-            }
+            return !stack.get(Keys.BOOK_PAGES).filter(texts -> !texts.isEmpty()).isPresent();
         }
 
         return false;
@@ -264,8 +253,8 @@ final class Ticket {
      *
      * @return the holder
      */
-    InventoryHolder getTicketHolder() {
-        return properties.getFile().getContainer().getHolder();
+    Carrier getTicketHolder() {
+        return properties.getFile().getContainer().getCarrier().get();
     }
 
     /**

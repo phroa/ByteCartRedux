@@ -18,7 +18,7 @@
  */
 package com.github.catageek.bytecart.file;
 
-import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 import java.io.Closeable;
 import java.io.Flushable;
@@ -72,7 +72,7 @@ public interface BCFile extends Closeable, Flushable {
      *
      * @return the inventory
      */
-    Inventory getContainer();
+    CarriedInventory<?> getContainer();
 
     /**
      * Get the title for this file

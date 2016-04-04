@@ -18,18 +18,17 @@
  */
 package com.github.catageek.bytecart.address;
 
-import com.github.catageek.bytecart.address.AddressBook.Parameter;
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.address.AddressBook.Parameter;
 import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.file.BookProperties.Conf;
 import com.github.catageek.bytecart.sign.BC7010;
 import com.github.catageek.bytecart.sign.BC7011;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Vehicle;
-import org.bukkit.inventory.Inventory;
 import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.vehicle.minecart.ContainerMinecart;
 import org.spongepowered.api.item.inventory.Inventory;
+import org.spongepowered.api.item.inventory.type.CarriedInventory;
 
 /**
  * Factory to create address using various supports
@@ -58,17 +57,17 @@ public class AddressFactory {
      * @return the address
      */
     @SuppressWarnings("unchecked")
-    public final static <T extends Address> T getDefaultTicket(Inventory inv) {
+    public final static <T extends Address> T getDefaultTicket(CarriedInventory<?> inv) {
         String destination;
-        if (inv.getHolder() instanceof Player) {
-            destination = ByteCartRedux.myPlugin.rootNode.getNode("PlayersNoTicketDefaultRoute").getString("0.0.0");
-            if ((new BC7010(null, (Player) inv.getHolder())).setAddress(destination, "No ticket found !")) {
+        if (inv.getCarrier().get() instanceof Player) {
+            destination = ByteCartRedux.rootNode.getNode("PlayersNoTicketDefaultRoute").getString("0.0.0");
+            if ((new BC7010(null, (Player) inv.getCarrier().get())).setAddress(destination, "No ticket found !")) {
                 return (T) new AddressBook(new Ticket(new BookFile(inv, Ticket.getTicketslot(inv), false, "ticket"), Conf.NETWORK),
                         Parameter.DESTINATION);
             }
-        } else if (inv.getHolder() instanceof Vehicle) {
+        } else if (inv.getCarrier().get() instanceof ContainerMinecart) {
             destination = ByteCartRedux.rootNode.getNode("EmptyCartsDefaultRoute").getString("0.0.0");
-            if ((new BC7011(null, (Vehicle) inv.getHolder())).setAddress(destination, "No ticket found !")) {
+            if ((new BC7011(null, (ContainerMinecart) inv.getCarrier().get())).setAddress(destination, "No ticket found !")) {
                 return (T) new AddressBook(new Ticket(new BookFile(inv, Ticket.getTicketslot(inv), false, "ticket"), Conf.NETWORK),
                         Parameter.DESTINATION);
             }

@@ -20,7 +20,6 @@ package com.github.catageek.bytecart.address;
 
 import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.hardware.RegistryBoth;
-import org.bukkit.entity.Player;
 
 /**
  * A class implementing an address using a book as support
@@ -143,12 +142,6 @@ final class AddressBook implements AddressRouted {
     @Override
     public void finalizeAddress() {
         ticket.close();
-        if (ticket.getTicketHolder() instanceof Player) {
-            if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : update player inventory");
-            }
-            ((Player) ticket.getTicketHolder()).updateInventory();
-        }
     }
 
     /**
