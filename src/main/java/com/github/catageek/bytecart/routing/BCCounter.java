@@ -19,8 +19,8 @@
 package com.github.catageek.bytecart.routing;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import com.github.catageek.bytecart.util.DirectionRegistry;
 import com.github.catageek.bytecart.updater.Counter;
+import com.github.catageek.bytecart.util.DirectionRegistry;
 
 import java.io.Serializable;
 import java.util.HashMap;

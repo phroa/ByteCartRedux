@@ -47,6 +47,20 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
         super(block);
     }
 
+    static void power(BlockState blockstate, boolean power) {
+        if (blockstate.getType().equals(BlockTypes.STONE_BUTTON)) {
+            blockstate.withTrait(BooleanTraits.STONE_BUTTON_POWERED, power);
+        }
+        if (blockstate.getType().equals(BlockTypes.WOODEN_BUTTON)) {
+            blockstate.withTrait(BooleanTraits.WOODEN_BUTTON_POWERED, power);
+        }
+    }
+
+    private static boolean buttonPowered(BlockState blockstate) {
+        return blockstate.getTraitValue(BooleanTraits.STONE_BUTTON_POWERED).orElse(false) || blockstate
+                .getTraitValue(BooleanTraits.WOODEN_BUTTON_POWERED).orElse(false);
+    }
+
     @Override
     public void write(boolean bit) {
         final BlockSnapshot block = this.getBlock();
@@ -92,20 +106,6 @@ public class ComponentButton extends AbstractComponent implements OutputPin, Inp
     @Override
     public boolean read() {
         return buttonPowered(getBlock().getState());
-    }
-
-    static void power(BlockState blockstate, boolean power) {
-        if (blockstate.getType().equals(BlockTypes.STONE_BUTTON)) {
-            blockstate.withTrait(BooleanTraits.STONE_BUTTON_POWERED, power);
-        }
-        if (blockstate.getType().equals(BlockTypes.WOODEN_BUTTON)) {
-            blockstate.withTrait(BooleanTraits.WOODEN_BUTTON_POWERED, power);
-        }
-    }
-
-    private static boolean buttonPowered(BlockState blockstate) {
-        return blockstate.getTraitValue(BooleanTraits.STONE_BUTTON_POWERED).orElse(false) || blockstate
-                .getTraitValue(BooleanTraits.WOODEN_BUTTON_POWERED).orElse(false);
     }
 
 

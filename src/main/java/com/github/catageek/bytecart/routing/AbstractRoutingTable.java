@@ -59,7 +59,8 @@ abstract class AbstractRoutingTable {
             if (!directlyconnected && (routermetric > computedmetric || routermetric < 0)) {
                 this.setEntry(ring, from, new Metric(computedmetric));
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : update : ring = " + ring + ", metric = " + computedmetric + ", direction " + from.ToString());
+                    ByteCartRedux.log
+                            .info("ByteCartRedux : update : ring = " + ring + ", metric = " + computedmetric + ", direction " + from.ToString());
                 }
                 neighbour.updateTimestamp();
             }

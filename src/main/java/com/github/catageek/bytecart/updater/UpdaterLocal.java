@@ -101,7 +101,8 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
 
                 if (ByteCartRedux.debug) {
                     ByteCartRedux.log
-                            .info("ByteCartRedux : UpdaterLocal : Update() : rewrite sign to " + address + "(" + this.getSignAddress().toString() + ")");
+                            .info("ByteCartRedux : UpdaterLocal : Update() : rewrite sign to " + address + "(" + this.getSignAddress().toString()
+                                    + ")");
                 }
             }
         }

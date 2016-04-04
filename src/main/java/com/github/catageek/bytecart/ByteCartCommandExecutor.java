@@ -407,9 +407,9 @@ public class ByteCartCommandExecutor {
         private final Player player;
         private final Wanderer.Level level;
         private final int region;
-        private CarriedInventory<ContainerMinecart> inventory;
         private final boolean isFullReset;
         private final boolean isNew;
+        private CarriedInventory<ContainerMinecart> inventory;
 
 
         public ExecuteUpdate(Player player, Wanderer.Level level, int region, boolean isFullReset, boolean isNew) {

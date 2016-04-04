@@ -57,6 +57,22 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
         super(block, vehicle);
     }
 
+    static boolean ascending(RailDirection d) {
+
+        RailDirection[] sloped = {RailDirections.ASCENDING_EAST,
+                RailDirections.ASCENDING_NORTH,
+                RailDirections.ASCENDING_SOUTH,
+                RailDirections.ASCENDING_WEST};
+
+        for (RailDirection direction : sloped) {
+            if (direction.equals(d)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public void trigger() {
 
@@ -173,22 +189,6 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
         } else {
             this.trigger();
         }
-    }
-
-    static boolean ascending(RailDirection d) {
-
-        RailDirection[] sloped = {RailDirections.ASCENDING_EAST,
-                RailDirections.ASCENDING_NORTH,
-                RailDirections.ASCENDING_SOUTH,
-                RailDirections.ASCENDING_WEST};
-
-        for (RailDirection direction : sloped) {
-            if (direction.equals(d)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     @Override

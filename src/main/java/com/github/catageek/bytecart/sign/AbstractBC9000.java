@@ -18,9 +18,9 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressRouted;
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.collision.SimpleCollisionAvoider;
 import com.github.catageek.bytecart.event.custom.SignPostSubnetEvent;

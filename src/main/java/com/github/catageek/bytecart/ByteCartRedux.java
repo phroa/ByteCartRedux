@@ -51,19 +51,16 @@ public final class ByteCartRedux implements ByteCartPlugin {
 
     @Inject
     public static Logger log;
-
-    @Inject
-    @ConfigDir(sharedRoot = false)
-    private File configDir;
-
-    @Inject
-    @DefaultConfig(sharedRoot = false)
-    private ConfigurationLoader<CommentedConfigurationNode> configurationLoader;
     public static CommentedConfigurationNode rootNode;
-
     public static ByteCartRedux myPlugin;
     public static boolean debug;
     public int lockDuration;
+    @Inject
+    @ConfigDir(sharedRoot = false)
+    private File configDir;
+    @Inject
+    @DefaultConfig(sharedRoot = false)
+    private ConfigurationLoader<CommentedConfigurationNode> configurationLoader;
     private PreloadChunkListener preloadChunkListener;
     private ConstantSpeedListener constantSpeedListener;
     private CollisionAvoiderManager cam;

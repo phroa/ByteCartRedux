@@ -33,6 +33,7 @@ public class SignPostSubnetEvent extends BCRoutableSignEvent {
 
     final Subnet subnet;
     Side side;
+
     /**
      * Default constructor
      *

@@ -18,10 +18,10 @@
  */
 package com.github.catageek.bytecart.sign;
 
+import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.collision.CollisionAvoiderBuilder;
 import com.github.catageek.bytecart.collision.IntersectionSide.Side;
 import com.github.catageek.bytecart.collision.SimpleCollisionAvoider;
@@ -31,9 +31,9 @@ import com.github.catageek.bytecart.hardware.RegistryBoth;
 import com.github.catageek.bytecart.hardware.RegistryInput;
 import com.github.catageek.bytecart.io.OutputPin;
 import com.github.catageek.bytecart.io.OutputPinFactory;
-import com.github.catageek.bytecart.util.MathUtil;
 import com.github.catageek.bytecart.updater.Wanderer;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
+import com.github.catageek.bytecart.util.MathUtil;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.Entity;
 
@@ -65,9 +65,11 @@ abstract class AbstractSimpleCrossroad extends AbstractTriggeredSign implements 
         OutputPin[] lever2 = new OutputPin[2];
 
         // Left
-        lever2[0] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.anticlockwise(this.getCardinal())).createSnapshot());
+        lever2[0] = OutputPinFactory
+                .getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.anticlockwise(this.getCardinal())).createSnapshot());
         // Right
-        lever2[1] = OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.clockwise(this.getCardinal())).createSnapshot());
+        lever2[1] =
+                OutputPinFactory.getOutput(this.getBlock().getLocation().get().getRelative(MathUtil.clockwise(this.getCardinal())).createSnapshot());
 
         PinRegistry<OutputPin> command1 = new PinRegistry<>(lever2);
 

@@ -72,9 +72,11 @@ final class BC7004 extends AbstractIC implements Powerable {
         InputPin[] wire = new InputPin[2];
 
         // Right
-        wire[0] = InputPinFactory.getInput(block.getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.clockwise(getCardinal())).createSnapshot());
+        wire[0] = InputPinFactory
+                .getInput(block.getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.clockwise(getCardinal())).createSnapshot());
         // left
-        wire[1] = InputPinFactory.getInput(block.getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot());
+        wire[1] = InputPinFactory
+                .getInput(block.getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot());
 
         // InputRegistry[0] = wire
         this.addInputRegistry(new PinRegistry<>(wire));

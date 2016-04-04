@@ -48,7 +48,8 @@ class BC7013 extends BC7014 implements Triggerable {
     @Override
     protected void addIO() {
         // Input[0] : wire on left
-        BlockSnapshot block = this.getBlock().getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot();
+        BlockSnapshot block =
+                this.getBlock().getLocation().get().getRelative(Direction.UP).getRelative(MathUtil.anticlockwise(getCardinal())).createSnapshot();
         RegistryInput wire = InputPinFactory.getInput(block);
 
         InputPin[] levers = new InputPin[2];

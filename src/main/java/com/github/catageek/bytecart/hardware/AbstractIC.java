@@ -44,8 +44,8 @@ abstract public class AbstractIC implements IC {
     private static Location<World> location;
     private final BlockSnapshot block;
     private final RegistryInput[] input = new RegistryInput[9];
-    private int inputArgs = 0;
     private final RegistryOutput[] output = new RegistryOutput[6];
+    private int inputArgs = 0;
     private int outputArgs = 0;
 
     protected AbstractIC(BlockSnapshot block) {

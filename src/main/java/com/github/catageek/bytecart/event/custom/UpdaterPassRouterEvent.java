@@ -32,6 +32,7 @@ public class UpdaterPassRouterEvent extends UpdaterEvent {
 
     private final int nextRing;
     private final Direction to;
+
     /**
      * Default constructor
      *

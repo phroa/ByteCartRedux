@@ -41,8 +41,8 @@ public class WandererContent implements InventoryContent {
      */
     private static final long serialVersionUID = -9068486630910859194L;
     final Map<Integer, Metric> tableMap = new HashMap<>();
-    private transient CarriedInventory<?> inventory = null;
     private final String player;
+    private transient CarriedInventory<?> inventory = null;
     private BCCounter counter;
     private long creationTime = Calendar.getInstance().getTimeInMillis();
     private int lastRouterId;
