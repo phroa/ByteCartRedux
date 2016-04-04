@@ -19,8 +19,8 @@
 package com.github.catageek.bytecart.event;
 
 import com.github.catageek.bytecart.ByteCartRedux;
-import com.github.catageek.bytecart.ModifiableRunnable;
 import com.github.catageek.bytecart.event.custom.UpdaterCreateEvent;
+import com.github.catageek.bytecart.thread.ModifiableRunnable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
