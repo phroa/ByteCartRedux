@@ -46,7 +46,7 @@ import javax.inject.Inject;
 /**
  * Main class
  */
-@Plugin(id = "ByteCartRedux", name = "ByteCartRedux Redux", version = "3.0.0.0")
+@Plugin(id = "com.github.catageek.bytecart", name = "ByteCartRedux", description = "Minecart routing system", version = "3.0.0.0")
 public final class ByteCartRedux implements ByteCartPlugin {
 
     @Inject
