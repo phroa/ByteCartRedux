@@ -156,7 +156,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
             if (this.getInventory() instanceof HumanInventory) {
                 ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
                         Text.builder().color(TextColors.GREEN).append(Text.of("[Bytecart] ")).color(TextColors.RED)
-                                .append(Text.of(ByteCartRedux.rootNode.getNode("Error", "SetAddress").getString())).build());
+                                .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString())).build());
             }
             return false;
         }
@@ -188,12 +188,13 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
     void infoPlayer(String signAddress) {
         ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
                 Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
-                        .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " ")).color(TextColors.RED)
+                        .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString() + " ")).color(TextColors.RED)
                         .append(Text.of(signAddress)).build());
-        if (this.getVehicle() == null && !ByteCartRedux.rootNode.getNode("usebooks").getBoolean()) {
+        if (this.getVehicle() == null && !ByteCartRedux.rootNode.getNode("book", "use").getBoolean()) {
             ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
                     Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
-                            .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetAddress2").getString() + " ")).color(TextColors.RED)
+                            .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress2").getString() + " "))
+                            .color(TextColors.RED)
                             .append(Text.of(signAddress)).build());
         }
     }

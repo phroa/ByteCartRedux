@@ -135,7 +135,7 @@ final class BC7001 extends AbstractTriggeredSign implements Triggerable, Powerab
                         ((Minecart) this.getVehicle()).setSwiftness(0.4d);
                     }
                     this.getVehicle().setVelocity(
-                            (this.getCardinal().toVector3d()).mul(ByteCartRedux.rootNode.getNode("BC7001", "startvelocity").getDouble()));
+                            (this.getCardinal().toVector3d()).mul(ByteCartRedux.rootNode.getNode("sign", "bc7001", "velocity").getDouble()));
                 }
             }
 

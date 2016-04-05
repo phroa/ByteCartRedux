@@ -98,7 +98,7 @@ final class Ticket {
     private static boolean isTicket(ItemStack stack) {
         if (stack != null && stack.getItem().equals(ItemTypes.WRITTEN_BOOK)) {
             String bookAuthor = stack.get(Keys.BOOK_AUTHOR).get().toPlain();
-            if (bookAuthor.equals(ByteCartRedux.rootNode.getNode("author").getString())) {
+            if (bookAuthor.equals(ByteCartRedux.rootNode.getNode("book", "author").getString())) {
                 return true;
             }
         }
@@ -114,7 +114,7 @@ final class Ticket {
      */
     private static <T extends CarriedInventory<?> & OrderedInventory> int getEmptyOrBookAndQuillSlot(T inv) {
 
-        if (ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()
+        if (ByteCartRedux.rootNode.getNode("book", "mustprovide").getBoolean()
                 && inv.contains(ItemTypes.WRITABLE_BOOK)) {
 
             // priority given to book in hand
@@ -177,8 +177,8 @@ final class Ticket {
 
         if (slot != -1) {
             if (inv.getSlot(new SlotIndex(slot)).filter(Inventory::isEmpty).isPresent()
-                    && ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()
-                    && ByteCartRedux.rootNode.getNode("usebooks").getBoolean()) {
+                    && ByteCartRedux.rootNode.getNode("book", "mustprovide").getBoolean()
+                    && ByteCartRedux.rootNode.getNode("book", "use").getBoolean()) {
                 return -1;
             }
             return slot;
@@ -198,8 +198,8 @@ final class Ticket {
             return;
         }
 
-        ItemStack stack = getBookStack(ByteCartRedux.rootNode.getNode("author").getString(),
-                ByteCartRedux.rootNode.getNode("title").getString());
+        ItemStack stack = getBookStack(ByteCartRedux.rootNode.getNode("book", "author").getString(),
+                ByteCartRedux.rootNode.getNode("book", "title").getString());
 
         // swap with an existing book if needed
         int existingticket = Ticket.getTicketslot(inv);
@@ -291,7 +291,7 @@ final class Ticket {
      * <p>The appended value is " name (string)"</p>
      */
     void appendTitle(String name, String s) {
-        StringBuilder build = new StringBuilder(ByteCartRedux.rootNode.getNode("title").getString());
+        StringBuilder build = new StringBuilder(ByteCartRedux.rootNode.getNode("book", "title").getString());
         if (name != null) {
             build.append(" ").append(name);
         }

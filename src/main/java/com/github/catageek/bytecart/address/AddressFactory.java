@@ -59,13 +59,13 @@ public class AddressFactory {
     public static <T extends Address> T getDefaultTicket(CarriedInventory<?> inv) {
         String destination;
         if (inv.getCarrier().get() instanceof Player) {
-            destination = ByteCartRedux.rootNode.getNode("PlayersNoTicketDefaultRoute").getString("0.0.0");
+            destination = ByteCartRedux.rootNode.getNode("defaultroute", "player").getString("0.0.0");
             if ((new BC7010(null, (Player) inv.getCarrier().get())).setAddress(destination)) {
                 return (T) new AddressBook(new Ticket(new BookFile(inv, Ticket.getTicketslot(inv), false, "ticket"), Conf.NETWORK),
                         Parameter.DESTINATION);
             }
         } else if (inv.getCarrier().get() instanceof ContainerMinecart) {
-            destination = ByteCartRedux.rootNode.getNode("EmptyCartsDefaultRoute").getString("0.0.0");
+            destination = ByteCartRedux.rootNode.getNode("defaultroute", "empty").getString("0.0.0");
             if ((new BC7011(null, (ContainerMinecart) inv.getCarrier().get())).setAddress(destination)) {
                 return (T) new AddressBook(new Ticket(new BookFile(inv, Ticket.getTicketslot(inv), false, "ticket"), Conf.NETWORK),
                         Parameter.DESTINATION);

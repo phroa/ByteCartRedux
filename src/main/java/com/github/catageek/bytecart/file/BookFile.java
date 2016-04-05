@@ -43,7 +43,7 @@ public final class BookFile implements BCFile {
     static final int PAGESIZE = 1 << PAGELOG;
     private static final int MAXPAGE = 20;
     private static final int MAXSIZE = MAXPAGE * PAGESIZE;
-    private static final String PREFIX = ByteCartRedux.rootNode.getNode("author").getString();
+    private static final String PREFIX = ByteCartRedux.rootNode.getNode("book", "author").getString();
     private final CarriedInventory<?> container;
     private final boolean binaryMode;
     private final SlotIndex slot;

@@ -69,7 +69,7 @@ public final class ByteCartRedux implements ByteCartPlugin {
     private CollisionAvoiderManager cam;
     private BCWandererManager wf;
     private IsTrainManager it;
-    private boolean keepitems;
+    private boolean keepItems;
     private Resolver resolver;
 
     @Listener
@@ -121,9 +121,9 @@ public final class ByteCartRedux implements ByteCartPlugin {
      */
     final void loadConfig() {
         debug = rootNode.getNode("debug").getBoolean(false);
-        keepitems = rootNode.getNode("keepitems").getBoolean(true);
+        keepItems = rootNode.getNode("keepitems").getBoolean(true);
 
-        lockDuration = rootNode.getNode("lockDuration").getInt(44);
+        lockDuration = rootNode.getNode("lockduration").getInt(44);
 
         if (debug) {
             log.info("ByteCartRedux : debug mode is on.");
@@ -139,7 +139,7 @@ public final class ByteCartRedux implements ByteCartPlugin {
             preloadChunkListener = null;
         }
 
-        if (rootNode.getNode("constantspeedd").getBoolean(false)) {
+        if (rootNode.getNode("constantspeed").getBoolean()) {
             if (constantSpeedListener == null) {
                 constantSpeedListener = new ConstantSpeedListener();
                 Sponge.getEventManager().registerListeners(this, constantSpeedListener);
@@ -183,7 +183,7 @@ public final class ByteCartRedux implements ByteCartPlugin {
      * @return true if we must keep items while removing carts
      */
     public boolean keepItems() {
-        return keepitems;
+        return keepItems;
     }
 
     /**

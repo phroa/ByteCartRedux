@@ -69,7 +69,8 @@ final class BC7015 extends BC7011 implements Triggerable {
     protected void infoPlayer(String address) {
         ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
                 Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
-                        .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetReturnAddress").getString() + " ")).color(TextColors.RED)
+                        .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "setreturnaddress").getString() + " "))
+                        .color(TextColors.RED)
                         .append(Text.of(address)).build());
     }
 }

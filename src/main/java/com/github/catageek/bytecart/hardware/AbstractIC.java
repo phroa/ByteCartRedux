@@ -72,7 +72,7 @@ abstract public class AbstractIC implements IC {
 
         String secondLine = b.get(Keys.SIGN_LINES).get().get(1).toPlain();
 
-        if (ByteCartRedux.rootNode.getNode("FixBroken18").getBoolean(false)) {
+        if (ByteCartRedux.rootNode.getNode("sign", "fixbroken18").getBoolean(false)) {
             if (ret = AbstractIC.checkLooseEligibility(secondLine)) {
                 List<Text> list = b.get(Keys.SIGN_LINES).get();
                 list.set(1, Text.of("[", secondLine, "]"));

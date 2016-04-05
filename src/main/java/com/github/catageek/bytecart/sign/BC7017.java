@@ -75,7 +75,8 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggerable {
         if (this.getInventory() instanceof HumanInventory) {
             ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
                     Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
-                            .append(Text.of(ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " (")).color(TextColors.RED)
+                            .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "setaddress").getString() + " (")).color(TextColors
+                            .RED)
                             .append(Text.of(returnAddressString)).color(TextColors.YELLOW).append(Text.of(")")).build());
         }
         targetAddress.initializeTTL();

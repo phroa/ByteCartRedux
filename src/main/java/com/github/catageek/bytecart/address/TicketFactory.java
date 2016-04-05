@@ -42,7 +42,7 @@ public final class TicketFactory {
         int slot;
         Inventory inv = player.getInventory();
 
-        if (forcereuse || ByteCartRedux.rootNode.getNode("reusetickets").getBoolean(true)) {
+        if (forcereuse || ByteCartRedux.rootNode.getNode("book", "reuse").getBoolean(true)) {
             // if storage cart or we must reuse a existing ticket
             // check if a ticket exists and return
             // otherwise continue
@@ -57,7 +57,7 @@ public final class TicketFactory {
             return;
         }
 
-        if (inv.query(new SlotIndex(slot)).isEmpty() && ByteCartRedux.rootNode.getNode("mustProvideBooks").getBoolean()) {
+        if (inv.query(new SlotIndex(slot)).isEmpty() && ByteCartRedux.rootNode.getNode("book", "mustprovide").getBoolean()) {
             String msg = "No empty book in your inventory, you must provide one.";
             player.sendMessage(
                     Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.RED).append(Text.of(msg)).build());

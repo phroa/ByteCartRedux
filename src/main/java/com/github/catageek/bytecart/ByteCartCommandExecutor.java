@@ -126,12 +126,12 @@ public class ByteCartCommandExecutor {
                             if ((new BC7011(player.getLocation().createSnapshot(),
                                     ((CarriedInventory<ContainerMinecart>) inventory).getCarrier().get()))
                                     .setAddress(address, this.isTrain)) {
-                                LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "SetAddress").getString() + " " + hostOrAddress);
+                                LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "setaddress").getString() + " " + hostOrAddress);
                                 LogUtil.sendSuccess(player,
-                                        ByteCartRedux.rootNode.getNode("Info", "GetTTL").getString() + AddressFactory.<AddressRouted>getAddress(
+                                        ByteCartRedux.rootNode.getNode("messages", "info", "getttl").getString() + AddressFactory.<AddressRouted>getAddress(
                                                 ((CarriedInventory<ContainerMinecart>) inventory)).getTTL());
                             } else {
-                                LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("Error", "SetAddress").getString());
+                                LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString());
                             }
 
                         }
@@ -152,8 +152,7 @@ public class ByteCartCommandExecutor {
                             .color(TextColors.DARK_GREEN)
                             .append(Text.of("[Bytecart] "))
                             .color(TextColors.YELLOW)
-                            .append(Text.of(ByteCartRedux.rootNode.getNode("Info",
-                                    "RightClickCart").getString()))
+                            .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()))
                             .build());
                     new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player, new Execute(player, hostOrAddress, isTrain), false);
 
@@ -277,7 +276,7 @@ public class ByteCartCommandExecutor {
                             return CommandResult.empty();
                         }
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "RightClickCart").getString());
+                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.REGION, region, false, isNew), true);
 
@@ -303,7 +302,7 @@ public class ByteCartCommandExecutor {
                             return CommandResult.empty();
                         }
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "RightClickCart").getString());
+                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.LOCAL, region, false, isNew), true);
 
@@ -322,7 +321,7 @@ public class ByteCartCommandExecutor {
 
                         Player player = (Player) source;
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "RightClickCart").getString());
+                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.BACKBONE, 0, false, false), true);
 
@@ -348,7 +347,7 @@ public class ByteCartCommandExecutor {
                             return CommandResult.empty();
                         }
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "RightClickCart").getString());
+                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.RESET_REGION, region, fullReset, false), true);
 
@@ -374,7 +373,7 @@ public class ByteCartCommandExecutor {
                             return CommandResult.empty();
                         }
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "RightClickCart").getString());
+                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.RESET_LOCAL, region, fullReset, false), true);
 
@@ -395,7 +394,7 @@ public class ByteCartCommandExecutor {
                         Player player = (Player) source;
                         boolean fullReset = context.<Boolean>getOne(Text.of("full")).orElse(false);
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("Info", "RightClickCart").getString());
+                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.RESET_BACKBONE, 0, fullReset, false), true);
 
@@ -435,7 +434,7 @@ public class ByteCartCommandExecutor {
                 ByteCartUpdaterMoveListener.setExist(true);
             }
             ByteCartUpdaterMoveListener.addUpdater(id);
-            LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("Info", "SetUpdater").getString());
+            LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("messages", "info", "setupdater").getString());
         }
 
 
