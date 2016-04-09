@@ -107,7 +107,7 @@ final class BC7004 extends AbstractIC implements Powerable {
 
     @Override
     public String getFriendlyName() {
-        return "Cart spawner";
+        return "Cart Spawner";
     }
 
     /**

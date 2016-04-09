@@ -69,7 +69,7 @@ final class BC9000 extends AbstractSimpleCrossroad implements Subnet, Triggerabl
 
     @Override
     public String getFriendlyName() {
-        return "Collision avoider";
+        return "Collision Avoider";
     }
 
     /**

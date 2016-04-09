@@ -103,7 +103,7 @@ class BC7014 extends BC7010 implements Triggerable {
 
     @Override
     public String getFriendlyName() {
-        return "setStation";
+        return "Set Station";
     }
 
     @Override

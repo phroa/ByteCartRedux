@@ -46,7 +46,7 @@ final class BC7012 extends BC7013 implements Triggerable {
 
     @Override
     public final String getFriendlyName() {
-        return "setRegion";
+        return "Set Region";
     }
 
     @Override

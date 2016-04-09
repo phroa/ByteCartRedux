@@ -171,7 +171,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
 
     @Override
     public final String getFriendlyName() {
-        return "Cart counter";
+        return "Cart Counter";
     }
 
     @Override

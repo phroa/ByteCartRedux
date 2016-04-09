@@ -42,7 +42,7 @@ final class BC7021 extends BC7020 implements Triggerable {
 
     @Override
     public final String getFriendlyName() {
-        return "Train head";
+        return "Is Train Head";
     }
 
 }

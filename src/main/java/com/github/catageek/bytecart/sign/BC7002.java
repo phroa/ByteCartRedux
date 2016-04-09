@@ -62,7 +62,7 @@ final class BC7002 extends AbstractTriggeredSign implements Triggerable {
 
     @Override
     public final String getFriendlyName() {
-        return "Cart detector";
+        return "Cart Detector";
     }
 
     private final class Release implements Runnable {

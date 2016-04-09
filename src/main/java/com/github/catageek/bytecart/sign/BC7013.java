@@ -72,7 +72,7 @@ class BC7013 extends BC7014 implements Triggerable {
 
     @Override
     public String getFriendlyName() {
-        return "setTrack";
+        return "Set Track";
     }
 
     @Override

@@ -89,7 +89,7 @@ class BC7020 extends AbstractTriggeredSign implements Triggerable {
 
     @Override
     public String getFriendlyName() {
-        return "Is a Train ?";
+        return "Is Train";
     }
 
 }

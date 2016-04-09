@@ -212,7 +212,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
 
     @Override
     public String getFriendlyName() {
-        return "Goto";
+        return "Set Destination";
     }
 
     /**

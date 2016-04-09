@@ -49,7 +49,7 @@ final class BC9037 extends AbstractBC9037 {
 
     @Override
     public final String getFriendlyName() {
-        return "Range matcher";
+        return "Range Matcher";
     }
 
 }

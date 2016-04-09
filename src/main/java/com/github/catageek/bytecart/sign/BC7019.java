@@ -48,7 +48,7 @@ final class BC7019 extends BC7010 implements Triggerable {
 
     @Override
     public String getFriendlyName() {
-        return "Random address";
+        return "Random Destination";
     }
 
     @Override

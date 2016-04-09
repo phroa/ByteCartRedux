@@ -40,6 +40,6 @@ public class BC7011 extends BC7010 implements Triggerable {
 
     @Override
     public String getFriendlyName() {
-        return "Storage Goto";
+        return "Storage Destination";
     }
 }

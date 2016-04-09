@@ -51,7 +51,7 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggerable {
 
     @Override
     public String getFriendlyName() {
-        return "Return back";
+        return "Cart Return";
     }
 
     @Override

@@ -43,7 +43,7 @@ final class BC7016 extends AbstractTriggeredSign implements Triggerable {
 
     @Override
     public String getFriendlyName() {
-        return "Is returnable ?";
+        return "Is Returnable";
     }
 
     @Override

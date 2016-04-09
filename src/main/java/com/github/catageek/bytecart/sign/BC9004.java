@@ -39,6 +39,6 @@ final class BC9004 extends AbstractBC9000 implements Subnet, HasNetmask, Trigger
 
     @Override
     public final String getFriendlyName() {
-        return "4-station subnet";
+        return "4-Station Subnet";
     }
 }
