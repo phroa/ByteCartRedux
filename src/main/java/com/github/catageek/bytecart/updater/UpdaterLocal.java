@@ -30,8 +30,9 @@ import com.github.catageek.bytecart.event.custom.UpdaterSetSubnetEvent;
 import com.github.catageek.bytecart.io.ComponentSign;
 import com.github.catageek.bytecart.sign.BC9001;
 import com.github.catageek.bytecart.sign.BCSign;
-import com.github.catageek.bytecart.util.LogUtil;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.text.Text;
 
 import java.util.Stack;
 
@@ -181,9 +182,9 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
                 ByteCartRedux.log.info("ByteCartRedux : getFreeSubnet() : testing : " + i + " : " + free);
             }
         }
-        LogUtil.sendError(this.getContent().getPlayer(), "Sign at " + this.getCenter().getLocation().toString()
-                + "could not get an address because address pool is empty." +
-                " Maximum station numbers is reached on the " + step + "-station subnet " + this.buildAddress(start));
+        Messaging.sendError(this.getContent().getPlayer(), Text.of(String
+                .format(ByteCartRedux.rootNode.getNode("messages", "error", "needbook").getString(), this.getCenter().getLocation().toString(), step,
+                        this.buildAddress(start))));
         return -1;
     }
 

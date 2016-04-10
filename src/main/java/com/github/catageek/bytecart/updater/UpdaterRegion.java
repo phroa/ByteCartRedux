@@ -22,8 +22,9 @@ import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.event.custom.UpdaterSetRingEvent;
 import com.github.catageek.bytecart.sign.BCSign;
-import com.github.catageek.bytecart.util.LogUtil;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.Direction;
 
 import java.util.Random;
@@ -99,11 +100,11 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
         int track = getTrackNumber();
 
         if (!this.getRoutes().isNew() && track == -1 && current == -2) {
-            String error = "First BC8010 sign met has no address. If it is an initial configuration" +
+            Text error = Text.of("First BC8010 sign met has no address. If it is an initial configuration" +
                     ", add option 'new' at the end of bcupdater command to confirm." +
                     " If this is not a new network (i.e. you have already used bcupdater)" +
-                    ", you should start from anywhere but here";
-            LogUtil.sendError(this.getRoutes().getPlayer(), error);
+                    ", you should start from anywhere but here");
+            Messaging.sendError(this.getRoutes().getPlayer(), error);
             WandererContentFactory.deleteContent(this.getRoutes().getInventory());
             return true;
         }
@@ -140,9 +141,9 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
                         return face;
                     }
                 } catch (NullPointerException e) {
-                    LogUtil.sendError(this.getRoutes().getPlayer(),
-                            "ByteCartRedux : Chest expected at position " + this.getCenter().getLocation().get()
-                                    .add(Direction.UP.toVector3d().mul(5)));
+                    Messaging.sendError(this.getRoutes().getPlayer(),
+                            Text.of("ByteCartRedux : Chest expected at position " + this.getCenter().getLocation().get()
+                                    .add(Direction.UP.toVector3d().mul(5))));
                     throw e;
                 }
 

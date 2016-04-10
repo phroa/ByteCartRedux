@@ -30,7 +30,7 @@ import com.github.catageek.bytecart.thread.ModifiableRunnable;
 import com.github.catageek.bytecart.updater.UpdaterContentFactory;
 import com.github.catageek.bytecart.updater.UpdaterFactory;
 import com.github.catageek.bytecart.updater.Wanderer;
-import com.github.catageek.bytecart.util.LogUtil;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.GenericArguments;
@@ -40,7 +40,6 @@ import org.spongepowered.api.entity.vehicle.minecart.ContainerMinecart;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.type.CarriedInventory;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -56,7 +55,7 @@ public class ByteCartCommandExecutor {
                     Text.of("train"))))
             .executor((source, context) -> {
                 if (!(source instanceof Player)) {
-                    source.sendMessage(Text.of("This command can only be run by a player."));
+                    Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                 } else {
                     Player player = (Player) source;
                     String hostOrAddress;
@@ -69,11 +68,7 @@ public class ByteCartCommandExecutor {
                     }
 
                     if (!AddressString.isResolvableAddressOrName(hostOrAddress)) {
-                        source.sendMessage(Text.builder()
-                                .color(TextColors.DARK_GREEN)
-                                .append(Text.of("[Bytecart] "))
-                                .color(TextColors.RED)
-                                .append(Text.of("No valid destination supplied.")).build());
+                        Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidaddress").getString()));
                         return CommandResult.empty();
                     }
 
@@ -87,7 +82,7 @@ public class ByteCartCommandExecutor {
                     Text.of("train"))))
             .executor((source, context) -> {
                 if (!(source instanceof Player)) {
-                    source.sendMessage(Text.of("This command can only be run by a player."));
+                    Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                 } else {
                     Player player = (Player) source;
                     String hostOrAddress;
@@ -100,11 +95,7 @@ public class ByteCartCommandExecutor {
                     }
 
                     if (!AddressString.isResolvableAddressOrName(hostOrAddress)) {
-                        source.sendMessage(Text.builder()
-                                .color(TextColors.DARK_GREEN)
-                                .append(Text.of("[Bytecart] "))
-                                .color(TextColors.RED)
-                                .append(Text.of("No valid destination supplied.")).build());
+                        Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidaddress").getString()));
                         return CommandResult.empty();
                     }
 
@@ -126,12 +117,15 @@ public class ByteCartCommandExecutor {
                             if ((new BC7011(player.getLocation().createSnapshot(),
                                     ((CarriedInventory<ContainerMinecart>) inventory).getCarrier().get()))
                                     .setAddress(address, this.isTrain)) {
-                                LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "setaddress").getString() + " " + hostOrAddress);
-                                LogUtil.sendSuccess(player,
-                                        ByteCartRedux.rootNode.getNode("messages", "info", "getttl").getString() + AddressFactory.<AddressRouted>getAddress(
-                                                ((CarriedInventory<ContainerMinecart>) inventory)).getTTL());
+                                Messaging.sendSuccess(player,
+                                        Text.of(String.format(ByteCartRedux.rootNode.getNode("messages", "info", "setaddress").getString(),
+                                                hostOrAddress)));
+                                Messaging.sendSuccess(player,
+                                        Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "getttl").getString()
+                                                + AddressFactory.<AddressRouted>getAddress(((CarriedInventory<ContainerMinecart>) inventory))
+                                                .getTTL()));
                             } else {
-                                LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString());
+                                Messaging.sendError(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString()));
                             }
 
                         }
@@ -148,12 +142,7 @@ public class ByteCartCommandExecutor {
 
                     }
 
-                    player.sendMessage(Text.builder()
-                            .color(TextColors.DARK_GREEN)
-                            .append(Text.of("[Bytecart] "))
-                            .color(TextColors.YELLOW)
-                            .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()))
-                            .build());
+                    Messaging.sendSuccess(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()));
                     new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player, new Execute(player, hostOrAddress, isTrain), false);
 
                 }
@@ -165,14 +154,7 @@ public class ByteCartCommandExecutor {
             .executor((source, context) -> {
                 ByteCartRedux.myPlugin.loadConfig();
 
-                String s = "Configuration file reloaded.";
-
-                if (!(source instanceof Player)) {
-                    source.sendMessage(Text.of(s));
-                } else {
-                    Player player = (Player) source;
-                    LogUtil.sendError(player, s);
-                }
+                Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "configreloaded").getString()));
                 return CommandResult.success();
             }).build();
 
@@ -202,33 +184,18 @@ public class ByteCartCommandExecutor {
                 addressString = hostOrAddress;
 
                 if (!player.isPresent()) {
-                    source.sendMessage(Text.builder()
-                            .color(TextColors.DARK_GREEN)
-                            .append(Text.of("[Bytecart] "))
-                            .color(TextColors.RED)
-                            .append(Text.of("Can't find player."))
-                            .build());
+                    Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidplayer").getString()));
                     return CommandResult.empty();
                 }
 
                 if (!AddressString.isResolvableAddressOrName(addressString)) {
-                    source.sendMessage(Text.builder()
-                            .color(TextColors.DARK_GREEN)
-                            .append(Text.of("[Bytecart] "))
-                            .color(TextColors.RED)
-                            .append(Text.of("No valid address supplied."))
-                            .build());
+                    Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidaddress").getString()));
                     return CommandResult.empty();
                 }
 
                 (new BC7010(player.get().getLocation().createSnapshot(), player.get())).setAddress(addressString, isTrain);
 
-                player.get().sendMessage(Text.builder()
-                        .color(TextColors.DARK_GREEN)
-                        .append(Text.of("[Bytecart] "))
-                        .color(TextColors.YELLOW)
-                        .append(Text.of("Ticket created successfully."))
-                        .build());
+                Messaging.sendSuccess(player.get(), Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "ticketcreated").getString()));
 
                 return CommandResult.success();
             }).build();
@@ -236,7 +203,7 @@ public class ByteCartCommandExecutor {
     public static final CommandSpec BCBACK = CommandSpec.builder()
             .executor((source, context) -> {
                 if (!(source instanceof Player)) {
-                    source.sendMessage(Text.of("This command can only be run by a player."));
+                    Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                     return CommandResult.empty();
                 }
 
@@ -244,7 +211,7 @@ public class ByteCartCommandExecutor {
 
                 (new BC7017(player.getLocation().createSnapshot(), player)).trigger();
 
-                LogUtil.sendSuccess(player, "Return back");
+                Messaging.sendSuccess(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "returnback").getString()));
 
                 return CommandResult.success();
             }).build();
@@ -260,7 +227,7 @@ public class ByteCartCommandExecutor {
                     .arguments(GenericArguments.integer(Text.of("region")), GenericArguments.optionalWeak(GenericArguments.bool(Text.of("new"))))
                     .executor((source, context) -> {
                         if (!(source instanceof Player)) {
-                            source.sendMessage(Text.of("This command can only be run by a player."));
+                            Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                             return CommandResult.empty();
                         }
 
@@ -276,7 +243,7 @@ public class ByteCartCommandExecutor {
                             return CommandResult.empty();
                         }
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
+                        Messaging.sendSuccess(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()));
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.REGION, region, false, isNew), true);
 
@@ -286,7 +253,7 @@ public class ByteCartCommandExecutor {
                     .arguments(GenericArguments.integer(Text.of("region")), GenericArguments.optionalWeak(GenericArguments.bool(Text.of("new"))))
                     .executor((source, context) -> {
                         if (!(source instanceof Player)) {
-                            source.sendMessage(Text.of("This command can only be run by a player."));
+                            Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                             return CommandResult.empty();
                         }
 
@@ -302,7 +269,7 @@ public class ByteCartCommandExecutor {
                             return CommandResult.empty();
                         }
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
+                        Messaging.sendSuccess(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()));
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.LOCAL, region, false, isNew), true);
 
@@ -311,7 +278,7 @@ public class ByteCartCommandExecutor {
             .child(CommandSpec.builder()
                     .executor((source, context) -> {
                         if (!(source instanceof Player)) {
-                            source.sendMessage(Text.of("This command can only be run by a player."));
+                            Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                             return CommandResult.empty();
                         }
 
@@ -321,7 +288,7 @@ public class ByteCartCommandExecutor {
 
                         Player player = (Player) source;
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
+                        Messaging.sendSuccess(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()));
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.BACKBONE, 0, false, false), true);
 
@@ -331,7 +298,7 @@ public class ByteCartCommandExecutor {
                     .arguments(GenericArguments.integer(Text.of("region")), GenericArguments.optionalWeak(GenericArguments.bool(Text.of("full"))))
                     .executor((source, context) -> {
                         if (!(source instanceof Player)) {
-                            source.sendMessage(Text.of("This command can only be run by a player."));
+                            Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                             return CommandResult.empty();
                         }
 
@@ -347,7 +314,7 @@ public class ByteCartCommandExecutor {
                             return CommandResult.empty();
                         }
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
+                        Messaging.sendSuccess(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()));
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.RESET_REGION, region, fullReset, false), true);
 
@@ -357,7 +324,7 @@ public class ByteCartCommandExecutor {
                     .arguments(GenericArguments.integer(Text.of("region")), GenericArguments.optionalWeak(GenericArguments.bool(Text.of("full"))))
                     .executor((source, context) -> {
                         if (!(source instanceof Player)) {
-                            source.sendMessage(Text.of("This command can only be run by a player."));
+                            Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                             return CommandResult.empty();
                         }
 
@@ -373,7 +340,7 @@ public class ByteCartCommandExecutor {
                             return CommandResult.empty();
                         }
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
+                        Messaging.sendSuccess(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()));
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.RESET_LOCAL, region, fullReset, false), true);
 
@@ -383,7 +350,7 @@ public class ByteCartCommandExecutor {
                     .arguments(GenericArguments.optionalWeak(GenericArguments.bool(Text.of("full"))))
                     .executor((source, context) -> {
                         if (!(source instanceof Player)) {
-                            source.sendMessage(Text.of("This command can only be run by a player."));
+                            Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidsource").getString()));
                             return CommandResult.empty();
                         }
 
@@ -394,7 +361,7 @@ public class ByteCartCommandExecutor {
                         Player player = (Player) source;
                         boolean fullReset = context.<Boolean>getOne(Text.of("full")).orElse(false);
 
-                        LogUtil.sendSuccess(player, ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString());
+                        Messaging.sendSuccess(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "rightclickcart").getString()));
                         new ByteCartInventoryListener<>(ByteCartRedux.myPlugin, player,
                                 new ExecuteUpdate(player, Wanderer.Level.RESET_BACKBONE, 0, fullReset, false), true);
 
@@ -434,7 +401,7 @@ public class ByteCartCommandExecutor {
                 ByteCartUpdaterMoveListener.setExist(true);
             }
             ByteCartUpdaterMoveListener.addUpdater(id);
-            LogUtil.sendError(player, ByteCartRedux.rootNode.getNode("messages", "info", "setupdater").getString());
+            Messaging.sendError(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "setupdater").getString()));
         }
 
 

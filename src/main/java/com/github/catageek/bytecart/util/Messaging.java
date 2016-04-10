@@ -18,21 +18,32 @@
  */
 package com.github.catageek.bytecart.util;
 
+import com.github.catageek.bytecart.ByteCartRedux;
+import org.spongepowered.api.text.LiteralText;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageReceiver;
+import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
 
-public final class LogUtil {
+public final class Messaging {
 
-    public static void sendError(MessageReceiver receiver, String message) {
-        display(receiver, TextColors.DARK_GREEN + "[Bytecart] " + TextColors.RED + message);
+    private static final LiteralText MESSAGE_PREFIX = Text.of(ByteCartRedux.rootNode.getNode("message", "prefix")
+            .getString("[ByteCart] "));
+
+    public static void sendError(MessageReceiver receiver, Text message) {
+        send(receiver, TextColors.RED, message);
     }
 
-    public static void sendSuccess(MessageReceiver receiver, String message) {
-        display(receiver, TextColors.DARK_GREEN + "[Bytecart] " + TextColors.YELLOW + message);
+    public static void sendSuccess(MessageReceiver receiver, Text message) {
+        send(receiver, TextColors.YELLOW, message);
     }
 
-    private static void display(MessageReceiver receiver, String message) {
-        receiver.sendMessage(Text.of(message));
+    private static void send(MessageReceiver receiver, TextColor color, Text message) {
+        receiver.sendMessage(Text.builder()
+                .color(TextColors.DARK_GREEN)
+                .append(MESSAGE_PREFIX)
+                .color(color)
+                .append(message)
+                .build());
     }
 }

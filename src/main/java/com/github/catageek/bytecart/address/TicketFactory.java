@@ -19,13 +19,13 @@
 package com.github.catageek.bytecart.address;
 
 import com.github.catageek.bytecart.ByteCartRedux;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.property.SlotIndex;
 import org.spongepowered.api.item.inventory.type.CarriedInventory;
 import org.spongepowered.api.item.inventory.type.OrderedInventory;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 /**
  * Factory to create or get a ticket
@@ -58,9 +58,7 @@ public final class TicketFactory {
         }
 
         if (inv.query(new SlotIndex(slot)).isEmpty() && ByteCartRedux.rootNode.getNode("book", "mustprovide").getBoolean()) {
-            String msg = "No empty book in your inventory, you must provide one.";
-            player.sendMessage(
-                    Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.RED).append(Text.of(msg)).build());
+            Messaging.sendError(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "needbook").getString()));
             return;
         }
 

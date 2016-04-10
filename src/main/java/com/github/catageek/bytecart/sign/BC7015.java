@@ -23,12 +23,12 @@ import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.ReturnAddressFactory;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.entity.HumanInventory;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 /**
  * A return address setter
@@ -67,10 +67,8 @@ final class BC7015 extends BC7011 implements Triggerable {
 
     @Override
     protected void infoPlayer(String address) {
-        ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
-                Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
-                        .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "setreturnaddress").getString() + " "))
-                        .color(TextColors.RED)
-                        .append(Text.of(address)).build());
+        Messaging.sendSuccess((Player) ((HumanInventory) this.getInventory()).getCarrier().get(),
+                Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "setreturnaddress").getString()
+                        + " " + address));
     }
 }

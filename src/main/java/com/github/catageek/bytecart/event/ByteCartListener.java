@@ -29,6 +29,7 @@ import com.github.catageek.bytecart.sign.Powerable;
 import com.github.catageek.bytecart.sign.PoweredSignFactory;
 import com.github.catageek.bytecart.sign.Triggerable;
 import com.github.catageek.bytecart.sign.TriggeredSignFactory;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.block.BlockTypes;
@@ -46,7 +47,6 @@ import org.spongepowered.api.event.entity.DisplaceEntityEvent;
 import org.spongepowered.api.event.entity.SpawnEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -183,26 +183,17 @@ public class ByteCartListener {
             if (myIC != null) {
                 Player player = event.getCause().first(Player.class).get();
                 if (!player.hasPermission(myIC.getBuildPermission())) {
-                    player.sendMessage(Text.builder()
-                            .color(TextColors.DARK_GREEN)
-                            .append(Text.of("[Bytecart] "))
-                            .color(TextColors.RED)
-                            .append(Text.of("You are not authorized to place " + myIC.getFriendlyName() + " block."))
-                            .build());
-                    player.sendMessage(Text.builder()
-                            .color(TextColors.DARK_GREEN)
-                            .append(Text.of("[Bytecart] "))
-                            .color(TextColors.RED)
-                            .append(Text.of("You must have " + myIC.getBuildPermission()))
-                            .build());
+                    Messaging.sendError(player, Text.of(
+                            String.format(ByteCartRedux.rootNode.getNode("messages", "error", "unauthorizedplace").getString(),
+                                    myIC.getFriendlyName())));
+                    Messaging.sendError(player, Text.of(
+                            String.format(ByteCartRedux.rootNode.getNode("messages", "error", "permission").getString(),
+                                    myIC.getBuildPermission())));
                     event.getText().addElement(1, Text.EMPTY);
                 } else {
-                    player.sendMessage(Text.builder()
-                            .color(TextColors.DARK_GREEN)
-                            .append(Text.of("[Bytecart] "))
-                            .color(TextColors.RED)
-                            .append(Text.of(myIC.getFriendlyName() + " block created."))
-                            .build());
+                    Messaging.sendError(player, Text.of(
+                            String.format(ByteCartRedux.rootNode.getNode("messages", "info", "created").getString(),
+                                    myIC.getFriendlyName())));
                     if (lines.get(2).toPlain().compareTo("") == 0) {
                         event.getText().addElement(2, Text.of(myIC.getFriendlyName()));
                     }

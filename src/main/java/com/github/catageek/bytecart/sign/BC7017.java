@@ -23,12 +23,12 @@ import com.github.catageek.bytecart.address.Address;
 import com.github.catageek.bytecart.address.AddressFactory;
 import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.ReturnAddressFactory;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.entity.HumanInventory;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 /**
  * A block that makes the cart return to its origin using return address
@@ -73,11 +73,8 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggerable {
         targetAddress.setAddress(returnAddressString);
         targetAddress.setTrain(isTrain);
         if (this.getInventory() instanceof HumanInventory) {
-            ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
-                    Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
-                            .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "setaddress").getString() + " (")).color(TextColors
-                            .RED)
-                            .append(Text.of(returnAddressString)).color(TextColors.YELLOW).append(Text.of(")")).build());
+            Messaging.sendSuccess(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
+                    Text.of(String.format(ByteCartRedux.rootNode.getNode("messages", "info", "setaddress").getString(), returnAddressString)));
         }
         targetAddress.initializeTTL();
         targetAddress.finalizeAddress();

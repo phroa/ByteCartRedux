@@ -25,12 +25,12 @@ import com.github.catageek.bytecart.address.AddressRouted;
 import com.github.catageek.bytecart.address.TicketFactory;
 import com.github.catageek.bytecart.io.ComponentSign;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.entity.HumanInventory;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 
 /**
@@ -154,9 +154,8 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
         if (targetAddress == null || !targetAddress.setAddress(signAddress)) {
 
             if (this.getInventory() instanceof HumanInventory) {
-                ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
-                        Text.builder().color(TextColors.GREEN).append(Text.of("[Bytecart] ")).color(TextColors.RED)
-                                .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString())).build());
+                Messaging.sendError(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
+                        Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString()));
             }
             return false;
         }
@@ -186,16 +185,11 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      * @param signAddress the address got by the player
      */
     void infoPlayer(String signAddress) {
-        ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
-                Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
-                        .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString() + " ")).color(TextColors.RED)
-                        .append(Text.of(signAddress)).build());
+        Messaging.sendError(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
+                Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString()));
         if (this.getVehicle() == null && !ByteCartRedux.rootNode.getNode("book", "use").getBoolean()) {
-            ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
-                    Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.YELLOW)
-                            .append(Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress2").getString() + " "))
-                            .color(TextColors.RED)
-                            .append(Text.of(signAddress)).build());
+            Messaging.sendError(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
+                    Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress2").getString()));
         }
     }
 

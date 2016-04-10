@@ -24,6 +24,7 @@ import com.github.catageek.bytecart.address.AddressBook.Parameter;
 import com.github.catageek.bytecart.file.BookFile;
 import com.github.catageek.bytecart.file.BookProperties;
 import com.github.catageek.bytecart.file.BookProperties.Conf;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
@@ -37,7 +38,6 @@ import org.spongepowered.api.item.inventory.property.SlotPos;
 import org.spongepowered.api.item.inventory.type.CarriedInventory;
 import org.spongepowered.api.item.inventory.type.OrderedInventory;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 import java.io.IOException;
 
@@ -152,13 +152,7 @@ final class Ticket {
     static int getEmptyOrBookAndQuillSlot(Player player) {
         int slot;
         if ((slot = getEmptyOrBookAndQuillSlot(((HumanInventory & OrderedInventory) player.getInventory()))) == -1) {
-            String msg = "Error: No space in inventory.";
-            player.sendMessage(Text.builder()
-                    .color(TextColors.DARK_GREEN)
-                    .append(Text.of("[Bytecart] "))
-                    .color(TextColors.RED)
-                    .append(Text.of(msg))
-                    .build());
+            Messaging.sendError(player, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "inventoryspace").getString()));
         }
         return slot;
     }

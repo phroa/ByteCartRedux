@@ -31,6 +31,7 @@ import com.github.catageek.bytecart.io.InputPinFactory;
 import com.github.catageek.bytecart.updater.Wanderer;
 import com.github.catageek.bytecart.updater.WandererContentFactory;
 import com.github.catageek.bytecart.util.MathUtil;
+import com.github.catageek.bytecart.util.Messaging;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.data.key.Keys;
@@ -38,7 +39,6 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.entity.HumanInventory;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.Direction;
 
 import java.io.IOException;
@@ -98,10 +98,10 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
                 this.route();
 
                 if (this.isAddressMatching() && this.getName().equals("BC9001") && this.getInventory() instanceof HumanInventory) {
-                    ((Player) ((HumanInventory) this.getInventory()).getCarrier().get()).sendMessage(
-                            Text.builder().color(TextColors.DARK_GREEN).append(Text.of("[Bytecart] ")).color(TextColors.GREEN).append(Text
-                                    .of(ByteCartRedux.rootNode.getNode("messages", "info", "destination").getString() + " " + this.getFriendlyName()
-                                            + " (" + sign + ")")).build());
+                    Messaging.sendSuccess(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
+                            Text.of(String
+                                    .format(ByteCartRedux.rootNode.getNode("messages", "info", "destination").getString(), this.getFriendlyName(),
+                                            sign)));
 
                 }
                 return;
