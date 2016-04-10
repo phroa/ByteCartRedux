@@ -49,7 +49,7 @@ import java.io.IOException;
         description = "Minecart routing system",
         version = "3.0.0.2",
         url = "https://github.com/phroa/ByteCartRedux")
-public final class ByteCartRedux implements ByteCartPlugin {
+public final class ByteCartRedux {
 
     @Inject
     public static Logger log;
@@ -84,9 +84,9 @@ public final class ByteCartRedux implements ByteCartPlugin {
     public void onInitialization(GameInitializationEvent event) {
         this.loadConfig();
 
-        this.setCam(new CollisionAvoiderManager());
-        this.setWf(new BCWandererManager());
-        this.setIt(new IsTrainManager());
+        this.cam = new CollisionAvoiderManager();
+        this.wf = new BCWandererManager();
+        this.it = new IsTrainManager();
 
         Sponge.getEventManager().registerListeners(this, new ByteCartListener());
 
@@ -157,24 +157,10 @@ public final class ByteCartRedux implements ByteCartPlugin {
     }
 
     /**
-     * @param cam the cam to set
-     */
-    private void setCam(CollisionAvoiderManager cam) {
-        this.cam = cam;
-    }
-
-    /**
      * @return the it
      */
     public IsTrainManager getIsTrainManager() {
         return it;
-    }
-
-    /**
-     * @param it the it to set
-     */
-    private void setIt(IsTrainManager it) {
-        this.it = it;
     }
 
     /**
@@ -195,15 +181,4 @@ public final class ByteCartRedux implements ByteCartPlugin {
         return wf;
     }
 
-    @Override
-    public File getDataFolder() {
-        return configDir;
-    }
-
-    /**
-     * @param wf the wf to set
-     */
-    private void setWf(BCWandererManager wf) {
-        this.wf = wf;
-    }
 }
