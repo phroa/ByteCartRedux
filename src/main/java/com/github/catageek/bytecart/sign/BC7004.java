@@ -89,7 +89,7 @@ final class BC7004 extends AbstractIC implements Powerable {
             if (rail.getState().getType().equals(BlockTypes.RAIL) && MathUtil.getVehicleByLocation(loc) == null) {
                 Entity entity = block.getLocation().get().getExtent().createEntity(getType(), loc.getPosition()).get();//(loc, getType());
                 // put a ticket in the inventory if necessary
-                if (entity.getProperty(InventoryProperty.class).isPresent() && AddressString.isResolvableAddressOrName(address)) {
+                if (entity.getProperty(InventoryProperty.class).isPresent() && AddressString.isAddress(address)) {
                     CarriedInventory<?> inv = ((CarriedInventory<?>) entity.getProperty(InventoryProperty.class).get());
                     TicketFactory.getOrCreateTicket(inv);
                     Address dst = AddressFactory.getAddress(inv);

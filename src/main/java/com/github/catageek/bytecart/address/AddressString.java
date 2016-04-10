@@ -18,7 +18,6 @@
  */
 package com.github.catageek.bytecart.address;
 
-import com.github.catageek.bytecart.ByteCartRedux;
 import com.github.catageek.bytecart.hardware.VirtualRegistry;
 
 
@@ -26,12 +25,6 @@ import com.github.catageek.bytecart.hardware.VirtualRegistry;
  *  This class represents a canonical address like xx.xx.xx
  */
 public class AddressString extends AbstractAddress implements Address {
-
-    private final static Resolver resolver;
-
-    static {
-        resolver = ByteCartRedux.myPlugin.getResolver();
-    }
 
     /**
      * String used as internal storage
@@ -50,33 +43,8 @@ public class AddressString extends AbstractAddress implements Address {
             return;
         }
 
-        if (isResolvableName(s)) {
-            if (resolve) {
-                this.String = resolver.resolve(s);
-            } else {
-                this.String = s;
-            }
-            return;
-        }
-
         this.String = null;
         this.isValid = false;
-    }
-
-    /**
-     * Static method to check the format of an address
-     *
-     * A resolvable name will return true
-     *
-     * This method does not check if the address fields are in a valid range
-     *
-     * @param s the string containing the address to check
-     * @return true if the address is in the valid format or a resolvable name
-     */
-    static public boolean isResolvableAddressOrName(String s) {
-        return (s.matches("([0-9]{1,4}\\.){2}[0-9]{1,3}"))
-                || isResolvableName(s);
-
     }
 
     /**
@@ -87,25 +55,9 @@ public class AddressString extends AbstractAddress implements Address {
      * @param s the string containing the address to check
      * @return true if the address is in the valid format
      */
-    static private boolean isAddress(String s) {
+    public static boolean isAddress(String s) {
         return s.matches("([0-9]{1,4}\\.){2}[0-9]{1,3}");
 
-    }
-
-    /**
-     * Static method to check if a name resolution gives a valid address
-     *
-     * @param name the string containing the name to check
-     * @return true if the resolution gives an address
-     */
-    static private boolean isResolvableName(String name) {
-        if (resolver != null) {
-            String a = resolver.resolve(name);
-            if (a != null && AddressString.isAddress(a)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -178,7 +130,7 @@ public class AddressString extends AbstractAddress implements Address {
 
     @Override
     public boolean setAddress(java.lang.String s) {
-        if (isResolvableAddressOrName(s)) {
+        if (isAddress(s)) {
             this.String = s;
             this.isValid = true;
         } else {

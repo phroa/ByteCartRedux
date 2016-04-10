@@ -18,7 +18,6 @@
  */
 package com.github.catageek.bytecart;
 
-import com.github.catageek.bytecart.address.Resolver;
 import com.github.catageek.bytecart.updater.WandererManager;
 import org.slf4j.Logger;
 
@@ -26,18 +25,6 @@ import java.io.File;
 
 
 public interface ByteCartPlugin {
-
-    /**
-     * @return the resolver registered
-     */
-    Resolver getResolver();
-
-    /**
-     * Set the resolver that will be used
-     *
-     * @param resolver the resolver provided
-     */
-    void setResolver(Resolver resolver);
 
     /**
      * Get the logger

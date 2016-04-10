@@ -67,7 +67,7 @@ public class ByteCartCommandExecutor {
                         hostOrAddress = context.<String>getOne(Text.of("destination")).get();
                     }
 
-                    if (!AddressString.isResolvableAddressOrName(hostOrAddress)) {
+                    if (!AddressString.isAddress(hostOrAddress)) {
                         Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidaddress").getString()));
                         return CommandResult.empty();
                     }
@@ -94,7 +94,7 @@ public class ByteCartCommandExecutor {
                         hostOrAddress = context.<String>getOne(Text.of("destination")).get();
                     }
 
-                    if (!AddressString.isResolvableAddressOrName(hostOrAddress)) {
+                    if (!AddressString.isAddress(hostOrAddress)) {
                         Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidaddress").getString()));
                         return CommandResult.empty();
                     }
@@ -188,7 +188,7 @@ public class ByteCartCommandExecutor {
                     return CommandResult.empty();
                 }
 
-                if (!AddressString.isResolvableAddressOrName(addressString)) {
+                if (!AddressString.isAddress(addressString)) {
                     Messaging.sendError(source, Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "invalidaddress").getString()));
                     return CommandResult.empty();
                 }

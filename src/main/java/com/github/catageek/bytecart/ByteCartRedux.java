@@ -18,7 +18,6 @@
  */
 package com.github.catageek.bytecart;
 
-import com.github.catageek.bytecart.address.Resolver;
 import com.github.catageek.bytecart.collection.IsTrainManager;
 import com.github.catageek.bytecart.collision.CollisionAvoiderManager;
 import com.github.catageek.bytecart.event.ByteCartListener;
@@ -70,7 +69,6 @@ public final class ByteCartRedux implements ByteCartPlugin {
     private BCWandererManager wf;
     private IsTrainManager it;
     private boolean keepItems;
-    private Resolver resolver;
 
     @Listener
     public void onPreInitialization(GamePreInitializationEvent event) {
@@ -184,22 +182,6 @@ public final class ByteCartRedux implements ByteCartPlugin {
      */
     public boolean keepItems() {
         return keepItems;
-    }
-
-    /**
-     * @return the resolver registered
-     */
-    public Resolver getResolver() {
-        return resolver;
-    }
-
-    /**
-     * Set the resolver that will be used
-     *
-     * @param resolver the resolver provided
-     */
-    public void setResolver(Resolver resolver) {
-        this.resolver = resolver;
     }
 
     public final Logger getLog() {
