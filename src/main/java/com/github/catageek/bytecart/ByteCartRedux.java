@@ -73,7 +73,7 @@ public final class ByteCartRedux {
         myPlugin = this;
         rootNode = configurationLoader.load();
 
-        if (rootNode.isVirtual()) {
+        if (rootNode.getNode("debug").isVirtual()) {
             saveDefaultConfig();
         }
     }
