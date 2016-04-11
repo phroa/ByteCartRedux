@@ -183,8 +183,8 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
             }
         }
         Messaging.sendError(this.getContent().getPlayer(), Text.of(String
-                .format(ByteCartRedux.rootNode.getNode("messages", "error", "needbook").getString(), this.getCenter().getLocation().toString(), step,
-                        this.buildAddress(start))));
+                .format(ByteCartRedux.rootNode.getNode("messages", "error", "subnetfull").getString(), this.getCenter().getLocation().toString(),
+                        step, this.buildAddress(start))));
         return -1;
     }
 

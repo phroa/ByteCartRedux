@@ -63,7 +63,7 @@ final class BC7008 extends AbstractTriggeredSign implements Triggerable {
         }
 
         // we drop items
-        if (ByteCartRedux.myPlugin.keepItems()) {
+        if (ByteCartRedux.rootNode.getNode("sign", "bc7008", "keepitems").getBoolean()) {
             Inventory inventory;
             if (vehicle instanceof ContainerMinecart) {
                 inventory = ((ContainerMinecart) vehicle).getInventory();

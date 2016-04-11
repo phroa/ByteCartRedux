@@ -64,8 +64,8 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
 
 
             if (!this.decrementWaveCount()) {
-
-                (new RemoveCount(ByteCartRedux.myPlugin.lockDuration + 6, true, "Removecount")).reset(getLocation(), this.getOutput(0));
+                (new RemoveCount(ByteCartRedux.rootNode.getNode("sign", "bc7003", "lockduration").getInt() + 6, true, "Removecount"))
+                        .reset(getLocation(), this.getOutput(0));
             }
         } catch (Exception e) {
             if (ByteCartRedux.debug) {

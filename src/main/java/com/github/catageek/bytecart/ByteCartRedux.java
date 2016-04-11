@@ -56,7 +56,6 @@ public final class ByteCartRedux {
     public static CommentedConfigurationNode rootNode;
     public static ByteCartRedux myPlugin;
     public static boolean debug;
-    public int lockDuration;
     @Inject
     @ConfigDir(sharedRoot = false)
     private File configDir;
@@ -68,15 +67,14 @@ public final class ByteCartRedux {
     private CollisionAvoiderManager cam;
     private BCWandererManager wf;
     private IsTrainManager it;
-    private boolean keepItems;
 
     @Listener
-    public void onPreInitialization(GamePreInitializationEvent event) {
+    public void onPreInitialization(GamePreInitializationEvent event) throws IOException {
         myPlugin = this;
-        try {
-            rootNode = configurationLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+        rootNode = configurationLoader.load();
+
+        if (rootNode.isVirtual()) {
+            saveDefaultConfig();
         }
     }
 
@@ -119,9 +117,6 @@ public final class ByteCartRedux {
      */
     final void loadConfig() {
         debug = rootNode.getNode("debug").getBoolean(false);
-        keepItems = rootNode.getNode("keepitems").getBoolean(true);
-
-        lockDuration = rootNode.getNode("lockduration").getInt(44);
 
         if (debug) {
             log.info("ByteCartRedux : debug mode is on.");
@@ -148,6 +143,76 @@ public final class ByteCartRedux {
         }
     }
 
+    private void saveDefaultConfig() throws IOException {
+        rootNode.getNode("book", "author").setComment("The author for ByteCartRedux-created books").setValue("ByteCart");
+        rootNode.getNode("book", "mustprovide").setComment("Whether players are required to provide empty books in their inventory to use as tickets")
+                .setValue(false);
+        rootNode.getNode("book", "reuse").setComment("Whether books should be overwritten when players and carts change destinations").setValue(true);
+        rootNode.getNode("book", "title").setComment("The string to prefix book titles with. If present, should not end with a space.")
+                .setValue("ByteCart -");
+        rootNode.getNode("book", "ttl").setComment(
+                "The default TTL, or maximum number of routers to cross when finding a suitable route before getting sent to the default route")
+                .setValue(64);
+        rootNode.getNode("book", "use").setComment(
+                "Whether to use books as tickets for players. Note - this means players can't travel if they do not have an empty inventory slot "
+                        + "for the book.")
+                .setValue(true);
+        rootNode.getNode("constantspeed").setComment("Whether ByteCart-controlled minecarts should always travel at their maximum speed")
+                .setValue(true);
+        rootNode.getNode("debug").setComment("Whether to print debugging information to the console").setValue(false);
+        rootNode.getNode("defaultroute").setComment(
+                "Please note that \"0.0.0\" is a valid value, not just a placeholder. These addresses should always point at cart destroyers. This "
+                        + "is also the final destination for region updater carts when they have finished.");
+        rootNode.getNode("defaultroute", "empty").setComment("The default route of empty and storage carts without a destination").setValue("0.0.0");
+        rootNode.getNode("defaultroute", "player").setComment("The default route of players without a destination").setValue("0.0.0");
+        rootNode.getNode("loadchunks").setComment("Whether to force load chunks that ByteCart carts would travel through").setValue(true);
+        rootNode.getNode("messages", "prefix")
+                .setComment("Prefix to place before all user-visible messages. If set, be sure to include a trailing space.").setValue("[ByteCart] ");
+        rootNode.getNode("messages", "error", "invalidaddress").setValue("Invalid destination address.");
+        rootNode.getNode("messages", "error", "invalidplayer").setValue("Invalid player.");
+        rootNode.getNode("messages", "error", "invalidsource").setValue("You must be a player to use this command.");
+        rootNode.getNode("messages", "error", "inventoryspace").setValue("You must have an empty slot in your inventory to use this.");
+        rootNode.getNode("messages", "error", "needbook").setValue("You must have a blank book in your inventory to use this.");
+        rootNode.getNode("messages", "error", "permission").setComment("%s is a placeholder for the permission required")
+                .setValue("You need the %s permission to do this.");
+        rootNode.getNode("messages", "error", "subnetfull").setComment(
+                "First %s is the location in the world of the sign. %d is the number of stations in the subnet. Second %s is the subnet number.")
+                .setValue("Could not assign an address to the sign at %s. The %d-station subnet (%s) is full.");
+        rootNode.getNode("messages", "error", "unauthorizedplace")
+                .setComment("%s is the placeholder for the type of object. For example, \"L1 Router\"")
+                .setValue("You don't have permission to create a(n) %s sign.");
+        rootNode.getNode("messages", "info", "configreloaded").setComment("Configuration reloaded.");
+        rootNode.getNode("messages", "info", "created").setComment("%s is the placeholder for the type of object. For example, \"L1 Router\"")
+                .setValue("Created a(n) %s.");
+        rootNode.getNode("messages", "info", "destination")
+                .setComment("First %s is a placeholder for the \"friendly name\" of a station. Second %s is a placeholder for the station's address.")
+                .setValue("Arrived at \"%s\" (%s).");
+        rootNode.getNode("messages", "info", "getttl").setValue("Will cross up to %d routers.");
+        rootNode.getNode("messages", "info", "returnback").setValue("Returning to origin.");
+        rootNode.getNode("messages", "info", "rightclickcart").setValue("Please right-click a storage cart.");
+        rootNode.getNode("messages", "info", "setaddress").setComment("%s is a placeholder for the new destination.").setValue("Destination set: %s");
+        rootNode.getNode("messages", "info", "setaddress2").setValue("Please leave the ticket in your inventory.");
+        rootNode.getNode("messages", "info", "setreturnaddress").setValue("Return address set.");
+        rootNode.getNode("messages", "info", "setupdater").setValue("Updater created.");
+        rootNode.getNode("messages", "info", "ticketcreated").setValue("Ticket created.");
+        rootNode.getNode("messages", "info", "updaterexpired").setComment("%s is a placeholder for the date the now-expired updater was created")
+                .setValue("Updater created at %s has expired.");
+        rootNode.getNode("sign", "bc7001", "velocity").setComment(
+                "The new velocity to boost carts to. This value should be between 0 and 1, inclusive. The vanilla maximum speed of a non-empty cart"
+                        + " is 0.4.")
+                .setValue(0.68);
+        rootNode.getNode("sign", "bc7003", "lockduration").setComment("The number of ticks to wait before processing another cart").setValue(44);
+        rootNode.getNode("sign", "bc7008", "keepitems").setComment("Whether carts destroyed by this sign will drop their items on the ground")
+                .setValue(true);
+        rootNode.getNode("sign", "bc9000", "oldbehavior")
+                .setComment("Whether this sign can only be used to close a subtrack. If true, this sign must be used only to close subtracks.")
+                .setValue(false);
+        rootNode.getNode("sign", "fixbroken18").setComment("Whether to allow signs without brackets (fixes a bug in 1.8)").setValue(false);
+        rootNode.getNode("updater", "timeout").setComment("The number of minutes updaters should stay around before timing out").setValue(60);
+        configurationLoader.save(rootNode);
+        rootNode = configurationLoader.load();
+    }
+
 
     /**
      * @return the cam
@@ -161,13 +226,6 @@ public final class ByteCartRedux {
      */
     public IsTrainManager getIsTrainManager() {
         return it;
-    }
-
-    /**
-     * @return true if we must keep items while removing carts
-     */
-    public boolean keepItems() {
-        return keepItems;
     }
 
     public final Logger getLog() {

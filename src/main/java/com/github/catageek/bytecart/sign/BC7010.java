@@ -155,7 +155,7 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
 
             if (this.getInventory() instanceof HumanInventory) {
                 Messaging.sendError(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
-                        Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString()));
+                        Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "inventoryspace").getString()));
             }
             return false;
         }
@@ -185,11 +185,11 @@ public class BC7010 extends AbstractTriggeredSign implements Triggerable, Clicka
      * @param signAddress the address got by the player
      */
     void infoPlayer(String signAddress) {
-        Messaging.sendError(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
-                Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress").getString()));
+        Messaging.sendSuccess(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
+                Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "setaddress").getString()));
         if (this.getVehicle() == null && !ByteCartRedux.rootNode.getNode("book", "use").getBoolean()) {
-            Messaging.sendError(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
-                    Text.of(ByteCartRedux.rootNode.getNode("messages", "error", "setaddress2").getString()));
+            Messaging.sendSuccess(((Player) ((HumanInventory) this.getInventory()).getCarrier().get()),
+                    Text.of(ByteCartRedux.rootNode.getNode("messages", "info", "setaddress2").getString()));
         }
     }
 

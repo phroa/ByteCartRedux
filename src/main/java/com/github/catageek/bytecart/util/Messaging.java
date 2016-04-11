@@ -27,7 +27,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 public final class Messaging {
 
-    private static final LiteralText MESSAGE_PREFIX = Text.of(ByteCartRedux.rootNode.getNode("message", "prefix")
+    private static final LiteralText MESSAGE_PREFIX = Text.of(ByteCartRedux.rootNode.getNode("messages", "prefix")
             .getString("[ByteCart] "));
 
     public static void sendError(MessageReceiver receiver, Text message) {
