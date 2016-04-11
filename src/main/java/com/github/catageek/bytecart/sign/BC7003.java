@@ -69,7 +69,7 @@ final class BC7003 extends AbstractIC implements Triggerable, Powerable {
             }
         } catch (Exception e) {
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
+                ByteCartRedux.myPlugin.getLog().info(e.toString());
             }
 
             e.printStackTrace();

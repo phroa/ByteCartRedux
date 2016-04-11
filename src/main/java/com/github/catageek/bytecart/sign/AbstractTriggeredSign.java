@@ -86,7 +86,7 @@ abstract class AbstractTriggeredSign extends AbstractIC implements Triggerable {
                     if (this.getVehicle().getPassenger().get() instanceof Player) {
 
                         if (ByteCartRedux.debug) {
-                            ByteCartRedux.log.info("ByteCartRedux: loading player inventory :" + this.getVehicle().getPassenger().get()
+                            ByteCartRedux.myPlugin.getLog().info("loading player inventory :" + this.getVehicle().getPassenger().get()
                                     .get(Keys.DISPLAY_NAME));
                         }
 

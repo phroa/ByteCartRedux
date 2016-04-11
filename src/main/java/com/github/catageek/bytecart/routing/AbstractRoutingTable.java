@@ -59,8 +59,8 @@ abstract class AbstractRoutingTable {
             if (!directlyconnected && (routermetric > computedmetric || routermetric < 0)) {
                 this.setEntry(ring, from, new Metric(computedmetric));
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log
-                            .info("ByteCartRedux : update : ring = " + ring + ", metric = " + computedmetric + ", direction " + from.ToString());
+                    ByteCartRedux.myPlugin.getLog()
+                            .info("update : ring = " + ring + ", metric = " + computedmetric + ", direction " + from.ToString());
                 }
                 neighbour.updateTimestamp();
             }
@@ -72,7 +72,7 @@ abstract class AbstractRoutingTable {
             if (!neighbour.hasRouteTo(route = i)) {
                 this.removeEntry(route, from);
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : Remove : ring = " + route + " from " + from.ToString());
+                    ByteCartRedux.myPlugin.getLog().info("Remove : ring = " + route + " from " + from.ToString());
                 }
                 neighbour.updateTimestamp();
             }

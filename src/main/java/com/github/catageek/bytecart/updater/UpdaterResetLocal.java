@@ -62,11 +62,11 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
             if (to.equals(Side.LEVER_ON) && (end.isEmpty() || mask > end.peek())) {
                 end.push(mask);
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : pushing mask " + mask + " on stack");
+                    ByteCartRedux.myPlugin.getLog().info("pushing mask " + mask + " on stack");
                 }
             } else if (to.equals(Side.LEVER_OFF) && !end.isEmpty()) {
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : popping mask " + end.peek() + " from stack");
+                    ByteCartRedux.myPlugin.getLog().info("popping mask " + end.peek() + " from stack");
                 }
 
                 end.pop();
@@ -90,7 +90,7 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
                 }
                 address.remove();
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux: removing address");
+                    ByteCartRedux.myPlugin.getLog().info("removing address");
                 }
             }
         } else {
@@ -98,7 +98,7 @@ final class UpdaterResetLocal extends UpdaterLocal implements Wanderer {
             Sponge.getEventManager().post(event);
             address.remove();
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux: removing invalid address");
+                ByteCartRedux.myPlugin.getLog().info("removing invalid address");
             }
         }
     }

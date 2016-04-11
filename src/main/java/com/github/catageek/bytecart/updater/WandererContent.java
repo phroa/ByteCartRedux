@@ -252,7 +252,7 @@ public class WandererContent implements InventoryContent {
     public void setRoute(int number, int metric) {
         tableMap.put(number, new Metric(metric));
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : setting metric of ring " + number + " to " + metric);
+            ByteCartRedux.myPlugin.getLog().info("setting metric of ring " + number + " to " + metric);
         }
     }
 
@@ -291,7 +291,7 @@ public class WandererContent implements InventoryContent {
             if (routingTable.getDirection(route).getAmount() != from.getAmount()) {
                 if (!this.hasRouteTo(route)) {
                     if (ByteCartRedux.debug) {
-                        ByteCartRedux.log.info("ByteCartRedux : found ring " + route + " was never visited");
+                        ByteCartRedux.myPlugin.getLog().info("found ring " + route + " was never visited");
                     }
                     return route;
                 } else {
@@ -303,7 +303,7 @@ public class WandererContent implements InventoryContent {
             }
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : minimum found ring " + ret + " with " + min);
+            ByteCartRedux.myPlugin.getLog().info("minimum found ring " + ret + " with " + min);
         }
         return ret;
     }

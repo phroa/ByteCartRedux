@@ -93,7 +93,7 @@ class BookOutputStream extends ByteArrayOutputStream {
         this.book.offer(Keys.BOOK_PAGES, Arrays.asList(strings));
 
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : Flushing " + len + " bytes of data to meta");
+            ByteCartRedux.myPlugin.getLog().info("Flushing " + len + " bytes of data to meta");
         }
     }
 

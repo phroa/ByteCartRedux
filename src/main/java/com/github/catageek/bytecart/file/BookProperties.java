@@ -60,7 +60,7 @@ public final class BookProperties implements Closeable, Flushable {
      */
     public void setProperty(String key, String value) {
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: BookProperties : setting key " + key + " to " + value);
+            ByteCartRedux.myPlugin.getLog().info("BookProperties : setting key " + key + " to " + value);
         }
         Properties.setProperty(key, value);
     }
@@ -83,7 +83,7 @@ public final class BookProperties implements Closeable, Flushable {
      */
     public void clearProperty(String key) {
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: BookProperties : clearing key " + key);
+            ByteCartRedux.myPlugin.getLog().info("BookProperties : clearing key " + key);
         }
         Properties.remove(key);
     }
@@ -128,7 +128,7 @@ public final class BookProperties implements Closeable, Flushable {
      */
     public int getInt(String key, int defaultvalue) {
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: property string : " + Properties.getProperty(key, "" + defaultvalue));
+            ByteCartRedux.myPlugin.getLog().info("property string : " + Properties.getProperty(key, "" + defaultvalue));
         }
         return Integer.parseInt(Properties.getProperty(key, "" + defaultvalue));
 

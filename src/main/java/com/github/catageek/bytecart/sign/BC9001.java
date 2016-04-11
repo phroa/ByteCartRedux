@@ -124,13 +124,13 @@ public final class BC9001 extends AbstractBC9000 implements Station, Powerable, 
 
         } catch (ClassCastException e) {
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
+                ByteCartRedux.myPlugin.getLog().info(e.toString());
             }
 
             // Not the good blocks to build the signs
         } catch (NullPointerException e) {
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
+                ByteCartRedux.myPlugin.getLog().info(e.toString());
             }
             e.printStackTrace();
 

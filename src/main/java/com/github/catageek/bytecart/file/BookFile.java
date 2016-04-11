@@ -160,7 +160,7 @@ public final class BookFile implements BCFile {
                 throw new IOException("Book File has already been closed");
             }
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : BookFile : closing");
+                ByteCartRedux.myPlugin.getLog().info("BookFile : closing");
             }
             isClosed = true;
         }

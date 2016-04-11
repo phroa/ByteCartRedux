@@ -64,7 +64,7 @@ public final class ComponentSign extends AbstractComponent {
         if (blockstate.supports(Keys.SIGN_LINES)) {
             return blockstate.get(Keys.SIGN_LINES).get().get(line).toPlain();
         } else {
-            ByteCartRedux.log.info("ByteCartRedux: AddressSign cannot be built");
+            ByteCartRedux.myPlugin.getLog().info("AddressSign cannot be built");
             throw new IllegalArgumentException();
         }
 

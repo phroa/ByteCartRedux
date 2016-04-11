@@ -133,7 +133,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
                     }
 
                     if (ByteCartRedux.debug) {
-                        ByteCartRedux.log.info("ByteCartRedux : TTL is " + destination.getTTL());
+                        ByteCartRedux.myPlugin.getLog().info("TTL is " + destination.getTTL());
                     }
 
 
@@ -174,7 +174,7 @@ public class BC8010 extends AbstractTriggeredSign implements BCRouter, Triggerab
 
         } catch (ClassCastException | NullPointerException e) {
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
+                ByteCartRedux.myPlugin.getLog().info(e.toString());
             }
             e.printStackTrace();
 

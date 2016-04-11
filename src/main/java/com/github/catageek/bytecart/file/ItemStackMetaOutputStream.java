@@ -57,7 +57,7 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
         outputStream.flush();
         getItemStack().copyFrom(outputStream.getBook());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : Flushing meta to itemstack");
+            ByteCartRedux.myPlugin.getLog().info("Flushing meta to itemstack");
         }
     }
 
@@ -67,7 +67,7 @@ final class ItemStackMetaOutputStream extends ItemStackOutputStream {
             throw new IOException("ItemStack has been already closed");
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : Closing itemstack");
+            ByteCartRedux.myPlugin.getLog().info("Closing itemstack");
         }
         outputStream.close();
         isClosed = true;

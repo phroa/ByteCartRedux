@@ -83,8 +83,8 @@ public class UpdaterContent extends WandererContent implements Serializable {
             if (table.getDirection(i) != null && table.getDirection(i).getAmount() != direction.getAmount()) {
                 tableMap.put(i, new Metric(table.getMinMetric(i)));
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log
-                            .info("ByteCartRedux : Route exchange : give ring " + i + " with metric " + table.getMinMetric(i) + " to " + table
+                    ByteCartRedux.myPlugin.getLog()
+                            .info("Route exchange : give ring " + i + " with metric " + table.getMinMetric(i) + " to " + table
                                     .getDirection(i).getBlockFace());
                 }
             }

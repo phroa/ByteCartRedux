@@ -77,7 +77,7 @@ final class AddressBook implements AddressRouted {
 
         if (parameter.equals(Parameter.DESTINATION)) {
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : set title");
+                ByteCartRedux.myPlugin.getLog().info("set title");
             }
             ticket.appendTitle(stationname, value);
         }

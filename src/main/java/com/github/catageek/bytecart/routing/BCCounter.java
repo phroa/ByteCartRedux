@@ -159,7 +159,7 @@ public final class BCCounter implements Serializable, Counter {
             }
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : minimum found ring " + index + " with " + min);
+            ByteCartRedux.myPlugin.getLog().info("minimum found ring " + index + " with " + min);
         }
         return index;
 
@@ -172,7 +172,7 @@ public final class BCCounter implements Serializable, Counter {
         while (it.hasNext()) {
             int ring = it.next();
             int count = map.get(ring);
-            s += "ByteCartRedux: Count for ring " + ring + " = " + count + "\n";
+            s += "Count for ring " + ring + " = " + count + "\n";
         }
         return s;
     }

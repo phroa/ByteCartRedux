@@ -50,12 +50,12 @@ class UpdaterBackBone extends AbstractRegionUpdater implements Wanderer {
             if (getSignAddress().isValid()) {
                 // there is an address on the sign
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : track number is " + getTrackNumber());
+                    ByteCartRedux.myPlugin.getLog().info("track number is " + getTrackNumber());
                 }
                 setCurrent(getTrackNumber());
 
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : current is " + current);
+                    ByteCartRedux.myPlugin.getLog().info("current is " + current);
                 }
             } else
                 // no address on sign, and is not provider

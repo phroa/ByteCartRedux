@@ -84,7 +84,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
         }
 
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : clear routing table map");
+            ByteCartRedux.myPlugin.getLog().info("clear routing table map");
         }
         wasModified = true;
     }
@@ -253,7 +253,7 @@ final class RoutingTableBook extends AbstractRoutingTable implements
             ObjectOutputStream oos = new ObjectOutputStream(file.getOutputStream());
             oos.writeObject(this);
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : serialize() : object written, now closing");
+                ByteCartRedux.myPlugin.getLog().info("serialize() : object written, now closing");
             }
             oos.flush();
             wasModified = false;

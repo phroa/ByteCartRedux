@@ -63,7 +63,7 @@ public class PoweredSignFactory {
             }
         } catch (Exception e) {
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : " + e.toString());
+                ByteCartRedux.myPlugin.getLog().info(e.toString());
             }
 
             // there was no inventory in the cart

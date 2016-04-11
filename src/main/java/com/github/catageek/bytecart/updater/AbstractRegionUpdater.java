@@ -77,7 +77,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
 
                 // Storing the route from where we arrive
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : Wanderer : storing ring " + current + " direction " + getFrom().ToString());
+                    ByteCartRedux.myPlugin.getLog().info("Wanderer : storing ring " + current + " direction " + getFrom().ToString());
                 }
 
                 getRoutingTable().setEntry(current, getFrom(), new Metric(0));
@@ -114,7 +114,7 @@ abstract class AbstractRegionUpdater extends DefaultRouterWanderer {
         int current = getCurrent();
         current = (current == -2 ? 0 : current);
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : doAction() : current is " + current);
+            ByteCartRedux.myPlugin.getLog().info("doAction() : current is " + current);
         }
 
         // If we are turning back, keep current track otherwise discard

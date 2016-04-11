@@ -51,11 +51,11 @@ import java.io.IOException;
         url = "https://github.com/phroa/ByteCartRedux")
 public final class ByteCartRedux {
 
-    @Inject
-    public static Logger log;
     public static CommentedConfigurationNode rootNode;
     public static ByteCartRedux myPlugin;
     public static boolean debug;
+    @Inject
+    private Logger log;
     @Inject
     @ConfigDir(sharedRoot = false)
     private File configDir;
@@ -99,7 +99,6 @@ public final class ByteCartRedux {
         Sponge.getCommandManager().register(this, ByteCartCommandExecutor.BCUPDATER, "bcupdater");
         Sponge.getCommandManager().register(this, ByteCartCommandExecutor.BCTICKET, "bcticket");
         Sponge.getCommandManager().register(this, ByteCartCommandExecutor.BCBACK, "bcback");
-        log.info("[ByteCartRedux] plugin has been enabled.");
     }
 
     @Listener
@@ -119,7 +118,7 @@ public final class ByteCartRedux {
         debug = rootNode.getNode("debug").getBoolean(false);
 
         if (debug) {
-            log.info("ByteCartRedux : debug mode is on.");
+            log.info("debug mode is on.");
         }
 
         if (rootNode.getNode("loadchunks").getBoolean()) {

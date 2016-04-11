@@ -65,7 +65,7 @@ public final class BC7017 extends AbstractTriggeredSign implements Triggerable {
         String returnAddressString = returnAddress.toString();
         AddressRouted targetAddress = AddressFactory.getAddress(getInventory());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: 7017 : Writing address " + returnAddressString);
+            ByteCartRedux.myPlugin.getLog().info("7017 : Writing address " + returnAddressString);
         }
         returnAddress.remove();
         returnAddress.finalizeAddress();

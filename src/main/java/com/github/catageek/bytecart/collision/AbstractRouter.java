@@ -104,7 +104,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     @Override
     public final Direction wishToGo(Direction from, Direction to, boolean isTrain) {
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : Router : coming from " + from + " going to " + to);
+            ByteCartRedux.myPlugin.getLog().info("Router : coming from " + from + " going to " + to);
         }
         Router ca = this;
         Side s = getSide(from, to);
@@ -183,29 +183,29 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     private boolean ValidatePosition(Router ca) {
         Side side = getSide(this.getFrom(), ca.getFrom());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : pos value befor rotation : " + Integer.toBinaryString(getSecondpos()));
+            ByteCartRedux.myPlugin.getLog().info("pos value befor rotation : " + Integer.toBinaryString(getSecondpos()));
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : rotation of bits         : " + side.Value());
+            ByteCartRedux.myPlugin.getLog().info("rotation of bits         : " + side.Value());
         }
         int value = AbstractRouter.leftRotate8(getSecondpos(), side.Value());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : pos value after rotation : " + Integer.toBinaryString(value));
+            ByteCartRedux.myPlugin.getLog().info("pos value after rotation : " + Integer.toBinaryString(value));
         }
         int mask = AbstractRouter.leftRotate8(getPosmask(), side.Value());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : mask after rotation      : " + Integer.toBinaryString(mask));
+            ByteCartRedux.myPlugin.getLog().info("mask after rotation      : " + Integer.toBinaryString(mask));
         }
         ca.setSecondpos(value | ca.getSecondpos());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : value after OR           : " + Integer.toBinaryString(ca.getSecondpos()));
+            ByteCartRedux.myPlugin.getLog().info("value after OR           : " + Integer.toBinaryString(ca.getSecondpos()));
         }
         ca.setPosmask(mask | ca.getPosmask());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : mask after OR            : " + Integer.toBinaryString(ca.getPosmask()));
+            ByteCartRedux.myPlugin.getLog().info("mask after OR            : " + Integer.toBinaryString(ca.getPosmask()));
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : compatible ?             : " + (((value ^ ca.getSecondpos()) & mask) == 0));
+            ByteCartRedux.myPlugin.getLog().info("compatible ?             : " + (((value ^ ca.getSecondpos()) & mask) == 0));
         }
         return ((value ^ ca.getSecondpos()) & mask) == 0;
     }
@@ -283,7 +283,7 @@ public abstract class AbstractRouter extends AbstractCollisionAvoider implements
     private void checkIOPresence(OutputPin[] sortie) {
         for (OutputPin pin : sortie) {
             if (pin == null) {
-                ByteCartRedux.log.error("ByteCartRedux : Lever missing or wrongly positioned in router " + this.getLocation());
+                ByteCartRedux.myPlugin.getLog().error("Lever missing or wrongly positioned in router " + this.getLocation());
                 throw new NullPointerException();
             }
         }

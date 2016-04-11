@@ -55,7 +55,7 @@ class BC7014 extends BC7010 implements Triggerable {
         }
 
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: " + this.getName() + " wire : " + wire.getValue());
+            ByteCartRedux.myPlugin.getLog().info("" + this.getName() + " wire : " + wire.getValue());
         }
 
         return AddressFactory.getAddress(format(wire, InvAddress));

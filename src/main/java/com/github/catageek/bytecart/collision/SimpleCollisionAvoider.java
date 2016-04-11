@@ -42,7 +42,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
     public SimpleCollisionAvoider(Triggerable ic, Location<World> loc) {
         super(loc);
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: new IntersectionSide() at " + loc);
+            ByteCartRedux.myPlugin.getLog().info("new IntersectionSide() at " + loc);
         }
 
         Lever1 = ic.getOutput(0);
@@ -64,16 +64,16 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
         IntersectionSide.Side trueSide = getActiveTrueSide(s);
 
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : WishToGo to side " + trueSide + " and isTrain is " + isTrain);
+            ByteCartRedux.myPlugin.getLog().info("WishToGo to side " + trueSide + " and isTrain is " + isTrain);
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : state is " + state);
+            ByteCartRedux.myPlugin.getLog().info("state is " + state);
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : recentlyUsed is " + this.getRecentlyUsed() + " and hasTrain is " + this.getHasTrain());
+            ByteCartRedux.myPlugin.getLog().info("recentlyUsed is " + this.getRecentlyUsed() + " and hasTrain is " + this.getHasTrain());
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : Lever1 is " + Lever1.getValue());
+            ByteCartRedux.myPlugin.getLog().info("Lever1 is " + Lever1.getValue());
         }
 
         if (trueSide != state
@@ -125,7 +125,7 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
         reversed ^= t.isLeverReversed();
         Lever2.setAmount(getSecondLeverSide(state).Value());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: Add and setting lever2 to " + Lever2.getValue());
+            ByteCartRedux.myPlugin.getLog().info("Add and setting lever2 to " + Lever2.getValue());
         }
     }
 
@@ -137,12 +137,12 @@ public class SimpleCollisionAvoider extends AbstractCollisionAvoider implements 
     private void Set(IntersectionSide.Side s) {
         this.Lever1.setAmount(s.Value());
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux: Setting lever1 to " + Lever1.getValue());
+            ByteCartRedux.myPlugin.getLog().info("Setting lever1 to " + Lever1.getValue());
         }
         if (this.Lever2 != null) {
             this.Lever2.setAmount(getSecondLeverSide(state).Value());
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux: Setting lever2 to " + Lever2.getValue());
+                ByteCartRedux.myPlugin.getLog().info("Setting lever2 to " + Lever2.getValue());
             }
         }
         state = s;

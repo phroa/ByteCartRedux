@@ -45,7 +45,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
         this.getSignAddress().setAddress(this.getAddress(current));
         this.getSignAddress().finalizeAddress();
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : change address on sign to " + this.getAddress(current));
+            ByteCartRedux.myPlugin.getLog().info("change address on sign to " + this.getAddress(current));
         }
         return current;
     }
@@ -60,7 +60,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             // if there is already a route, find another number
             // except if the route connects to here
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : trying ring " + current);
+                ByteCartRedux.myPlugin.getLog().info("trying ring " + current);
             }
             if (!this.getRoutingTable().isEmpty(current)
                     && !this.getRoutingTable().isDirectlyConnected(current, getFrom())) {
@@ -81,7 +81,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             this.getSignAddress().setAddress(this.getAddress(current));
             this.getSignAddress().finalizeAddress();
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : change address on sign to " + this.getAddress(current));
+                ByteCartRedux.myPlugin.getLog().info("change address on sign to " + this.getAddress(current));
             }
             return current;
         } else {
@@ -89,7 +89,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
             // if the router knows that it is directly connected
             // we keep it, otherwise we find a new number (if possible)
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : getOrSetCurrent() : current as track on sign " + this.getTrackNumber());
+                ByteCartRedux.myPlugin.getLog().info("getOrSetCurrent() : current as track on sign " + this.getTrackNumber());
             }
 
             return getTrackNumber();
@@ -126,7 +126,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
 
             if (this.isSignNeedUpdate(current)) {
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : selectDirection() : sign need update as current = " + current);
+                    ByteCartRedux.myPlugin.getLog().info("selectDirection() : sign need update as current = " + current);
                 }
                 return this.getFrom().getBlockFace();
             }
@@ -136,13 +136,13 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
                 try {
                     if ((face = this.getRoutingTable().getFirstUnknown()) != null && !this.isSameTrack(face)) {
                         if (ByteCartRedux.debug) {
-                            ByteCartRedux.log.info("ByteCartRedux : selectDirection() : first unknown " + face.toString());
+                            ByteCartRedux.myPlugin.getLog().info("selectDirection() : first unknown " + face.toString());
                         }
                         return face;
                     }
                 } catch (NullPointerException e) {
                     Messaging.sendError(this.getRoutes().getPlayer(),
-                            Text.of("ByteCartRedux : Chest expected at position " + this.getCenter().getLocation().get()
+                            Text.of("Chest expected at position " + this.getCenter().getLocation().get()
                                     .add(Direction.UP.toVector3d().mul(5))));
                     throw e;
                 }
@@ -150,14 +150,14 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
                 int min;
                 if ((min = this.getCounter().getMinimum(this.getRoutingTable(), this.getFrom())) != -1) {
                     if (ByteCartRedux.debug) {
-                        ByteCartRedux.log.info("ByteCartRedux : selectDirection() : minimum counter " + min);
+                        ByteCartRedux.myPlugin.getLog().info("selectDirection() : minimum counter " + min);
                     }
                     return this.getRoutingTable().getDirection(min).getBlockFace();
                 }
             }
         }
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : selectDirection() : default ");
+            ByteCartRedux.myPlugin.getLog().info("selectDirection() : default ");
         }
         return DefaultRouterWanderer.getRandomBlockFace(this.getRoutingTable(), this.getFrom().getBlockFace());
     }
@@ -194,7 +194,7 @@ class UpdaterRegion extends AbstractRegionUpdater implements Wanderer {
 
             setCurrent(current);
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : Update() : current is " + current);
+                ByteCartRedux.myPlugin.getLog().info("Update() : current is " + current);
             }
 
             // update track counter if we have entered a new one

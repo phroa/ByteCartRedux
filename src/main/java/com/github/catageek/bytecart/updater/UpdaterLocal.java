@@ -101,8 +101,8 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
                 }
 
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log
-                            .info("ByteCartRedux : UpdaterLocal : Update() : rewrite sign to " + address + "(" + this.getSignAddress().toString()
+                    ByteCartRedux.myPlugin.getLog()
+                            .info("UpdaterLocal : Update() : rewrite sign to " + address + "(" + this.getSignAddress().toString()
                                     + ")");
                 }
             }
@@ -164,7 +164,7 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
         int end = getLastStationNumber();
         int step = 256 >> netmask;
         if (ByteCartRedux.debug) {
-            ByteCartRedux.log.info("ByteCartRedux : getFreeSubnet() : start = "
+            ByteCartRedux.myPlugin.getLog().info("getFreeSubnet() : start = "
                     + start + " end " + end + " step = " + step + "\n" + this.getCounter().toString());
         }
         for (int i = start; i < end; i += step) {
@@ -174,12 +174,12 @@ public class UpdaterLocal extends DefaultLocalWanderer<UpdaterContent> implement
             }
             if (free) {
                 if (ByteCartRedux.debug) {
-                    ByteCartRedux.log.info("ByteCartRedux : getFreeSubnet() : testing : " + i + " : " + free);
+                    ByteCartRedux.myPlugin.getLog().info("getFreeSubnet() : testing : " + i + " : " + free);
                 }
                 return i;
             }
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux : getFreeSubnet() : testing : " + i + " : " + free);
+                ByteCartRedux.myPlugin.getLog().info("getFreeSubnet() : testing : " + i + " : " + free);
             }
         }
         Messaging.sendError(this.getContent().getPlayer(), Text.of(String

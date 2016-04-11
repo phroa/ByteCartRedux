@@ -258,7 +258,7 @@ public class ByteCartListener {
         if (myIC != null) {
 
             if (ByteCartRedux.debug) {
-                ByteCartRedux.log.info("ByteCartRedux: " + myIC.getName() + ".click()");
+                ByteCartRedux.myPlugin.getLog().info("" + myIC.getName() + ".click()");
             }
 
             myIC.click();
